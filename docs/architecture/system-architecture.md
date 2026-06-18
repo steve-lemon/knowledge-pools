@@ -86,28 +86,47 @@ Later scope:
 
 The combined storage layer for source-grounded knowledge.
 
-Initial local form:
+The v1 infrastructure baseline is defined in [Infrastructure Baseline](infrastructure-baseline.md).
+
+V1 uses:
+
+- filesystem-compatible object storage for original sources;
+- OpenSearch as the main indexing and query server.
+
+Initial local development form:
 
 ```text
 knowledge/
   sources/
-  records/
-    claims/
-    concepts/
-    decisions/
-    questions/
-  graph/
-  indexes/
+  manifests/
+  opensearch-fixtures/
   runs/
+  artifacts/
 ```
 
-Target storage options:
+V1 production shape:
 
-- source store: filesystem or object storage
-- structured records: SQLite or Postgres
-- graph: Kuzu, SQLite tables, or Postgres
-- vector index: local embeddings first, then pgvector or Qdrant
-- keyword index: SQLite FTS or Tantivy
+```text
+object storage
+  - original sources
+  - parsed source units when useful
+  - source manifests
+
+OpenSearch
+  - source records
+  - access units
+  - taxonomy-aware ingest artifacts
+  - knowledge records
+  - entity instances
+  - relation instances
+  - retrieval metadata
+```
+
+Deferred storage options:
+
+- standalone graph database;
+- separate vector database;
+- relational metadata database.
 
 ## Retrieval Planner
 
@@ -127,16 +146,16 @@ Execute retrieval plans.
 
 Initial services:
 
-- source lookup
-- keyword search
-- record search
+- OpenSearch source lookup
+- OpenSearch keyword search
+- OpenSearch structured filter search
+- object-store source unit fetch
 
 Later services:
 
-- vector search
-- graph traversal
-- temporal search
-- contradiction search
+- OpenSearch vector search or a separate vector index
+- standalone graph traversal
+- contradiction search over relation instances
 
 ## Reasoning Service
 

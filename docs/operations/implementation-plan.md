@@ -4,7 +4,9 @@ This plan turns the target architecture into concrete implementation steps.
 
 ## Current Target
 
-Build a local CLI MVP that proves the architecture with repository files before adding heavy infrastructure.
+Build a CLI MVP that proves the architecture with filesystem-compatible source storage and an OpenSearch-compatible indexing boundary.
+
+Local development may use files or fixtures before a real OpenSearch instance is connected, but the document shapes and query boundary should be designed for OpenSearch from the beginning.
 
 Target commands:
 
@@ -19,11 +21,14 @@ kp verify <run-id>
 
 - Start local and inspectable.
 - Preserve sources before generating summaries.
+- Store original sources in filesystem-compatible object storage.
+- Use OpenSearch as the main indexing server.
+- Keep every indexed document linked to original source units.
 - Use typed records instead of loose text blobs.
 - Use a versioned taxonomy before creating graph records.
 - Follow the canonical terminology in `docs/architecture/terminology.md`.
 - Store run traces from the beginning.
-- Add vector search only after source and keyword retrieval are reliable.
+- Add vector search only after OpenSearch source, keyword, and structured retrieval are reliable.
 - Add durable memory only behind a curation gate.
 
 ## Step 1: Project Skeleton
@@ -69,10 +74,13 @@ Initial layout:
 
 ```text
 knowledge/
+  sources/
+  manifests/
   sessions/
   runs/
   artifacts/
   memory/
+  opensearch-fixtures/
 ```
 
 This step must be implemented before agent-to-agent workflows. The system should own context and session state before any LLM adapter is introduced.
@@ -97,7 +105,9 @@ Deliverables:
 - Source record schema.
 - Content hashing.
 - Heading-aware parser.
-- Raw and parsed source storage.
+- Object-store-compatible raw source storage.
+- Source manifest schema.
+- Access unit schema for large or long files.
 - Taxonomy-aware category assignment.
 - Ingest artifact schema.
 - Validation report for each ingest artifact.
@@ -115,19 +125,25 @@ First source fields:
 - `taxonomy_version`
 - `category_ids`
 
-## Step 5: Records and Indexes
+## Step 5: OpenSearch Index Baseline
 
 Deliverables:
 
-- On-disk JSONL records.
-- Source lookup.
-- Keyword index.
+- OpenSearch mappings for source records and access units.
+- OpenSearch mappings for taxonomy-aware ingest artifacts.
+- OpenSearch mappings for entity instances and relation instances.
+- Source provenance fields on every indexed document.
+- Source lookup and keyword search.
+- Structured taxonomy filter search.
 - Run trace format.
 
-Initial record types:
+Initial indexed document types:
 
 - source
-- chunk
+- access_unit
+- ingest_artifact
+- entity_instance
+- relation_instance
 - claim_candidate
 - concept_candidate
 - question_candidate

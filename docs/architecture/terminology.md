@@ -230,6 +230,34 @@ Source records preserve provenance:
 - parser
 - taxonomy version
 
+### Source Manifest
+
+A durable manifest that describes how to access a source, especially when the source is large or structured.
+
+Source manifests contain:
+
+- source id
+- object URI
+- media type
+- content hash
+- access units
+- parser metadata
+
+### Access Unit
+
+A retrievable part of a source.
+
+Examples:
+
+- text chunk
+- Markdown section
+- PDF page
+- PDF text span
+- image region
+- JSON path
+
+Access units let the system retrieve exact source material for grounded answers without loading an entire file.
+
 ### Knowledge Record
 
 A durable record representing reusable knowledge.
@@ -267,6 +295,7 @@ The structured result of one ingest operation.
 It links:
 
 - source record
+- source manifest
 - taxonomy bundle version
 - category assignments
 - entity candidates

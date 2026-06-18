@@ -62,7 +62,9 @@ Putting taxonomy into ingest gives the system:
 
 ```text
 raw source
+  -> store original in object storage
   -> parse
+  -> create source manifest and access units
   -> classify against taxonomy
   -> extract graph candidates
   -> validate
@@ -211,6 +213,8 @@ Every ingest run should produce an `IngestArtifact` like:
   "schema_version": "0.1.0",
   "taxonomy_version": "0.1.0",
   "source_ref": "source_01",
+  "source_manifest_ref": "source_manifest_01",
+  "access_unit_refs": ["source_01#section_001"],
   "category_ids": ["source"],
   "attribute_values": {
     "source_type": "markdown",
@@ -225,7 +229,7 @@ Every ingest run should produce an `IngestArtifact` like:
         "knowledge_kind": "claim",
         "confidence": 0.7
       },
-      "evidence_refs": ["source_01#span_03"]
+      "evidence_refs": ["source_01#section_001#span_03"]
     }
   ],
   "relations": [
