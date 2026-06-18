@@ -15,12 +15,14 @@
 - Parse document structure.
 - Store source records.
 - Define on-disk record schemas.
+- Implement the V1 required tool-port subset with local file and JSON backends.
 - Provide keyword and source lookup.
 - Store run traces.
 
 ## Phase 2: Understanding and Planning
 
 - Extract basic claims and concepts.
+- Use the shared tool pool for the Understanding Agent and Retrieval Planner.
 - Add retrieval planning.
 - Create evidence bundle format.
 - Add basic temporal metadata.

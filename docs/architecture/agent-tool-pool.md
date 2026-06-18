@@ -21,6 +21,92 @@ task + context envelope + allowed tool ports
 
 The same agent role can run with different tool implementations if the port contracts remain stable.
 
+## Implementation Posture
+
+The tool pool is intentionally implementable with simple local infrastructure first.
+
+V1 should not require a full agent framework, graph database, vector database, distributed queue, or provider-specific tool-calling runtime.
+
+The first implementation can use:
+
+- local filesystem or object-store-compatible paths for sources and artifacts;
+- JSON files for records, traces, and run workspaces;
+- deterministic parsers and validators;
+- optional OpenSearch for projection search;
+- optional model adapter for structured extraction;
+- explicit orchestrator permission checks.
+
+The tool pool should be read as a port catalog, not a mandate to implement every port immediately.
+
+## Implementation Tiers
+
+| Tier | Meaning | Examples |
+| --- | --- | --- |
+| V1 required | Needed for the first local implementation path | source read, artifact read/write, schema validation, candidate emit, audit trace |
+| V1 optional | Useful in v1 when available, but not required to prove the architecture | model adapter, OpenSearch projection search, taxonomy classify |
+| Deferred | Needed for scale, governance, or later stages | durable memory write, rollback, deletion, graph traversal, evaluation reports |
+
+## V1 Implementable Port Set
+
+The first implementation should focus on ports that can be backed by local files and simple functions.
+
+Required V1 ports:
+
+| Port | Simple implementation |
+| --- | --- |
+| `artifact.read` | Read JSON or text artifacts from the run workspace |
+| `artifact.write` | Write JSON artifacts to the run workspace |
+| `source.write` | Write source records and source-version metadata to local JSON/object paths |
+| `source.version` | Create or resolve immutable source-version IDs from hashes |
+| `source.locate` | Resolve source/access-unit refs from manifest JSON |
+| `source.read` | Read exact source units from filesystem/object-store paths |
+| `hash.compute` | Compute SHA-256 from local bytes |
+| `mime.detect` | Detect media hint from metadata and lightweight inspection |
+| `parse.document` | Parse Markdown/text structure with deterministic rules |
+| `chunk.create` | Create heading-aware access units for Markdown/text |
+| `taxonomy.read` | Load taxonomy bundle JSON |
+| `taxonomy.validate` | Validate category, attribute, and candidate type refs |
+| `schema.validate` | Validate artifacts against local schemas |
+| `candidate.emit` | Write candidate JSON artifacts |
+| `ambiguity.emit` | Write ambiguity note artifacts |
+| `review.request` | Write review request artifacts |
+| `audit.trace` | Append tool-call trace events |
+
+Optional V1 ports:
+
+| Port | Simple implementation |
+| --- | --- |
+| `index.write_projection` | Write OpenSearch documents or local fixture documents |
+| `index.search` | Query OpenSearch or local fixture search |
+| `record.search` | Search local JSON records |
+| `retrieval.fetch_evidence` | Resolve refs and call `source.read` |
+| `retrieval.plan` | Deterministic planner over task type and constraints |
+| `model.complete` | Model adapter returning schema-validated JSON |
+| `verification.check` | Deterministic grounding and freshness checks |
+| `evaluation.record` | Append evaluation JSON records |
+
+Deferred ports:
+
+- `source.tombstone`;
+- `source.restore`;
+- `parse.media`;
+- `preview.create`;
+- `model.embed`;
+- `graph.query`;
+- `reason.synthesize`;
+- `curation.decide`;
+- `curation.propose`;
+- `memory.write`;
+- `memory.update_status`;
+- `rollback.create_event`;
+- `delete.create_tombstone`;
+- `audit.read_trace`;
+- `evaluation.report`.
+
+Deferred does not mean unimportant.
+
+It means the architecture can be proven without implementing it first.
+
 ## Tool Port Shape
 
 Every tool port should define:
@@ -150,6 +236,44 @@ The orchestrator should grant tools by stage, not by agent personality.
 | `update` | candidate emit, review request, `curation.propose`, artifact write |
 | `curation` | curation decide, memory write, memory status update, rollback/delete events |
 | `evaluate` | `audit.read_trace`, `evaluation.record`, `evaluation.report` |
+
+## Agent Design Requirement
+
+Every future agent design must declare its tool contract.
+
+Each agent section should include:
+
+- required tool ports;
+- optional tool ports;
+- explicitly forbidden tool ports;
+- expected artifacts produced through those tools;
+- side effect level allowed for the stage.
+
+Agent designs should not introduce private capabilities outside this pool.
+
+If a new capability is needed, update this document first, then link the agent to the new port.
+
+Minimal template:
+
+```markdown
+### Tool Contract
+
+Required ports:
+
+- ...
+
+Optional ports:
+
+- ...
+
+Forbidden ports:
+
+- ...
+
+Maximum side effect level:
+
+- ...
+```
 
 ## Understand Stage Tool Set
 

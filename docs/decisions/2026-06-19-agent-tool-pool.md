@@ -17,6 +17,10 @@ Agents receive stage-scoped permission to use ports.
 
 Tool implementations may change, but the port contracts should remain stable.
 
+The first implementation should use a V1 subset that is realistic with local files, JSON artifacts, deterministic functions, optional OpenSearch, and optional model adapters.
+
+Future agent designs must declare required, optional, and forbidden tool ports from this pool.
+
 Tool calls must be traceable and should declare side effect levels:
 
 - `read_only`;
@@ -52,6 +56,8 @@ The implementation needs:
 - tool trace events;
 - side effect level enforcement;
 - schema validation for tool inputs and outputs.
+- a V1 implementable tool subset;
+- agent role documents that link directly to required tool ports.
 
 ## Follow-ups
 

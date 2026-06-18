@@ -237,6 +237,8 @@ Deliverables:
 - Shared agent tool pool.
 - Stage-scoped tool permission policy.
 - Tool side effect levels and trace requirements.
+- V1 implementable tool-port subset backed by local files, JSON artifacts, deterministic functions, and optional OpenSearch/model adapters.
+- Agent tool contracts that link each agent role to required, optional, and forbidden ports.
 - Model adapter interface.
 - Schema validation for agent outputs.
 
