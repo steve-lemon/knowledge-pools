@@ -128,6 +128,7 @@ Deliverables:
 - Taxonomy proposal generation for unknown concepts.
 - Shallow candidate generation from visible source structure only.
 - Handoff contract from ingest to understand.
+- `IngestToUnderstandHandoff` artifact schema and validation.
 - Ingest readiness review before moving to understand.
 
 First source fields:
@@ -177,6 +178,7 @@ Deliverables:
 Initial understanding inputs:
 
 - source record;
+- ingest-to-understand handoff ref;
 - source version id;
 - source manifest ref;
 - access unit refs;

@@ -460,6 +460,34 @@ Examples:
 
 Artifacts are not automatically durable knowledge records.
 
+### Handoff Artifact
+
+A run-scoped artifact that transfers responsibility from one stage or agent to another.
+
+Handoff artifacts contain refs, constraints, validation status, and trace refs.
+
+They should not contain unbounded source content.
+
+### IngestToUnderstandHandoff
+
+The handoff artifact produced by the Ingestion Agent and consumed by the Understanding Agent.
+
+It links:
+
+- source id;
+- source version id;
+- source manifest ref;
+- ingest artifact ref;
+- access unit refs;
+- taxonomy bundle id and version;
+- parser policy ref;
+- source content hash;
+- media type and media hint;
+- validation status;
+- trace refs.
+
+It lets Understand fetch exact evidence without guessing how ingest stored the source.
+
 ### Ingest Artifact
 
 The structured result of one ingest operation.

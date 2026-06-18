@@ -78,6 +78,8 @@ Understand starts only after ingest has produced source records, manifests, acce
 
 Understand ends before graph relationship decisions become durable.
 
+The concrete agent-to-agent handoff is defined in [Ingest to Understand Handoff](ingest-understand-handoff.md).
+
 ## Core Rule
 
 Understanding output is always candidate output.

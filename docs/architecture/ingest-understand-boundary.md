@@ -174,6 +174,8 @@ The handoff from ingest to understand should include:
 
 Understand should be able to reproduce every evidence fetch from these refs.
 
+The concrete handoff artifact is defined in [Ingest to Understand Handoff](ingest-understand-handoff.md).
+
 ## Open Questions for Implementation
 
 - Should obvious typed Markdown blocks create initial knowledge candidates during ingest or only markers for understand?
@@ -190,4 +192,3 @@ For v1:
 - let ingest emit shallow graph candidates only;
 - let understand emit knowledge candidates;
 - let connect create graph relationship proposals against existing records.
-

@@ -320,6 +320,10 @@ The agent hands off:
 
 Understand may read these refs to create semantic knowledge candidates.
 
+The concrete handoff artifact is `IngestToUnderstandHandoff`.
+
+See [Ingest to Understand Handoff](../ingest-understand-handoff.md).
+
 ## V1 Acceptance Criteria
 
 The Ingestion Agent v1 is acceptable when:
@@ -332,7 +336,7 @@ The Ingestion Agent v1 is acceptable when:
 - it records taxonomy bundle refs;
 - it emits shallow markers only, not semantic knowledge;
 - it writes a validation report and trace events;
-- it can hand off to the Understanding Agent.
+- it can write a valid `IngestToUnderstandHandoff` for the Understanding Agent.
 
 ## Design Rule
 

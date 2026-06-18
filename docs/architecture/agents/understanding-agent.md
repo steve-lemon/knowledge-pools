@@ -66,6 +66,8 @@ The agent may run when:
 
 The first implementation should run manually or from a simple orchestrator command.
 
+The required handoff from ingest is defined in [Ingest to Understand Handoff](../ingest-understand-handoff.md).
+
 ## Task Contract
 
 Recommended task shape:
@@ -78,6 +80,7 @@ Recommended task shape:
   "stage": "understand",
   "intent": "understand_source",
   "input": {
+    "handoff_ref": "artifact://runs/run_001/handoffs/ingest-to-understand.json",
     "ingest_artifact_ref": "artifact://runs/run_001/ingest/ingest-artifact.json",
     "source_id": "src_path_a91c72",
     "source_version_id": "srcv_md_sha256_ab12cd34ef90",
@@ -116,6 +119,7 @@ Recommended fields:
 - `run_id`;
 - `source_id`;
 - `source_version_id`;
+- `handoff_ref`;
 - `ingest_artifact_ref`;
 - `source_manifest_ref`;
 - `access_unit_refs`;

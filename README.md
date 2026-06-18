@@ -36,6 +36,7 @@ The goal is not just to retrieve document chunks. The goal is to maintain a livi
 - [Ingest: Taxonomy-Governed Graph Entry](docs/architecture/ingest-taxonomy-graph.md)
 - [Ingestion Agent Spec](docs/architecture/agents/ingestion-agent.md)
 - [Ingest and Understand Boundary](docs/architecture/ingest-understand-boundary.md)
+- [Ingest to Understand Handoff](docs/architecture/ingest-understand-handoff.md)
 - [Understand Baseline](docs/architecture/understand-baseline.md)
 - [Understand vs Task Understanding](docs/architecture/understand-vs-task-understanding.md)
 - [Understanding Agent Spec](docs/architecture/agents/understanding-agent.md)
