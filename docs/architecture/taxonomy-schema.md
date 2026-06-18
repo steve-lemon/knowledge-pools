@@ -288,6 +288,27 @@ Use `unknown` for extracted runtime records when the system cannot classify conf
           "to_entity_type": "project"
         }
       ]
+    },
+    {
+      "id": "references",
+      "label": "References",
+      "status": "active",
+      "from_entity_type": "source",
+      "to_entity_type": "source"
+    },
+    {
+      "id": "same_as",
+      "label": "Same As",
+      "status": "active",
+      "from_entity_type": "source",
+      "to_entity_type": "source"
+    },
+    {
+      "id": "redirects_to",
+      "label": "Redirects To",
+      "status": "active",
+      "from_entity_type": "source",
+      "to_entity_type": "source"
     }
   ]
 }

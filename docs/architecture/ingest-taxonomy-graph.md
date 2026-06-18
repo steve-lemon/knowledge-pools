@@ -78,6 +78,8 @@ Media-specific parsing and access-unit extraction are defined in [Media Ingest S
 
 The boundary between taxonomy and versioning is defined in [Taxonomy vs Versioning Responsibilities](taxonomy-vs-versioning.md).
 
+Wiki-style source structure is interpreted through [Wiki and Taxonomy Hybrid Architecture](wiki-taxonomy-hybrid.md).
+
 ## Taxonomy Bundle
 
 The taxonomy bundle is the human-governed standard used during ingest.
@@ -219,6 +221,11 @@ Every ingest run should produce an `IngestArtifact` like:
   "source_ref": "source_01",
   "source_manifest_ref": "source_manifest_01",
   "access_unit_refs": ["source_01#section_001"],
+  "wiki_signals": {
+    "outgoing_links": ["source_02"],
+    "tags": ["architecture"],
+    "aliases": ["ingest design"]
+  },
   "category_ids": ["source"],
   "attribute_values": {
     "source_type": "markdown",

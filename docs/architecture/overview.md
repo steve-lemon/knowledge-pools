@@ -14,6 +14,8 @@ The concrete component architecture is described in [System Architecture](system
 
 Canonical terms are defined in [Terminology](terminology.md).
 
+Wiki-style authoring and taxonomy-governed structure are combined through [Wiki and Taxonomy Hybrid Architecture](wiki-taxonomy-hybrid.md).
+
 Before implementing multi-agent behavior, the system should define a single agent contract, agent handoff model, and explicit context/session ownership:
 
 - [Single Agent Model](single-agent-model.md)
@@ -33,11 +35,11 @@ The main component path is:
 ```text
 raw sources
   -> ingestion
+  -> wiki structure extraction
+  -> taxonomy classification
   -> understanding
-  -> source store
-  -> vector index
-  -> keyword index
-  -> knowledge graph
+  -> graph candidates
+  -> content-minimal index documents
   -> memory layer
   -> retrieval planner
   -> retrieval services
@@ -59,19 +61,39 @@ Responsibilities:
 - Preserve structure such as headings, tables, code blocks, and citations.
 - Keep source versions when documents change.
 
-### Vector Index
+### Narrative Layer
 
-Supports semantic retrieval across chunks, claims, notes, and summaries.
+Stores human-authored source material in wiki-like form when useful.
 
-The vector index is useful for recall, but it should not be the only retrieval path.
+Responsibilities:
 
-### Keyword Index
+- Preserve headings, links, backlinks, aliases, tags, and redirects.
+- Keep document titles mutable and source IDs stable.
+- Feed wiki structure extraction during ingest.
 
-Supports exact phrase lookup, identifiers, code names, file paths, and terms that embeddings may blur.
+### Semantic Control Layer
+
+Uses taxonomy bundles to classify and constrain meaning.
+
+Responsibilities:
+
+- Define accepted categories, attribute definitions, vocabularies, entity types, and relation types.
+- Keep uncontrolled wiki tags and links from becoming permanent schema without review.
+- Produce taxonomy proposals when repeated wiki patterns suggest new shared meaning.
+
+### Retrieval Index
+
+Uses content-minimal OpenSearch-compatible documents as retrieval maps.
+
+Responsibilities:
+
+- Store source/access-unit refs, taxonomy metadata, and link metadata.
+- Avoid storing full source content as retrievable index content.
+- Point retrieval back to exact source units.
 
 ### Knowledge Graph
 
-Stores relationships between concepts, claims, sources, decisions, projects, tasks, and experiments.
+Stores or projects validated relationships between concepts, claims, sources, decisions, projects, tasks, and experiments.
 
 Example relationships:
 
@@ -81,6 +103,9 @@ Example relationships:
 - `depends_on`
 - `derived_from`
 - `applies_to`
+- `references`
+- `same_as`
+- `redirects_to`
 
 ### Memory Layer
 

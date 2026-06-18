@@ -258,6 +258,38 @@ Examples:
 
 Access units let the system retrieve exact source material for grounded answers without loading an entire file.
 
+### Wiki Signal
+
+A structural or authoring signal extracted from wiki-style source material.
+
+Examples:
+
+- heading
+- outgoing link
+- backlink
+- tag
+- alias
+- redirect
+- citation
+
+Wiki signals are runtime extraction results. They are not taxonomy definitions by default.
+
+### Narrative Layer
+
+The human-authored layer of the system.
+
+It contains source documents, headings, links, tags, and explanatory writing.
+
+The narrative layer is optimized for human understanding, not strict schema control.
+
+### Semantic Control Layer
+
+The taxonomy-governed layer of the system.
+
+It defines accepted categories, attribute definitions, vocabularies, entity types, and relation types.
+
+The semantic control layer is optimized for consistent retrieval, validation, and automation.
+
 ### Rendition
 
 A derived representation of a source object, usually for images or PDFs.

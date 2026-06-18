@@ -56,6 +56,8 @@ Initial scope:
 - local file metadata
 - content hashing
 - heading-aware parsing
+- wiki-style link/tag extraction
+- taxonomy classification
 
 Later scope:
 
@@ -74,6 +76,7 @@ Initial scope:
 - candidate concepts
 - candidate claims
 - open questions
+- relation instance candidates from wiki links and citations
 
 Later scope:
 
@@ -137,6 +140,7 @@ Example strategies:
 - latest project state: decision lookup + temporal filter
 - factual lookup: keyword + source lookup
 - conceptual synthesis: vector + graph traversal
+- wiki context lookup: title + heading + link/backlink metadata
 - conflict check: graph contradiction edges + opposing claims
 - implementation planning: decisions + procedures + active project memory
 

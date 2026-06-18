@@ -22,6 +22,7 @@ The goal is not just to retrieve document chunks. The goal is to maintain a livi
 - [Infrastructure Baseline](docs/architecture/infrastructure-baseline.md)
 - [Single Repository First](docs/architecture/single-repository-first.md)
 - [Index Content Policy](docs/architecture/index-content-policy.md)
+- [Wiki and Taxonomy Hybrid Architecture](docs/architecture/wiki-taxonomy-hybrid.md)
 - [Single Agent Model](docs/architecture/single-agent-model.md)
 - [Agent Connection Model](docs/architecture/agent-connection-model.md)
 - [Context and Session Model](docs/architecture/context-session-model.md)
