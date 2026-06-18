@@ -30,6 +30,8 @@ Sources include:
 - Markdown;
 - PDF;
 - image;
+- audio;
+- video;
 - JSON;
 - code;
 - web exports;
@@ -52,6 +54,8 @@ Required access patterns:
 - section-level access for structured text;
 - chunk-level access for long text;
 - image-region or derived-description access for images later;
+- audio time-range access;
+- video time-range, keyframe, frame-region, and subtitle-span access;
 - JSON path access for large JSON files.
 
 Ingest should create a source manifest that describes how the source can be revisited.

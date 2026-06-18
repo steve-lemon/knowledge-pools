@@ -75,6 +75,7 @@ Recommended preview artifacts:
 | PDF | document summary, page thumbnails, section summaries |
 | Image | thumbnail, standard rendition |
 | Audio | waveform, spectrogram, low-bitrate proxy when policy allows |
+| Video | poster frame, keyframes, storyboard, low-bitrate proxy, waveform, subtitle summary refs |
 | JSON | schema sketch, object shape summary |
 | Code | symbol outline, file summary |
 | Conversation | thread summary, turn outline |
@@ -250,6 +251,68 @@ Locator examples:
 
 ```json
 { "kind": "transcript_span", "transcript_ref": "transcript_v001", "start_ms": 12000, "end_ms": 28000, "char_start": 0, "char_end": 180 }
+```
+
+## Video, MP4, Scenes, and Tracks
+
+Access units:
+
+- video file
+- time segment
+- scene
+- keyframe
+- frame region
+- audio track segment
+- subtitle span
+- chapter marker when available
+
+Chunking strategy:
+
+- Use time ranges as the stable boundary.
+- Preserve the original video unchanged.
+- Detect scene boundaries when possible, but keep deterministic time locators.
+- Extract keyframes as source-derived visual access units.
+- Treat audio tracks with the same caution as audio sources.
+- Treat subtitles or transcripts as source-derived artifacts, not raw index content by default.
+- Use frame-region locators for visual evidence.
+
+Indexed views:
+
+- media metadata
+- duration, dimensions, and frame rate
+- scene or time segment locators
+- keyframe refs
+- frame-region locators
+- subtitle refs
+- audio track refs
+- short labels or bounded descriptors
+- taxonomy metadata
+
+Preview artifacts:
+
+- poster frame
+- storyboard
+- keyframe contact sheet
+- low-bitrate proxy when access policy allows
+- waveform or spectrogram for audio track
+- subtitle summary refs when policy allows, with text stored outside the index
+
+Locator examples:
+
+```json
+{ "kind": "video_scene", "start_ms": 45000, "end_ms": 91000 }
+```
+
+```json
+{ "kind": "video_frame", "time_ms": 45000, "frame_index": 120 }
+```
+
+```json
+{ "kind": "video_frame_region", "time_ms": 45000, "frame_index": 120, "bbox": [0.20, 0.18, 0.62, 0.74] }
+```
+
+```json
+{ "kind": "subtitle_span", "subtitle_ref": "subtitle_v001", "start_ms": 45000, "end_ms": 58000, "char_start": 0, "char_end": 160 }
 ```
 
 ## JSON

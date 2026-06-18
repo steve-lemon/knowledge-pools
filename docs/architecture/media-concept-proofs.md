@@ -1,6 +1,6 @@
 # Media Concept Proofs
 
-This document walks four media types through the current Knowledge Pools architecture.
+This document walks five media types through the current Knowledge Pools architecture.
 
 The goal is to prove the concept, not to finalize implementation details.
 
@@ -30,7 +30,8 @@ Examples:
 - Markdown: outline and short document summary;
 - image: thumbnail and standard-size rendition;
 - audio: waveform preview, spectrogram, low-bitrate proxy, or short bounded clip when policy allows;
-- PDF: document summary, page thumbnails, and section/page summaries.
+- PDF: document summary, page thumbnails, and section/page summaries;
+- video: poster frame, keyframes, storyboard, low-bitrate proxy, waveform, and subtitle summary refs.
 
 Preview artifacts should be stored beside the source version, usually under `derived/`.
 
@@ -476,7 +477,190 @@ Expected result:
 2. Retrieval service fetches the transcript artifact or audio segment via manifest.
 3. Answer generation uses fetched transcript span or audio evidence.
 
-## Proof 4: Long PDF
+## Proof 4: MP4 Video File
+
+Example source:
+
+```text
+knowledge/sources/video/src_mp4_001/versions/v001/original.mp4
+```
+
+### SourceRecord
+
+```json
+{
+  "source_id": "src_mp4_001",
+  "source_version": "v001",
+  "media_type": "video/mp4",
+  "object_uri": "knowledge/sources/video/src_mp4_001/versions/v001/original.mp4",
+  "content_hash": "sha256:...",
+  "duration_ms": 642000,
+  "width": 1920,
+  "height": 1080,
+  "frame_rate": 29.97,
+  "taxonomy_bundle_id": "knowledge-pools-core",
+  "taxonomy_version": "0.1.0"
+}
+```
+
+### SourceManifest and AccessUnits
+
+```json
+{
+  "source_id": "src_mp4_001",
+  "manifest_version": "v001",
+  "derived_objects": [
+    {
+      "object_id": "video_proxy_preview",
+      "kind": "video_proxy_preview",
+      "object_uri": "knowledge/sources/video/src_mp4_001/versions/v001/derived/preview_480p.mp4",
+      "derived_from": ["src_mp4_001#video_full"],
+      "policy": "bounded_preview_only"
+    },
+    {
+      "object_id": "poster_frame_001",
+      "kind": "poster_frame_preview",
+      "object_uri": "knowledge/sources/video/src_mp4_001/versions/v001/derived/poster.jpg",
+      "derived_from": ["src_mp4_001#frame_000120"]
+    },
+    {
+      "object_id": "storyboard_v001",
+      "kind": "storyboard_preview",
+      "object_uri": "knowledge/sources/video/src_mp4_001/versions/v001/derived/storyboard.jpg",
+      "derived_from": ["src_mp4_001@v001"]
+    },
+    {
+      "object_id": "subtitle_v001",
+      "kind": "subtitle_or_transcript",
+      "object_uri": "knowledge/sources/video/src_mp4_001/versions/v001/derived/subtitles.json",
+      "derived_from": ["src_mp4_001#audio_track_001"],
+      "processor": "speech_to_text_or_subtitle_extractor",
+      "processor_version": "placeholder"
+    }
+  ],
+  "access_units": [
+    {
+      "unit_id": "video_full",
+      "kind": "video_full",
+      "locator": {
+        "start_ms": 0,
+        "end_ms": 642000
+      }
+    },
+    {
+      "unit_id": "scene_001",
+      "kind": "video_scene",
+      "locator": {
+        "start_ms": 45000,
+        "end_ms": 91000
+      }
+    },
+    {
+      "unit_id": "frame_000120",
+      "kind": "video_frame",
+      "locator": {
+        "time_ms": 45000,
+        "frame_index": 120
+      }
+    },
+    {
+      "unit_id": "frame_region_001",
+      "kind": "video_frame_region",
+      "locator": {
+        "time_ms": 45000,
+        "frame_index": 120,
+        "bbox": [0.20, 0.18, 0.62, 0.74],
+        "coordinate_space": "normalized"
+      }
+    },
+    {
+      "unit_id": "audio_track_001",
+      "kind": "video_audio_track",
+      "locator": {
+        "track": "audio:0",
+        "start_ms": 0,
+        "end_ms": 642000
+      }
+    },
+    {
+      "unit_id": "subtitle_span_001",
+      "kind": "subtitle_span",
+      "locator": {
+        "subtitle_ref": "subtitle_v001",
+        "start_ms": 45000,
+        "end_ms": 58000,
+        "char_start": 0,
+        "char_end": 160
+      }
+    }
+  ]
+}
+```
+
+### Video Handling
+
+MP4 is a container format. It may contain video tracks, audio tracks, subtitles, chapters, metadata, and embedded thumbnails.
+
+Initial strategy:
+
+- preserve original MP4 unchanged;
+- create time-based video scene access units;
+- extract keyframes or poster frames as visual evidence units;
+- create frame-region locators for object-level evidence;
+- treat audio tracks like audio sources when transcription is available;
+- treat subtitles as source-derived artifacts, not raw index content;
+- create low-bitrate proxy previews only when access policy allows;
+- keep full frame images, video bytes, full transcript text, and subtitles outside the index by default.
+
+### Content-Minimal Index Document
+
+```json
+{
+  "index_document_id": "kp:repo_main:access_unit:mp4:sha256_ab12cd34ef90:scene_001",
+  "index_document_type": "access_unit",
+  "repository_id": "repo_main",
+  "source_id": "src_mp4_001",
+  "source_version_id": "srcv_mp4_sha256_ab12cd34ef90",
+  "source_version": "v001",
+  "media_type": "video/mp4",
+  "media_hint": "mp4",
+  "access_unit_id": "scene_001",
+  "locator": {
+    "kind": "video_scene",
+    "start_ms": 45000,
+    "end_ms": 91000
+  },
+  "category_ids": ["source"],
+  "attribute_values": {
+    "source_type": "video"
+  },
+  "short_label": "video scene with visual and audio evidence",
+  "derived_object_refs": ["subtitle_v001"],
+  "preview_refs": ["poster_frame_001", "storyboard_v001", "video_proxy_preview"],
+  "source_uri": "knowledge/sources/video/src_mp4_001/versions/v001/original.mp4",
+  "source_content_hash": "sha256:..."
+}
+```
+
+Do not store video bytes, frame images, full subtitles, full transcripts, or unrestricted scene descriptions in the index.
+
+For video answers, retrieval should fetch the exact time range, keyframe, subtitle span, audio segment, or frame region needed for evidence.
+
+### Retrieval Proof
+
+Query:
+
+```text
+video segment explaining index policy
+```
+
+Expected result:
+
+1. Index returns `src_mp4_001#scene_001` and possibly `src_mp4_001#subtitle_span_001`.
+2. Retrieval service fetches the bounded video segment, subtitle span, or keyframe via manifest.
+3. Answer generation uses fetched video/subtitle/frame evidence instead of the index document itself.
+
+## Proof 5: Long PDF
 
 Example source:
 
@@ -632,7 +816,7 @@ Before implementation, verify these points:
 
 ## Concept Proof Result
 
-The current architecture can support all four media types with the same high-level contract.
+The current architecture can support all five media types with the same high-level contract.
 
 The main missing implementation detail is concrete schema work for:
 

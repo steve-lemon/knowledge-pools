@@ -172,7 +172,7 @@ Examples:
 
 - lifecycle status: `draft`, `active`, `deprecated`, `superseded`
 - evidence strength: `weak`, `medium`, `strong`
-- source type: `markdown`, `pdf`, `web`, `code`, `conversation`
+- source type: `markdown`, `pdf`, `image`, `audio`, `video`, `json`, `web`, `code`, `conversation`
 - knowledge kind: `claim`, `decision`, `concept`, `procedure`, `question`
 
 ### Entity Type

@@ -119,6 +119,9 @@ Examples:
 - waveform previews;
 - spectrogram previews;
 - low-bitrate audio proxies;
+- poster frames;
+- storyboard previews;
+- low-bitrate video proxies;
 - document summaries;
 - page thumbnails;
 - heading outlines.
@@ -219,6 +222,30 @@ Do not store:
 - full transcript text;
 - lyrics-like text;
 - unrestricted verbose audio descriptions.
+
+### Video
+
+Index:
+
+- media metadata;
+- duration, dimensions, and frame rate;
+- scene or time segment locators;
+- keyframe refs;
+- frame-region locators;
+- audio track refs;
+- subtitle refs;
+- poster, storyboard, or proxy preview refs;
+- short descriptors if policy allows;
+- taxonomy metadata.
+
+Do not store:
+
+- video bytes;
+- full frame images;
+- full subtitles;
+- full transcript text;
+- unrestricted verbose scene descriptions;
+- low-bitrate proxy bytes.
 
 ### JSON
 

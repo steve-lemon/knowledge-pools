@@ -317,6 +317,9 @@ Examples:
 - waveform preview
 - spectrogram preview
 - low-bitrate audio proxy
+- video poster frame
+- storyboard preview
+- low-bitrate video proxy
 
 Preview artifacts are not the source of truth. They must keep a `derived_from` reference back to a source version or access unit.
 
@@ -347,6 +350,7 @@ Examples:
 - `jpg`
 - `png`
 - `wav`
+- `mp4`
 - `json`
 
 The media hint is not authoritative. The authoritative field is `media_type`.

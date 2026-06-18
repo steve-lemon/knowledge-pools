@@ -5,7 +5,7 @@ Status: accepted
 
 ## Context
 
-The architecture needs to prove it can support multiple media types without changing its core contract. The user requested concept proofs for Markdown, image files, WAV audio including speech or songs, and long PDF documents.
+The architecture needs to prove it can support multiple media types without changing its core contract. The user requested concept proofs for Markdown, image files, WAV audio including speech or songs, MP4 video, and long PDF documents.
 
 ## Decision
 
@@ -34,6 +34,5 @@ Implementation should define concrete schemas for `SourceRecord`, `SourceManifes
 ## Follow-ups
 
 - Add audio strategy to the media ingest strategy document.
-- Define locator variants for Markdown, image, audio, and PDF.
-- Add fixture examples for all four media proofs.
-
+- Define locator variants for Markdown, image, audio, video, and PDF.
+- Add fixture examples for all five media proofs.

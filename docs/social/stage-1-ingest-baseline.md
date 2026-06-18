@@ -59,6 +59,7 @@ Large or structured sources are broken into retrievable units:
 - PDF pages and blocks;
 - image regions;
 - audio time segments;
+- video scenes and keyframes;
 - transcript spans;
 - JSON paths.
 
@@ -75,6 +76,7 @@ Examples:
 - document summaries;
 - page thumbnails;
 - waveform previews.
+- poster frames and storyboards.
 
 The index stores preview refs and metadata, not preview bytes or long generated text.
 
@@ -139,8 +141,8 @@ ingest는 단순히 파일을 업로드하고 chunk로 나누는 단계가 아�
 - 원본 source 보존
 - source version과 content hash
 - 큰 문서를 다시 찾아갈 수 있는 access unit
-- 이미지, PDF, 오디오, Markdown별 media strategy
-- thumbnail, summary, waveform 같은 preview artifact
+- 이미지, PDF, 오디오, 동영상, Markdown별 media strategy
+- thumbnail, summary, waveform, poster frame 같은 preview artifact
 - OpenSearch에는 원문이 아니라 locator와 metadata만 저장
 - deterministic index ID
 - understand 단계와의 명확한 경계
@@ -202,8 +204,8 @@ Ingest now covers:
 - source object storage
 - source versions and content hashes
 - manifests and access units
-- media-specific strategies for Markdown, images, WAV, and PDF
-- preview artifacts like thumbnails, summaries, and waveform previews
+- media-specific strategies for Markdown, images, WAV, MP4, and PDF
+- preview artifacts like thumbnails, summaries, waveform previews, and poster frames
 - content-minimal OpenSearch projections
 - deterministic index IDs
 - explicit handoff to the understand stage
@@ -219,4 +221,3 @@ This feels like the first important boundary: before building smarter agents, ma
 What should belong in ingest, and what should be delayed until understand?
 
 This boundary seems small, but it determines whether the system can remain source-grounded as it grows.
-

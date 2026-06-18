@@ -173,6 +173,10 @@ Use `unknown` for extracted runtime records when the system cannot classify conf
     "terms": [
       { "value": "markdown", "status": "active", "aliases": ["md"] },
       { "value": "pdf", "status": "active" },
+      { "value": "image", "status": "active", "aliases": ["jpg", "jpeg", "png"] },
+      { "value": "audio", "status": "active", "aliases": ["wav"] },
+      { "value": "video", "status": "active", "aliases": ["mp4"] },
+      { "value": "json", "status": "active" },
       { "value": "web", "status": "active", "aliases": ["url", "html"] },
       { "value": "code", "status": "active" },
       { "value": "conversation", "status": "active", "aliases": ["chat"] }

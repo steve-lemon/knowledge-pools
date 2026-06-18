@@ -86,6 +86,7 @@ Recommended hints:
 - `jpg`
 - `png`
 - `wav`
+- `mp4`
 - `json`
 - `code`
 - `txt`
