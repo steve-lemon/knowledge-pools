@@ -127,6 +127,7 @@ Deliverables:
 - Taxonomy proposal generation for unknown concepts.
 - Shallow candidate generation from visible source structure only.
 - Handoff contract from ingest to understand.
+- Ingest readiness review before moving to understand.
 
 First source fields:
 

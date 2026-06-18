@@ -30,6 +30,7 @@ The goal is not just to retrieve document chunks. The goal is to maintain a livi
 - [Context and Session Model](docs/architecture/context-session-model.md)
 - [Ingest: Taxonomy-Governed Graph Entry](docs/architecture/ingest-taxonomy-graph.md)
 - [Ingest and Understand Boundary](docs/architecture/ingest-understand-boundary.md)
+- [Ingest Readiness Review](docs/architecture/ingest-readiness-review.md)
 - [Media Ingest Strategies](docs/architecture/media-ingest-strategies.md)
 - [Media Concept Proofs](docs/architecture/media-concept-proofs.md)
 - [Taxonomy vs Versioning Responsibilities](docs/architecture/taxonomy-vs-versioning.md)
