@@ -6,6 +6,56 @@ This document defines the v1 baseline for the `understand` stage.
 
 It does not create durable knowledge records.
 
+## Primary Purpose
+
+The primary purpose of `understand` is to convert located source material into explicit meaning units without losing evidence grounding.
+
+Ingest can tell the system where information is.
+
+Understand tells the system what kind of knowledge may be present there.
+
+The key shift is:
+
+```text
+retrievable source unit -> evidence-grounded knowledge candidate
+```
+
+This is the stage where raw sections, pages, transcript spans, image regions, or wiki blocks become candidate claims, decisions, concepts, procedures, questions, constraints, or bounded summaries.
+
+## Expected Results
+
+Understand should produce:
+
+- knowledge candidates with stable kinds;
+- evidence refs for every candidate;
+- ambiguity notes when interpretation is uncertain;
+- confidence notes that explain extraction quality;
+- review requests for risky or unclear candidates;
+- bounded summaries that help navigation but do not replace source evidence;
+- model/generator metadata when extraction is model-assisted.
+
+The expected output is not "the answer."
+
+The expected output is a structured candidate set that later stages can connect, retrieve, reason over, verify, and curate.
+
+## Expected Effects
+
+Understand improves the system in these ways:
+
+| Effect | Why it matters |
+| --- | --- |
+| Better retrieval units | The system can search for claims, decisions, concepts, procedures, and questions, not only chunks |
+| Stronger grounding | Every extracted meaning unit keeps source and access-unit evidence refs |
+| Less noisy memory | Interpretation remains candidate-level until validation and curation |
+| Better conflict handling | Claims and decisions become explicit enough for later contradiction checks |
+| Better time awareness | Candidates can carry source version and validity metadata |
+| Better human review | Ambiguity and review requests make uncertain extraction visible |
+| Model independence | Deterministic and model-assisted extraction can share the same schema |
+
+The practical effect is that Knowledge Pools becomes more than a search index.
+
+It becomes a system that can prepare source-grounded meaning for graph connection and later reasoning.
+
 ## Stage Boundary
 
 ```text

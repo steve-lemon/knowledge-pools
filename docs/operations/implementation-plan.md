@@ -143,6 +143,12 @@ First source fields:
 
 ## Step 5: Understanding Baseline
 
+Purpose:
+
+- convert source-grounded ingest artifacts into explicit knowledge candidates;
+- make claims, decisions, concepts, procedures, questions, constraints, and bounded summaries searchable as candidate meaning units;
+- preserve evidence refs, ambiguity, confidence, and review needs before connection or curation.
+
 Deliverables:
 
 - Understand baseline architecture document.

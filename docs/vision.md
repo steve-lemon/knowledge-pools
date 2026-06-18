@@ -25,3 +25,6 @@ Build a knowledge repository that can answer with grounded context, preserve unc
 
 The useful unit of long-term knowledge is often not a chunk. It is a claim, decision, procedure, concept, question, or experiment, each connected to source evidence and time.
 
+The `understand` stage is where the system starts moving from chunks to these meaning units.
+
+It should extract candidates, preserve evidence, and expose ambiguity without prematurely turning interpretation into durable memory.
