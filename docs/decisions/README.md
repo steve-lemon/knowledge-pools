@@ -10,6 +10,22 @@ Recommended filename:
 YYYY-MM-DD-short-title.md
 ```
 
+## Records
+
+- [Repository Foundation](2026-06-18-repository-foundation.md)
+- [Ultimate Knowledge Loop](2026-06-18-ultimate-knowledge-loop.md)
+- [Agent Context Session Model](2026-06-18-agent-context-session-model.md)
+- [Taxonomy-Governed Ingest](2026-06-18-taxonomy-governed-ingest.md)
+- [Canonical Terminology](2026-06-18-canonical-terminology.md)
+- [Simplified Infrastructure Baseline](2026-06-19-simplified-infrastructure-baseline.md)
+- [Media Ingest and Version Boundaries](2026-06-19-media-ingest-and-version-boundaries.md)
+- [Architecture Risk Review](2026-06-19-architecture-risk-review.md)
+- [Single Repository First](2026-06-19-single-repository-first.md)
+- [Content-Minimal Indexing](2026-06-19-content-minimal-indexing.md)
+- [Wiki Taxonomy Hybrid](2026-06-19-wiki-taxonomy-hybrid.md)
+- [Media Concept Proofs](2026-06-19-media-concept-proofs.md)
+- [Preview Artifacts](2026-06-19-preview-artifacts.md)
+
 ## Template
 
 ```text
@@ -42,4 +58,3 @@ What becomes easier, harder, or riskier because of this?
 
 What should be revisited later?
 ```
-

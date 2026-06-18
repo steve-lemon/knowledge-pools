@@ -303,6 +303,25 @@ Examples:
 
 Renditions are operational access assets, not taxonomy definitions.
 
+### Preview Artifact
+
+A source-derived object optimized for quick browsing, triage, or retrieval inspection.
+
+Examples:
+
+- image thumbnail
+- standard-size image preview
+- document summary
+- heading outline
+- page thumbnail
+- waveform preview
+- spectrogram preview
+- low-bitrate audio proxy
+
+Preview artifacts are not the source of truth. They must keep a `derived_from` reference back to a source version or access unit.
+
+Preview artifacts may be durable within a source version, but they should not become taxonomy definitions or replace exact source access units for answer grounding.
+
 ### Source Version
 
 A version of a source created when source content changes.

@@ -11,12 +11,30 @@ source object
   -> SourceRecord
   -> SourceManifest
   -> AccessUnit[]
+  -> preview artifacts
   -> media analysis
   -> taxonomy classification
   -> IngestArtifact
   -> content-minimal index documents
   -> source-unit fetch for answer grounding
 ```
+
+## Preview Artifact Principle
+
+Preview artifacts are derived objects created to make browsing, triage, and retrieval inspection faster.
+
+They are not the source of truth.
+
+Examples:
+
+- Markdown: outline and short document summary;
+- image: thumbnail and standard-size rendition;
+- audio: waveform preview, spectrogram, low-bitrate proxy, or short bounded clip when policy allows;
+- PDF: document summary, page thumbnails, and section/page summaries.
+
+Preview artifacts should be stored beside the source version, usually under `derived/`.
+
+The index may store preview references, preview hashes, preview type, and generator metadata. It should not store large preview content directly.
 
 ## Proof 1: Basic Markdown File
 
@@ -59,6 +77,22 @@ Tags: architecture, ingest
 {
   "source_id": "src_md_001",
   "manifest_version": "v001",
+  "derived_objects": [
+    {
+      "object_id": "outline_preview_v001",
+      "kind": "document_outline_preview",
+      "object_uri": "knowledge/sources/wiki/src_md_001/versions/v001/derived/outline.json",
+      "derived_from": ["src_md_001#section_001"]
+    },
+    {
+      "object_id": "summary_preview_v001",
+      "kind": "document_summary_preview",
+      "object_uri": "knowledge/sources/wiki/src_md_001/versions/v001/derived/summary.json",
+      "derived_from": ["src_md_001#section_001"],
+      "generator": "summary_generator",
+      "generator_version": "placeholder"
+    }
+  ],
   "access_units": [
     {
       "unit_id": "section_001",
@@ -111,6 +145,7 @@ Tags: architecture, ingest
   },
   "wiki_signal_refs": ["src_md_001#link_001"],
   "access_unit_refs": ["src_md_001#section_001"],
+  "preview_refs": ["outline_preview_v001", "summary_preview_v001"],
   "outgoing_link_titles": ["Index Content Policy"],
   "tag_values": ["architecture", "ingest"],
   "source_uri": "knowledge/sources/wiki/src_md_001/versions/v001/original.md",
@@ -119,6 +154,8 @@ Tags: architecture, ingest
 ```
 
 Do not store the full Markdown body in the index document.
+
+The summary preview is useful for document selection, but final answers should still fetch the exact Markdown section.
 
 ### Retrieval Proof
 
@@ -178,7 +215,8 @@ knowledge/sources/images/src_img_001/versions/v001/original.jpg
       "rendition_id": "thumbnail",
       "kind": "thumbnail",
       "object_uri": "knowledge/sources/images/src_img_001/versions/v001/derived/thumb.jpg",
-      "max_side_px": 320
+      "max_side_px": 320,
+      "preview": true
     }
   ],
   "access_units": [
@@ -243,12 +281,15 @@ The exact entity type should remain conservative unless the taxonomy has accepte
     "source_type": "image"
   },
   "short_label": "detected visual region",
+  "preview_refs": ["thumbnail"],
   "source_uri": "knowledge/sources/images/src_img_001/versions/v001/original.jpg",
   "source_content_hash": "sha256:..."
 }
 ```
 
 Do not store image bytes or verbose unrestricted vision descriptions in the index.
+
+Use the thumbnail as the default preview. Use the standard rendition for inspection and vision analysis. Use the original only when exact visual evidence is needed.
 
 ### Retrieval Proof
 
@@ -297,7 +338,15 @@ knowledge/sources/audio/src_wav_001/versions/v001/original.wav
     {
       "object_id": "waveform_preview",
       "kind": "waveform_preview",
-      "object_uri": "knowledge/sources/audio/src_wav_001/versions/v001/derived/waveform.json"
+      "object_uri": "knowledge/sources/audio/src_wav_001/versions/v001/derived/waveform.json",
+      "derived_from": ["src_wav_001#audio_full"]
+    },
+    {
+      "object_id": "audio_proxy_preview",
+      "kind": "audio_proxy_preview",
+      "object_uri": "knowledge/sources/audio/src_wav_001/versions/v001/derived/preview.m4a",
+      "derived_from": ["src_wav_001#audio_full"],
+      "policy": "bounded_preview_only"
     },
     {
       "object_id": "transcript_v001",
@@ -371,12 +420,15 @@ Initial strategy:
   },
   "short_label": "audio segment with speech or music",
   "derived_object_refs": ["transcript_v001"],
+  "preview_refs": ["waveform_preview", "audio_proxy_preview"],
   "source_uri": "knowledge/sources/audio/src_wav_001/versions/v001/original.wav",
   "source_content_hash": "sha256:..."
 }
 ```
 
 Do not store full transcript text, lyrics, or audio data in the index.
+
+For speech, transcript previews can help users select a segment. For songs or copyrighted audio, default to waveform or spectrogram previews unless access policy explicitly allows richer previews.
 
 ### Retrieval Proof
 
@@ -425,7 +477,14 @@ knowledge/sources/pdf/src_pdf_001/versions/v001/original.pdf
     {
       "object_id": "summary_doc_v001",
       "kind": "document_summary",
-      "object_uri": "knowledge/sources/pdf/src_pdf_001/versions/v001/derived/summary.json"
+      "object_uri": "knowledge/sources/pdf/src_pdf_001/versions/v001/derived/summary.json",
+      "derived_from": ["src_pdf_001@v001"]
+    },
+    {
+      "object_id": "page_thumbnail_001",
+      "kind": "page_thumbnail_preview",
+      "object_uri": "knowledge/sources/pdf/src_pdf_001/versions/v001/derived/pages/page_001_thumb.jpg",
+      "derived_from": ["src_pdf_001#page_001"]
     }
   ],
   "access_units": [
@@ -481,6 +540,7 @@ The index stores refs and metadata. Summary text and extracted text live as sour
     "bbox": [72, 144, 520, 240]
   },
   "summary_ref": "summary_doc_v001",
+  "preview_refs": ["summary_doc_v001", "page_thumbnail_001"],
   "category_ids": ["source"],
   "attribute_values": {
     "source_type": "pdf"
@@ -491,6 +551,8 @@ The index stores refs and metadata. Summary text and extracted text live as sour
 ```
 
 Do not store full page text or full extracted PDF text in `_source`.
+
+For long PDFs, preview artifacts make navigation practical. The summary preview helps select a candidate area, while page thumbnails help humans inspect layout before fetching exact blocks.
 
 ### Retrieval Proof
 
@@ -512,6 +574,7 @@ The architecture holds if these rules remain true:
 
 - original content stays in object storage;
 - manifests describe how to re-access source units;
+- preview artifacts speed up browsing without replacing source evidence;
 - indexes store retrieval metadata, not full source content;
 - taxonomy controls meaning, not chunking or file layout;
 - media strategies differ internally but produce shared contracts;
@@ -529,4 +592,3 @@ The main missing implementation detail is concrete schema work for:
 - `IngestArtifact`;
 - content-minimal `OpenSearchDocument`;
 - media-specific `locator` variants.
-

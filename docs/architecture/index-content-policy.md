@@ -38,6 +38,7 @@ Prefer storing:
 - relation instance metadata;
 - access unit locators;
 - evidence references;
+- preview references;
 - short display labels;
 - generated descriptors when policy allows;
 - indexing/version metadata.
@@ -105,6 +106,45 @@ Avoid in index:
 - generated text without source refs;
 - summaries of restricted sources unless access policy allows it.
 
+## Preview Artifact Policy
+
+Preview artifacts are derived objects for browsing and triage.
+
+Examples:
+
+- resized images;
+- image thumbnails;
+- waveform previews;
+- spectrogram previews;
+- low-bitrate audio proxies;
+- document summaries;
+- page thumbnails;
+- heading outlines.
+
+Default:
+
+- store preview artifacts outside the main index;
+- keep them under the same source version when possible;
+- track `derived_from`, generator name, generator version, preview hash, and access policy;
+- index only preview refs and small preview metadata.
+
+Allowed in index:
+
+- preview refs;
+- preview kind;
+- preview dimensions or duration;
+- preview hash;
+- generator metadata;
+- access policy flags.
+
+Avoid in index:
+
+- preview image bytes;
+- preview audio bytes;
+- long preview text;
+- transcript previews that expose full source content;
+- previews that can replace source retrieval.
+
 ## Media-Specific Policy
 
 ### Text and Markdown
@@ -114,6 +154,7 @@ Index:
 - title;
 - heading path;
 - section locator;
+- outline or summary preview refs;
 - taxonomy metadata;
 - optional analyzed search text if Level 2 is enabled.
 
@@ -130,6 +171,7 @@ Index:
 - layout block type;
 - bounding box;
 - table/figure locator;
+- summary or page thumbnail preview refs;
 - taxonomy metadata;
 - optional analyzed text if Level 2 is enabled.
 
@@ -145,6 +187,7 @@ Index:
 
 - media metadata;
 - rendition refs;
+- preview refs;
 - region locators;
 - detected object labels;
 - taxonomy metadata;
@@ -163,6 +206,7 @@ Index:
 - media metadata;
 - duration;
 - time segment locators;
+- waveform or proxy preview refs;
 - transcript refs;
 - short descriptors if policy allows;
 - taxonomy metadata.

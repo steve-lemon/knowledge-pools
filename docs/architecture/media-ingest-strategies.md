@@ -11,6 +11,7 @@ Every media strategy should produce:
 - `SourceRecord`
 - `SourceManifest`
 - `AccessUnit[]`
+- `PreviewArtifact[]`
 - `IngestArtifact`
 - `GraphCandidate[]`
 - content-minimal OpenSearch index documents
@@ -23,6 +24,7 @@ source
   -> create source record
   -> create source manifest
   -> create access units
+  -> create preview artifacts
   -> media-specific analysis
   -> taxonomy-aware classification
   -> OpenSearch indexing
@@ -35,10 +37,49 @@ interface MediaIngestStrategy {
   detect(source: SourceRecord): boolean;
   createManifest(source: SourceRecord): SourceManifest;
   createAccessUnits(source: SourceRecord, manifest: SourceManifest): AccessUnit[];
+  createPreviewArtifacts(source: SourceRecord, manifest: SourceManifest): PreviewArtifact[];
   analyze(units: AccessUnit[], taxonomy: TaxonomyBundle): IngestArtifact;
   buildIndexDocuments(artifact: IngestArtifact): OpenSearchDocument[];
 }
 ```
+
+## Preview Artifacts
+
+Preview artifacts are source-derived objects optimized for fast browsing, triage, and retrieval inspection.
+
+They should be generated after access units are known because every preview needs a `derived_from` chain back to the source or access unit.
+
+Preview artifacts belong to source version storage, not the main index.
+
+The index may keep:
+
+- preview refs;
+- preview kind;
+- preview hash;
+- generator name and version;
+- access policy metadata.
+
+The index should not keep:
+
+- image bytes;
+- audio bytes;
+- long summary text;
+- full transcript text;
+- large rendered document pages.
+
+Recommended preview artifacts:
+
+| Media type | Preview artifacts |
+| --- | --- |
+| Markdown | outline, short summary, heading tree |
+| PDF | document summary, page thumbnails, section summaries |
+| Image | thumbnail, standard rendition |
+| Audio | waveform, spectrogram, low-bitrate proxy when policy allows |
+| JSON | schema sketch, object shape summary |
+| Code | symbol outline, file summary |
+| Conversation | thread summary, turn outline |
+
+Preview artifacts are hints for selection. Grounded answers still fetch the exact source access units.
 
 ## Text and Markdown
 
@@ -65,6 +106,12 @@ Indexed views:
 - section summaries
 - exact text access units
 - extracted claims, concepts, decisions, and questions
+
+Preview artifacts:
+
+- heading outline
+- short source summary
+- section summary refs for long files
 
 Locator examples:
 
@@ -98,6 +145,13 @@ Indexed views:
 - text blocks
 - tables as structured units when possible
 - figure captions or derived descriptions
+
+Preview artifacts:
+
+- source-level summary
+- page thumbnails
+- section or page summaries
+- table previews when extraction is reliable
 
 Locator examples:
 
@@ -139,6 +193,12 @@ Indexed views:
 - OCR text as access units
 - visual attributes such as dominant colors or composition when taxonomy allows
 
+Preview artifacts:
+
+- thumbnail
+- standard rendition
+- optional OCR-ready rendition
+
 Locator examples:
 
 ```json
@@ -174,6 +234,13 @@ Indexed views:
 - transcript refs
 - short labels or bounded descriptors
 - taxonomy metadata
+
+Preview artifacts:
+
+- waveform preview
+- spectrogram preview
+- low-bitrate proxy when access policy allows
+- short transcript snippet refs when speech policy allows, with text stored outside the index
 
 Locator examples:
 
