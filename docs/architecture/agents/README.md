@@ -15,6 +15,7 @@ Shared contracts:
 
 - [Ingestion Agent](ingestion-agent.md)
 - [Understanding Agent](understanding-agent.md)
+- [Connection Agent](connection-agent.md)
 - [Retrieval Planner](retrieval-planner.md)
 - [Retrieval Agent](retrieval-agent.md)
 - [Reasoning Agent](reasoning-agent.md)
@@ -22,6 +23,21 @@ Shared contracts:
 - [Knowledge Update Agent](knowledge-update-agent.md)
 - [Curation Agent](curation-agent.md)
 - [Evaluation Agent](evaluation-agent.md)
+
+## Stage Mapping
+
+| Stage | Agent spec | Primary output |
+| --- | --- | --- |
+| `ingest` | [Ingestion Agent](ingestion-agent.md) | `IngestArtifact` |
+| `understand` | [Understanding Agent](understanding-agent.md) | `UnderstandingArtifact` |
+| `connect` | [Connection Agent](connection-agent.md) | `ConnectionArtifact` |
+| `plan` | [Retrieval Planner](retrieval-planner.md) | `RetrievalPlan` |
+| `retrieve` | [Retrieval Agent](retrieval-agent.md) | `EvidenceBundle` |
+| `reason` | [Reasoning Agent](reasoning-agent.md) | `DraftAnswer` or `ProposedAction` |
+| `verify` | [Verifier Agent](verifier-agent.md) | `VerificationReport` |
+| `update` | [Knowledge Update Agent](knowledge-update-agent.md) | `UpdateCandidate` |
+| `curation` | [Curation Agent](curation-agent.md) | `CurationDecision` |
+| `evaluate` | [Evaluation Agent](evaluation-agent.md) | `EvaluationReport` |
 
 ## Rule
 

@@ -12,6 +12,47 @@ Each term has a different role in the system.
 
 ## Canonical Terms
 
+### Stage, Agent, and Artifact Names
+
+Use stage names as lowercase verb-like workflow steps.
+
+Use agent names as noun phrases ending in `Agent`, except `Retrieval Planner`, which is a planner role.
+
+Primary artifact names should match the stage outcome.
+
+| Stage | Canonical agent name | Primary output artifact | Meaning |
+| --- | --- | --- | --- |
+| `ingest` | `Ingestion Agent` | `IngestArtifact` | Preserve and structure source evidence |
+| `understand` | `Understanding Agent` | `UnderstandingArtifact` | Convert source evidence into knowledge candidates |
+| `connect` | `Connection Agent` | `ConnectionArtifact` | Propose relationships between candidates and existing knowledge |
+| `plan` | `Retrieval Planner` | `RetrievalPlan` | Understand user task and decide retrieval strategy |
+| `retrieve` | `Retrieval Agent` | `EvidenceBundle` | Gather source-grounded evidence |
+| `reason` | `Reasoning Agent` | `DraftAnswer` or `ProposedAction` | Synthesize from evidence |
+| `verify` | `Verifier Agent` | `VerificationReport` | Audit grounding, freshness, and conflicts |
+| `update` | `Knowledge Update Agent` | `UpdateCandidate` | Propose reusable memory changes |
+| `curation` | `Curation Agent` | `CurationDecision` | Decide what becomes durable memory |
+| `evaluate` | `Evaluation Agent` | `EvaluationReport` | Record quality signals and improvement data |
+
+Do not use `Understanding Agent` for user-question interpretation.
+
+User-question interpretation is `task understanding`, and it belongs to `Retrieval Planner`.
+
+#### Naming Pattern
+
+Prefer these forms:
+
+- stage: `ingest`
+- agent: `Ingestion Agent`
+- artifact: `IngestArtifact`
+- task intent: `ingest_source`
+- tool namespace: `source.*`, `artifact.*`, `candidate.*`
+
+Avoid mixing forms:
+
+- do not call the `ingest` stage "ingestion" unless referring to the agent or general activity;
+- do not call source `understand` "task understanding";
+- do not call `Retrieval Planner` the "Planning Agent" unless the role is renamed everywhere.
+
 ### Taxonomy
 
 The human-governed conceptual system used to classify and constrain knowledge.

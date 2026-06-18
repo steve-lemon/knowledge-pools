@@ -39,6 +39,7 @@ The goal is not just to retrieve document chunks. The goal is to maintain a livi
 - [Understand Baseline](docs/architecture/understand-baseline.md)
 - [Understand vs Task Understanding](docs/architecture/understand-vs-task-understanding.md)
 - [Understanding Agent Spec](docs/architecture/agents/understanding-agent.md)
+- [Connection Agent Spec](docs/architecture/agents/connection-agent.md)
 - [Ingest Readiness Review](docs/architecture/ingest-readiness-review.md)
 - [Media Ingest Strategies](docs/architecture/media-ingest-strategies.md)
 - [Media Concept Proofs](docs/architecture/media-concept-proofs.md)

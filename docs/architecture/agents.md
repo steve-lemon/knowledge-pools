@@ -77,6 +77,25 @@ Tool contract:
 - optional: `taxonomy.classify`, `model.complete`, `parse.document`, `retrieval.fetch_evidence`;
 - forbidden: `memory.write`, `curation.decide`, `source.tombstone`, `rollback.create_event`, `delete.create_tombstone`.
 
+## Connection Agent
+
+Relates knowledge candidates to existing records, concepts, sources, and other candidates.
+
+Detailed v1 contract: [Connection Agent Spec](agents/connection-agent.md).
+
+Responsibilities:
+
+- Find likely duplicate or related records.
+- Propose `supports`, `contradicts`, `depends_on`, and `supersedes` relationships.
+- Preserve evidence refs and uncertainty.
+- Hand off relation proposals to verification and curation.
+
+Tool contract:
+
+- required: `record.search`, `graph.query`, `taxonomy.validate`, `candidate.emit`, `artifact.write`, `audit.trace`;
+- optional: `model.complete`, `schema.validate`;
+- forbidden: `memory.write`, `curation.decide`, `source.tombstone`, `delete.create_tombstone`.
+
 ## Retrieval Planner
 
 Turns a user question or agent task into a retrieval strategy.

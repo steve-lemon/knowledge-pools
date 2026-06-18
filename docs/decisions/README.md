@@ -38,6 +38,7 @@ YYYY-MM-DD-short-title.md
 - [Understand vs Task Understanding](2026-06-19-understand-vs-task-understanding.md)
 - [Ingestion Agent Spec](2026-06-19-ingestion-agent-spec.md)
 - [Understanding Agent Spec](2026-06-19-understanding-agent-spec.md)
+- [Stage and Agent Naming](2026-06-19-stage-agent-naming.md)
 
 ## Template
 

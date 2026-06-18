@@ -100,6 +100,8 @@ See also [Understand vs Task Understanding](understand-vs-task-understanding.md)
 
 Attach knowledge candidates to the existing knowledge fabric.
 
+Canonical agent: `Connection Agent`.
+
 Outputs:
 
 - source links
@@ -112,6 +114,8 @@ Outputs:
 ### 4. Plan
 
 Decide how to retrieve and reason before searching.
+
+Canonical agent: `Retrieval Planner`.
 
 Plan includes task understanding: interpreting the user's question or instruction into intent, constraints, required evidence, freshness scope, and answer shape.
 
