@@ -208,6 +208,12 @@ The curation gate decides whether a candidate update should be:
 - deferred
 - rejected
 
+Feedback-derived changes should first become update candidates with proposed relationships.
+
+Accepted candidates become durable records only after curation.
+
+See [Feedback Update Relationships](feedback-update-relationships.md).
+
 ## Evaluation Store
 
 Keeps traces for improvement.

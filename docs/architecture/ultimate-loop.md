@@ -186,6 +186,10 @@ Candidates:
 - open questions
 - new relationships
 
+Feedback-derived knowledge should enter as update candidates, not durable records.
+
+See [Feedback Update Relationships](feedback-update-relationships.md).
+
 ### 9. Curation Gate
 
 Decide what becomes durable memory.

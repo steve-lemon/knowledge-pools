@@ -256,6 +256,8 @@ Deliverables:
 Deliverables:
 
 - Candidate update schema.
+- Feedback update relationship rules.
+- Relationship proposal schema for update candidates.
 - Curation states: `accepted`, `edited`, `deferred`, `rejected`.
 - Durable decision and claim records.
 - Supersession metadata.

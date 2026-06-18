@@ -30,6 +30,7 @@ YYYY-MM-DD-short-title.md
 - [Stage Transition Boundary Review](2026-06-19-stage-transition-boundary-review.md)
 - [OpenSearch Schema Discipline](2026-06-19-opensearch-schema-discipline.md)
 - [Source Version ID Lifecycle](2026-06-19-source-version-id-lifecycle.md)
+- [Feedback Update Relationships](2026-06-19-feedback-update-relationships.md)
 
 ## Template
 

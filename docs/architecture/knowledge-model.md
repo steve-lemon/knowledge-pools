@@ -133,6 +133,26 @@ Fields:
 - `risk`
 - `review`
 
+### Update Candidate
+
+A proposed durable knowledge change produced by feedback, verification, reasoning, or user correction.
+
+Fields:
+
+- `id`
+- `candidate_type`
+- `proposed_record_kind`
+- `status`
+- `statement`
+- `source_refs`
+- `evidence_refs`
+- `related_record_refs`
+- `relationship_proposals`
+- `confidence`
+- `requires_review`
+
+Update candidates are not durable knowledge records until curation accepts them.
+
 ## Relationship Types
 
 - `supports`
@@ -143,6 +163,7 @@ Fields:
 - `mentions`
 - `applies_to`
 - `answered_by`
+- `derived_from_feedback`
 
 ## Status Values
 
