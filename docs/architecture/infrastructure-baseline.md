@@ -100,6 +100,8 @@ OpenSearch is the main indexing and query server for v1.
 
 OpenSearch should be treated as a retrieval map, not a content store. The content-minimal policy is defined in [Index Content Policy](index-content-policy.md).
 
+OpenSearch document IDs should be deterministic projection IDs. The ID shape and hash/type policy are defined in [Index ID Policy](index-id-policy.md).
+
 OpenSearch stores searchable projections of:
 
 - source records;
@@ -131,13 +133,22 @@ Every indexed document must retain a link back to the original source.
 
 Required fields:
 
+- `repository_id`
+- `index_document_id`
+- `index_document_type`
 - `source_id`
+- `source_version_id`
+- `source_version`
 - `source_uri`
 - `source_content_hash`
+- `media_type`
+- `media_hint`
+- `source_manifest_ref`
 - `taxonomy_bundle_id`
 - `taxonomy_version`
 - `access_unit_refs`
 - `evidence_refs`
+- `index_document_version`
 
 When a later answer needs detailed grounding, the system should:
 

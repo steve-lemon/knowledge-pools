@@ -36,6 +36,26 @@ Preview artifacts should be stored beside the source version, usually under `der
 
 The index may store preview references, preview hashes, preview type, and generator metadata. It should not store large preview content directly.
 
+## Identifier Principle
+
+Every proof should be compatible with [Index ID Policy](index-id-policy.md).
+
+Minimal ID shape:
+
+```text
+kp:{repository_id}:{document_kind}:{media_hint}:{source_hash_prefix}:{scope}
+```
+
+Examples:
+
+```text
+kp:repo_main:source:md:sha256_ab12cd34ef90:root
+kp:repo_main:access_unit:pdf:sha256_ab12cd34ef90:page_001_block_003
+kp:repo_main:preview:jpg:sha256_ab12cd34ef90:thumb_320
+```
+
+The hash prefix and media hint are useful in IDs, but every indexed document must still store the full hash and authoritative `media_type`.
+
 ## Proof 1: Basic Markdown File
 
 Example source:
@@ -134,11 +154,15 @@ Tags: architecture, ingest
 
 ```json
 {
+  "index_document_id": "kp:repo_main:source:md:sha256_ab12cd34ef90:root",
   "index_document_type": "source",
+  "repository_id": "repo_main",
   "source_id": "src_md_001",
+  "source_version_id": "srcv_md_sha256_ab12cd34ef90",
   "source_version": "v001",
   "title": "Taxonomy vs Versioning",
   "media_type": "text/markdown",
+  "media_hint": "md",
   "category_ids": ["source"],
   "attribute_values": {
     "source_type": "markdown"
@@ -266,10 +290,14 @@ The exact entity type should remain conservative unless the taxonomy has accepte
 
 ```json
 {
+  "index_document_id": "kp:repo_main:access_unit:jpg:sha256_ab12cd34ef90:region_001",
   "index_document_type": "access_unit",
+  "repository_id": "repo_main",
   "source_id": "src_img_001",
+  "source_version_id": "srcv_jpg_sha256_ab12cd34ef90",
   "source_version": "v001",
   "media_type": "image/jpeg",
+  "media_hint": "jpg",
   "access_unit_id": "region_001",
   "locator": {
     "kind": "image_region",
@@ -404,10 +432,14 @@ Initial strategy:
 
 ```json
 {
+  "index_document_id": "kp:repo_main:access_unit:wav:sha256_ab12cd34ef90:segment_001",
   "index_document_type": "access_unit",
+  "repository_id": "repo_main",
   "source_id": "src_wav_001",
+  "source_version_id": "srcv_wav_sha256_ab12cd34ef90",
   "source_version": "v001",
   "media_type": "audio/wav",
+  "media_hint": "wav",
   "access_unit_id": "segment_001",
   "locator": {
     "kind": "audio_segment",
@@ -529,10 +561,14 @@ The index stores refs and metadata. Summary text and extracted text live as sour
 
 ```json
 {
+  "index_document_id": "kp:repo_main:access_unit:pdf:sha256_ab12cd34ef90:page_001_block_003",
   "index_document_type": "access_unit",
+  "repository_id": "repo_main",
   "source_id": "src_pdf_001",
+  "source_version_id": "srcv_pdf_sha256_ab12cd34ef90",
   "source_version": "v001",
   "media_type": "application/pdf",
+  "media_hint": "pdf",
   "access_unit_id": "page_001_block_003",
   "locator": {
     "kind": "pdf_text_block",
@@ -579,6 +615,20 @@ The architecture holds if these rules remain true:
 - taxonomy controls meaning, not chunking or file layout;
 - media strategies differ internally but produce shared contracts;
 - answers are generated from fetched source units.
+
+## Additional Implementation Checks
+
+Before implementation, verify these points:
+
+- every index document has deterministic ID behavior across repeated ingest;
+- every preview artifact has a `derived_from` chain;
+- every derived object records generator name, generator version, and config hash when applicable;
+- extension-based hints never override detected `media_type`;
+- hash prefixes are checked against full hashes for collision;
+- large previews are stored as objects, not copied into OpenSearch;
+- access control applies to previews as well as originals;
+- source updates create new source versions, while taxonomy updates create new projections;
+- parser policy changes can regenerate manifests and access units without changing source version IDs.
 
 ## Concept Proof Result
 

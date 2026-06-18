@@ -328,6 +328,35 @@ A version of a source created when source content changes.
 
 Source versions are tracked by content hash and object-store version where available.
 
+### Source Version ID
+
+A deterministic identifier for an immutable source version.
+
+Source version IDs should change when source bytes change.
+
+Changing taxonomy classification, preview generation, or index projection should not create a new source version ID unless the original source content changed.
+
+### Media Hint
+
+A compact normalized type hint used in IDs and routing.
+
+Examples:
+
+- `md`
+- `pdf`
+- `jpg`
+- `png`
+- `wav`
+- `json`
+
+The media hint is not authoritative. The authoritative field is `media_type`.
+
+### Index Document ID
+
+The deterministic identifier used as the OpenSearch `_id` for one indexed projection.
+
+Index document IDs are projection IDs. They should point back to durable source IDs, source version IDs, access unit IDs, preview artifact IDs, and full hashes.
+
 ### Parser Version
 
 The version of the parser or extraction policy that produced a source manifest, access units, or indexed documents.

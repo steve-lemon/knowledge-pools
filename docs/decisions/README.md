@@ -25,6 +25,7 @@ YYYY-MM-DD-short-title.md
 - [Wiki Taxonomy Hybrid](2026-06-19-wiki-taxonomy-hybrid.md)
 - [Media Concept Proofs](2026-06-19-media-concept-proofs.md)
 - [Preview Artifacts](2026-06-19-preview-artifacts.md)
+- [Index ID Policy](2026-06-19-index-id-policy.md)
 
 ## Template
 

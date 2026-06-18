@@ -10,6 +10,8 @@ Original content belongs in the source object store and is accessed through `Sou
 
 OpenSearch-compatible documents should help the system find the right source, media object, page, region, section, span, or graph candidate. They should not become the place where full document content lives.
 
+Identifier policy is defined in [Index ID Policy](index-id-policy.md).
+
 ## Default Policy
 
 Do not store raw source content directly in index document `_source`.
@@ -254,10 +256,15 @@ Do not store:
 Every indexed document must include enough information to fetch the original evidence:
 
 - `repository_id`
+- `index_document_id`
+- `index_document_type`
 - `source_id`
+- `source_version_id`
 - `source_version`
 - `source_uri`
 - `source_content_hash`
+- `media_type`
+- `media_hint`
 - `source_manifest_ref`
 - `access_unit_refs`
 - `evidence_refs`
