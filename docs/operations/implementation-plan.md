@@ -171,9 +171,12 @@ Deliverables:
 - Source provenance fields on every indexed document.
 - Content-minimal index document policy.
 - Deterministic index ID policy.
+- OpenSearch index schema with strict field types.
+- Typed runtime attribute storage.
+- Validation that the same attribute key always maps to the same value type.
 - Fixture checks that full raw content is not stored in index documents.
 - Local fixture search for source lookup and keyword search.
-- Draft OpenSearch mapping notes.
+- OpenSearch mapping fixtures.
 - Run trace format.
 
 Initial indexed document types:

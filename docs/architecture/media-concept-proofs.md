@@ -165,12 +165,17 @@ Tags: architecture, ingest
   "media_type": "text/markdown",
   "media_hint": "md",
   "category_ids": ["source"],
-  "attribute_values": {
-    "source_type": "markdown"
-  },
+  "attributes": [
+    {
+      "key": "source_type",
+      "value_type": "keyword",
+      "keyword_value": "markdown"
+    }
+  ],
   "wiki_signal_refs": ["src_md_001#link_001"],
   "access_unit_refs": ["src_md_001#section_001"],
   "preview_refs": ["outline_preview_v001", "summary_preview_v001"],
+  "source_manifest_ref": "src_md_001#manifest_v001",
   "outgoing_link_titles": ["Index Content Policy"],
   "tag_values": ["architecture", "ingest"],
   "source_uri": "knowledge/sources/wiki/src_md_001/versions/v001/original.md",
@@ -300,15 +305,25 @@ The exact entity type should remain conservative unless the taxonomy has accepte
   "media_type": "image/jpeg",
   "media_hint": "jpg",
   "access_unit_id": "region_001",
-  "locator": {
+  "access_unit_refs": ["src_img_001#region_001"],
+  "source_manifest_ref": "src_img_001#manifest_v001",
+  "locator_kind": "image_region",
+  "bbox": [0.12, 0.18, 0.44, 0.72],
+  "coordinate_space": "normalized",
+  "raw_locator": {
     "kind": "image_region",
     "rendition": "standard",
-    "bbox": [0.12, 0.18, 0.44, 0.72]
+    "bbox": [0.12, 0.18, 0.44, 0.72],
+    "coordinate_space": "normalized"
   },
   "category_ids": ["source"],
-  "attribute_values": {
-    "source_type": "image"
-  },
+  "attributes": [
+    {
+      "key": "source_type",
+      "value_type": "keyword",
+      "keyword_value": "image"
+    }
+  ],
   "short_label": "detected visual region",
   "preview_refs": ["thumbnail"],
   "source_uri": "knowledge/sources/images/src_img_001/versions/v001/original.jpg",
@@ -442,15 +457,24 @@ Initial strategy:
   "media_type": "audio/wav",
   "media_hint": "wav",
   "access_unit_id": "segment_001",
-  "locator": {
+  "access_unit_refs": ["src_wav_001#segment_001"],
+  "source_manifest_ref": "src_wav_001#manifest_v001",
+  "locator_kind": "audio_segment",
+  "start_ms": 12000,
+  "end_ms": 28000,
+  "raw_locator": {
     "kind": "audio_segment",
     "start_ms": 12000,
     "end_ms": 28000
   },
   "category_ids": ["source"],
-  "attribute_values": {
-    "source_type": "audio"
-  },
+  "attributes": [
+    {
+      "key": "source_type",
+      "value_type": "keyword",
+      "keyword_value": "audio"
+    }
+  ],
   "short_label": "audio segment with speech or music",
   "derived_object_refs": ["transcript_v001"],
   "preview_refs": ["waveform_preview", "audio_proxy_preview"],
@@ -625,15 +649,24 @@ Initial strategy:
   "media_type": "video/mp4",
   "media_hint": "mp4",
   "access_unit_id": "scene_001",
-  "locator": {
+  "access_unit_refs": ["src_mp4_001#scene_001"],
+  "source_manifest_ref": "src_mp4_001#manifest_v001",
+  "locator_kind": "video_scene",
+  "start_ms": 45000,
+  "end_ms": 91000,
+  "raw_locator": {
     "kind": "video_scene",
     "start_ms": 45000,
     "end_ms": 91000
   },
   "category_ids": ["source"],
-  "attribute_values": {
-    "source_type": "video"
-  },
+  "attributes": [
+    {
+      "key": "source_type",
+      "value_type": "keyword",
+      "keyword_value": "video"
+    }
+  ],
   "short_label": "video scene with visual and audio evidence",
   "derived_object_refs": ["subtitle_v001"],
   "preview_refs": ["poster_frame_001", "storyboard_v001", "video_proxy_preview"],
@@ -754,7 +787,12 @@ The index stores refs and metadata. Summary text and extracted text live as sour
   "media_type": "application/pdf",
   "media_hint": "pdf",
   "access_unit_id": "page_001_block_003",
-  "locator": {
+  "access_unit_refs": ["src_pdf_001#page_001_block_003"],
+  "source_manifest_ref": "src_pdf_001#manifest_v001",
+  "locator_kind": "pdf_text_block",
+  "page_number": 1,
+  "bbox": [72, 144, 520, 240],
+  "raw_locator": {
     "kind": "pdf_text_block",
     "page": 1,
     "bbox": [72, 144, 520, 240]
@@ -762,9 +800,13 @@ The index stores refs and metadata. Summary text and extracted text live as sour
   "summary_ref": "summary_doc_v001",
   "preview_refs": ["summary_doc_v001", "page_thumbnail_001"],
   "category_ids": ["source"],
-  "attribute_values": {
-    "source_type": "pdf"
-  },
+  "attributes": [
+    {
+      "key": "source_type",
+      "value_type": "keyword",
+      "keyword_value": "pdf"
+    }
+  ],
   "source_uri": "knowledge/sources/pdf/src_pdf_001/versions/v001/original.pdf",
   "source_content_hash": "sha256:..."
 }
@@ -825,4 +867,5 @@ The main missing implementation detail is concrete schema work for:
 - `AccessUnit`;
 - `IngestArtifact`;
 - content-minimal `OpenSearchDocument`;
+- OpenSearch mapping and typed attribute validation;
 - media-specific `locator` variants.

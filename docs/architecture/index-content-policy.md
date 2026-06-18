@@ -12,6 +12,8 @@ OpenSearch-compatible documents should help the system find the right source, me
 
 Identifier policy is defined in [Index ID Policy](index-id-policy.md).
 
+OpenSearch field mapping and typed attribute storage are defined in [OpenSearch Index Schema](opensearch-index-schema.md).
+
 ## Default Policy
 
 Do not store raw source content directly in index document `_source`.
@@ -44,6 +46,41 @@ Prefer storing:
 - short display labels;
 - generated descriptors when policy allows;
 - indexing/version metadata.
+
+## Mapping Discipline
+
+OpenSearch mappings are global within an index.
+
+The same field name must always have the same data type.
+
+Rules:
+
+- do not index arbitrary dynamic JSON;
+- do not create fields like `attribute_values.{key}`;
+- do not let the first indexed document define future field types;
+- store runtime taxonomy attributes in typed attribute entries;
+- keep arbitrary raw locators or metadata in disabled objects only.
+
+Example:
+
+```json
+{
+  "attributes": [
+    {
+      "key": "confidence",
+      "value_type": "number",
+      "number_value": 0.82
+    },
+    {
+      "key": "source_type",
+      "value_type": "keyword",
+      "keyword_value": "markdown"
+    }
+  ]
+}
+```
+
+If `confidence` is defined as a number, every indexed `confidence` value must remain numeric.
 
 ## Search Text Boundary
 

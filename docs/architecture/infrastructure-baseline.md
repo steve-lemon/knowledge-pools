@@ -106,6 +106,8 @@ OpenSearch should be treated as a retrieval map, not a content store. The conten
 
 OpenSearch document IDs should be deterministic projection IDs. The ID shape and hash/type policy are defined in [Index ID Policy](index-id-policy.md).
 
+OpenSearch mappings should be explicit and type-stable. The storage schema is defined in [OpenSearch Index Schema](opensearch-index-schema.md).
+
 OpenSearch stores searchable projections of:
 
 - source records;

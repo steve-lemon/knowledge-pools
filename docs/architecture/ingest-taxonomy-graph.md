@@ -60,6 +60,49 @@ Putting taxonomy into ingest gives the system:
 - taxonomy version tracking;
 - human-reviewable schema changes.
 
+## How This Differs From a General Search Engine
+
+A general search engine usually optimizes for finding documents quickly.
+
+Typical flow:
+
+```text
+crawl -> extract text -> index terms -> rank documents
+```
+
+Knowledge Pools ingest has a different job.
+
+It must preserve source evidence and prepare later reasoning.
+
+```text
+store source -> version source -> create manifest -> create access units
+  -> create preview artifacts -> classify with taxonomy
+  -> emit shallow candidates -> validate -> write typed projections
+```
+
+Key differences:
+
+| General Search Engine | Knowledge Pools Ingest |
+| --- | --- |
+| Optimizes document discovery | Optimizes source-grounded knowledge work |
+| Index may become the main searchable content store | Object store remains source of truth |
+| Text extraction is often enough | Media-specific access units are required |
+| Ranking is the primary output | Handoff artifacts and evidence refs are primary outputs |
+| Dynamic fields may be tolerated | Attribute names and types must be controlled |
+| Snippets may be used as answer context | Exact source units must be fetched for grounding |
+| Updates can overwrite search state | Source versions and projections must preserve provenance |
+| Schema can follow crawler output | Schema follows taxonomy and OpenSearch mapping policy |
+
+Ingest should therefore be stricter than a generic crawler.
+
+It is not just asking:
+
+> Can this be searched?
+
+It is asking:
+
+> Can this be traced, re-read, interpreted, verified, and updated later?
+
 ## Ingest Position in the Ultimate Loop
 
 ```text

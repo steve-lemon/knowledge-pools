@@ -163,6 +163,22 @@ Use `unknown` for extracted runtime records when the system cannot classify conf
 ]
 ```
 
+## Attribute Type Stability
+
+An attribute key must have one stable data type across the repository.
+
+If `confidence` is defined as `number`, it must never be indexed as a string.
+
+If `source_type` is defined as an enum, it must always be indexed as a keyword-like value.
+
+Rules:
+
+- attribute keys are globally unique within a taxonomy bundle;
+- attribute type changes require a taxonomy migration;
+- deprecated attributes should not be reused with a different type;
+- OpenSearch projections must validate attribute values against the taxonomy type before indexing;
+- runtime attribute storage should follow [OpenSearch Index Schema](opensearch-index-schema.md).
+
 ## Initial Vocabularies
 
 ```json

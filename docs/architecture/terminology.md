@@ -361,6 +361,28 @@ The deterministic identifier used as the OpenSearch `_id` for one indexed projec
 
 Index document IDs are projection IDs. They should point back to durable source IDs, source version IDs, access unit IDs, preview artifact IDs, and full hashes.
 
+### OpenSearch Projection
+
+A typed search document derived from source records, access units, preview artifacts, candidates, or durable records.
+
+OpenSearch projections are retrieval maps. They are not source truth and should not contain unrestricted source content.
+
+### Typed Attribute Entry
+
+The OpenSearch-safe representation of a runtime taxonomy attribute.
+
+Instead of dynamic fields such as `attribute_values.confidence`, use a typed entry:
+
+```json
+{
+  "key": "confidence",
+  "value_type": "number",
+  "number_value": 0.82
+}
+```
+
+Typed attribute entries prevent the same attribute name from being indexed with different OpenSearch data types.
+
 ### Parser Version
 
 The version of the parser or extraction policy that produced a source manifest, access units, or indexed documents.
