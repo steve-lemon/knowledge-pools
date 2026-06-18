@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Share the process of building Knowledge Pools as an open technical journey:
+Prepare to share the process of building Knowledge Pools as an open technical journey when requested:
 
 - explain why basic RAG is not enough;
 - show how an agent-oriented knowledge repository can be designed;
@@ -58,4 +58,4 @@ Ask the community about unresolved design choices.
 - Do not imply that agents eliminate the need for evidence.
 - Do not frame vector search as useless; frame it as insufficient alone.
 - Do not publish private notes, credentials, or user-specific data.
-
+- Do not create new social posts for a project stage unless the user requests them.

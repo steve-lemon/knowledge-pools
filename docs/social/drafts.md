@@ -1,5 +1,9 @@
 # Social Drafts
 
+This file stores existing draft material.
+
+New stage-specific drafts should be added only when explicitly requested.
+
 ## Stage 0: Foundation
 
 Status: draft

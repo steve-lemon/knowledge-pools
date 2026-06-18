@@ -1,6 +1,8 @@
 # Social Stage Plan
 
-This plan maps project progress to publishable updates.
+This plan maps project progress to possible publishable updates.
+
+Use it as a reference only. Do not generate new social content from these stages unless the user explicitly asks for it.
 
 ## Stage 0: Foundation
 
