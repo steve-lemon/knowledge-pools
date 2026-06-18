@@ -68,7 +68,9 @@ Add access control metadata to every source and indexed document:
 
 Current gap:
 
-The system preserves sources and versions, but it does not define deletion, retention, or tombstone behavior.
+The system preserves sources and versions.
+
+The baseline deletion lifecycle is now defined in [Content Deletion Lifecycle](content-deletion-lifecycle.md), but retention duration, legal hold policy, and physical purge automation are still deferred.
 
 Why it matters:
 
@@ -86,6 +88,8 @@ Needed:
 Recommendation:
 
 Do not hard-delete first. Use tombstones and purge workflows.
+
+Treat physical purge as a later policy decision, not the default deletion behavior.
 
 ## 3. Duplicate Detection and Canonicalization
 

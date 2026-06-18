@@ -488,6 +488,22 @@ A durable operational record describing how bad data was isolated, deactivated, 
 
 Rollback events should reference affected source versions, projections, candidates, knowledge records, relations, and runs.
 
+### Tombstone
+
+A durable marker that a source, version, access unit, preview, candidate, record, or relation has been hidden, deleted, archived, or purged from the active knowledge path.
+
+Tombstones preserve lifecycle state without requiring immediate physical deletion.
+
+### Soft Delete
+
+A reversible deletion mode that removes content from normal retrieval and reasoning while keeping source objects and audit metadata.
+
+### Purge
+
+A physical deletion workflow for source bytes, derived artifacts, or index projections.
+
+Purge is policy-driven and should happen only after retention, legal hold, evidence dependency, and audit checks.
+
 ### Taxonomy Proposal
 
 A human-reviewable request to evolve the taxonomy.

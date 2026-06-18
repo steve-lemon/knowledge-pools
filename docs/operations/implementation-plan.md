@@ -183,6 +183,8 @@ Deliverables:
 - Run trace format.
 - Rollback-safe projection fields such as `projection_status` and `rollback_event_id`.
 - Default retrieval filters that exclude quarantined and retracted projections.
+- Tombstone-aware projection fields such as `tombstone_id`.
+- Default retrieval filters that exclude hidden, tombstoned, archived, deleted, and purged content.
 
 Initial indexed document types:
 
@@ -266,6 +268,9 @@ Deliverables:
 - Rollback event schema.
 - Quarantine and retraction handling for bad accepted records.
 - Impact analysis for records derived from bad sources, candidates, or projections.
+- Tombstone record schema.
+- Content hide, soft-delete, archive, restore, and purge workflow definitions.
+- Delete propagation rules for source versions, access units, previews, candidates, records, and relations.
 
 ## Step 13: Evaluation Loop
 

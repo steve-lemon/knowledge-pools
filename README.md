@@ -25,6 +25,7 @@ The goal is not just to retrieve document chunks. The goal is to maintain a livi
 - [Index ID Policy](docs/architecture/index-id-policy.md)
 - [OpenSearch Index Schema](docs/architecture/opensearch-index-schema.md)
 - [Rollback and Quarantine Policy](docs/architecture/rollback-and-quarantine.md)
+- [Content Deletion Lifecycle](docs/architecture/content-deletion-lifecycle.md)
 - [Wiki and Taxonomy Hybrid Architecture](docs/architecture/wiki-taxonomy-hybrid.md)
 - [Single Agent Model](docs/architecture/single-agent-model.md)
 - [Agent Connection Model](docs/architecture/agent-connection-model.md)

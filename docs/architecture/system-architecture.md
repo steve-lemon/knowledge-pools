@@ -221,6 +221,12 @@ Wrongly injected data should be quarantined first, then corrected through source
 
 See [Rollback and Quarantine Policy](rollback-and-quarantine.md).
 
+Intentional content deletion uses tombstones and lifecycle states instead of immediate physical deletion.
+
+Deleted content should be removed from normal retrieval, while audit metadata remains available for dependency cleanup and restore decisions.
+
+See [Content Deletion Lifecycle](content-deletion-lifecycle.md).
+
 ## Evaluation Store
 
 Keeps traces for improvement.

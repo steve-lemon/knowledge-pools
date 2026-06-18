@@ -84,10 +84,11 @@ Every indexed document should include these fields with stable types:
 | `source_id` | `keyword` | Logical source id |
 | `source_version_id` | `keyword` | Immutable source version id |
 | `source_version` | `keyword` | Human-readable source version label |
-| `version_status` | `keyword` | `current`, `superseded`, `quarantined`, `retracted`, `deleted`, or `archived` |
+| `version_status` | `keyword` | `current`, `superseded`, `hidden`, `tombstoned`, `archived`, `quarantined`, `retracted`, `deleted`, or `purged` |
 | `is_current` | `boolean` | Default filter for current-state retrieval |
-| `projection_status` | `keyword` | `active`, `quarantined`, `retracted`, or `archived` |
+| `projection_status` | `keyword` | `active`, `hidden`, `tombstoned`, `archived`, `quarantined`, `retracted`, `deleted`, or `purged` |
 | `rollback_event_id` | `keyword` | Rollback event that changed this projection, when applicable |
+| `tombstone_id` | `keyword` | Tombstone marker when content was hidden or deleted |
 | `supersedes_source_version_id` | `keyword` | Previous version ref when applicable |
 | `superseded_by_source_version_id` | `keyword` | Newer version ref when applicable |
 | `source_uri` | `keyword` | Object store URI or path |
@@ -130,10 +131,10 @@ Default filter:
 ```text
 is_current = true
 projection_status = active
-version_status not in [quarantined, retracted, deleted]
+version_status not in [hidden, tombstoned, archived, quarantined, retracted, deleted, purged]
 ```
 
-Audit retrieval may include quarantined or retracted projections only when explicitly requested.
+Audit retrieval may include hidden, tombstoned, archived, quarantined, or retracted projections only when explicitly requested and authorized.
 
 ## Typed Runtime Attributes
 
@@ -344,6 +345,7 @@ Never use uncontrolled dynamic mappings for:
       "is_current": { "type": "boolean" },
       "projection_status": { "type": "keyword" },
       "rollback_event_id": { "type": "keyword" },
+      "tombstone_id": { "type": "keyword" },
       "supersedes_source_version_id": { "type": "keyword" },
       "superseded_by_source_version_id": { "type": "keyword" },
       "source_uri": { "type": "keyword" },
