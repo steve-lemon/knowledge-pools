@@ -2,6 +2,26 @@
 
 Knowledge Pools is organized around layered stores and specialized agents.
 
+The target operating loop is:
+
+```text
+ingest -> understand -> connect -> plan -> retrieve -> reason -> verify -> update -> evaluate
+```
+
+The loop is described in detail in [Ultimate Knowledge Loop](ultimate-loop.md).
+
+The concrete component architecture is described in [System Architecture](system-architecture.md).
+
+Earlier shorthand:
+
+```text
+ingest -> understand -> connect -> retrieve -> reason -> verify -> update
+```
+
+This shorthand remains useful for explanation, but implementation should include explicit planning, curation, and evaluation.
+
+The main component path is:
+
 ```text
 raw sources
   -> ingestion
@@ -12,9 +32,11 @@ raw sources
   -> knowledge graph
   -> memory layer
   -> retrieval planner
-  -> reasoning agent
-  -> verifier
-  -> knowledge updater
+  -> retrieval services
+  -> reasoning service
+  -> verification service
+  -> curation gate
+  -> evaluation store
 ```
 
 ## Storage Layers
@@ -62,10 +84,11 @@ This layer should contain reusable facts, preferences, active project state, and
 
 Every answer should follow a traceable path:
 
-1. Plan retrieval.
-2. Gather evidence.
-3. Resolve conflicts and freshness.
-4. Produce an answer.
-5. Verify grounding.
-6. Store reusable updates when appropriate.
-
+1. Understand the task.
+2. Plan retrieval.
+3. Gather evidence.
+4. Resolve conflicts and freshness.
+5. Produce an answer or action.
+6. Verify grounding.
+7. Curate reusable updates.
+8. Store run traces and evaluation signals.

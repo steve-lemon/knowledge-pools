@@ -49,6 +49,24 @@ Responsibilities:
 - Prefer recent decisions when the user asks about current state.
 - Search for contradicting evidence when the answer may be contested.
 
+Outputs:
+
+- retrieval plan
+- required evidence types
+- freshness constraints
+- conflict search requirements
+- expected answer shape
+
+## Retrieval Agent
+
+Executes the retrieval plan across available retrieval services.
+
+Responsibilities:
+
+- Run source lookup, keyword search, vector search, graph traversal, and temporal filtering as needed.
+- Return evidence bundles rather than raw search results only.
+- Mark missing evidence and possible conflicts.
+
 ## Reasoning Agent
 
 Synthesizes an answer or action plan from retrieved evidence.
@@ -86,3 +104,25 @@ Candidates for storage:
 
 The update agent should prefer concise structured records over full transcripts.
 
+## Curation Agent
+
+Decides whether proposed updates should become durable memory.
+
+Responsibilities:
+
+- Accept, edit, defer, or reject candidate updates.
+- Ensure each durable update has provenance.
+- Avoid storing noisy conversation fragments.
+- Preserve supersession instead of overwriting older knowledge silently.
+
+## Evaluation Agent
+
+Records quality signals from completed runs.
+
+Responsibilities:
+
+- Track retrieval misses.
+- Track verifier failures.
+- Track stale or conflicting evidence usage.
+- Record user corrections.
+- Identify patterns that should improve future retrieval and verification.

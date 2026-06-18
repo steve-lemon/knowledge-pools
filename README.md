@@ -16,10 +16,13 @@ The goal is not just to retrieve document chunks. The goal is to maintain a livi
 
 - [Vision](docs/vision.md)
 - [Architecture Overview](docs/architecture/overview.md)
+- [Ultimate Knowledge Loop](docs/architecture/ultimate-loop.md)
+- [System Architecture](docs/architecture/system-architecture.md)
 - [Agent Design](docs/architecture/agents.md)
 - [Knowledge Model](docs/architecture/knowledge-model.md)
 - [RAG Limitations](docs/research/rag-limitations.md)
 - [Roadmap](docs/operations/roadmap.md)
+- [Implementation Plan](docs/operations/implementation-plan.md)
 - [Decision Log](docs/decisions/README.md)
 
 ## Working Principle
@@ -30,4 +33,3 @@ This repository should grow as both a system and a notebook. Every major impleme
 2. Why it was decided.
 3. What evidence or constraint shaped it.
 4. What remains uncertain.
-
