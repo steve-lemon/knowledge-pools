@@ -107,6 +107,7 @@ The taxonomy should start small and evolve through human-reviewed proposals.
 Deliverables:
 
 - Markdown file scanner.
+- Media concept fixtures for Markdown, image, WAV, and PDF.
 - Simple ingest job status.
 - Source record schema.
 - Content hashing.

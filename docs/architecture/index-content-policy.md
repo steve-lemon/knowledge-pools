@@ -156,6 +156,24 @@ Do not store:
 - high-resolution derived images;
 - unrestricted verbose vision descriptions.
 
+### Audio
+
+Index:
+
+- media metadata;
+- duration;
+- time segment locators;
+- transcript refs;
+- short descriptors if policy allows;
+- taxonomy metadata.
+
+Do not store:
+
+- audio bytes;
+- full transcript text;
+- lyrics-like text;
+- unrestricted verbose audio descriptions.
+
 ### JSON
 
 Index:
@@ -226,4 +244,3 @@ OpenSearch helps find evidence.
 Object storage provides evidence.
 
 The answer should be grounded in fetched source units, not in raw content copied into the index.
-

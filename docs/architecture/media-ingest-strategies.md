@@ -147,6 +147,44 @@ Locator examples:
 
 Use normalized coordinates unless a pixel-specific rendition is required.
 
+## Audio, WAV, Speech, and Song
+
+Access units:
+
+- audio file
+- time segment
+- transcript span
+- speaker segment when available
+- music segment
+- waveform-derived marker
+
+Chunking strategy:
+
+- Use time ranges as the stable boundary.
+- Preserve original audio unchanged.
+- Create transcript access units only when speech recognition exists.
+- Keep transcript text as a source-derived artifact, not as raw index content by default.
+- For songs, avoid treating lyrics-like text as ordinary unrestricted text unless rights and policy allow it.
+- Use short descriptors and time locators for retrieval.
+
+Indexed views:
+
+- media metadata
+- time segment locators
+- transcript refs
+- short labels or bounded descriptors
+- taxonomy metadata
+
+Locator examples:
+
+```json
+{ "kind": "audio_segment", "start_ms": 12000, "end_ms": 28000 }
+```
+
+```json
+{ "kind": "transcript_span", "transcript_ref": "transcript_v001", "start_ms": 12000, "end_ms": 28000, "char_start": 0, "char_end": 180 }
+```
+
 ## JSON
 
 Access units:

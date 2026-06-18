@@ -1,0 +1,532 @@
+# Media Concept Proofs
+
+This document walks four media types through the current Knowledge Pools architecture.
+
+The goal is to prove the concept, not to finalize implementation details.
+
+Each proof follows the same architecture:
+
+```text
+source object
+  -> SourceRecord
+  -> SourceManifest
+  -> AccessUnit[]
+  -> media analysis
+  -> taxonomy classification
+  -> IngestArtifact
+  -> content-minimal index documents
+  -> source-unit fetch for answer grounding
+```
+
+## Proof 1: Basic Markdown File
+
+Example source:
+
+```text
+knowledge/sources/wiki/src_md_001/versions/v001/original.md
+```
+
+Example content:
+
+```markdown
+# Taxonomy vs Versioning
+
+Taxonomy defines meaning. Versioning defines change over time.
+
+See [[Index Content Policy]].
+
+Tags: architecture, ingest
+```
+
+### SourceRecord
+
+```json
+{
+  "source_id": "src_md_001",
+  "source_version": "v001",
+  "media_type": "text/markdown",
+  "object_uri": "knowledge/sources/wiki/src_md_001/versions/v001/original.md",
+  "content_hash": "sha256:...",
+  "title": "Taxonomy vs Versioning",
+  "taxonomy_bundle_id": "knowledge-pools-core",
+  "taxonomy_version": "0.1.0"
+}
+```
+
+### SourceManifest and AccessUnits
+
+```json
+{
+  "source_id": "src_md_001",
+  "manifest_version": "v001",
+  "access_units": [
+    {
+      "unit_id": "section_001",
+      "kind": "markdown_section",
+      "locator": {
+        "heading_path": ["Taxonomy vs Versioning"],
+        "block_start": 1,
+        "block_end": 5
+      }
+    },
+    {
+      "unit_id": "link_001",
+      "kind": "wiki_link",
+      "locator": {
+        "from_unit_id": "section_001",
+        "target_title": "Index Content Policy"
+      }
+    }
+  ]
+}
+```
+
+### Wiki Signals
+
+```json
+{
+  "outgoing_links": [
+    {
+      "target_title": "Index Content Policy",
+      "relation_candidate": "references",
+      "evidence_ref": "src_md_001#link_001"
+    }
+  ],
+  "tags": ["architecture", "ingest"]
+}
+```
+
+### Content-Minimal Index Document
+
+```json
+{
+  "index_document_type": "source",
+  "source_id": "src_md_001",
+  "source_version": "v001",
+  "title": "Taxonomy vs Versioning",
+  "media_type": "text/markdown",
+  "category_ids": ["source"],
+  "attribute_values": {
+    "source_type": "markdown"
+  },
+  "wiki_signal_refs": ["src_md_001#link_001"],
+  "access_unit_refs": ["src_md_001#section_001"],
+  "outgoing_link_titles": ["Index Content Policy"],
+  "tag_values": ["architecture", "ingest"],
+  "source_uri": "knowledge/sources/wiki/src_md_001/versions/v001/original.md",
+  "source_content_hash": "sha256:..."
+}
+```
+
+Do not store the full Markdown body in the index document.
+
+### Retrieval Proof
+
+Query:
+
+```text
+taxonomy versioning index policy
+```
+
+Expected result:
+
+1. Index returns `src_md_001#section_001`.
+2. Retrieval service fetches that section from the source object using the manifest.
+3. Answer generation uses fetched section text as evidence.
+
+## Proof 2: Image File, JPG or PNG
+
+Example source:
+
+```text
+knowledge/sources/images/src_img_001/versions/v001/original.jpg
+```
+
+### SourceRecord
+
+```json
+{
+  "source_id": "src_img_001",
+  "source_version": "v001",
+  "media_type": "image/jpeg",
+  "object_uri": "knowledge/sources/images/src_img_001/versions/v001/original.jpg",
+  "content_hash": "sha256:...",
+  "taxonomy_bundle_id": "knowledge-pools-core",
+  "taxonomy_version": "0.1.0"
+}
+```
+
+### SourceManifest and Renditions
+
+```json
+{
+  "source_id": "src_img_001",
+  "manifest_version": "v001",
+  "renditions": [
+    {
+      "rendition_id": "original",
+      "kind": "original",
+      "object_uri": "knowledge/sources/images/src_img_001/versions/v001/original.jpg"
+    },
+    {
+      "rendition_id": "standard",
+      "kind": "standard",
+      "object_uri": "knowledge/sources/images/src_img_001/versions/v001/derived/standard.jpg",
+      "max_side_px": 1600
+    },
+    {
+      "rendition_id": "thumbnail",
+      "kind": "thumbnail",
+      "object_uri": "knowledge/sources/images/src_img_001/versions/v001/derived/thumb.jpg",
+      "max_side_px": 320
+    }
+  ],
+  "access_units": [
+    {
+      "unit_id": "image_full",
+      "kind": "image_full",
+      "locator": {
+        "rendition": "standard"
+      }
+    },
+    {
+      "unit_id": "region_001",
+      "kind": "image_region",
+      "locator": {
+        "rendition": "standard",
+        "bbox": [0.12, 0.18, 0.44, 0.72],
+        "coordinate_space": "normalized"
+      }
+    }
+  ]
+}
+```
+
+### Taxonomy and Graph Candidates
+
+```json
+{
+  "entity_candidates": [
+    {
+      "id": "ent_object_001",
+      "type": "concept",
+      "category_ids": ["knowledge_record"],
+      "attribute_values": {
+        "knowledge_kind": "concept",
+        "confidence": 0.72
+      },
+      "evidence_refs": ["src_img_001#region_001"]
+    }
+  ],
+  "taxonomy_proposals": []
+}
+```
+
+The exact entity type should remain conservative unless the taxonomy has accepted image-specific entity types.
+
+### Content-Minimal Index Document
+
+```json
+{
+  "index_document_type": "access_unit",
+  "source_id": "src_img_001",
+  "source_version": "v001",
+  "media_type": "image/jpeg",
+  "access_unit_id": "region_001",
+  "locator": {
+    "kind": "image_region",
+    "rendition": "standard",
+    "bbox": [0.12, 0.18, 0.44, 0.72]
+  },
+  "category_ids": ["source"],
+  "attribute_values": {
+    "source_type": "image"
+  },
+  "short_label": "detected visual region",
+  "source_uri": "knowledge/sources/images/src_img_001/versions/v001/original.jpg",
+  "source_content_hash": "sha256:..."
+}
+```
+
+Do not store image bytes or verbose unrestricted vision descriptions in the index.
+
+### Retrieval Proof
+
+Query:
+
+```text
+visual region with object
+```
+
+Expected result:
+
+1. Index returns `src_img_001#region_001`.
+2. Retrieval service fetches the standard rendition or original image region.
+3. Answer generation uses fetched image region or derived artifact as evidence.
+
+## Proof 3: WAV File With Speech or Song
+
+Example source:
+
+```text
+knowledge/sources/audio/src_wav_001/versions/v001/original.wav
+```
+
+### SourceRecord
+
+```json
+{
+  "source_id": "src_wav_001",
+  "source_version": "v001",
+  "media_type": "audio/wav",
+  "object_uri": "knowledge/sources/audio/src_wav_001/versions/v001/original.wav",
+  "content_hash": "sha256:...",
+  "duration_ms": 184000,
+  "taxonomy_bundle_id": "knowledge-pools-core",
+  "taxonomy_version": "0.1.0"
+}
+```
+
+### SourceManifest and AccessUnits
+
+```json
+{
+  "source_id": "src_wav_001",
+  "manifest_version": "v001",
+  "derived_objects": [
+    {
+      "object_id": "waveform_preview",
+      "kind": "waveform_preview",
+      "object_uri": "knowledge/sources/audio/src_wav_001/versions/v001/derived/waveform.json"
+    },
+    {
+      "object_id": "transcript_v001",
+      "kind": "transcript",
+      "object_uri": "knowledge/sources/audio/src_wav_001/versions/v001/derived/transcript.json",
+      "processor": "speech_to_text",
+      "processor_version": "placeholder"
+    }
+  ],
+  "access_units": [
+    {
+      "unit_id": "audio_full",
+      "kind": "audio_full",
+      "locator": {
+        "start_ms": 0,
+        "end_ms": 184000
+      }
+    },
+    {
+      "unit_id": "segment_001",
+      "kind": "audio_segment",
+      "locator": {
+        "start_ms": 12000,
+        "end_ms": 28000
+      }
+    },
+    {
+      "unit_id": "transcript_span_001",
+      "kind": "transcript_span",
+      "locator": {
+        "transcript_ref": "transcript_v001",
+        "start_ms": 12000,
+        "end_ms": 28000,
+        "char_start": 0,
+        "char_end": 180
+      }
+    }
+  ]
+}
+```
+
+### Speech vs Song Handling
+
+Audio can contain speech, music, or both.
+
+Initial strategy:
+
+- preserve original WAV;
+- create time-based access units;
+- create transcript-derived access units only when speech transcription exists;
+- store song/music descriptors as short bounded metadata only when policy allows;
+- keep lyrics-like or transcript-like full text outside the index by default.
+
+### Content-Minimal Index Document
+
+```json
+{
+  "index_document_type": "access_unit",
+  "source_id": "src_wav_001",
+  "source_version": "v001",
+  "media_type": "audio/wav",
+  "access_unit_id": "segment_001",
+  "locator": {
+    "kind": "audio_segment",
+    "start_ms": 12000,
+    "end_ms": 28000
+  },
+  "category_ids": ["source"],
+  "attribute_values": {
+    "source_type": "audio"
+  },
+  "short_label": "audio segment with speech or music",
+  "derived_object_refs": ["transcript_v001"],
+  "source_uri": "knowledge/sources/audio/src_wav_001/versions/v001/original.wav",
+  "source_content_hash": "sha256:..."
+}
+```
+
+Do not store full transcript text, lyrics, or audio data in the index.
+
+### Retrieval Proof
+
+Query:
+
+```text
+audio segment about taxonomy decision
+```
+
+Expected result:
+
+1. Index returns `src_wav_001#segment_001` or `src_wav_001#transcript_span_001`.
+2. Retrieval service fetches the transcript artifact or audio segment via manifest.
+3. Answer generation uses fetched transcript span or audio evidence.
+
+## Proof 4: Long PDF
+
+Example source:
+
+```text
+knowledge/sources/pdf/src_pdf_001/versions/v001/original.pdf
+```
+
+### SourceRecord
+
+```json
+{
+  "source_id": "src_pdf_001",
+  "source_version": "v001",
+  "media_type": "application/pdf",
+  "object_uri": "knowledge/sources/pdf/src_pdf_001/versions/v001/original.pdf",
+  "content_hash": "sha256:...",
+  "page_count": 280,
+  "taxonomy_bundle_id": "knowledge-pools-core",
+  "taxonomy_version": "0.1.0"
+}
+```
+
+### SourceManifest and AccessUnits
+
+```json
+{
+  "source_id": "src_pdf_001",
+  "manifest_version": "v001",
+  "derived_objects": [
+    {
+      "object_id": "summary_doc_v001",
+      "kind": "document_summary",
+      "object_uri": "knowledge/sources/pdf/src_pdf_001/versions/v001/derived/summary.json"
+    }
+  ],
+  "access_units": [
+    {
+      "unit_id": "page_001",
+      "kind": "pdf_page",
+      "locator": { "page": 1 }
+    },
+    {
+      "unit_id": "page_001_block_003",
+      "kind": "pdf_text_block",
+      "locator": {
+        "page": 1,
+        "bbox": [72, 144, 520, 240]
+      }
+    },
+    {
+      "unit_id": "page_001_table_001",
+      "kind": "pdf_table",
+      "locator": {
+        "page": 1,
+        "bbox": [72, 300, 520, 520]
+      }
+    }
+  ]
+}
+```
+
+### Summary and Detail Split
+
+For long PDFs, create multiple retrieval levels:
+
+- source-level summary artifact;
+- chapter or section summaries when structure is available;
+- page-level access units;
+- text-block access units;
+- table/figure access units.
+
+The index stores refs and metadata. Summary text and extracted text live as source-derived artifacts or access units, not as full index content.
+
+### Content-Minimal Index Document
+
+```json
+{
+  "index_document_type": "access_unit",
+  "source_id": "src_pdf_001",
+  "source_version": "v001",
+  "media_type": "application/pdf",
+  "access_unit_id": "page_001_block_003",
+  "locator": {
+    "kind": "pdf_text_block",
+    "page": 1,
+    "bbox": [72, 144, 520, 240]
+  },
+  "summary_ref": "summary_doc_v001",
+  "category_ids": ["source"],
+  "attribute_values": {
+    "source_type": "pdf"
+  },
+  "source_uri": "knowledge/sources/pdf/src_pdf_001/versions/v001/original.pdf",
+  "source_content_hash": "sha256:..."
+}
+```
+
+Do not store full page text or full extracted PDF text in `_source`.
+
+### Retrieval Proof
+
+Query:
+
+```text
+find the section discussing index policy
+```
+
+Expected result:
+
+1. Index returns a small set of page/block refs.
+2. Retrieval service fetches exact page/block text from derived text artifacts or re-parses the source range.
+3. Answer generation uses fetched text blocks as evidence.
+
+## Cross-Proof Observations
+
+The architecture holds if these rules remain true:
+
+- original content stays in object storage;
+- manifests describe how to re-access source units;
+- indexes store retrieval metadata, not full source content;
+- taxonomy controls meaning, not chunking or file layout;
+- media strategies differ internally but produce shared contracts;
+- answers are generated from fetched source units.
+
+## Concept Proof Result
+
+The current architecture can support all four media types with the same high-level contract.
+
+The main missing implementation detail is concrete schema work for:
+
+- `SourceRecord`;
+- `SourceManifest`;
+- `AccessUnit`;
+- `IngestArtifact`;
+- content-minimal `OpenSearchDocument`;
+- media-specific `locator` variants.
+
