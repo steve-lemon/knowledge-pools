@@ -30,30 +30,31 @@ Artifacts to include:
 - Problem and approach narrative.
 - Simple architecture diagram.
 
-## Stage 1: Local Knowledge MVP
+## Stage 1: Ingest Architecture Baseline
 
 Repository state:
 
-- Markdown ingestion exists.
-- Source records can be created.
-- Basic keyword retrieval works.
-- Basic vector retrieval is planned or implemented.
+- Ingest architecture is clarified.
+- Source storage, source versions, manifests, access units, preview artifacts, content-minimal indexing, and ID policy are documented.
+- The boundary between `ingest` and `understand` is explicit.
 
 Core message:
 
-> The first working version focuses on source preservation and retrieval discipline before fancy orchestration.
+> Ingest is not just upload or chunking. It is the source-grounded entry point that preserves evidence before the system tries to understand it.
 
 Post angles:
 
-- "The first ingestion target is Markdown because structure matters."
-- "Every answer should trace back to source records."
-- "Hybrid retrieval starts with boring reliability: keyword plus semantic search."
+- "Ingest should preserve evidence before interpretation."
+- "The index should help find the source. It should not become the source."
+- "A source-grounded agent memory starts with manifests, access units, previews, and deterministic IDs."
+- "The first boundary: ingest prepares evidence; understand extracts knowledge candidates."
 
 Artifacts to include:
 
-- CLI demo.
-- Example source record.
-- Before/after parsed document sample.
+- Ingest/understand boundary.
+- Media concept proof examples.
+- Index ID policy.
+- Preview artifact policy.
 
 ## Stage 2: Claim-Level Memory
 

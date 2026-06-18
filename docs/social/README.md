@@ -15,6 +15,7 @@ Do not create new stage-specific posts automatically. Use this directory as a re
 - [strategy.md](strategy.md): audience, tone, channels, and content principles.
 - [stage-plan.md](stage-plan.md): project stages and what to publish at each step.
 - [stage-0-problem-approach.md](stage-0-problem-approach.md): first public narrative about the problem and approach.
+- [stage-1-ingest-baseline.md](stage-1-ingest-baseline.md): second public narrative about the ingest architecture baseline.
 - [on-demand-workflow.md](on-demand-workflow.md): rules for creating social content only when requested.
 - [post-template.md](post-template.md): reusable format for drafting posts.
 - [drafts.md](drafts.md): existing draft posts and reference material.

@@ -160,12 +160,114 @@ Next step: local Markdown ingestion and source-preserving retrieval.
 지식 시스템이라면, 시스템 자신도 "왜 이렇게 설계됐는지" 기억해야 하니까요.
 ```
 
-## Stage 1 Placeholder: Local Knowledge MVP
+## Stage 1: Ingest Architecture Baseline
 
-Status: planned
+Status: draft
 
-Use after Markdown ingestion and source records exist.
+Related commits:
+
+- `9021829` Add media concept proofs
+- `72dfd8b` Define preview artifacts for media ingest
+- `b37580c` Define index identifier policy
+- `2527471` Clarify ingest and understand boundary
+- `91a7fb4` Add stage transition boundary guidelines
+
+Related docs:
+
+- `docs/architecture/ingest-taxonomy-graph.md`
+- `docs/architecture/media-ingest-strategies.md`
+- `docs/architecture/media-concept-proofs.md`
+- `docs/architecture/index-content-policy.md`
+- `docs/architecture/index-id-policy.md`
+- `docs/architecture/ingest-understand-boundary.md`
+- `docs/operations/stage-transition-guidelines.md`
+- `docs/social/stage-1-ingest-baseline.md`
+
+### Korean Ingest Baseline Post
 
 ```text
-Draft after implementation.
+Knowledge Pools의 ingest 단계 설계를 정리했습니다.
+
+이번 단계에서 가장 중요했던 결론:
+
+ingest는 단순 파일 업로드나 chunking이 아닙니다.
+
+원본 source를 보존하고,
+큰 문서를 access unit으로 나누고,
+media별 preview artifact를 만들고,
+OpenSearch에는 원문이 아니라 locator와 metadata만 저장하고,
+다음 단계인 understand로 넘길 handoff를 명확히 하는 단계입니다.
+
+경계는 이렇게 잡았습니다.
+
+ingest = preserve, normalize, segment, locate, classify, propose
+understand = interpret, extract knowledge units, align evidence
+
+좋은 RAG/agent memory는 검색 이전에,
+source와 evidence를 잃지 않는 ingest에서 시작된다고 봅니다.
+```
+
+### Longer Korean Ingest Baseline Post
+
+```text
+Knowledge Pools의 첫 번째 핵심 단계인 ingest 설계를 정리했습니다.
+
+여기서 중요한 결론은 하나였습니다.
+
+ingest는 단순히 파일을 업로드하고 chunk로 나누는 단계가 아닙니다.
+
+장기적으로 신뢰할 수 있는 지식 시스템을 만들려면 ingest는 다음을 보장해야 합니다.
+
+- 원본 source 보존
+- source version과 content hash
+- 큰 문서를 다시 찾아갈 수 있는 access unit
+- 이미지, PDF, 오디오, Markdown별 media strategy
+- thumbnail, summary, waveform 같은 preview artifact
+- OpenSearch에는 원문이 아니라 locator와 metadata만 저장
+- deterministic index ID
+- understand 단계와의 명확한 경계
+
+이번에 정리한 경계는 이렇게 잡았습니다.
+
+ingest = preserve, normalize, segment, locate, classify, propose
+understand = interpret, extract knowledge units, align evidence
+
+즉 ingest는 "이해"하는 단계가 아니라,
+나중에 정확히 이해할 수 있도록 source를 잃지 않고 준비하는 단계입니다.
+
+RAG가 단순 chunk retrieval을 넘어가려면,
+가장 먼저 source와 evidence를 다루는 입구부터 단단해야 한다고 봅니다.
+```
+
+### English Ingest Baseline Post
+
+```text
+I finished the ingest architecture baseline for Knowledge Pools.
+
+The main lesson:
+
+ingest is not just file upload or chunking.
+
+For a durable agent-oriented knowledge repository, ingest has to preserve source evidence before the system tries to understand it.
+
+The current boundary:
+
+ingest = preserve, normalize, segment, locate, classify, propose
+understand = interpret, extract knowledge units, align evidence
+
+Ingest now covers:
+
+- source object storage
+- source versions and content hashes
+- manifests and access units
+- media-specific strategies for Markdown, images, WAV, and PDF
+- preview artifacts like thumbnails, summaries, and waveform previews
+- content-minimal OpenSearch projections
+- deterministic index IDs
+- explicit handoff to the understand stage
+
+The index should help find the source.
+It should not become the source.
+
+This feels like the first important boundary: before building smarter agents, make sure the system never loses the evidence.
 ```
