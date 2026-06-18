@@ -10,6 +10,8 @@ This document is about source/document understanding, not runtime user-question 
 
 For the distinction, see [Understand vs Task Understanding](understand-vs-task-understanding.md).
 
+The detailed agent contract is defined in [Understanding Agent Spec](understanding-agent-spec.md).
+
 ## Primary Purpose
 
 The primary purpose of `understand` is to convert located source material into explicit meaning units without losing evidence grounding.

@@ -279,6 +279,8 @@ Maximum side effect level:
 
 The first `understand` implementation should use a narrow tool set.
 
+The full agent contract is defined in [Understanding Agent Spec](understanding-agent-spec.md).
+
 Required:
 
 - `artifact.read`;

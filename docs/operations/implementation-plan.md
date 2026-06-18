@@ -153,6 +153,7 @@ Purpose:
 Deliverables:
 
 - Understand baseline architecture document.
+- Understanding Agent detailed spec.
 - Understanding artifact schema.
 - Knowledge candidate schema for claims, decisions, concepts, procedures, and questions.
 - Constraint and bounded summary candidate schema.
@@ -168,6 +169,7 @@ Deliverables:
 - Understand tool sequence using `artifact.read`, `source.locate`, `source.read`, `taxonomy.read`, `taxonomy.validate`, `schema.validate`, `candidate.emit`, `ambiguity.emit`, `review.request`, `artifact.write`, and `audit.trace`.
 - Failure classes for invalid handoff, unresolved refs, schema errors, and invalid model output.
 - Quality report with candidate counts, evidence coverage, review rate, unresolved refs, and schema failures.
+- V1 acceptance criteria for Markdown/text, deterministic extraction, evidence refs, schema validation, and no durable mutation.
 
 Initial understanding inputs:
 

@@ -36,6 +36,7 @@ YYYY-MM-DD-short-title.md
 - [Understand Baseline](2026-06-19-understand-baseline.md)
 - [Agent Tool Pool](2026-06-19-agent-tool-pool.md)
 - [Understand vs Task Understanding](2026-06-19-understand-vs-task-understanding.md)
+- [Understanding Agent Spec](2026-06-19-understanding-agent-spec.md)
 
 ## Template
 

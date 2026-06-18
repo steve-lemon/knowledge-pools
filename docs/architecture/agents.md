@@ -51,6 +51,8 @@ Tool contract:
 
 Transforms parsed sources into reusable knowledge units.
 
+Detailed v1 contract: [Understanding Agent Spec](understanding-agent-spec.md).
+
 It reads ingest artifacts and exact source access units. It should separate parser-visible structure from semantic interpretation.
 
 Outputs:
