@@ -2,6 +2,8 @@
 
 This document defines the initial agent roles for Knowledge Pools.
 
+Detailed specs are organized under [Agent Specs](agents/README.md).
+
 For the lower-level contract of a single agent, see [Single Agent Model](single-agent-model.md).
 
 For agent handoffs and workflow connections, see [Agent Connection Model](agent-connection-model.md).
@@ -21,6 +23,8 @@ Every agent design must declare its required, optional, and forbidden tool ports
 ## Ingestion Agent
 
 Converts raw inputs into normalized, source-grounded ingest artifacts.
+
+Detailed v1 contract: [Ingestion Agent Spec](agents/ingestion-agent.md).
 
 Inputs:
 
@@ -51,7 +55,7 @@ Tool contract:
 
 Transforms parsed sources into reusable knowledge units.
 
-Detailed v1 contract: [Understanding Agent Spec](understanding-agent-spec.md).
+Detailed v1 contract: [Understanding Agent Spec](agents/understanding-agent.md).
 
 It reads ingest artifacts and exact source access units. It should separate parser-visible structure from semantic interpretation.
 
@@ -76,6 +80,8 @@ Tool contract:
 ## Retrieval Planner
 
 Turns a user question or agent task into a retrieval strategy.
+
+Detailed v1 contract: [Retrieval Planner Spec](agents/retrieval-planner.md).
 
 This agent owns task understanding for user questions.
 
@@ -106,6 +112,8 @@ Tool contract:
 
 Executes the retrieval plan across available retrieval services.
 
+Detailed v1 contract: [Retrieval Agent Spec](agents/retrieval-agent.md).
+
 Responsibilities:
 
 - Run source lookup, keyword search, vector search, graph traversal, and temporal filtering as needed.
@@ -121,6 +129,8 @@ Tool contract:
 ## Reasoning Agent
 
 Synthesizes an answer or action plan from retrieved evidence.
+
+Detailed v1 contract: [Reasoning Agent Spec](agents/reasoning-agent.md).
 
 Responsibilities:
 
@@ -139,6 +149,8 @@ Tool contract:
 
 Checks whether an answer is grounded in the retrieved evidence.
 
+Detailed v1 contract: [Verifier Agent Spec](agents/verifier-agent.md).
+
 Checks:
 
 - Is each key claim supported?
@@ -155,6 +167,8 @@ Tool contract:
 ## Knowledge Update Agent
 
 Writes durable knowledge back into the repository after useful interactions.
+
+Detailed v1 contract: [Knowledge Update Agent Spec](agents/knowledge-update-agent.md).
 
 Candidates for storage:
 
@@ -177,6 +191,8 @@ Tool contract:
 
 Decides whether proposed updates should become durable memory.
 
+Detailed v1 contract: [Curation Agent Spec](agents/curation-agent.md).
+
 Responsibilities:
 
 - Accept, edit, defer, or reject candidate updates.
@@ -193,6 +209,8 @@ Tool contract:
 ## Evaluation Agent
 
 Records quality signals from completed runs.
+
+Detailed v1 contract: [Evaluation Agent Spec](agents/evaluation-agent.md).
 
 Responsibilities:
 

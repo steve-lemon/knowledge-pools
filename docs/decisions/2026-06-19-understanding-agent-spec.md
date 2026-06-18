@@ -13,6 +13,8 @@ The user asked to detail the Understanding Agent spec.
 
 Define the Understanding Agent as a candidate-producing agent that reads ingest artifacts and access units, then emits structured knowledge candidates, ambiguity notes, review requests, quality reports, and traces.
 
+The maintained spec lives under `docs/architecture/agents/understanding-agent.md`.
+
 The agent is deterministic-first and must run without a model adapter in v1.
 
 It may optionally use model-assisted extraction, but model output must pass the same validation and evidence-alignment rules.

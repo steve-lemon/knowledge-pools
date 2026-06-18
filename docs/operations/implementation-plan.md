@@ -107,6 +107,7 @@ The taxonomy should start small and evolve through human-reviewed proposals.
 
 Deliverables:
 
+- Ingestion Agent detailed spec.
 - Markdown file scanner.
 - Media concept fixtures for Markdown, image, WAV, MP4, and PDF.
 - Simple ingest job status.
@@ -154,6 +155,7 @@ Deliverables:
 
 - Understand baseline architecture document.
 - Understanding Agent detailed spec.
+- Ingestion Agent detailed spec.
 - Understanding artifact schema.
 - Knowledge candidate schema for claims, decisions, concepts, procedures, and questions.
 - Constraint and bounded summary candidate schema.
