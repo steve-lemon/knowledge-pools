@@ -8,21 +8,24 @@ Repository state:
 
 - Documentation structure created.
 - Vision, architecture, agent roles, knowledge model, RAG limitations, roadmap, and decision log added.
+- Problem recognition and solution approach prepared as the first public narrative.
 
 Core message:
 
-> I am starting Knowledge Pools as an agent-oriented knowledge repository that goes beyond chunk-based RAG.
+> Basic RAG is useful, but long-running knowledge work needs memory, evidence, conflict handling, temporal reasoning, and verification.
 
 Post angles:
 
-- "RAG retrieves chunks. I want a system that remembers claims, decisions, evidence, and uncertainty."
-- "The first commit is documentation, because a knowledge system should remember why it exists."
-- "The design loop is ingest -> understand -> connect -> retrieve -> reason -> verify -> update."
+- "RAG retrieves chunks. Long-running work needs claims, decisions, evidence, and uncertainty."
+- "The problem is not just retrieval. It is maintaining knowledge over time."
+- "A knowledge system should preserve why something was decided, not only where it was mentioned."
+- "The first design loop is ingest -> understand -> connect -> retrieve -> reason -> verify -> update."
 
 Artifacts to include:
 
 - README link.
 - Architecture overview link.
+- Problem and approach narrative.
 - Simple architecture diagram.
 
 ## Stage 1: Local Knowledge MVP
@@ -145,4 +148,3 @@ Artifacts to include:
 - End-to-end run trace.
 - Memory update example.
 - Evaluation checklist.
-
