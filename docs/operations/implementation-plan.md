@@ -20,6 +20,7 @@ kp verify <run-id>
 - Start local and inspectable.
 - Preserve sources before generating summaries.
 - Use typed records instead of loose text blobs.
+- Use a versioned taxonomy before creating graph records.
 - Store run traces from the beginning.
 - Add vector search only after source and keyword retrieval are reliable.
 - Add durable memory only behind a curation gate.
@@ -75,7 +76,19 @@ knowledge/
 
 This step must be implemented before agent-to-agent workflows. The system should own context and session state before any LLM adapter is introduced.
 
-## Step 3: Local Source Ingestion
+## Step 3: Taxonomy Foundation
+
+Deliverables:
+
+- Initial `knowledge-pools-core` taxonomy bundle.
+- Taxonomy TypeScript types.
+- Taxonomy validation rules.
+- Taxonomy proposal schema.
+- Bundle version and checksum handling.
+
+The taxonomy should start small and evolve through human-reviewed proposals.
+
+## Step 4: Local Source Ingestion
 
 Deliverables:
 
@@ -84,6 +97,10 @@ Deliverables:
 - Content hashing.
 - Heading-aware parser.
 - Raw and parsed source storage.
+- Taxonomy-aware category assignment.
+- Ingest artifact schema.
+- Validation report for each ingest artifact.
+- Taxonomy proposal generation for unknown concepts.
 
 First source fields:
 
@@ -94,8 +111,10 @@ First source fields:
 - `imported_at`
 - `parser`
 - `metadata`
+- `taxonomy_version`
+- `category_ids`
 
-## Step 4: Records and Indexes
+## Step 5: Records and Indexes
 
 Deliverables:
 
@@ -112,7 +131,7 @@ Initial record types:
 - concept_candidate
 - question_candidate
 
-## Step 5: Single Agent Contract
+## Step 6: Single Agent Contract
 
 Deliverables:
 
@@ -124,7 +143,7 @@ Deliverables:
 
 The first agent can be deterministic and model-free. This proves the orchestration contract before adding LLM behavior.
 
-## Step 6: Agent Handoff
+## Step 7: Agent Handoff
 
 Deliverables:
 
@@ -133,7 +152,7 @@ Deliverables:
 - Sequential handoff from planner to retriever.
 - Trace events for each handoff.
 
-## Step 7: Retrieval Planning
+## Step 8: Retrieval Planning
 
 Deliverables:
 
@@ -149,7 +168,7 @@ Initial plan types:
 - decision_recall
 - verification_check
 
-## Step 8: Basic Ask and Verify
+## Step 9: Basic Ask and Verify
 
 Deliverables:
 
@@ -159,7 +178,7 @@ Deliverables:
 - Verification checks cited evidence exists.
 - Run trace is stored.
 
-## Step 9: Curation and Update
+## Step 10: Curation and Update
 
 Deliverables:
 
@@ -168,7 +187,7 @@ Deliverables:
 - Durable decision and claim records.
 - Supersession metadata.
 
-## Step 10: Evaluation Loop
+## Step 11: Evaluation Loop
 
 Deliverables:
 

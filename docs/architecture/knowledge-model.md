@@ -4,6 +4,14 @@ Knowledge Pools stores more than document chunks.
 
 ## Primary Entities
 
+Knowledge records should be interpreted through a versioned taxonomy when possible.
+
+See:
+
+- [Ingest: Taxonomy-Governed Graph Entry](ingest-taxonomy-graph.md)
+- [Taxonomy Schema](taxonomy-schema.md)
+- [Taxonomy Evolution Workflow](taxonomy-evolution.md)
+
 ### Source
 
 An original or imported artifact.
@@ -19,6 +27,8 @@ Fields:
 - `author`
 - `version`
 - `content_hash`
+- `taxonomy_version`
+- `category_ids`
 
 ### Claim
 
@@ -89,6 +99,38 @@ Fields:
 - `status`
 - `related_entities`
 
+### Taxonomy Bundle
+
+A versioned standard for categories, attributes, vocabularies, entity types, and relation types.
+
+Fields:
+
+- `schema_version`
+- `meta`
+- `normalization`
+- `rules`
+- `categories`
+- `attributes`
+- `vocabularies`
+- `entity_model`
+
+### Taxonomy Proposal
+
+A human-reviewable request to evolve the taxonomy.
+
+Fields:
+
+- `id`
+- `type`
+- `status`
+- `observed_input`
+- `normalized_candidate`
+- `source_refs`
+- `affected_record_refs`
+- `rationale`
+- `risk`
+- `review`
+
 ## Relationship Types
 
 - `supports`
@@ -109,4 +151,3 @@ Recommended initial status values:
 - `deprecated`
 - `superseded`
 - `unknown`
-

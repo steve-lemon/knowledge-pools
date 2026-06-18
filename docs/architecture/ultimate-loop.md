@@ -47,7 +47,7 @@ The loop is designed around the main failure modes of basic RAG.
 
 ### 1. Ingest
 
-Bring external material into the repository without losing provenance.
+Bring external material into the repository without losing provenance and convert it into taxonomy-aware, graph-ready artifacts.
 
 Outputs:
 
@@ -56,6 +56,13 @@ Outputs:
 - parsed structure
 - content hash
 - import metadata
+- taxonomy version
+- category assignments
+- candidate entities and relations
+- validation report
+- taxonomy change proposals when needed
+
+See [Ingest: Taxonomy-Governed Graph Entry](ingest-taxonomy-graph.md).
 
 ### 2. Understand
 
@@ -203,4 +210,3 @@ Signals:
 Knowledge Pools should not merely answer from stored information.
 
 It should maintain a source-grounded, conflict-aware, time-aware knowledge structure that improves through verified use.
-
