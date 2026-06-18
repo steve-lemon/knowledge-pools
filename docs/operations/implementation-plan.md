@@ -21,6 +21,7 @@ kp verify <run-id>
 - Preserve sources before generating summaries.
 - Use typed records instead of loose text blobs.
 - Use a versioned taxonomy before creating graph records.
+- Follow the canonical terminology in `docs/architecture/terminology.md`.
 - Store run traces from the beginning.
 - Add vector search only after source and keyword retrieval are reliable.
 - Add durable memory only behind a curation gate.

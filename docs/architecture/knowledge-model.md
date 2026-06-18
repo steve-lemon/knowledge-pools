@@ -2,7 +2,9 @@
 
 Knowledge Pools stores more than document chunks.
 
-## Primary Entities
+Use the canonical terms from [Terminology](terminology.md).
+
+## Primary Records and Definitions
 
 Knowledge records should be interpreted through a versioned taxonomy when possible.
 
@@ -14,7 +16,7 @@ See:
 
 ### Source
 
-An original or imported artifact.
+The original material being ingested.
 
 Fields:
 

@@ -2,6 +2,8 @@
 
 This document defines the starting taxonomy schema for Knowledge Pools.
 
+Use the canonical terms from [Terminology](terminology.md).
+
 It adapts the OmniMeta pattern from image metadata to general knowledge ingestion.
 
 ## Top-Level Schema
@@ -116,7 +118,7 @@ Use `unknown` for extracted runtime records when the system cannot classify conf
 ]
 ```
 
-## Initial Attributes
+## Initial Attribute Definitions
 
 ```json
 [
@@ -306,6 +308,6 @@ This avoids either:
 
 The schema starts small.
 
-New categories, attributes, vocabularies, entity types, and relation types should be added only through explicit change proposals and validation.
+New categories, attribute definitions, vocabularies, entity types, and relation types should be added only through explicit change proposals and validation.
 
 The taxonomy should act like a shared language between humans and agents, not an uncontrolled pile of tags.

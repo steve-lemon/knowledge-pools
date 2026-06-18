@@ -12,6 +12,8 @@ The loop is described in detail in [Ultimate Knowledge Loop](ultimate-loop.md).
 
 The concrete component architecture is described in [System Architecture](system-architecture.md).
 
+Canonical terms are defined in [Terminology](terminology.md).
+
 Before implementing multi-agent behavior, the system should define a single agent contract, agent handoff model, and explicit context/session ownership:
 
 - [Single Agent Model](single-agent-model.md)

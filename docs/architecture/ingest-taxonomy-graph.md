@@ -2,7 +2,9 @@
 
 This document defines the first major system stage: `ingest`.
 
-The ingest stage should not only copy raw files into storage. It should convert source material into graph-ready records under a human-governed taxonomy.
+Use the canonical terms from [Terminology](terminology.md).
+
+The ingest stage should not only copy raw files into storage. It should convert source material into ingest artifacts under a human-governed taxonomy.
 
 ## Reference Reviewed
 
@@ -27,7 +29,7 @@ OmniMeta provides a concrete model for:
 
 - taxonomy bundles;
 - category trees;
-- attributes;
+- attribute definitions;
 - vocabularies;
 - aliases and normalization;
 - entity types;
@@ -38,7 +40,7 @@ OmniMeta provides a concrete model for:
 
 ## Core Thesis
 
-Ingest should produce structured, versioned, taxonomy-aware records that can enter a knowledge graph.
+Ingest should produce structured, versioned, taxonomy-aware artifacts that contain graph candidates.
 
 The taxonomy is not fixed forever. It should evolve with human review, validation, versioning, and migration rules.
 
@@ -48,8 +50,8 @@ If taxonomy is delayed until retrieval, the system stores ambiguous records and 
 
 Putting taxonomy into ingest gives the system:
 
-- consistent node and edge types;
-- validated attributes;
+- consistent entity types and relation types;
+- validated attribute definitions and attribute values;
 - canonical terms;
 - alias normalization;
 - stable graph relationships;
@@ -65,7 +67,7 @@ raw source
   -> extract graph candidates
   -> validate
   -> write source record
-  -> write graph-ready ingest artifact
+  -> write ingest artifact
 ```
 
 The output of ingest feeds `understand` and `connect`.
@@ -123,9 +125,9 @@ Recommended fields:
 - `inherit_attributes`
 - `attribute_bindings`
 
-### Attribute
+### Attribute Definition
 
-An attribute defines a typed property allowed for a category or entity.
+An attribute definition defines a typed property allowed for a category or entity type. Runtime data should call the filled value an `attribute value`.
 
 Examples:
 
@@ -198,9 +200,9 @@ Examples:
 
 Relation types should be added only when the edge itself matters for retrieval, reasoning, verification, or maintenance.
 
-## Runtime Ingest Artifact
+## Ingest Artifact
 
-Every ingest run should produce an artifact like:
+Every ingest run should produce an `IngestArtifact` like:
 
 ```json
 {
@@ -210,7 +212,7 @@ Every ingest run should produce an artifact like:
   "taxonomy_version": "0.1.0",
   "source_ref": "source_01",
   "category_ids": ["source"],
-  "attributes": {
+  "attribute_values": {
     "source_type": "markdown",
     "lifecycle_status": "draft"
   },
@@ -219,7 +221,7 @@ Every ingest run should produce an artifact like:
       "id": "ent_claim_01",
       "type": "claim",
       "category_ids": ["knowledge_record"],
-      "attributes": {
+      "attribute_values": {
         "knowledge_kind": "claim",
         "confidence": 0.7
       },
@@ -246,7 +248,7 @@ The taxonomy should evolve with people in the loop.
 
 Suggested workflow:
 
-1. Ingest detects unknown category, attribute, term, entity, or relation.
+1. Ingest detects unknown category, attribute definition, vocabulary term, entity type, or relation type.
 2. System creates a taxonomy change proposal.
 3. Human reviews the proposal.
 4. Accepted changes update the taxonomy bundle.
@@ -273,7 +275,7 @@ Each proposal should include:
 - observed input;
 - normalized candidate;
 - source evidence;
-- affected records;
+- affected records or artifacts;
 - suggested change;
 - risk level;
 - reviewer decision.
@@ -287,13 +289,13 @@ Initial validation should include:
 - category parent references exist;
 - category graph has no cycles;
 - search paths are unique;
-- attribute keys are unique;
+- attribute definition keys are unique;
 - enum/color attributes reference valid vocabularies;
 - vocabulary aliases do not conflict;
 - relation endpoints reference known entity types;
-- runtime entity category IDs are allowed;
-- runtime attributes are allowed by category bindings;
-- runtime records include taxonomy version.
+- runtime entity instance category IDs are allowed;
+- runtime attribute values are allowed by category bindings;
+- ingest artifacts include taxonomy version.
 
 ## Relation Endpoint Design
 
@@ -333,6 +335,6 @@ Ingest should not:
 
 ## Design Rule
 
-Ingest turns raw material into source-preserved, taxonomy-aware, graph-ready artifacts.
+Ingest turns raw material into source-preserved, taxonomy-aware artifacts that contain graph candidates.
 
 The taxonomy is allowed to evolve, but only through explicit proposals, validation, and versioning.

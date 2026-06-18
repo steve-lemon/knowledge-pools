@@ -16,6 +16,7 @@ The goal is not just to retrieve document chunks. The goal is to maintain a livi
 
 - [Vision](docs/vision.md)
 - [Architecture Overview](docs/architecture/overview.md)
+- [Terminology](docs/architecture/terminology.md)
 - [Ultimate Knowledge Loop](docs/architecture/ultimate-loop.md)
 - [System Architecture](docs/architecture/system-architecture.md)
 - [Single Agent Model](docs/architecture/single-agent-model.md)

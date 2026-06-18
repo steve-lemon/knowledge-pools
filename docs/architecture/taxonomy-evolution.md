@@ -2,13 +2,15 @@
 
 Knowledge Pools should treat taxonomy as a living standard.
 
+Use the canonical terms from [Terminology](terminology.md).
+
 Agents may propose taxonomy changes, but humans approve them.
 
 ## Why Human-Governed Evolution
 
 LLMs are useful for noticing patterns, but they are not reliable authorities for schema governance.
 
-If the system lets agents freely invent categories, attributes, entity types, or relation types, the graph will drift into noisy and overlapping concepts.
+If the system lets agents freely invent categories, attribute definitions, entity types, or relation types, the graph will drift into noisy and overlapping concepts.
 
 Human review keeps the taxonomy:
 
@@ -114,7 +116,7 @@ Breaking changes require:
 For every proposed taxonomy change, ask:
 
 1. Is this concept reusable?
-2. Is it a category, attribute, vocabulary term, entity type, or relation type?
+2. Is it a category, attribute definition, vocabulary term, entity type, or relation type?
 3. Does it overlap with an existing concept?
 4. Will it improve retrieval, reasoning, verification, or maintenance?
 5. Does it require migration?
@@ -123,4 +125,3 @@ For every proposed taxonomy change, ask:
 ## Design Rule
 
 The taxonomy should grow from observed use, but only through reviewed and versioned changes.
-
