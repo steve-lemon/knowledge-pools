@@ -72,6 +72,10 @@ The boundary between ingest and understand is defined in [Ingest and Understand 
 
 Convert parsed material into knowledge candidates.
 
+Understand interprets source-grounded ingest artifacts, extracts candidate knowledge units, aligns them to evidence, and records ambiguity.
+
+It does not create durable records.
+
 Outputs:
 
 - claims
@@ -83,6 +87,8 @@ Outputs:
 - evidence spans
 - ambiguity notes
 - confidence notes
+
+See [Understand Baseline](understand-baseline.md).
 
 ### 3. Connect
 

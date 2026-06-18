@@ -454,6 +454,24 @@ It links:
 
 Understanding artifacts are still candidates. They become durable knowledge only after connection, verification, and curation.
 
+### Knowledge Candidate
+
+A proposed claim, decision, concept, procedure, question, constraint, or bounded summary extracted from source evidence.
+
+Knowledge candidates must keep evidence refs and remain candidates until connect, verify, and curation stages approve durable storage.
+
+### Ambiguity Note
+
+A structured note that records uncertainty in an interpretation.
+
+Use ambiguity notes when evidence is incomplete, wording has multiple possible meanings, source quality is weak, or a candidate is inferred rather than explicit.
+
+### Review Request
+
+A human or system review marker attached to a candidate, ambiguity, relation hint, or generated artifact.
+
+Review requests should include the target ref, reason, review type, and whether the issue blocks later stages.
+
 ### Graph Candidate
 
 An entity instance or relation instance proposed during ingest or understanding.

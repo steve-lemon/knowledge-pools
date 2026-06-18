@@ -153,6 +153,49 @@ Fields:
 
 Update candidates are not durable knowledge records until curation accepts them.
 
+### Understanding Artifact
+
+A source-grounded interpretation artifact produced by the understand stage.
+
+Fields:
+
+- `id`
+- `source_id`
+- `source_version_id`
+- `source_manifest_ref`
+- `taxonomy_bundle_id`
+- `taxonomy_version`
+- `candidate_refs`
+- `ambiguity_refs`
+- `review_refs`
+- `generator`
+
+Understanding artifacts group candidates and interpretation metadata.
+
+They are not durable knowledge records.
+
+### Knowledge Candidate
+
+A proposed claim, decision, concept, procedure, question, constraint, or bounded summary extracted from source evidence.
+
+Fields:
+
+- `id`
+- `candidate_kind`
+- `status`
+- `statement_ref`
+- `short_label`
+- `evidence_refs`
+- `source_id`
+- `source_version_id`
+- `taxonomy_bundle_id`
+- `taxonomy_version`
+- `confidence`
+- `ambiguity_refs`
+- `requires_review`
+
+Knowledge candidates must remain candidates until connect, verify, and curation stages approve durable storage.
+
 ## Relationship Types
 
 - `supports`

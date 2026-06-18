@@ -33,6 +33,7 @@ YYYY-MM-DD-short-title.md
 - [Feedback Update Relationships](2026-06-19-feedback-update-relationships.md)
 - [Rollback and Quarantine](2026-06-19-rollback-and-quarantine.md)
 - [Content Deletion Lifecycle](2026-06-19-content-deletion-lifecycle.md)
+- [Understand Baseline](2026-06-19-understand-baseline.md)
 
 ## Template
 

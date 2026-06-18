@@ -145,12 +145,17 @@ First source fields:
 
 Deliverables:
 
+- Understand baseline architecture document.
 - Understanding artifact schema.
 - Knowledge candidate schema for claims, decisions, concepts, procedures, and questions.
+- Constraint and bounded summary candidate schema.
 - Evidence span alignment from candidates back to access units.
 - Ambiguity and confidence notes.
+- Review request artifact schema.
+- Model adapter metadata for model-assisted extraction.
 - Rules that keep generated summaries outside OpenSearch by default.
 - Validation that understanding outputs remain candidates, not durable knowledge records.
+- Initial structural understanding rules before model-assisted extraction.
 
 Initial understanding inputs:
 
@@ -162,6 +167,14 @@ Initial understanding inputs:
 - taxonomy bundle id and version;
 - ingest artifact ref;
 - validation status.
+
+First validation rules:
+
+- every candidate has at least one evidence ref;
+- every evidence ref resolves to a known source version and access unit;
+- generated interpretation records generator metadata;
+- long generated text remains outside OpenSearch;
+- candidate status is never promoted to durable record status inside understand.
 
 ## Step 6: OpenSearch Index Baseline
 

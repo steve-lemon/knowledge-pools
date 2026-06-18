@@ -18,6 +18,8 @@ Wiki-style authoring and taxonomy-governed structure are combined through [Wiki 
 
 The boundary between ingestion and understanding is defined in [Ingest and Understand Boundary](ingest-understand-boundary.md).
 
+The understanding stage baseline is defined in [Understand Baseline](understand-baseline.md).
+
 Before implementing multi-agent behavior, the system should define a single agent contract, agent handoff model, and explicit context/session ownership:
 
 - [Single Agent Model](single-agent-model.md)
