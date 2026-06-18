@@ -47,7 +47,9 @@ The loop is designed around the main failure modes of basic RAG.
 
 ### 1. Ingest
 
-Bring external material into the repository without losing provenance and convert it into taxonomy-aware, graph-ready artifacts.
+Bring external material into the repository without losing provenance and convert it into taxonomy-aware, source-grounded artifacts.
+
+Ingest preserves, normalizes, segments, locates, classifies, and proposes. It should not silently turn parsed material into durable knowledge.
 
 Outputs:
 
@@ -58,11 +60,13 @@ Outputs:
 - import metadata
 - taxonomy version
 - category assignments
-- candidate entities and relations
+- shallow candidate entities and relations
 - validation report
 - taxonomy change proposals when needed
 
 See [Ingest: Taxonomy-Governed Graph Entry](ingest-taxonomy-graph.md).
+
+The boundary between ingest and understand is defined in [Ingest and Understand Boundary](ingest-understand-boundary.md).
 
 ### 2. Understand
 
@@ -77,6 +81,8 @@ Outputs:
 - questions
 - summaries
 - evidence spans
+- ambiguity notes
+- confidence notes
 
 ### 3. Connect
 

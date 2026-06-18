@@ -408,6 +408,26 @@ It links:
 - validation result
 - taxonomy proposals
 
+Ingest artifacts may include shallow candidates from visible structure, but they are not durable knowledge records.
+
+### Understanding Artifact
+
+The structured result of interpreting one or more ingest artifacts into knowledge candidates.
+
+It links:
+
+- source record;
+- source manifest;
+- access units;
+- taxonomy bundle version;
+- knowledge candidates;
+- evidence spans;
+- confidence notes;
+- ambiguity notes;
+- review requirements.
+
+Understanding artifacts are still candidates. They become durable knowledge only after connection, verification, and curation.
+
 ### Graph Candidate
 
 An entity instance or relation instance proposed during ingest or understanding.

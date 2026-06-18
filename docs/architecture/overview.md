@@ -16,6 +16,8 @@ Canonical terms are defined in [Terminology](terminology.md).
 
 Wiki-style authoring and taxonomy-governed structure are combined through [Wiki and Taxonomy Hybrid Architecture](wiki-taxonomy-hybrid.md).
 
+The boundary between ingestion and understanding is defined in [Ingest and Understand Boundary](ingest-understand-boundary.md).
+
 Before implementing multi-agent behavior, the system should define a single agent contract, agent handoff model, and explicit context/session ownership:
 
 - [Single Agent Model](single-agent-model.md)
@@ -37,8 +39,10 @@ raw sources
   -> ingestion
   -> wiki structure extraction
   -> taxonomy classification
+  -> ingest artifact
   -> understanding
-  -> graph candidates
+  -> knowledge candidates
+  -> connection proposals
   -> content-minimal index documents
   -> memory layer
   -> retrieval planner
@@ -60,6 +64,7 @@ Responsibilities:
 - Preserve provenance.
 - Preserve structure such as headings, tables, code blocks, and citations.
 - Keep source versions when documents change.
+- Provide exact source units for understanding and grounding.
 
 ### Narrative Layer
 

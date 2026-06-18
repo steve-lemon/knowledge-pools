@@ -4,7 +4,9 @@ This document defines the first major system stage: `ingest`.
 
 Use the canonical terms from [Terminology](terminology.md).
 
-The ingest stage should not only copy raw files into storage. It should convert source material into ingest artifacts under a human-governed taxonomy.
+The ingest stage should not only copy raw files into storage. It should convert source material into source-grounded ingest artifacts under a human-governed taxonomy.
+
+Ingest does not create durable knowledge records by itself.
 
 ## Reference Reviewed
 
@@ -40,7 +42,7 @@ OmniMeta provides a concrete model for:
 
 ## Core Thesis
 
-Ingest should produce structured, versioned, taxonomy-aware artifacts that contain graph candidates.
+Ingest should produce structured, versioned, taxonomy-aware artifacts that contain source structure, access units, and shallow graph candidates.
 
 The taxonomy is not fixed forever. It should evolve with human review, validation, versioning, and migration rules.
 
@@ -66,13 +68,15 @@ raw source
   -> parse
   -> create source manifest and access units
   -> classify against taxonomy
-  -> extract graph candidates
+  -> extract shallow graph candidates
   -> validate
   -> write source record
   -> write ingest artifact
 ```
 
-The output of ingest feeds `understand` and `connect`.
+The output of ingest feeds `understand`. Some shallow relation candidates may also be read by `connect`, but semantic interpretation belongs to `understand`.
+
+The boundary between ingest and understand is defined in [Ingest and Understand Boundary](ingest-understand-boundary.md).
 
 Media-specific parsing and access-unit extraction are defined in [Media Ingest Strategies](media-ingest-strategies.md).
 
@@ -231,22 +235,22 @@ Every ingest run should produce an `IngestArtifact` like:
     "source_type": "markdown",
     "lifecycle_status": "draft"
   },
-  "entities": [
+  "shallow_entities": [
     {
-      "id": "ent_claim_01",
-      "type": "claim",
-      "category_ids": ["knowledge_record"],
+      "id": "marker_heading_01",
+      "type": "source",
+      "category_ids": ["source"],
       "attribute_values": {
-        "knowledge_kind": "claim",
-        "confidence": 0.7
+        "marker_kind": "heading",
+        "confidence": 1.0
       },
-      "evidence_refs": ["source_01#section_001#span_03"]
+      "evidence_refs": ["source_01#section_001"]
     }
   ],
-  "relations": [
+  "shallow_relations": [
     {
       "type": "derived_from",
-      "from_entity_id": "ent_claim_01",
+      "from_entity_id": "marker_heading_01",
       "to_entity_id": "source_01"
     }
   ],
@@ -256,6 +260,8 @@ Every ingest run should produce an `IngestArtifact` like:
   }
 }
 ```
+
+The `shallow_entities` and `shallow_relations` fields are candidates extracted from visible structure or taxonomy cues. They are not durable knowledge records.
 
 ## Human-Governed Evolution
 
@@ -350,6 +356,6 @@ Ingest should not:
 
 ## Design Rule
 
-Ingest turns raw material into source-preserved, taxonomy-aware artifacts that contain graph candidates.
+Ingest turns raw material into source-preserved, taxonomy-aware artifacts that contain access units, source signals, and shallow graph candidates.
 
 The taxonomy is allowed to evolve, but only through explicit proposals, validation, and versioning.

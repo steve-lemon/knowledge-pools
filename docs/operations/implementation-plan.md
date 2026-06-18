@@ -122,6 +122,8 @@ Deliverables:
 - Ingest artifact schema.
 - Validation report for each ingest artifact.
 - Taxonomy proposal generation for unknown concepts.
+- Shallow candidate generation from visible source structure only.
+- Handoff contract from ingest to understand.
 
 First source fields:
 
@@ -135,15 +137,39 @@ First source fields:
 - `taxonomy_version`
 - `category_ids`
 
-## Step 5: OpenSearch Index Baseline
+## Step 5: Understanding Baseline
+
+Deliverables:
+
+- Understanding artifact schema.
+- Knowledge candidate schema for claims, decisions, concepts, procedures, and questions.
+- Evidence span alignment from candidates back to access units.
+- Ambiguity and confidence notes.
+- Rules that keep generated summaries outside OpenSearch by default.
+- Validation that understanding outputs remain candidates, not durable knowledge records.
+
+Initial understanding inputs:
+
+- source record;
+- source version id;
+- source manifest ref;
+- access unit refs;
+- preview refs;
+- taxonomy bundle id and version;
+- ingest artifact ref;
+- validation status.
+
+## Step 6: OpenSearch Index Baseline
 
 Deliverables:
 
 - OpenSearch-compatible document fixtures for source records and access units.
 - OpenSearch-compatible document fixtures for taxonomy-aware ingest artifacts.
-- OpenSearch-compatible document fixtures for entity instances and relation instances.
+- OpenSearch-compatible document fixtures for shallow ingest candidates.
+- OpenSearch-compatible document fixtures for understanding candidates.
 - Source provenance fields on every indexed document.
 - Content-minimal index document policy.
+- Deterministic index ID policy.
 - Fixture checks that full raw content is not stored in index documents.
 - Local fixture search for source lookup and keyword search.
 - Draft OpenSearch mapping notes.
@@ -154,13 +180,15 @@ Initial indexed document types:
 - source
 - access_unit
 - ingest_artifact
-- entity_instance
-- relation_instance
+- shallow_entity_candidate
+- shallow_relation_candidate
 - claim_candidate
+- decision_candidate
 - concept_candidate
+- procedure_candidate
 - question_candidate
 
-## Step 6: Evaluation Seed
+## Step 7: Evaluation Seed
 
 Deliverables:
 

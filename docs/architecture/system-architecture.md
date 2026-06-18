@@ -48,7 +48,9 @@ See [Context and Session Model](context-session-model.md) for state ownership.
 
 ## Ingestion Pipeline
 
-Reads source files and creates source records.
+Reads source files and creates source-grounded ingest artifacts.
+
+Ingestion preserves and locates evidence. It may emit shallow candidates, but it should not finalize semantic knowledge.
 
 Initial scope:
 
@@ -58,6 +60,9 @@ Initial scope:
 - heading-aware parsing
 - wiki-style link/tag extraction
 - taxonomy classification
+- source manifests and access units
+- preview artifact refs
+- content-minimal index projections
 
 Later scope:
 
@@ -70,20 +75,23 @@ Later scope:
 
 Extracts structured knowledge candidates.
 
+Understanding reads ingest artifacts and source access units. It interprets evidence into candidate claims, decisions, concepts, procedures, and questions.
+
 Initial scope:
 
 - heading summaries
 - candidate concepts
 - candidate claims
 - open questions
-- relation instance candidates from wiki links and citations
+- evidence span alignment
+- ambiguity notes
 
 Later scope:
 
 - decision extraction
 - procedure extraction
 - confidence estimation
-- evidence span alignment
+- relation instance candidates that require semantic interpretation
 
 ## Knowledge Fabric
 

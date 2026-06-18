@@ -16,7 +16,7 @@ They should not depend on hidden LLM chat state, provider-hosted threads, or raw
 
 ## Ingestion Agent
 
-Converts raw inputs into normalized source records.
+Converts raw inputs into normalized, source-grounded ingest artifacts.
 
 Inputs:
 
@@ -31,12 +31,17 @@ Outputs:
 
 - source metadata
 - parsed document structure
-- candidate chunks
+- access units
+- preview artifact refs
 - source fingerprints
+- taxonomy category assignments
+- shallow candidates from visible structure
 
 ## Understanding Agent
 
 Transforms parsed sources into reusable knowledge units.
+
+It reads ingest artifacts and exact source access units. It should separate parser-visible structure from semantic interpretation.
 
 Outputs:
 

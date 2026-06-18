@@ -274,7 +274,7 @@ Indexed views:
 - schema summary
 - object summaries
 - selected scalar fields
-- candidate entities derived from repeated object structures
+- shallow entity candidates derived from repeated object structures
 
 Locator examples:
 
