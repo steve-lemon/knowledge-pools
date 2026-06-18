@@ -84,6 +84,10 @@ Every indexed document should include these fields with stable types:
 | `source_id` | `keyword` | Logical source id |
 | `source_version_id` | `keyword` | Immutable source version id |
 | `source_version` | `keyword` | Human-readable source version label |
+| `version_status` | `keyword` | `current`, `superseded`, `deleted`, or `archived` |
+| `is_current` | `boolean` | Default filter for current-state retrieval |
+| `supersedes_source_version_id` | `keyword` | Previous version ref when applicable |
+| `superseded_by_source_version_id` | `keyword` | Newer version ref when applicable |
 | `source_uri` | `keyword` | Object store URI or path |
 | `source_content_hash` | `keyword` | Full source hash |
 | `media_type` | `keyword` | Authoritative MIME-like type |
@@ -320,6 +324,10 @@ Never use uncontrolled dynamic mappings for:
       "source_id": { "type": "keyword" },
       "source_version_id": { "type": "keyword" },
       "source_version": { "type": "keyword" },
+      "version_status": { "type": "keyword" },
+      "is_current": { "type": "boolean" },
+      "supersedes_source_version_id": { "type": "keyword" },
+      "superseded_by_source_version_id": { "type": "keyword" },
       "source_uri": { "type": "keyword" },
       "source_content_hash": { "type": "keyword" },
       "media_type": { "type": "keyword" },

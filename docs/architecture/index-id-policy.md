@@ -137,6 +137,90 @@ If the same bytes are imported from a different path, either:
 
 The first implementation should use the simpler rule: same repository and same full content hash means same immutable source version. Whether that source version is attached to one or many logical source records is a source-alias decision, not a hash decision.
 
+## Source Version Lifecycle
+
+Original source updates are expected.
+
+The ID policy must support repeated updates without losing old evidence.
+
+Recommended model:
+
+```text
+source_id = logical source identity
+source_version_id = immutable content version
+current_source_version_id = pointer to the active version
+```
+
+Example:
+
+```json
+{
+  "source_id": "src_path_a91c72",
+  "current_source_version_id": "srcv_md_sha256_2222bbbbcccc",
+  "versions": [
+    {
+      "source_version_id": "srcv_md_sha256_1111aaaabbbb",
+      "content_hash": "sha256:1111...",
+      "version_status": "superseded"
+    },
+    {
+      "source_version_id": "srcv_md_sha256_2222bbbbcccc",
+      "content_hash": "sha256:2222...",
+      "version_status": "current"
+    }
+  ]
+}
+```
+
+Rules:
+
+- keep `source_id` stable for the logical source;
+- create a new `source_version_id` whenever source bytes change to a content hash not already known in the repository;
+- reuse the existing `source_version_id` when a source reverts to a previously seen full content hash;
+- update `current_source_version_id` only after the new version is fully ingested and validated;
+- never mutate old source-version objects in place;
+- keep old source versions addressable while any evidence refs point to them;
+- mark old versions as `superseded`, not deleted, unless retention or compliance policy requires removal.
+
+## Version Update Risks
+
+Source versioning creates operational risks that must be handled explicitly.
+
+| Risk | Cause | Policy |
+| --- | --- | --- |
+| stale retrieval | old index projections remain active | active queries should filter by `version_status = current` unless history is requested |
+| broken evidence refs | old access units are removed | keep old manifests and access units for retained versions |
+| duplicate search results | multiple versions index similar content | collapse by `source_id` for current-state queries |
+| unstable access unit IDs | parser output changes between versions | scope access unit IDs to `source_version_id` and parser policy |
+| preview drift | preview regenerated from newer bytes | preview IDs must include source version and generator config |
+| hash reappearance | a source reverts to older content | reuse existing immutable source version and move current pointer |
+| race condition | query sees partial ingest | switch current pointer or active alias only after validation completes |
+| storage growth | every version keeps derived objects | apply retention to superseded versions after evidence policy review |
+
+## Current vs Historical Queries
+
+Retrieval must distinguish current-state queries from historical queries.
+
+Current-state query:
+
+```text
+source_id = src_path_a91c72
+version_status = current
+```
+
+Historical query:
+
+```text
+source_id = src_path_a91c72
+include_superseded = true
+```
+
+Default behavior:
+
+- user asks "현재", "latest", or no time scope: search current versions first;
+- user asks "이전", "history", "why changed", or cites an old evidence ref: allow superseded versions;
+- verification should warn when an answer uses superseded evidence as if it were current.
+
 ## Source Version IDs
 
 `source_version_id` should be content-addressed:
@@ -151,7 +235,9 @@ Example:
 srcv_pdf_sha256_ab12cd34ef90
 ```
 
-Changing source bytes creates a new source version.
+Changing source bytes creates a new source version when the resulting full content hash is new to the repository.
+
+If the resulting full content hash already exists, reuse that immutable source version and update the current pointer.
 
 Changing taxonomy classification does not create a new source version.
 
@@ -254,6 +340,17 @@ kp:repo_main:relation:md:sha256_ab12cd34ef90:rel_001
 - relation candidate id;
 - hash of canonical projection metadata.
 
+Every OpenSearch projection should include:
+
+- `source_id`;
+- `source_version_id`;
+- `version_status`;
+- `is_current`;
+- `supersedes_source_version_id` when applicable;
+- `superseded_by_source_version_id` when applicable.
+
+For current-state aliases or filtered queries, `is_current = true` should be the default filter.
+
 ## Update Behavior
 
 When source bytes change:
@@ -263,7 +360,8 @@ When source bytes change:
 - regenerate access units if parser output changes;
 - regenerate preview artifacts;
 - create new index document IDs for the new source version;
-- mark old index projections as superseded or remove them from active aliases.
+- mark old index projections as superseded or remove them from active aliases;
+- update the current pointer only after the new projections pass validation.
 
 When taxonomy changes:
 

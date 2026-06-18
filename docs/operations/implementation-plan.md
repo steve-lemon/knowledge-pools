@@ -111,6 +111,7 @@ Deliverables:
 - Media concept fixtures for Markdown, image, WAV, MP4, and PDF.
 - Simple ingest job status.
 - Source record schema.
+- Source version lifecycle with current pointer and supersession status.
 - Content hashing.
 - Heading-aware parser.
 - Object-store-compatible raw source storage.
@@ -118,6 +119,7 @@ Deliverables:
 - Access unit schema for large or long files.
 - Media ingest strategy interface.
 - Version fields for source, manifest, parser, taxonomy, and index.
+- Current-vs-historical retrieval fields such as `is_current` and `version_status`.
 - Minimal lifecycle metadata.
 - Taxonomy-aware category assignment.
 - Ingest artifact schema.

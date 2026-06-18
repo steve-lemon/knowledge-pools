@@ -854,6 +854,9 @@ Before implementation, verify these points:
 - large previews are stored as objects, not copied into OpenSearch;
 - access control applies to previews as well as originals;
 - source updates create new source versions, while taxonomy updates create new projections;
+- source updates update `current_source_version_id` only after validation;
+- current retrieval filters out superseded versions unless history is requested;
+- retained old source versions keep manifests, access units, and evidence refs addressable;
 - parser policy changes can regenerate manifests and access units without changing source version IDs.
 
 ## Concept Proof Result

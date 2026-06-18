@@ -120,7 +120,9 @@ Document updates are not taxonomy changes unless the update introduces a new con
 For source updates, track:
 
 - `source_id`
+- `source_version_id`
 - `source_version`
+- `current_source_version_id`
 - `object_version`
 - `content_hash`
 - `manifest_version`
@@ -136,6 +138,15 @@ Recommended behavior:
 - Changed parser only: create new manifest/index version.
 - Changed taxonomy only: reclassify or reindex with new taxonomy version.
 - Changed meaning requiring new taxonomy term: create taxonomy proposal.
+
+Operational rules:
+
+- keep `source_id` stable across versions;
+- update `current_source_version_id` only after the new version is fully ingested and indexed;
+- keep old source versions addressable while evidence refs point to them;
+- mark old projections as `superseded` or exclude them from current-state aliases;
+- default retrieval should prefer `is_current = true`;
+- historical retrieval may include superseded versions when explicitly requested.
 
 ## When Taxonomy Should Change
 
