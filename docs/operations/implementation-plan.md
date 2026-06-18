@@ -162,6 +162,11 @@ Deliverables:
 - Rules that keep generated summaries outside OpenSearch by default.
 - Validation that understanding outputs remain candidates, not durable knowledge records.
 - Initial structural understanding rules before model-assisted extraction.
+- Local run workspace layout for understanding artifacts, candidates, ambiguity notes, review requests, and traces.
+- V1 deterministic Markdown/text structural extractors.
+- Understand tool sequence using `artifact.read`, `source.locate`, `source.read`, `taxonomy.read`, `taxonomy.validate`, `schema.validate`, `candidate.emit`, `ambiguity.emit`, `review.request`, `artifact.write`, and `audit.trace`.
+- Failure classes for invalid handoff, unresolved refs, schema errors, and invalid model output.
+- Quality report with candidate counts, evidence coverage, review rate, unresolved refs, and schema failures.
 
 Initial understanding inputs:
 
@@ -181,6 +186,7 @@ First validation rules:
 - generated interpretation records generator metadata;
 - long generated text remains outside OpenSearch;
 - candidate status is never promoted to durable record status inside understand.
+- structural extraction can run without a model adapter.
 
 ## Step 6: OpenSearch Index Baseline
 

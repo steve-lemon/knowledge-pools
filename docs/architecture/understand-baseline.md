@@ -143,6 +143,58 @@ Recommended shape:
 
 The artifact points to candidates. It should not embed long source text.
 
+## V1 Workflow
+
+The first implementation should be deterministic-first and local-file friendly.
+
+Recommended workflow:
+
+```text
+load ingest artifact
+  -> validate handoff refs
+  -> resolve access units
+  -> read exact source units
+  -> run structural extractors
+  -> optionally run model-assisted extractors
+  -> normalize candidates
+  -> attach evidence refs
+  -> emit ambiguity and review artifacts
+  -> validate output schemas
+  -> write understanding artifact
+  -> emit trace
+```
+
+V1 should succeed without a model adapter.
+
+Model-assisted extraction can improve recall later, but the minimum useful path is structural extraction from Markdown/text access units.
+
+## V1 Artifact Layout
+
+The local MVP can store understand outputs inside a run workspace.
+
+Example:
+
+```text
+knowledge/
+  runs/
+    run_001/
+      understand/
+        understanding-artifact.json
+        candidates/
+          kc_claim_001.json
+          kc_decision_001.json
+        ambiguity/
+          amb_001.json
+        review/
+          review_req_001.json
+        traces/
+          tool-calls.jsonl
+```
+
+This layout is an implementation detail, but every file should still follow the artifact schemas.
+
+OpenSearch projections may point to these artifacts later, but the artifact files remain the source of truth for understand output.
+
 ## Knowledge Candidate Types
 
 V1 candidate kinds:
@@ -224,6 +276,23 @@ Examples:
 - glossary terms;
 - wiki-style definitions.
 
+V1 should start here.
+
+Recommended Markdown/text rules:
+
+| Source pattern | Candidate |
+| --- | --- |
+| Heading starts with `Decision`, `ADR`, or `We decided` | `decision_candidate` |
+| Heading starts with `Question`, `Open Question`, or ends with `?` | `question_candidate` |
+| Heading starts with `Concept`, `Definition`, or glossary-like term | `concept_candidate` |
+| Ordered list under workflow/procedure-like heading | `procedure_candidate` |
+| Sentence contains requirement words such as `must`, `should`, `cannot`, `required` | `constraint_candidate` |
+| Short declarative paragraph under architecture/design heading | `claim_candidate` |
+
+These rules should be conservative.
+
+If a rule fires but evidence is weak, emit a candidate with low confidence and a review request instead of skipping the uncertainty.
+
 ### Level 2: Semantic Candidate Extraction
 
 May use a model adapter, but output must follow schema.
@@ -290,6 +359,20 @@ It should not allow:
 - rollback events;
 - lifecycle mutation of existing records.
 
+Concrete V1 tool sequence:
+
+| Step | Tool ports |
+| --- | --- |
+| Read handoff | `artifact.read`, `schema.validate` |
+| Resolve evidence | `source.locate`, `source.read` |
+| Validate taxonomy refs | `taxonomy.read`, `taxonomy.validate` |
+| Emit candidates | `candidate.emit`, `artifact.write` |
+| Emit uncertainty | `ambiguity.emit`, `review.request`, `artifact.write` |
+| Validate output | `schema.validate` |
+| Trace execution | `audit.trace` |
+
+Optional model-assisted extraction uses `model.complete`, but its output must pass the same schema validation.
+
 ## Ambiguity and Review
 
 Understand should preserve uncertainty.
@@ -310,6 +393,36 @@ Review requests should identify:
 - reason for review;
 - suggested reviewer role;
 - blocking or non-blocking status.
+
+Recommended ambiguity shape:
+
+```json
+{
+  "ambiguity_id": "amb_001",
+  "target_ref": "kc_claim_001",
+  "ambiguity_kind": "weak_evidence",
+  "description_ref": "artifact://understanding/amb_001/description",
+  "evidence_refs": ["src_path_a91c72#au_003"],
+  "severity": "medium",
+  "blocks_connect": false
+}
+```
+
+Recommended review request shape:
+
+```json
+{
+  "review_request_id": "review_req_001",
+  "target_ref": "kc_claim_001",
+  "review_kind": "human_check",
+  "reason": "Candidate was inferred from wording rather than explicit statement.",
+  "evidence_refs": ["src_path_a91c72#au_003"],
+  "suggested_reviewer_role": "domain_owner",
+  "blocking": false
+}
+```
+
+The full explanation text can live behind `description_ref` when it is long.
 
 ## Media-Specific Understanding
 
@@ -338,6 +451,40 @@ An understanding artifact is valid only if:
 - taxonomy refs are present when taxonomy classification is used;
 - uncertainty is recorded when evidence is weak.
 
+Failure should be explicit.
+
+Recommended failure classes:
+
+- `missing_ingest_artifact`;
+- `invalid_handoff`;
+- `unresolved_source_ref`;
+- `unresolved_access_unit_ref`;
+- `taxonomy_validation_failed`;
+- `candidate_schema_invalid`;
+- `missing_evidence_ref`;
+- `model_output_invalid`;
+- `permission_required`.
+
+The agent should write a failed understanding artifact or trace event rather than silently producing partial output.
+
+## Quality Bar
+
+Understand quality should be measured before moving to `connect`.
+
+Minimum checks:
+
+- candidate count by kind;
+- percent of candidates with evidence refs;
+- percent of candidates requiring review;
+- number of unresolved evidence refs;
+- number of schema validation failures;
+- number of candidates created only from generated summaries;
+- number of candidates with weak or inferred support.
+
+V1 should prefer precision over recall.
+
+It is better to emit fewer well-grounded candidates than many vague candidates that make connect and verification noisy.
+
 ## Handoff to Connect
 
 Connect receives:
@@ -362,10 +509,13 @@ Connect is responsible for:
 For v1:
 
 - implement structural understanding first;
+- support Markdown/text before other media;
 - represent every output as a candidate;
 - require evidence refs for every candidate;
 - store long generated text outside OpenSearch;
 - keep model use behind an adapter;
+- validate tool permissions against the shared tool pool;
+- emit trace events for every tool call;
 - defer cross-source relationship decisions to `connect`.
 
 ## Design Rule
