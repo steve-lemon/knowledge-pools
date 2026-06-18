@@ -270,6 +270,26 @@ If a model is used, record:
 - input artifact refs;
 - output artifact refs.
 
+## Tool Access
+
+Understand uses shared tool ports from [Agent Tool Pool](agent-tool-pool.md).
+
+The default `understand` tool set should allow:
+
+- reading ingest artifacts and source access units;
+- validating taxonomy and schemas;
+- emitting knowledge candidates, ambiguity notes, and review requests;
+- writing understanding artifacts;
+- optionally using a model adapter for structured extraction.
+
+It should not allow:
+
+- durable memory writes;
+- curation decisions;
+- source tombstones or restore operations;
+- rollback events;
+- lifecycle mutation of existing records.
+
 ## Ambiguity and Review
 
 Understand should preserve uncertainty.

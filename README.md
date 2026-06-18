@@ -30,6 +30,7 @@ The goal is not just to retrieve document chunks. The goal is to maintain a livi
 - [Single Agent Model](docs/architecture/single-agent-model.md)
 - [Agent Connection Model](docs/architecture/agent-connection-model.md)
 - [Context and Session Model](docs/architecture/context-session-model.md)
+- [Agent Tool Pool](docs/architecture/agent-tool-pool.md)
 - [Feedback Update Relationships](docs/architecture/feedback-update-relationships.md)
 - [Ingest: Taxonomy-Governed Graph Entry](docs/architecture/ingest-taxonomy-graph.md)
 - [Ingest and Understand Boundary](docs/architecture/ingest-understand-boundary.md)

@@ -82,6 +82,8 @@ Examples:
 
 The ports are stable even if the implementation changes.
 
+Shared port families and stage access rules are defined in [Agent Tool Pool](agent-tool-pool.md).
+
 ### 4. Output Contract
 
 The result must be structured and machine-readable.
@@ -204,4 +206,3 @@ Recommended error classes:
 ## Design Rule
 
 An agent is replaceable if another implementation can satisfy the same input contract, use the same ports, and return the same output contract.
-

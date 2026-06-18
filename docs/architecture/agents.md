@@ -8,6 +8,8 @@ For agent handoffs and workflow connections, see [Agent Connection Model](agent-
 
 For context and session persistence, see [Context and Session Model](context-session-model.md).
 
+For shared tool ports and stage-scoped tool permissions, see [Agent Tool Pool](agent-tool-pool.md).
+
 ## Design Principle
 
 Agents communicate through typed artifacts and context envelopes.

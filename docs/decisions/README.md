@@ -34,6 +34,7 @@ YYYY-MM-DD-short-title.md
 - [Rollback and Quarantine](2026-06-19-rollback-and-quarantine.md)
 - [Content Deletion Lifecycle](2026-06-19-content-deletion-lifecycle.md)
 - [Understand Baseline](2026-06-19-understand-baseline.md)
+- [Agent Tool Pool](2026-06-19-agent-tool-pool.md)
 
 ## Template
 

@@ -138,6 +138,7 @@ The orchestrator must:
 - create run IDs and task IDs;
 - load and trim context envelopes;
 - call agents in the selected workflow;
+- grant stage-scoped tool permissions from the shared tool pool;
 - validate artifact schemas;
 - store handoff records;
 - enforce verification before update;
@@ -170,4 +171,3 @@ Avoid:
 The system should be replayable.
 
 Given the same task, context envelope, artifacts, and model adapter configuration, the run should be inspectable even if the exact model output is not deterministic.
-

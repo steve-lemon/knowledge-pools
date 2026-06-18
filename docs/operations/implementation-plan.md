@@ -234,6 +234,9 @@ Deliverables:
 - Agent input contract.
 - Agent output contract.
 - Tool port interface.
+- Shared agent tool pool.
+- Stage-scoped tool permission policy.
+- Tool side effect levels and trace requirements.
 - Model adapter interface.
 - Schema validation for agent outputs.
 
