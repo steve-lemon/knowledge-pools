@@ -28,6 +28,7 @@ The goal is not just to retrieve document chunks. The goal is to maintain a livi
 - [Content Deletion Lifecycle](docs/architecture/content-deletion-lifecycle.md)
 - [Wiki and Taxonomy Hybrid Architecture](docs/architecture/wiki-taxonomy-hybrid.md)
 - [Single Agent Model](docs/architecture/single-agent-model.md)
+- [Agent Superclass Contract](docs/architecture/agent-superclass-contract.md)
 - [Agent Connection Model](docs/architecture/agent-connection-model.md)
 - [Context and Session Model](docs/architecture/context-session-model.md)
 - [Agent Tool Pool](docs/architecture/agent-tool-pool.md)

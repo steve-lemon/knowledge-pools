@@ -4,6 +4,8 @@ This document defines one agent as a deterministic system component with optiona
 
 The design goal is LLM-independent orchestration. An agent may use an LLM, a rules engine, a parser, a search service, or a human review step, but the surrounding system should not depend on any one model provider's chat session semantics.
 
+For the shared runtime superclass, TypeScript reference types, and typed handoff envelope, see [Agent Superclass Contract](agent-superclass-contract.md).
+
 ## Definition
 
 An agent is a bounded worker that:

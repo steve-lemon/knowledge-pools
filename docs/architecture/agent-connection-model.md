@@ -8,6 +8,8 @@ Agents should communicate through typed artifacts, not hidden chat history.
 
 The orchestrator owns the workflow, session, context, and traces. Agents receive bounded context and return structured results.
 
+The common typed handoff envelope is defined in [Agent Superclass Contract](agent-superclass-contract.md).
+
 ```text
 agent A -> artifact -> orchestrator -> context envelope -> agent B
 ```

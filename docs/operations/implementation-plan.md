@@ -247,6 +247,7 @@ Deliverables:
 
 - Agent input contract.
 - Agent output contract.
+- Agent superclass contract and TypeScript reference types.
 - Tool port interface.
 - Shared agent tool pool.
 - Stage-scoped tool permission policy.
@@ -255,6 +256,7 @@ Deliverables:
 - Agent tool contracts that link each agent role to required, optional, and forbidden ports.
 - Model adapter interface.
 - Schema validation for agent outputs.
+- Shared handoff envelope type with stage-specific payload schemas.
 
 The first agent can be deterministic and model-free. This proves the orchestration contract before adding LLM behavior.
 

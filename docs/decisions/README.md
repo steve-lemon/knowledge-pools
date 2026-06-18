@@ -28,6 +28,7 @@ YYYY-MM-DD-short-title.md
 - [Index ID Policy](2026-06-19-index-id-policy.md)
 - [Ingest and Understand Boundary](2026-06-19-ingest-understand-boundary.md)
 - [Ingest to Understand Handoff](2026-06-19-ingest-understand-handoff.md)
+- [Agent Superclass Contract](2026-06-19-agent-superclass-contract.md)
 - [Stage Transition Boundary Review](2026-06-19-stage-transition-boundary-review.md)
 - [OpenSearch Schema Discipline](2026-06-19-opensearch-schema-discipline.md)
 - [Source Version ID Lifecycle](2026-06-19-source-version-id-lifecycle.md)

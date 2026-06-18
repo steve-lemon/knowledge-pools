@@ -444,6 +444,22 @@ Examples:
 
 Knowledge records may become graph nodes.
 
+### Agent Superclass Contract
+
+The shared runtime contract that every agent implementation must satisfy.
+
+It defines common task, context, artifact, validation, trace, error, tool grant, and handoff shapes.
+
+It does not define stage-specific semantics.
+
+Detailed behavior remains in each agent spec.
+
+### Stage-Specific Agent
+
+An implementation of one loop stage, such as the Ingestion Agent, Understanding Agent, or Verifier Agent.
+
+A stage-specific agent provides its own input payload, output artifact payload, validation rules, and handoff payload while satisfying the Agent Superclass Contract.
+
 ### Artifact
 
 A run-scoped structured output produced by an agent or pipeline step.

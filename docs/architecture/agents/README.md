@@ -7,6 +7,7 @@ Use [../agents.md](../agents.md) as the high-level role map.
 Shared contracts:
 
 - [Single Agent Model](../single-agent-model.md)
+- [Agent Superclass Contract](../agent-superclass-contract.md)
 - [Agent Connection Model](../agent-connection-model.md)
 - [Context and Session Model](../context-session-model.md)
 - [Agent Tool Pool](../agent-tool-pool.md)

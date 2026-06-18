@@ -6,6 +6,8 @@ Detailed specs are organized under [Agent Specs](agents/README.md).
 
 For the lower-level contract of a single agent, see [Single Agent Model](single-agent-model.md).
 
+For the shared runtime superclass, TypeScript reference types, and typed handoff envelope, see [Agent Superclass Contract](agent-superclass-contract.md).
+
 For agent handoffs and workflow connections, see [Agent Connection Model](agent-connection-model.md).
 
 For context and session persistence, see [Context and Session Model](context-session-model.md).
