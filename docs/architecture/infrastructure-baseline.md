@@ -41,6 +41,8 @@ Large files or long documents must support partial access.
 
 The system should not require loading an entire source into an LLM context.
 
+Media-specific access strategies are defined in [Media Ingest Strategies](media-ingest-strategies.md).
+
 Required access patterns:
 
 - byte-range or object-range access where supported;
@@ -173,4 +175,3 @@ These are deferred until needed:
 - full web UI.
 
 The architecture should leave room for these later, but v1 should not require them.
-

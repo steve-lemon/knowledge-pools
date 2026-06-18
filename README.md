@@ -24,6 +24,8 @@ The goal is not just to retrieve document chunks. The goal is to maintain a livi
 - [Agent Connection Model](docs/architecture/agent-connection-model.md)
 - [Context and Session Model](docs/architecture/context-session-model.md)
 - [Ingest: Taxonomy-Governed Graph Entry](docs/architecture/ingest-taxonomy-graph.md)
+- [Media Ingest Strategies](docs/architecture/media-ingest-strategies.md)
+- [Taxonomy vs Versioning Responsibilities](docs/architecture/taxonomy-vs-versioning.md)
 - [Taxonomy Schema](docs/architecture/taxonomy-schema.md)
 - [Taxonomy Evolution Workflow](docs/architecture/taxonomy-evolution.md)
 - [Agent Design](docs/architecture/agents.md)

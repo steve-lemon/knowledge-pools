@@ -108,6 +108,8 @@ Deliverables:
 - Object-store-compatible raw source storage.
 - Source manifest schema.
 - Access unit schema for large or long files.
+- Media ingest strategy interface.
+- Version fields for source, manifest, parser, taxonomy, and index.
 - Taxonomy-aware category assignment.
 - Ingest artifact schema.
 - Validation report for each ingest artifact.

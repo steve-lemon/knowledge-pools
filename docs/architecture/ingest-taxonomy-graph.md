@@ -74,6 +74,10 @@ raw source
 
 The output of ingest feeds `understand` and `connect`.
 
+Media-specific parsing and access-unit extraction are defined in [Media Ingest Strategies](media-ingest-strategies.md).
+
+The boundary between taxonomy and versioning is defined in [Taxonomy vs Versioning Responsibilities](taxonomy-vs-versioning.md).
+
 ## Taxonomy Bundle
 
 The taxonomy bundle is the human-governed standard used during ingest.

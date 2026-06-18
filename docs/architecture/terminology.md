@@ -258,6 +258,31 @@ Examples:
 
 Access units let the system retrieve exact source material for grounded answers without loading an entire file.
 
+### Rendition
+
+A derived representation of a source object, usually for images or PDFs.
+
+Examples:
+
+- image thumbnail
+- standard-size image
+- OCR-ready image
+- rendered PDF page image
+
+Renditions are operational access assets, not taxonomy definitions.
+
+### Source Version
+
+A version of a source created when source content changes.
+
+Source versions are tracked by content hash and object-store version where available.
+
+### Parser Version
+
+The version of the parser or extraction policy that produced a source manifest, access units, or indexed documents.
+
+Parser versions are operational metadata, not taxonomy versions.
+
 ### Knowledge Record
 
 A durable record representing reusable knowledge.
