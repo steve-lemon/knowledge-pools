@@ -29,6 +29,7 @@ kp verify <run-id>
 - Use typed records instead of loose text blobs.
 - Use a versioned taxonomy before creating graph records.
 - Follow the canonical terminology in `docs/architecture/terminology.md`.
+- Review stage boundaries before moving to the next major stage. See [Stage Transition Guidelines](stage-transition-guidelines.md).
 - Store run traces from the beginning.
 - Add vector search only after OpenSearch source, keyword, and structured retrieval are reliable.
 - Add durable memory only behind a curation gate.
@@ -197,7 +198,7 @@ Deliverables:
 - Retrieval result comparison report.
 - Ingest quality checks for missing source links and parser failures.
 
-## Step 7: Single Agent Contract
+## Step 8: Single Agent Contract
 
 Deliverables:
 
@@ -209,7 +210,7 @@ Deliverables:
 
 The first agent can be deterministic and model-free. This proves the orchestration contract before adding LLM behavior.
 
-## Step 8: Agent Handoff
+## Step 9: Agent Handoff
 
 Deliverables:
 
@@ -218,7 +219,7 @@ Deliverables:
 - Sequential handoff from planner to retriever.
 - Trace events for each handoff.
 
-## Step 9: Retrieval Planning
+## Step 10: Retrieval Planning
 
 Deliverables:
 
@@ -234,7 +235,7 @@ Initial plan types:
 - decision_recall
 - verification_check
 
-## Step 10: Basic Ask and Verify
+## Step 11: Basic Ask and Verify
 
 Deliverables:
 
@@ -244,7 +245,7 @@ Deliverables:
 - Verification checks cited evidence exists.
 - Run trace is stored.
 
-## Step 11: Curation and Update
+## Step 12: Curation and Update
 
 Deliverables:
 
@@ -253,7 +254,7 @@ Deliverables:
 - Durable decision and claim records.
 - Supersession metadata.
 
-## Step 12: Evaluation Loop
+## Step 13: Evaluation Loop
 
 Deliverables:
 
