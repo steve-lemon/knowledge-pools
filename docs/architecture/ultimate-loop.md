@@ -76,6 +76,10 @@ Understand interprets source-grounded ingest artifacts, extracts candidate knowl
 
 It does not create durable records.
 
+This is source/document understanding, not user-question understanding.
+
+User-question understanding belongs to `plan`, where the system interprets task intent, constraints, freshness needs, and expected answer shape.
+
 Outputs:
 
 - claims
@@ -89,6 +93,8 @@ Outputs:
 - confidence notes
 
 See [Understand Baseline](understand-baseline.md).
+
+See also [Understand vs Task Understanding](understand-vs-task-understanding.md).
 
 ### 3. Connect
 
@@ -106,6 +112,8 @@ Outputs:
 ### 4. Plan
 
 Decide how to retrieve and reason before searching.
+
+Plan includes task understanding: interpreting the user's question or instruction into intent, constraints, required evidence, freshness scope, and answer shape.
 
 The planner should choose based on the task type:
 

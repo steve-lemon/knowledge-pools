@@ -28,3 +28,7 @@ The useful unit of long-term knowledge is often not a chunk. It is a claim, deci
 The `understand` stage is where the system starts moving from chunks to these meaning units.
 
 It should extract candidates, preserve evidence, and expose ambiguity without prematurely turning interpretation into durable memory.
+
+This `understand` stage means source/document understanding.
+
+Understanding a user's question is handled later as task understanding inside planning and retrieval.

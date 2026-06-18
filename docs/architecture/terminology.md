@@ -454,6 +454,16 @@ It links:
 
 Understanding artifacts are still candidates. They become durable knowledge only after connection, verification, and curation.
 
+Understanding artifacts come from source/document understanding, not from runtime user-question interpretation.
+
+### Task Understanding
+
+The runtime interpretation of a user's question, instruction, or workflow request.
+
+Task understanding identifies intent, constraints, required evidence types, freshness scope, and expected answer shape.
+
+It belongs to planning, not to the source `understand` stage.
+
 ### Knowledge Candidate
 
 A proposed claim, decision, concept, procedure, question, constraint, or bounded summary extracted from source evidence.

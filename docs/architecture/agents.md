@@ -75,6 +75,10 @@ Tool contract:
 
 Turns a user question or agent task into a retrieval strategy.
 
+This agent owns task understanding for user questions.
+
+Do not confuse this with the Understanding Agent, which processes source documents into knowledge candidates.
+
 Responsibilities:
 
 - Identify required knowledge types.

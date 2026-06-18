@@ -20,6 +20,8 @@ The boundary between ingestion and understanding is defined in [Ingest and Under
 
 The understanding stage baseline is defined in [Understand Baseline](understand-baseline.md).
 
+The difference between source understanding and user-question understanding is defined in [Understand vs Task Understanding](understand-vs-task-understanding.md).
+
 Before implementing multi-agent behavior, the system should define a single agent contract, agent handoff model, and explicit context/session ownership:
 
 - [Single Agent Model](single-agent-model.md)

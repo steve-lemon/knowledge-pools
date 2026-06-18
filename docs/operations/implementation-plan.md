@@ -148,6 +148,7 @@ Purpose:
 - convert source-grounded ingest artifacts into explicit knowledge candidates;
 - make claims, decisions, concepts, procedures, questions, constraints, and bounded summaries searchable as candidate meaning units;
 - preserve evidence refs, ambiguity, confidence, and review needs before connection or curation.
+- keep source/document understanding separate from runtime user-question understanding.
 
 Deliverables:
 
@@ -264,6 +265,7 @@ Deliverables:
 Deliverables:
 
 - Task classifier.
+- Task understanding schema for user intent, constraints, freshness scope, required evidence, and answer shape.
 - Retrieval plan schema.
 - Evidence bundle schema.
 

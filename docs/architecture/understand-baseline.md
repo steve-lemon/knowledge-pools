@@ -6,6 +6,10 @@ This document defines the v1 baseline for the `understand` stage.
 
 It does not create durable knowledge records.
 
+This document is about source/document understanding, not runtime user-question understanding.
+
+For the distinction, see [Understand vs Task Understanding](understand-vs-task-understanding.md).
+
 ## Primary Purpose
 
 The primary purpose of `understand` is to convert located source material into explicit meaning units without losing evidence grounding.
@@ -21,6 +25,10 @@ retrievable source unit -> evidence-grounded knowledge candidate
 ```
 
 This is the stage where raw sections, pages, transcript spans, image regions, or wiki blocks become candidate claims, decisions, concepts, procedures, questions, constraints, or bounded summaries.
+
+It usually runs after ingest or reprocessing.
+
+It is not the query-time step that interprets a user's question. Query-time interpretation belongs to task understanding and retrieval planning.
 
 ## Expected Results
 
