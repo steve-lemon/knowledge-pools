@@ -43,6 +43,7 @@ The goal is not just to retrieve document chunks. The goal is to maintain a livi
 - [Ingest Readiness Review](docs/architecture/ingest-readiness-review.md)
 - [Media Ingest Strategies](docs/architecture/media-ingest-strategies.md)
 - [Media Concept Proofs](docs/architecture/media-concept-proofs.md)
+- [Media Understand Concept Proofs](docs/architecture/media-understand-concept-proofs.md)
 - [Taxonomy vs Versioning Responsibilities](docs/architecture/taxonomy-vs-versioning.md)
 - [Architecture Risk Review](docs/architecture/architecture-risk-review.md)
 - [Taxonomy Schema](docs/architecture/taxonomy-schema.md)

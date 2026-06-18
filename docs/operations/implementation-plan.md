@@ -168,6 +168,7 @@ Deliverables:
 - Initial structural understanding rules before model-assisted extraction.
 - Local run workspace layout for understanding artifacts, candidates, ambiguity notes, review requests, and traces.
 - V1 deterministic Markdown/text structural extractors.
+- Media understand concept proofs for Markdown/text, image, WAV/audio, MP4/video, and PDF.
 - Understand tool sequence using `artifact.read`, `source.locate`, `source.read`, `taxonomy.read`, `taxonomy.validate`, `schema.validate`, `candidate.emit`, `ambiguity.emit`, `review.request`, `artifact.write`, and `audit.trace`.
 - Failure classes for invalid handoff, unresolved refs, schema errors, and invalid model output.
 - Quality report with candidate counts, evidence coverage, review rate, unresolved refs, and schema failures.

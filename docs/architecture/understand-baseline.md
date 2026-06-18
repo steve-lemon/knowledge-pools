@@ -448,6 +448,8 @@ Understand reads different media through access units and previews.
 
 Media-derived candidates must keep locator refs such as page, bbox, time range, transcript span, or frame refs.
 
+Media-specific understand concept proofs are defined in [Media Understand Concept Proofs](media-understand-concept-proofs.md).
+
 ## Validation Rules
 
 An understanding artifact is valid only if:
