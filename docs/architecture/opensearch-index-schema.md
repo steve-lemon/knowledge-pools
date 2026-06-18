@@ -84,8 +84,10 @@ Every indexed document should include these fields with stable types:
 | `source_id` | `keyword` | Logical source id |
 | `source_version_id` | `keyword` | Immutable source version id |
 | `source_version` | `keyword` | Human-readable source version label |
-| `version_status` | `keyword` | `current`, `superseded`, `deleted`, or `archived` |
+| `version_status` | `keyword` | `current`, `superseded`, `quarantined`, `retracted`, `deleted`, or `archived` |
 | `is_current` | `boolean` | Default filter for current-state retrieval |
+| `projection_status` | `keyword` | `active`, `quarantined`, `retracted`, or `archived` |
+| `rollback_event_id` | `keyword` | Rollback event that changed this projection, when applicable |
 | `supersedes_source_version_id` | `keyword` | Previous version ref when applicable |
 | `superseded_by_source_version_id` | `keyword` | Newer version ref when applicable |
 | `source_uri` | `keyword` | Object store URI or path |
@@ -118,6 +120,20 @@ Every indexed document should include these fields with stable types:
 | `aliases` | `keyword[]` | Normalized aliases |
 
 Do not put full source text, full summaries, full transcripts, or full OCR output here.
+
+## Current Retrieval Filter
+
+Normal retrieval should include only active current projections.
+
+Default filter:
+
+```text
+is_current = true
+projection_status = active
+version_status not in [quarantined, retracted, deleted]
+```
+
+Audit retrieval may include quarantined or retracted projections only when explicitly requested.
 
 ## Typed Runtime Attributes
 
@@ -326,6 +342,8 @@ Never use uncontrolled dynamic mappings for:
       "source_version": { "type": "keyword" },
       "version_status": { "type": "keyword" },
       "is_current": { "type": "boolean" },
+      "projection_status": { "type": "keyword" },
+      "rollback_event_id": { "type": "keyword" },
       "supersedes_source_version_id": { "type": "keyword" },
       "superseded_by_source_version_id": { "type": "keyword" },
       "source_uri": { "type": "keyword" },

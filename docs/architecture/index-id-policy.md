@@ -180,7 +180,9 @@ Rules:
 - update `current_source_version_id` only after the new version is fully ingested and validated;
 - never mutate old source-version objects in place;
 - keep old source versions addressable while any evidence refs point to them;
-- mark old versions as `superseded`, not deleted, unless retention or compliance policy requires removal.
+- mark replaced versions as `superseded`, not deleted;
+- mark known-bad versions as `quarantined` before any purge decision;
+- physically delete only when retention or compliance policy requires removal.
 
 ## Version Update Risks
 
@@ -195,6 +197,7 @@ Source versioning creates operational risks that must be handled explicitly.
 | preview drift | preview regenerated from newer bytes | preview IDs must include source version and generator config |
 | hash reappearance | a source reverts to older content | reuse existing immutable source version and move current pointer |
 | race condition | query sees partial ingest | switch current pointer or active alias only after validation completes |
+| wrong version promoted | bad source version becomes current | quarantine bad version and move current pointer back to the last valid version |
 | storage growth | every version keeps derived objects | apply retention to superseded versions after evidence policy review |
 
 ## Current vs Historical Queries

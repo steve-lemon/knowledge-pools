@@ -466,6 +466,28 @@ A validated and stored graph node or edge.
 
 Graph records should preserve provenance and taxonomy version.
 
+### Quarantine
+
+A temporary or permanent exclusion state for suspicious or known-bad data.
+
+Quarantined records remain addressable for audit and impact analysis, but normal retrieval should exclude them.
+
+### Retraction
+
+A status for accepted knowledge that was later found to be wrong.
+
+Retraction differs from supersession.
+
+Use `retracted` when the prior record was invalid.
+
+Use `superseded` when the prior record was valid but replaced by newer knowledge.
+
+### Rollback Event
+
+A durable operational record describing how bad data was isolated, deactivated, restored, corrected, or purged.
+
+Rollback events should reference affected source versions, projections, candidates, knowledge records, relations, and runs.
+
 ### Taxonomy Proposal
 
 A human-reviewable request to evolve the taxonomy.

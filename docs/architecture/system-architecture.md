@@ -196,6 +196,7 @@ Later checks:
 - confidence calibration
 - source authority scoring
 - regression tests against known questions
+- warnings when evidence was later quarantined or retracted
 
 ## Update and Curation Service
 
@@ -213,6 +214,12 @@ Feedback-derived changes should first become update candidates with proposed rel
 Accepted candidates become durable records only after curation.
 
 See [Feedback Update Relationships](feedback-update-relationships.md).
+
+Rollback and quarantine are handled here as explicit operational events.
+
+Wrongly injected data should be quarantined first, then corrected through source pointer restoration, projection deactivation, reindexing, or retracted knowledge records.
+
+See [Rollback and Quarantine Policy](rollback-and-quarantine.md).
 
 ## Evaluation Store
 

@@ -181,6 +181,8 @@ Deliverables:
 - Local fixture search for source lookup and keyword search.
 - OpenSearch mapping fixtures.
 - Run trace format.
+- Rollback-safe projection fields such as `projection_status` and `rollback_event_id`.
+- Default retrieval filters that exclude quarantined and retracted projections.
 
 Initial indexed document types:
 
@@ -261,6 +263,9 @@ Deliverables:
 - Curation states: `accepted`, `edited`, `deferred`, `rejected`.
 - Durable decision and claim records.
 - Supersession metadata.
+- Rollback event schema.
+- Quarantine and retraction handling for bad accepted records.
+- Impact analysis for records derived from bad sources, candidates, or projections.
 
 ## Step 13: Evaluation Loop
 
