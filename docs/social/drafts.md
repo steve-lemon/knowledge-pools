@@ -271,3 +271,132 @@ It should not become the source.
 
 This feels like the first important boundary: before building smarter agents, make sure the system never loses the evidence.
 ```
+
+## Stage 2: Understand Architecture Baseline
+
+Status: draft
+
+Related commits:
+
+- `b81ec4c` Clarify source and task understanding
+- `1a11b2e` Define understanding agent spec
+- `44773f2` Add media understand concept proofs
+- `754a00c` Define ingest to understand handoff
+- `25a5587` Define agent superclass contract
+- `4a9bf84` Add understand readiness review
+
+Related docs:
+
+- `docs/architecture/understand-baseline.md`
+- `docs/architecture/understand-vs-task-understanding.md`
+- `docs/agents/understanding-agent.md`
+- `docs/architecture/media-understand-concept-proofs.md`
+- `docs/architecture/ingest-understand-handoff.md`
+- `docs/architecture/agent-superclass-contract.md`
+- `docs/architecture/understand-readiness-review.md`
+- `docs/social/stage-2-understand-baseline.md`
+
+### Korean Understand Baseline Post
+
+```text
+Knowledge Pools의 understand 단계 설계를 정리했습니다.
+
+이번 결론:
+
+understand는 답변 생성이 아닙니다.
+durable memory를 바로 쓰는 단계도 아닙니다.
+
+ingest가 source를 보존하고 찾아갈 수 있게 만든다면,
+understand는 그 source unit에서 다음과 같은 지식 후보를 만듭니다.
+
+- claim
+- decision
+- concept
+- procedure
+- question
+- constraint
+- bounded summary
+
+단, 모든 후보는 evidence ref를 가져야 합니다.
+
+즉 이 단계의 출력은 "진실"이 아니라,
+나중에 connect, verify, curate 할 수 있는 source-grounded candidate입니다.
+
+RAG가 chunk 검색을 넘어가려면,
+chunk와 durable knowledge 사이에 이 중간층이 필요하다고 봅니다.
+```
+
+### Longer Korean Understand Baseline Post
+
+```text
+Knowledge Pools의 understand 단계 설계를 정리했습니다.
+
+이번 단계에서 가장 중요한 결론은 이것입니다.
+
+understand는 답변 생성이 아닙니다.
+그리고 durable memory를 바로 쓰는 단계도 아닙니다.
+
+ingest가 source를 보존하고,
+access unit으로 나누고,
+정확히 다시 찾아갈 수 있게 만든다면,
+
+understand는 그 source unit 안에 어떤 지식 후보가 있는지 구조화합니다.
+
+예를 들면:
+
+- claim candidate
+- decision candidate
+- concept candidate
+- procedure candidate
+- question candidate
+- constraint candidate
+- bounded summary candidate
+
+중요한 점은 모든 후보가 evidence ref를 가져야 한다는 것입니다.
+
+즉 "이런 의미가 있어 보인다"라고 말할 수는 있지만,
+"이것이 영구적인 진실이다"라고 말하지는 않습니다.
+
+이번에 정리한 경계는 다음과 같습니다.
+
+ingest = preserve, normalize, segment, locate, classify, propose
+understand = interpret, extract knowledge units, align evidence
+connect = relate candidates to existing records and graph context
+
+좋은 agent memory는 chunk를 곧바로 지식으로 믿지 않고,
+source-grounded candidate를 만든 뒤,
+connect, verify, curate 단계를 거쳐야 한다고 봅니다.
+```
+
+### English Understand Baseline Post
+
+```text
+I finished the understand architecture baseline for Knowledge Pools.
+
+The main lesson:
+
+understand is not answer generation.
+It is not durable memory writing either.
+
+If ingest preserves and locates source material, understand turns those source units into evidence-grounded knowledge candidates:
+
+- claim candidates
+- decision candidates
+- concept candidates
+- procedure candidates
+- question candidates
+- constraint candidates
+- bounded summary candidates
+
+Every candidate must keep evidence refs.
+
+The system can say:
+
+"this passage appears to express a claim"
+
+But it should not say:
+
+"this is now permanent truth"
+
+To move beyond basic RAG, I think we need this middle layer between chunks and durable knowledge.
+```

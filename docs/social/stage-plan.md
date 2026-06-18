@@ -56,29 +56,34 @@ Artifacts to include:
 - Index ID policy.
 - Preview artifact policy.
 
-## Stage 2: Claim-Level Memory
+## Stage 2: Understand Architecture Baseline
 
 Repository state:
 
-- Claims can be extracted from sources.
-- Claims include evidence links and confidence/status metadata.
-- Concepts and decisions can be stored separately.
+- Source/document understanding is separated from user-question understanding.
+- The Understanding Agent spec is defined.
+- Media understand concept proofs are documented.
+- Understand outputs are candidate-level artifacts with evidence refs.
+- Quality gates are defined before handoff to connect.
 
 Core message:
 
-> The durable unit of knowledge is not always a chunk. Often it is a claim.
+> Understand is not answer generation. It turns source units into evidence-grounded knowledge candidates.
 
 Post angles:
 
-- "A chunk says where text is. A claim says what the system believes and why."
-- "Claim records make contradiction detection possible."
-- "Decision memory preserves rationale, not just conclusions."
+- "Do not jump from chunks to memory. Create candidates first."
+- "Understand should produce claims, decisions, concepts, procedures, questions, and constraints as candidates."
+- "Every candidate needs evidence refs."
+- "Model-assisted extraction is useful, but the output must still be schema-validated and source-grounded."
 
 Artifacts to include:
 
-- Claim JSON example.
-- Decision record example.
-- Source-to-claim trace.
+- Understanding Agent spec.
+- Media understand concept proofs.
+- Understand readiness review.
+- Minimal knowledge candidate JSON example.
+- Ingest-to-understand handoff.
 
 ## Stage 3: Verification Loop
 
