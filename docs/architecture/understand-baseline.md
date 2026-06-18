@@ -12,6 +12,8 @@ For the distinction, see [Understand vs Task Understanding](understand-vs-task-u
 
 The detailed agent contract is defined in [Understanding Agent Spec](../agents/understanding-agent.md).
 
+The implementation readiness checklist is defined in [Understand Readiness Review](understand-readiness-review.md).
+
 ## Primary Purpose
 
 The primary purpose of `understand` is to convert located source material into explicit meaning units without losing evidence grounding.
@@ -517,6 +519,22 @@ Connect is responsible for:
 - proposing support, contradiction, supersession, dependency, or duplicate relationships;
 - deciding whether graph context changes interpretation;
 - preparing candidates for verification and curation.
+
+The handoff should use the common `HandoffEnvelope` with an `UnderstandToConnectPayload`.
+
+Minimum payload fields:
+
+- `understanding_artifact_ref`;
+- `knowledge_candidate_refs`;
+- `ambiguity_refs`;
+- `review_refs`;
+- `quality_report_ref`;
+- `source_id`;
+- `source_version_id`;
+- `taxonomy_bundle_id`;
+- `taxonomy_version`.
+
+The readiness review defines the quality gate before this handoff.
 
 ## Minimal V1 Rule
 

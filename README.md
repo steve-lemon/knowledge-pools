@@ -39,6 +39,7 @@ The goal is not just to retrieve document chunks. The goal is to maintain a livi
 - [Ingest and Understand Boundary](docs/architecture/ingest-understand-boundary.md)
 - [Ingest to Understand Handoff](docs/architecture/ingest-understand-handoff.md)
 - [Understand Baseline](docs/architecture/understand-baseline.md)
+- [Understand Readiness Review](docs/architecture/understand-readiness-review.md)
 - [Understand vs Task Understanding](docs/architecture/understand-vs-task-understanding.md)
 - [Understanding Agent Spec](docs/agents/understanding-agent.md)
 - [Connection Agent Spec](docs/agents/connection-agent.md)

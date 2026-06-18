@@ -27,6 +27,8 @@ The agent should make source meaning explicit enough for `connect`, `retrieve`, 
 
 Media-specific examples are defined in [Media Understand Concept Proofs](../architecture/media-understand-concept-proofs.md).
 
+Implementation readiness checks are defined in [Understand Readiness Review](../architecture/understand-readiness-review.md).
+
 ## Responsibilities
 
 The agent owns:
@@ -429,6 +431,8 @@ The agent hands off:
 - trace refs.
 
 Connect may use these artifacts to propose relationships, duplicates, contradictions, support, dependencies, and supersession.
+
+The agent should hand off only after the quality report confirms schema validity, evidence coverage, unresolved ref count, and review-required markings.
 
 ## V1 Acceptance Criteria
 

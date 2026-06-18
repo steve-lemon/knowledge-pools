@@ -173,6 +173,7 @@ Deliverables:
 - Understand tool sequence using `artifact.read`, `source.locate`, `source.read`, `taxonomy.read`, `taxonomy.validate`, `schema.validate`, `candidate.emit`, `ambiguity.emit`, `review.request`, `artifact.write`, and `audit.trace`.
 - Failure classes for invalid handoff, unresolved refs, schema errors, and invalid model output.
 - Quality report with candidate counts, evidence coverage, review rate, unresolved refs, and schema failures.
+- Understand readiness checklist and quality gate before handoff to connect.
 - V1 acceptance criteria for Markdown/text, deterministic extraction, evidence refs, schema validation, and no durable mutation.
 
 Initial understanding inputs:
