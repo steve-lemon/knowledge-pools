@@ -15,6 +15,12 @@ The current baseline is strong in these areas:
 - LLM-independent agent/session design;
 - taxonomy vs versioning separation.
 
+Implementation posture:
+
+- single repository first;
+- minimal local implementation first;
+- defer multi-repository and cluster behavior until there is a concrete need.
+
 The main missing concerns are:
 
 - security and access control;
@@ -309,19 +315,27 @@ sources/{source_id}/versions/{source_version}/derived/{rendition_id}
 
 ## Priority Improvements
 
-Before implementation, define these:
+Before implementation, define these minimally:
 
 1. Source manifest and access unit schema.
-2. OpenSearch document shapes and index aliases.
-3. Ingest job state machine with idempotency.
+2. OpenSearch-compatible document shapes.
+3. Simple ingest job status.
 4. Source link/provenance contract.
-5. Access control metadata fields.
-6. Source update and deletion policy.
-7. Small retrieval regression set format.
+5. Minimal lifecycle fields.
+6. Small retrieval regression set format.
+
+Backlog for later hardening:
+
+- full ACL engine;
+- tombstone purge workflows;
+- alias-based OpenSearch reindex cutover;
+- source update diffing;
+- multi-project or multi-tenant boundaries;
+- repository federation;
+- distributed observability.
 
 ## Design Rule
 
 The architecture should stay simple, but not vague.
 
-Use object storage and OpenSearch as the v1 infrastructure, while explicitly defining provenance, versioning, access control, and reindex behavior before large-scale ingest.
-
+Use object storage and OpenSearch-compatible documents as the v1 direction, while implementing only the smallest useful lifecycle, provenance, and indexing contracts first.

@@ -19,10 +19,11 @@ kp verify <run-id>
 
 ## Guiding Constraints
 
+- Single repository first.
 - Start local and inspectable.
 - Preserve sources before generating summaries.
 - Store original sources in filesystem-compatible object storage.
-- Use OpenSearch as the main indexing server.
+- Use OpenSearch-compatible documents first, then connect a real OpenSearch server.
 - Keep every indexed document linked to original source units.
 - Use typed records instead of loose text blobs.
 - Use a versioned taxonomy before creating graph records.
@@ -30,7 +31,8 @@ kp verify <run-id>
 - Store run traces from the beginning.
 - Add vector search only after OpenSearch source, keyword, and structured retrieval are reliable.
 - Add durable memory only behind a curation gate.
-- Define lifecycle, access, provenance, and reindex contracts before large-scale ingest.
+- Define the smallest useful lifecycle and provenance contract before large-scale ingest.
+- Defer multi-repository, clustering, full ACL, distributed queues, and separate graph/vector databases.
 
 ## Step 1: Project Skeleton
 
@@ -38,7 +40,7 @@ Deliverables:
 
 - CLI entry point.
 - Application module layout.
-- Local `knowledge/` workspace layout.
+- Single repository workspace layout.
 - Basic configuration file.
 
 Suggested modules:
@@ -77,11 +79,12 @@ Initial layout:
 knowledge/
   sources/
   manifests/
+  taxonomy/
+  index-documents/
   sessions/
   runs/
   artifacts/
-  memory/
-  opensearch-fixtures/
+  eval/
 ```
 
 This step must be implemented before agent-to-agent workflows. The system should own context and session state before any LLM adapter is introduced.
@@ -103,7 +106,7 @@ The taxonomy should start small and evolve through human-reviewed proposals.
 Deliverables:
 
 - Markdown file scanner.
-- Ingest job state machine with idempotency key.
+- Simple ingest job status.
 - Source record schema.
 - Content hashing.
 - Heading-aware parser.
@@ -112,8 +115,7 @@ Deliverables:
 - Access unit schema for large or long files.
 - Media ingest strategy interface.
 - Version fields for source, manifest, parser, taxonomy, and index.
-- Access-control metadata fields.
-- Delete/tombstone behavior.
+- Minimal lifecycle metadata.
 - Taxonomy-aware category assignment.
 - Ingest artifact schema.
 - Validation report for each ingest artifact.
@@ -135,14 +137,12 @@ First source fields:
 
 Deliverables:
 
-- Versioned index naming and aliases.
-- OpenSearch mappings for source records and access units.
-- OpenSearch mappings for taxonomy-aware ingest artifacts.
-- OpenSearch mappings for entity instances and relation instances.
+- OpenSearch-compatible document fixtures for source records and access units.
+- OpenSearch-compatible document fixtures for taxonomy-aware ingest artifacts.
+- OpenSearch-compatible document fixtures for entity instances and relation instances.
 - Source provenance fields on every indexed document.
-- Source lookup and keyword search.
-- Structured taxonomy filter search.
-- Reindex plan for mapping or taxonomy changes.
+- Local fixture search for source lookup and keyword search.
+- Draft OpenSearch mapping notes.
 - Run trace format.
 
 Initial indexed document types:

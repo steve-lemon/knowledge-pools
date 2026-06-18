@@ -6,11 +6,13 @@ The goal is to keep implementation practical while preserving the core architect
 
 ## Baseline Decision
 
-Use two primary infrastructure layers:
+Use one logical repository boundary with two primary infrastructure layers:
 
 ```text
 source object store  ->  ingest/analysis pipeline  ->  OpenSearch index
 ```
+
+The implementation posture is [Single Repository First](single-repository-first.md).
 
 ## 1. Source Object Store
 
@@ -167,6 +169,8 @@ OpenSearch stores searchable projections and references. If an indexed field con
 
 These are deferred until needed:
 
+- multiple repositories;
+- repository clusters;
 - standalone graph database;
 - separate vector database;
 - relational metadata database;
