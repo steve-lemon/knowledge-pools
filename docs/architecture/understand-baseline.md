@@ -10,7 +10,7 @@ This document is about source/document understanding, not runtime user-question 
 
 For the distinction, see [Understand vs Task Understanding](understand-vs-task-understanding.md).
 
-The detailed agent contract is defined in [Understanding Agent Spec](agents/understanding-agent.md).
+The detailed agent contract is defined in [Understanding Agent Spec](../agents/understanding-agent.md).
 
 ## Primary Purpose
 

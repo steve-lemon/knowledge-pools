@@ -25,7 +25,7 @@ IngestArtifact + AccessUnit[]
 
 The agent should make source meaning explicit enough for `connect`, `retrieve`, `reason`, `verify`, and `curation` to use later.
 
-Media-specific examples are defined in [Media Understand Concept Proofs](../media-understand-concept-proofs.md).
+Media-specific examples are defined in [Media Understand Concept Proofs](../architecture/media-understand-concept-proofs.md).
 
 ## Responsibilities
 
@@ -66,7 +66,7 @@ The agent may run when:
 
 The first implementation should run manually or from a simple orchestrator command.
 
-The required handoff from ingest is defined in [Ingest to Understand Handoff](../ingest-understand-handoff.md).
+The required handoff from ingest is defined in [Ingest to Understand Handoff](../architecture/ingest-understand-handoff.md).
 
 ## Task Contract
 
@@ -206,7 +206,7 @@ Model output must be treated as untrusted until schema validation, evidence vali
 
 V1 should start with `structural_v1`.
 
-Media-specific extraction policies should follow [Media Understand Concept Proofs](../media-understand-concept-proofs.md).
+Media-specific extraction policies should follow [Media Understand Concept Proofs](../architecture/media-understand-concept-proofs.md).
 
 Recommended extractors:
 

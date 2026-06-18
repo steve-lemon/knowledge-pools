@@ -11,7 +11,7 @@ The user noted that the Ingestion Agent spec had not been detailed while the Und
 
 ## Decision
 
-Define the Ingestion Agent spec under `docs/architecture/agents/ingestion-agent.md`.
+Define the Ingestion Agent spec under `docs/agents/ingestion-agent.md`.
 
 The Ingestion Agent is responsible for preserving and structuring evidence:
 

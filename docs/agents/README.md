@@ -2,15 +2,15 @@
 
 This directory contains one specification per agent role.
 
-Use [../agents.md](../agents.md) as the high-level role map.
+Use [Agent Design](../architecture/agents.md) as the high-level role map.
 
 Shared contracts:
 
-- [Single Agent Model](../single-agent-model.md)
-- [Agent Superclass Contract](../agent-superclass-contract.md)
-- [Agent Connection Model](../agent-connection-model.md)
-- [Context and Session Model](../context-session-model.md)
-- [Agent Tool Pool](../agent-tool-pool.md)
+- [Single Agent Model](../architecture/single-agent-model.md)
+- [Agent Superclass Contract](../architecture/agent-superclass-contract.md)
+- [Agent Connection Model](../architecture/agent-connection-model.md)
+- [Context and Session Model](../architecture/context-session-model.md)
+- [Agent Tool Pool](../architecture/agent-tool-pool.md)
 
 ## Agent Specs
 

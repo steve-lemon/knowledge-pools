@@ -322,7 +322,7 @@ Understand may read these refs to create semantic knowledge candidates.
 
 The concrete handoff artifact is `IngestToUnderstandHandoff`.
 
-See [Ingest to Understand Handoff](../ingest-understand-handoff.md).
+See [Ingest to Understand Handoff](../architecture/ingest-understand-handoff.md).
 
 ## V1 Acceptance Criteria
 
