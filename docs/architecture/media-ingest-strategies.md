@@ -13,7 +13,7 @@ Every media strategy should produce:
 - `AccessUnit[]`
 - `IngestArtifact`
 - `GraphCandidate[]`
-- OpenSearch index documents
+- content-minimal OpenSearch index documents
 
 ## Shared Pipeline
 
@@ -247,13 +247,13 @@ Locator examples:
 
 Long documents should be indexed at multiple levels:
 
-- source-level summary;
-- section/page-level summary;
-- access-unit exact text;
+- source-level summary reference;
+- section/page-level summary reference;
+- access-unit locator and metadata;
 - extracted graph candidates;
 - source locators for detailed grounding.
 
-Summary records are retrieval aids. They do not replace source access units.
+Summary records are retrieval aids. They do not replace source access units. Long summary text should be stored as an artifact or source-derived object, not copied into index document `_source` by default.
 
 ## Wiki-Style Document Connectivity
 
@@ -303,4 +303,3 @@ Versioning and source manifests manage change, access, and evidence location.
 OpenSearch manages searchable projections.
 
 The object store manages original bytes and derived source objects.
-

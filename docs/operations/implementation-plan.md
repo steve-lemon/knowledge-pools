@@ -25,6 +25,7 @@ kp verify <run-id>
 - Store original sources in filesystem-compatible object storage.
 - Use OpenSearch-compatible documents first, then connect a real OpenSearch server.
 - Keep every indexed document linked to original source units.
+- Treat index documents as retrieval maps, not content stores.
 - Use typed records instead of loose text blobs.
 - Use a versioned taxonomy before creating graph records.
 - Follow the canonical terminology in `docs/architecture/terminology.md`.
@@ -141,6 +142,8 @@ Deliverables:
 - OpenSearch-compatible document fixtures for taxonomy-aware ingest artifacts.
 - OpenSearch-compatible document fixtures for entity instances and relation instances.
 - Source provenance fields on every indexed document.
+- Content-minimal index document policy.
+- Fixture checks that full raw content is not stored in index documents.
 - Local fixture search for source lookup and keyword search.
 - Draft OpenSearch mapping notes.
 - Run trace format.

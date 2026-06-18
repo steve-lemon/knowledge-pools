@@ -98,6 +98,8 @@ The pipeline produces:
 
 OpenSearch is the main indexing and query server for v1.
 
+OpenSearch should be treated as a retrieval map, not a content store. The content-minimal policy is defined in [Index Content Policy](index-content-policy.md).
+
 OpenSearch stores searchable projections of:
 
 - source records;
@@ -116,10 +118,12 @@ OpenSearch should support:
 - taxonomy filters;
 - nested entity/relation queries;
 - date/range queries;
-- full-text search;
+- full-text search when indexed-but-not-stored text is explicitly enabled;
 - later vector search if needed.
 
 The first implementation should design OpenSearch mappings intentionally rather than treating it as a blob store.
+
+By default, indexed documents should not store full source content, full chunks, full OCR output, or high-resolution media bytes. They should store enough metadata and locators to find the relevant `AccessUnit`, then fetch exact evidence from the source object store.
 
 ## 5. Source Link Contract
 
@@ -162,6 +166,8 @@ source file
 ## What OpenSearch Is Not
 
 OpenSearch is not the ground truth for original files.
+
+OpenSearch is also not the primary evidence store for answer generation.
 
 OpenSearch stores searchable projections and references. If an indexed field conflicts with the source object, the source object plus source manifest wins.
 

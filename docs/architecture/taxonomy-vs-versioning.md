@@ -12,6 +12,8 @@ Source manifests should define access.
 
 Indexing policy should define search projection.
 
+Indexing policy should not turn OpenSearch into a duplicate source content store. See [Index Content Policy](index-content-policy.md).
+
 ## Responsibility Matrix
 
 | Concern | Taxonomy | Versioning | Source Manifest | OpenSearch Mapping |
@@ -25,7 +27,7 @@ Indexing policy should define search projection.
 | PDF page or bbox locator | No | Manifest version | Yes | Stored locator fields |
 | Image resolution/renditions | No | Rendition policy version | Yes | Rendition metadata |
 | Document summaries | No, except summary kind may be categorized | Summary generator version | Links to source units | Summary fields |
-| Detailed indexing fields | No, except attribute definitions | Mapping version | Links to access units | Yes |
+| Detailed indexing fields | No, except attribute definitions | Mapping version | Links to access units | Yes, content-minimal |
 | Wiki links and backlinks | Relation types only | Source/index version | Link locators | Relation docs |
 | Source update history | No | Yes | Yes | Version fields |
 | Original source bytes | No | Object version | Object URI | Reference only |
@@ -87,6 +89,8 @@ Manage summaries through:
 - verification metadata.
 
 Detailed indexing belongs to OpenSearch mapping and access unit design.
+
+Detailed indexing should store locators and retrieval metadata first. Raw content should remain in source storage unless a reviewed policy allows indexed-but-not-stored search text.
 
 ## Wiki-Style Connectivity
 
@@ -160,4 +164,3 @@ Taxonomy is the shared semantic contract.
 Versioning, manifests, and indexing policies are operational contracts.
 
 Keep them linked, but do not collapse them into one system.
-
