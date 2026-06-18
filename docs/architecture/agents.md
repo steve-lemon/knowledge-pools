@@ -2,6 +2,18 @@
 
 This document defines the initial agent roles for Knowledge Pools.
 
+For the lower-level contract of a single agent, see [Single Agent Model](single-agent-model.md).
+
+For agent handoffs and workflow connections, see [Agent Connection Model](agent-connection-model.md).
+
+For context and session persistence, see [Context and Session Model](context-session-model.md).
+
+## Design Principle
+
+Agents communicate through typed artifacts and context envelopes.
+
+They should not depend on hidden LLM chat state, provider-hosted threads, or raw conversation history as the source of truth.
+
 ## Ingestion Agent
 
 Converts raw inputs into normalized source records.

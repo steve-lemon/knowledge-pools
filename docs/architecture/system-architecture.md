@@ -33,11 +33,18 @@ Coordinates agent workflows.
 Responsibilities:
 
 - choose workflow type
+- create sessions, runs, and tasks
+- assemble context envelopes
 - pass typed records between components
+- validate agent input and output schemas
+- store handoff artifacts
 - persist run traces
 - enforce verification before durable updates
+- keep provider-specific model state out of the core architecture
 
 Initial implementation can be a small application service rather than a full agent framework.
+
+See [Context and Session Model](context-session-model.md) for state ownership.
 
 ## Ingestion Pipeline
 
@@ -196,4 +203,3 @@ kp verify <run-id>
 ```
 
 This MVP should prove the architecture with simple local files before adding heavier infrastructure.
-

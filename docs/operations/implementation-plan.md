@@ -39,6 +39,9 @@ Suggested modules:
 src/
   cli/
   core/
+  orchestrator/
+  sessions/
+  artifacts/
   ingest/
   records/
   retrieve/
@@ -48,7 +51,31 @@ src/
   eval/
 ```
 
-## Step 2: Local Source Ingestion
+## Step 2: Session, Run, and Artifact Foundation
+
+Deliverables:
+
+- Session record schema.
+- Run record schema.
+- Task record schema.
+- Context envelope schema.
+- Artifact metadata schema.
+- Trace event schema.
+- Local directories for sessions, runs, tasks, artifacts, and traces.
+
+Initial layout:
+
+```text
+knowledge/
+  sessions/
+  runs/
+  artifacts/
+  memory/
+```
+
+This step must be implemented before agent-to-agent workflows. The system should own context and session state before any LLM adapter is introduced.
+
+## Step 3: Local Source Ingestion
 
 Deliverables:
 
@@ -68,7 +95,7 @@ First source fields:
 - `parser`
 - `metadata`
 
-## Step 3: Records and Indexes
+## Step 4: Records and Indexes
 
 Deliverables:
 
@@ -85,7 +112,28 @@ Initial record types:
 - concept_candidate
 - question_candidate
 
-## Step 4: Retrieval Planning
+## Step 5: Single Agent Contract
+
+Deliverables:
+
+- Agent input contract.
+- Agent output contract.
+- Tool port interface.
+- Model adapter interface.
+- Schema validation for agent outputs.
+
+The first agent can be deterministic and model-free. This proves the orchestration contract before adding LLM behavior.
+
+## Step 6: Agent Handoff
+
+Deliverables:
+
+- Handoff record schema.
+- Blackboard-style run workspace.
+- Sequential handoff from planner to retriever.
+- Trace events for each handoff.
+
+## Step 7: Retrieval Planning
 
 Deliverables:
 
@@ -101,7 +149,7 @@ Initial plan types:
 - decision_recall
 - verification_check
 
-## Step 5: Basic Ask and Verify
+## Step 8: Basic Ask and Verify
 
 Deliverables:
 
@@ -111,7 +159,7 @@ Deliverables:
 - Verification checks cited evidence exists.
 - Run trace is stored.
 
-## Step 6: Curation and Update
+## Step 9: Curation and Update
 
 Deliverables:
 
@@ -120,7 +168,7 @@ Deliverables:
 - Durable decision and claim records.
 - Supersession metadata.
 
-## Step 7: Evaluation Loop
+## Step 10: Evaluation Loop
 
 Deliverables:
 
@@ -143,4 +191,3 @@ Recommended default:
 Reason:
 
 TypeScript keeps the CLI, schemas, and future service layer close together while still allowing fast local iteration.
-
