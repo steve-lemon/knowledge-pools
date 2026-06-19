@@ -23,6 +23,7 @@ Do not create new stage-specific posts automatically. Use this directory as a re
 - [stage-6-reason-baseline.md](stage-6-reason-baseline.md): seventh public narrative about the reason architecture baseline.
 - [stage-7-verify-baseline.md](stage-7-verify-baseline.md): eighth public narrative about the verify architecture baseline.
 - [stage-8-update-baseline.md](stage-8-update-baseline.md): ninth public narrative about the update architecture baseline.
+- [stage-9-curation-baseline.md](stage-9-curation-baseline.md): tenth public narrative about the curation architecture baseline.
 - [on-demand-workflow.md](on-demand-workflow.md): rules for creating social content only when requested.
 - [post-template.md](post-template.md): reusable format for drafting posts.
 - [drafts.md](drafts.md): existing draft posts and reference material.

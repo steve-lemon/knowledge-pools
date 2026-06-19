@@ -258,13 +258,14 @@ Artifacts to include:
 - Media update concept proofs.
 - Update readiness review.
 
-## Stage 9: Curation and Evaluation
+## Stage 9: Curation
 
 Repository state:
 
 - Curation decides what becomes durable memory or graph state.
 - Accepted candidates can create durable records or lifecycle changes.
-- Agent traces are stored for evaluation.
+- Curation emits `CurationDecision` and `CurationToEvaluateHandoff`.
+- Evaluation is still the next stage.
 
 Core message:
 
@@ -273,11 +274,36 @@ Core message:
 Post angles:
 
 - "The curation agent decides what becomes durable."
-- "Agent traces make the system inspectable."
+- "No durable record can be the right result."
+- "Every memory write needs a curation decision."
 - "Rollback and deletion policies matter after durable writes exist."
 
 Artifacts to include:
 
 - Curation decision example.
-- Durable memory update example.
+- Media curation concept proofs.
+- Curation readiness review.
+- Update-to-curation handoff.
+
+## Stage 10: Evaluation
+
+Repository state:
+
+- Agent traces are stored for evaluation.
+- Evaluation records quality signals from completed runs.
+- Evaluation should inspect retrieval misses, verifier failures, update candidates, and curation decisions.
+
+Core message:
+
+> A knowledge system should learn from its own failures and decisions.
+
+Post angles:
+
+- "Agent traces make the system inspectable."
+- "Evaluation should measure whether memory decisions helped."
+- "Quality signals should feed future improvements without bypassing curation."
+
+Artifacts to include:
+
 - Evaluation checklist.
+- Evaluation report example.

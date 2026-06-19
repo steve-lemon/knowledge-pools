@@ -718,3 +718,58 @@ noisy memory보다 낫습니다.
 검증된 결과를 후보로 만들고,
 curation을 통해 durable memory로 승격해야 한다고 봅니다.
 ```
+
+## Stage 9: Curation Architecture Baseline
+
+Status: draft
+
+Related commits:
+
+- `445931c` Define curation stage baseline
+- `8d65867` Clarify curation stage purpose
+- `b9fc705` Add media curation concept proofs
+- `41a79be` Add curation readiness review
+
+Related docs:
+
+- `docs/architecture/curation-baseline.md`
+- `docs/architecture/update-curation-handoff.md`
+- `docs/architecture/media-curation-concept-proofs.md`
+- `docs/architecture/curation-readiness-review.md`
+- `docs/architecture/rollback-and-quarantine.md`
+- `docs/architecture/content-deletion-lifecycle.md`
+- `docs/agents/curation-agent.md`
+- `docs/social/stage-9-curation-baseline.md`
+
+### Korean Curation Baseline Post
+
+```text
+Knowledge Pools의 curation 단계 설계를 정리했습니다.
+
+이번 결론:
+
+curation은 durable memory gate입니다.
+
+update가 UpdateCandidate를 만들면,
+curation은 그것을 durable memory로 승격할지 결정합니다.
+
+출력은:
+
+- CurationDecision
+- durable record
+- lifecycle update
+- curation quality report
+- CurationToEvaluateHandoff
+- trace events
+
+중요한 점:
+
+저장하지 않는 것도 정상 결과입니다.
+
+defer, reject, needs_more_evidence는 실패가 아니라
+memory hygiene입니다.
+
+좋은 agent memory는 모든 후보를 저장하는 것이 아니라,
+무엇을 왜 저장했고,
+무엇을 왜 거절했는지 남겨야 한다고 봅니다.
+```
