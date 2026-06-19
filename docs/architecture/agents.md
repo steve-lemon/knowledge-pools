@@ -94,8 +94,8 @@ Responsibilities:
 
 Tool contract:
 
-- required: `record.search`, `graph.query`, `taxonomy.validate`, `candidate.emit`, `artifact.write`, `audit.trace`;
-- optional: `model.complete`, `schema.validate`;
+- required: `artifact.read`, `record.search`, `graph.query`, `taxonomy.read`, `taxonomy.validate`, `schema.validate`, `candidate.emit`, `artifact.write`, `audit.trace`;
+- optional: `model.complete`, `ambiguity.emit`, `review.request`, `index.search`;
 - forbidden: `memory.write`, `curation.decide`, `source.tombstone`, `delete.create_tombstone`.
 
 ## Retrieval Planner

@@ -555,6 +555,41 @@ A proposed claim, decision, concept, procedure, question, constraint, or bounded
 
 Knowledge candidates must keep evidence refs and remain candidates until connect, verify, and curation stages approve durable storage.
 
+### Connection Artifact
+
+The structured result of relating knowledge candidates to other candidates, sources, records, or graph context.
+
+Connection artifacts link relationship proposal refs, duplicate refs, unresolved relation refs, review refs, quality reports, taxonomy refs, and trace refs.
+
+They are not durable graph records.
+
+### Relationship Proposal
+
+A candidate relationship emitted by the connect stage.
+
+Relationship proposals include relation type, endpoints, evidence refs, confidence, rationale refs, ambiguity refs, review flags, and taxonomy refs.
+
+They remain proposals until verification and curation approve durable graph storage.
+
+### UnderstandToConnectHandoff
+
+The handoff artifact produced by the Understanding Agent and consumed by the Connection Agent.
+
+It links:
+
+- understanding artifact ref;
+- knowledge candidate refs;
+- ambiguity refs;
+- review refs;
+- quality report ref;
+- source id;
+- source version id;
+- taxonomy bundle id and version;
+- validation status;
+- trace refs.
+
+It lets Connect relate only validated candidate outputs without guessing which understand artifacts are ready.
+
 ### Ambiguity Note
 
 A structured note that records uncertainty in an interpretation.

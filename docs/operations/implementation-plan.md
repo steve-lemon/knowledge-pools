@@ -197,7 +197,50 @@ First validation rules:
 - candidate status is never promoted to durable record status inside understand.
 - structural extraction can run without a model adapter.
 
-## Step 6: OpenSearch Index Baseline
+## Step 6: Connection Baseline
+
+Purpose:
+
+- relate knowledge candidates to existing records, candidates, sources, and graph context;
+- propose duplicate, support, contradiction, dependency, supersession, mention, and applicability relationships;
+- preserve evidence refs, rationale, ambiguity, and review needs before verification or curation;
+- keep relationship proposals separate from durable graph records.
+
+Deliverables:
+
+- Connect baseline architecture document.
+- Understand and connect boundary document.
+- Understand-to-connect handoff artifact schema and validation.
+- Connection Agent detailed spec.
+- Connection artifact schema.
+- Relationship proposal schema.
+- Duplicate and unresolved relation proposal schema.
+- Quality report with relation counts, unresolved endpoints, evidence coverage, review rate, and schema failures.
+- Deterministic matching policy for labels, aliases, explicit mentions, compatible candidate kinds, and taxonomy relation rules.
+- Connect tool sequence using `artifact.read`, `record.search`, `graph.query`, `taxonomy.read`, `taxonomy.validate`, `schema.validate`, `candidate.emit`, `artifact.write`, and `audit.trace`.
+- Failure classes for invalid handoff, unresolved candidates, unresolved endpoints, taxonomy relation errors, schema errors, and invalid model output.
+- V1 acceptance criteria for deterministic duplicate, mention, and support proposals with no durable graph mutation.
+
+Initial connection inputs:
+
+- understand-to-connect handoff ref;
+- understanding artifact ref;
+- knowledge candidate refs;
+- quality report ref;
+- taxonomy bundle id and version;
+- source id and source version id;
+- existing record or graph search access.
+
+First validation rules:
+
+- every relationship proposal has `from_ref` and `to_ref`;
+- every endpoint ref resolves or is marked unresolved;
+- every relation type is allowed by the taxonomy version;
+- relationship proposal status is never promoted to durable graph status inside connect;
+- relation proposals preserve evidence refs or explicit indirect-evidence rationale;
+- deterministic matching can run without a model adapter.
+
+## Step 7: OpenSearch Index Baseline
 
 Deliverables:
 
@@ -233,7 +276,7 @@ Initial indexed document types:
 - procedure_candidate
 - question_candidate
 
-## Step 7: Evaluation Seed
+## Step 8: Evaluation Seed
 
 Deliverables:
 
@@ -242,7 +285,7 @@ Deliverables:
 - Retrieval result comparison report.
 - Ingest quality checks for missing source links and parser failures.
 
-## Step 8: Single Agent Contract
+## Step 9: Single Agent Contract
 
 Deliverables:
 
@@ -261,7 +304,7 @@ Deliverables:
 
 The first agent can be deterministic and model-free. This proves the orchestration contract before adding LLM behavior.
 
-## Step 9: Agent Handoff
+## Step 10: Agent Handoff
 
 Deliverables:
 
@@ -270,7 +313,7 @@ Deliverables:
 - Sequential handoff from planner to retriever.
 - Trace events for each handoff.
 
-## Step 10: Retrieval Planning
+## Step 11: Retrieval Planning
 
 Deliverables:
 
@@ -287,7 +330,7 @@ Initial plan types:
 - decision_recall
 - verification_check
 
-## Step 11: Basic Ask and Verify
+## Step 12: Basic Ask and Verify
 
 Deliverables:
 
@@ -297,7 +340,7 @@ Deliverables:
 - Verification checks cited evidence exists.
 - Run trace is stored.
 
-## Step 12: Curation and Update
+## Step 13: Curation and Update
 
 Deliverables:
 
@@ -314,7 +357,7 @@ Deliverables:
 - Content hide, soft-delete, archive, restore, and purge workflow definitions.
 - Delete propagation rules for source versions, access units, previews, candidates, records, and relations.
 
-## Step 13: Evaluation Loop
+## Step 14: Evaluation Loop
 
 Deliverables:
 

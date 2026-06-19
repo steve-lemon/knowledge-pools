@@ -42,6 +42,7 @@ YYYY-MM-DD-short-title.md
 - [Understanding Agent Spec](2026-06-19-understanding-agent-spec.md)
 - [Stage and Agent Naming](2026-06-19-stage-agent-naming.md)
 - [Media Understand Concept Proofs](2026-06-19-media-understand-concept-proofs.md)
+- [Connect Baseline](2026-06-19-connect-baseline.md)
 
 ## Template
 

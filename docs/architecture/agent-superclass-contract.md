@@ -386,6 +386,9 @@ export interface UnderstandToConnectPayload {
   knowledge_candidate_refs: RefString[];
   ambiguity_refs: RefString[];
   review_refs: RefString[];
+  quality_report_ref: RefString;
+  source_id: string;
+  source_version_id: string;
   taxonomy_bundle_id: string;
   taxonomy_version: string;
 }
@@ -395,6 +398,11 @@ export interface ConnectToVerifyPayload {
   relationship_candidate_refs: RefString[];
   conflict_candidate_refs: RefString[];
   unresolved_candidate_refs: RefString[];
+  ambiguity_refs: RefString[];
+  review_refs: RefString[];
+  quality_report_ref: RefString;
+  taxonomy_bundle_id: string;
+  taxonomy_version: string;
 }
 
 export interface PlanToRetrievePayload {

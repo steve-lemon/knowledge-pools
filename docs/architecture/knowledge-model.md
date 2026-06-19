@@ -196,8 +196,48 @@ Fields:
 
 Knowledge candidates must remain candidates until connect, verify, and curation stages approve durable storage.
 
+### Connection Artifact
+
+A structured artifact produced by the connect stage.
+
+Fields:
+
+- `id`
+- `understanding_artifact_ref`
+- `relationship_proposal_refs`
+- `duplicate_candidate_refs`
+- `unresolved_relation_refs`
+- `review_refs`
+- `quality_report_ref`
+- `taxonomy_bundle_id`
+- `taxonomy_version`
+
+Connection artifacts group relationship proposals.
+
+They are not durable graph records.
+
+### Relationship Proposal
+
+A candidate edge between a candidate, record, source, concept, or graph node.
+
+Fields:
+
+- `id`
+- `relation_type`
+- `status`
+- `from_ref`
+- `to_ref`
+- `evidence_refs`
+- `confidence`
+- `rationale_ref`
+- `ambiguity_refs`
+- `requires_review`
+
+Relationship proposals remain candidates until verification and curation approve them.
+
 ## Relationship Types
 
+- `duplicates`
 - `supports`
 - `contradicts`
 - `supersedes`
