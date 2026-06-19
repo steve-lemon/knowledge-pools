@@ -211,6 +211,10 @@ Recommended v1 plan types:
 | `source_audit` | The request asks what evidence exists or is missing |
 | `hybrid_evidence_lookup` | Multiple retrieval modes are required |
 
+Media-specific planning examples are defined in [Media Plan Concept Proofs](media-plan-concept-proofs.md).
+
+Media-heavy plans should prefer bounded refs such as page refs, region refs, timestamp ranges, keyframes, previews, or transcript spans over full source fetches.
+
 ## V1 Workflow
 
 Recommended workflow:

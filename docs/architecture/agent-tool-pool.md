@@ -191,6 +191,7 @@ Durable mutation should be limited to curation and accepted durable-update workf
 | `graph.query` | Query graph records or projected relations | `read_only` |
 | `retrieval.fetch_evidence` | Fetch exact source units after retrieval | `read_only` |
 | `retrieval.plan` | Create a structured retrieval plan from task constraints | `derive` |
+| `preview.lookup` | Resolve preview artifacts such as thumbnails, storyboards, waveform previews, or summaries | `read_only` |
 
 ### Reasoning and Model Tools
 
@@ -229,8 +230,8 @@ The orchestrator should grant tools by stage, not by agent personality.
 | `ingest` | source, parsing/media, taxonomy read/classify, artifact, candidate emit, index projection |
 | `understand` | source read/locate, artifact read/write, taxonomy read/validate/classify, candidate emit, ambiguity emit, review request, model adapter |
 | `connect` | artifact read/write, record search, optional graph query, taxonomy read/validate, schema validate, candidate emit, ambiguity emit, review request, optional model adapter |
-| `plan` | retrieval plan, record search, index search metadata, schema validate, artifact write, optional graph query, optional model adapter |
-| `retrieve` | index search, record search, graph query, source locate/read, evidence fetch |
+| `plan` | retrieval plan, record search, index search metadata, schema validate, artifact write, optional graph query, optional preview lookup, optional model adapter |
+| `retrieve` | index search, record search, graph query, source locate/read, evidence fetch, optional preview lookup |
 | `reason` | evidence read, model adapter, reason synthesize, artifact write |
 | `verify` | artifact read/write, schema validate, taxonomy read/validate, verification check, optional evidence read, optional record/graph search, audit trace |
 | `update` | candidate emit, review request, `curation.propose`, artifact write |

@@ -617,11 +617,62 @@ It is not an evidence bundle.
 
 It is not an answer.
 
+It may be media-aware, but it is not media evidence.
+
+For media-specific examples, see [Media Plan Concept Proofs](media-plan-concept-proofs.md).
+
 ### PlanToRetrieveHandoff
 
 The handoff envelope produced by the Retrieval Planner and consumed by the Retrieval Agent.
 
 It carries the retrieval plan ref and constraints needed to gather evidence.
+
+### Required Evidence Type
+
+A planner-level label for the kind of evidence retrieval should gather.
+
+Examples:
+
+- `markdown_section`;
+- `image_region`;
+- `ocr_span`;
+- `transcript_span`;
+- `subtitle_span`;
+- `pdf_page`;
+- `decision_record`.
+
+Required evidence types guide retrieval.
+
+They are not evidence refs themselves.
+
+### Retrieval Step
+
+One executable search or lookup instruction inside a `RetrievalPlan`.
+
+Examples:
+
+- `source_lookup`;
+- `keyword_search`;
+- `record_search`;
+- `graph_query`;
+- `preview_lookup`.
+
+Retrieval steps describe how to search.
+
+They do not contain the fetched evidence.
+
+### Retrieval Budget
+
+A planner-defined limit that bounds retrieval cost, breadth, or media-heavy fetches.
+
+Examples:
+
+- maximum evidence refs;
+- maximum search steps;
+- avoid full video/audio fetch;
+- require bounded clips or time ranges.
+
+Retrieval budget helps prevent broad media queries from becoming unbounded source reads.
 
 ### Knowledge Candidate
 

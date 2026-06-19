@@ -78,7 +78,8 @@ Optional ports:
 - `graph.query`;
 - `taxonomy.read`;
 - `model.complete`;
-- `artifact.read`.
+- `artifact.read`;
+- `preview.lookup`.
 
 Forbidden ports:
 

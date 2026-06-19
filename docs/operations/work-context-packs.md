@@ -73,6 +73,7 @@ Use for `plan`, `retrieve`, `reason`, and answer verification work:
 - [Understand vs Task Understanding](../architecture/understand-vs-task-understanding.md)
 - [Plan Baseline](../architecture/plan-baseline.md)
 - [Plan to Retrieve Handoff](../architecture/plan-retrieve-handoff.md)
+- [Media Plan Concept Proofs](../architecture/media-plan-concept-proofs.md)
 - [Retrieval Planner Spec](../agents/retrieval-planner.md)
 - [Retrieval Agent Spec](../agents/retrieval-agent.md)
 - [Reasoning Agent Spec](../agents/reasoning-agent.md)
