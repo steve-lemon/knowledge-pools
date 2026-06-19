@@ -50,6 +50,7 @@ YYYY-MM-DD-short-title.md
 - [Stage Data Flow Contract](2026-06-19-stage-data-flow-contract.md)
 - [Plan Stage Preparation](2026-06-19-plan-stage-preparation.md)
 - [Media Plan Concept Proofs](2026-06-19-media-plan-concept-proofs.md)
+- [Plan Readiness Review](2026-06-19-plan-readiness-review.md)
 
 ## Template
 

@@ -315,6 +315,43 @@ Not allowed:
 
 Understand may interpret and propose, but it must not mutate durable memory or lifecycle state.
 
+## Plan Stage Tool Set
+
+The first `plan` implementation should use a narrow tool set.
+
+The full agent contract is defined in [Retrieval Planner Spec](../agents/retrieval-planner.md).
+
+Required:
+
+- `retrieval.plan`;
+- `record.search`;
+- `index.search`;
+- `schema.validate`;
+- `artifact.write`;
+- `audit.trace`.
+
+Optional:
+
+- `graph.query`;
+- `taxonomy.read`;
+- `model.complete`;
+- `artifact.read`;
+- `preview.lookup`.
+
+Not allowed:
+
+- `source.read`;
+- `retrieval.fetch_evidence`;
+- `reason.synthesize`;
+- `verification.check`;
+- `candidate.emit`;
+- `memory.write`;
+- `curation.decide`;
+- `source.tombstone`;
+- `delete.create_tombstone`.
+
+Plan may inspect metadata and produce a retrieval strategy, but it must not fetch evidence or synthesize answers.
+
 ## Permission Model
 
 Every tool call should be checked against:

@@ -87,6 +87,7 @@ Forbidden ports:
 - `retrieval.fetch_evidence`;
 - `reason.synthesize`;
 - `verification.check`;
+- `candidate.emit`;
 - `memory.write`;
 - `curation.decide`;
 - `source.tombstone`;

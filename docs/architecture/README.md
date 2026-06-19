@@ -45,6 +45,7 @@ Future baselines should be added here:
 - [Ingest Readiness Review](ingest-readiness-review.md)
 - [Understand Readiness Review](understand-readiness-review.md)
 - [Connect Readiness Review](connect-readiness-review.md)
+- [Plan Readiness Review](plan-readiness-review.md)
 
 Add a readiness review before moving each major stage forward.
 

@@ -131,7 +131,7 @@ Tool contract:
 
 - required: `retrieval.plan`, `record.search`, `index.search`, `schema.validate`, `artifact.write`, `audit.trace`;
 - optional: `graph.query`, `taxonomy.read`, `model.complete`, `artifact.read`, `preview.lookup`;
-- forbidden: `source.read`, `retrieval.fetch_evidence`, `reason.synthesize`, `verification.check`, `memory.write`, `curation.decide`, `source.tombstone`, `delete.create_tombstone`.
+- forbidden: `source.read`, `retrieval.fetch_evidence`, `reason.synthesize`, `verification.check`, `candidate.emit`, `memory.write`, `curation.decide`, `source.tombstone`, `delete.create_tombstone`.
 
 ## Retrieval Agent
 

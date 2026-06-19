@@ -388,7 +388,7 @@ Deliverables:
 - Retrieval plan schema.
 - Evidence bundle schema.
 - Quality report with intent confidence, retrieval step count, freshness scope, conflict-search flag, and schema failures.
-- Plan tool sequence using `retrieval.plan`, `record.search`, `index.search`, `schema.validate`, `artifact.write`, and `audit.trace`, with optional `graph.query`, `taxonomy.read`, `model.complete`, and `artifact.read`.
+- Plan tool sequence using `retrieval.plan`, `record.search`, `index.search`, `schema.validate`, `artifact.write`, and `audit.trace`, with optional `graph.query`, `taxonomy.read`, `model.complete`, `artifact.read`, and `preview.lookup`.
 - Failure classes for invalid task input, unsupported retrieval mode, missing schema, missing indexes, invalid model output, and invalid handoff.
 - V1 acceptance criteria for deterministic source lookup, keyword search, decision recall, and hybrid evidence lookup planning.
 
