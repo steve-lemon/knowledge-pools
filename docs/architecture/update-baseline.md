@@ -267,6 +267,8 @@ Deferred:
 - video scene-derived memory updates;
 - PDF-derived memory updates unless the PDF has been converted into verified text access units.
 
+Media-specific update behavior is validated in [Media Update Concept Proofs](media-update-concept-proofs.md).
+
 ## Tool Contract
 
 Required ports:

@@ -8,6 +8,8 @@ It is a proposal generator, not a memory writer.
 
 Stage baseline: [Update Baseline](../architecture/update-baseline.md).
 
+Media behavior: [Media Update Concept Proofs](../architecture/media-update-concept-proofs.md).
+
 Input handoff: [Verify to Update Handoff](../architecture/verify-update-handoff.md).
 
 Output handoff: `UpdateToCurationHandoff`.

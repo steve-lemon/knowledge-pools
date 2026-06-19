@@ -94,6 +94,7 @@ Detailed role specs live in [Agent Specs](../agents/README.md).
 - [Media Retrieve Concept Proofs](media-retrieve-concept-proofs.md)
 - [Media Reason Concept Proofs](media-reason-concept-proofs.md)
 - [Media Verify Concept Proofs](media-verify-concept-proofs.md)
+- [Media Update Concept Proofs](media-update-concept-proofs.md)
 
 ## Feedback And Improvement
 

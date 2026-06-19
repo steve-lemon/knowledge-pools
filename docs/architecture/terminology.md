@@ -81,6 +81,20 @@ Do not call an `UpdateCandidate` durable memory.
 
 It remains a proposal until `curation` accepts it.
 
+### Update Terms
+
+Use `UpdateCandidate` for a proposed reusable memory change emitted by `update`.
+
+Use `update signal` for a verified or feedback-derived reason to inspect whether a candidate should be created.
+
+Use `selection_reason` for why the Knowledge Update Agent emitted or skipped a candidate.
+
+Use `media_basis` for the evidence basis behind a candidate, such as `markdown_section`, `image_region`, `audio_transcript_span`, `video_scene`, or `pdf_text_block`.
+
+Do not use `update` to mean durable write.
+
+Durable writes belong to `curation` and accepted durable-update workflows.
+
 ### Taxonomy
 
 The human-governed conceptual system used to classify and constrain knowledge.

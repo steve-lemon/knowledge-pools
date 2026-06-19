@@ -55,6 +55,7 @@ YYYY-MM-DD-short-title.md
 - [Reason Baseline](2026-06-19-reason-baseline.md)
 - [Markdown-First Implementation](2026-06-19-markdown-first-implementation.md)
 - [Update Baseline](2026-06-19-update-baseline.md)
+- [Media Update Concept Proofs](2026-06-19-media-update-concept-proofs.md)
 
 ## Template
 

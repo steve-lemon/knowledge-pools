@@ -609,6 +609,7 @@ Deliverables:
 - Relationship proposal schema for update candidates.
 - Knowledge Update Agent detailed spec.
 - Update candidate quality report.
+- Media update concept proofs for Markdown/text, image, WAV/audio, MP4/video, and PDF.
 - Markdown/text update candidate implementation first.
 - Rules that convert unsupported claims into open questions or review requests, not facts.
 - Tool sequence using `artifact.read`, `schema.validate`, `candidate.emit`, `artifact.write`, and `audit.trace`, with optional `review.request`, `curation.propose`, `record.search`, `taxonomy.read`, `taxonomy.validate`, and `model.complete`.
