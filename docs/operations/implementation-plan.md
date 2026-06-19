@@ -334,6 +334,7 @@ Deliverables:
 - Verification result schema.
 - Relationship proposal verification mode.
 - Markdown-first answer verification mode for `DraftAnswer` and `ProposedAction`.
+- Media verify concept proofs for Markdown/text, image, WAV/audio, MP4/video, and PDF.
 - Quality report with checked count, verified count, rejected count, unsupported count, uncertain count, stale evidence count, review rate, and schema failures.
 - Verification tool sequence using `artifact.read`, `schema.validate`, `taxonomy.read`, `taxonomy.validate`, `verification.check`, `artifact.write`, and `audit.trace`, with optional `record.search`, `graph.query`, `source.locate`, `source.read`, `retrieval.fetch_evidence`, `review.request`, and `model.complete`.
 - Failure classes for invalid handoff, unresolved proposals, unresolved endpoints, missing evidence, taxonomy errors, schema errors, and invalid model output.

@@ -907,6 +907,19 @@ Verification reports group verification result refs, checked target refs, unsupp
 
 They do not write durable memory or graph records.
 
+### Verification Target
+
+The artifact, claim, proposal, or action being checked by the verify stage.
+
+Examples:
+
+- `RelationshipProposal`;
+- `DraftClaim`;
+- `DraftAnswer`;
+- `ProposedAction`.
+
+Every verification target should produce a `VerificationResult` or an explicit missing-target failure.
+
 ### Verification Result
 
 A per-target audit result produced by the verify stage.
@@ -914,6 +927,40 @@ A per-target audit result produced by the verify stage.
 Verification results indicate whether a relationship proposal, draft answer claim, or proposed action is `verified`, `rejected`, `unsupported`, `uncertain`, `stale`, or `needs_review`.
 
 Verification results guide curation, but they are not curation decisions.
+
+### Verification Status
+
+The status assigned to a `VerificationResult`.
+
+Recommended values:
+
+- `verified`;
+- `rejected`;
+- `unsupported`;
+- `uncertain`;
+- `stale`;
+- `needs_review`.
+
+Verification status is an audit outcome.
+
+It is not a durable memory lifecycle status.
+
+### SupportCheck
+
+A check inside a `VerificationResult` that evaluates whether cited evidence supports the target.
+
+Examples:
+
+- `markdown_section_supports_claim`;
+- `image_region_supports_claim`;
+- `transcript_span_supports_claim`;
+- `pdf_block_supports_claim`.
+
+### EvidenceResolutionCheck
+
+A check inside a `VerificationResult` that confirms cited evidence refs resolve to known evidence items, source versions, access units, records, or artifacts.
+
+Evidence resolution is required before support can be trusted.
 
 ### Quarantine
 

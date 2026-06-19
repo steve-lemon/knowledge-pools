@@ -89,6 +89,8 @@ This baseline focuses first on `verify_relationships` because it follows `connec
 
 For implementation, the Markdown-first MVP should add `verify_answer` for Markdown/text evidence before expanding to other media types.
 
+Media-specific verification behavior is validated in [Media Verify Concept Proofs](media-verify-concept-proofs.md).
+
 ## Expected Results
 
 Verify should produce:

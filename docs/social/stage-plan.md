@@ -226,6 +226,7 @@ Post angles:
 Artifacts to include:
 
 - Verification report.
+- Media verify concept proofs.
 - Example unsupported answer.
 - Stale evidence warning.
 - Contradiction warning.
