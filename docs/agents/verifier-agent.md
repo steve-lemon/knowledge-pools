@@ -12,7 +12,7 @@ It does not accept graph edges.
 
 ## Purpose
 
-The Verifier Agent turns proposals or answers into verification reports.
+The Verifier Agent turns proposals or draft answers into verification reports.
 
 ```text
 ConnectToVerifyHandoff
@@ -23,6 +23,8 @@ ConnectToVerifyHandoff
 ```
 
 The agent should make unsupported, stale, uncertain, or contradictory outputs visible before curation or user-facing trust.
+
+It should preserve assumptions as assumptions and avoid treating fluent draft text as verified fact.
 
 The stage baseline is defined in [Verify Baseline](../architecture/verify-baseline.md).
 
@@ -55,6 +57,7 @@ The agent owns:
 - validating relation types against taxonomy;
 - running deterministic verification checks;
 - detecting missing, stale, weak, or contradictory evidence;
+- preserving assumptions as unverified assumptions;
 - emitting verification result artifacts;
 - emitting review requests when needed;
 - validating output schemas;

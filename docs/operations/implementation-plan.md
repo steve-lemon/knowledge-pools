@@ -319,8 +319,9 @@ First validation rules:
 Purpose:
 
 - audit relationship proposals before they become durable graph records;
-- audit draft answers later, after retrieval and reasoning are designed;
+- audit Markdown-first draft answers after retrieval and reasoning baselines;
 - surface unsupported, stale, uncertain, or contradictory outputs;
+- preserve assumptions as assumptions;
 - keep verification reports separate from curation decisions and durable memory writes.
 
 Deliverables:
@@ -332,11 +333,12 @@ Deliverables:
 - Verification report schema.
 - Verification result schema.
 - Relationship proposal verification mode.
-- Answer verification mode placeholder for later retrieval/reasoning stages.
+- Markdown-first answer verification mode for `DraftAnswer` and `ProposedAction`.
 - Quality report with checked count, verified count, rejected count, unsupported count, uncertain count, stale evidence count, review rate, and schema failures.
 - Verification tool sequence using `artifact.read`, `schema.validate`, `taxonomy.read`, `taxonomy.validate`, `verification.check`, `artifact.write`, and `audit.trace`, with optional `record.search`, `graph.query`, `source.locate`, `source.read`, `retrieval.fetch_evidence`, `review.request`, and `model.complete`.
 - Failure classes for invalid handoff, unresolved proposals, unresolved endpoints, missing evidence, taxonomy errors, schema errors, and invalid model output.
 - V1 acceptance criteria for deterministic relationship proposal verification with no durable graph mutation.
+- V1 acceptance criteria for Markdown/text answer verification with no durable memory mutation.
 
 Initial verification inputs:
 
@@ -346,7 +348,13 @@ Initial verification inputs:
 - quality report ref;
 - taxonomy bundle id and version;
 - endpoint refs;
-- evidence refs.
+- evidence refs;
+- reason-to-verify handoff ref for answer verification;
+- draft answer or proposed action ref;
+- evidence bundle ref;
+- claim refs;
+- assumption refs;
+- cited evidence refs.
 
 First validation rules:
 
@@ -355,6 +363,8 @@ First validation rules:
 - every relation type validates against taxonomy;
 - verification result status is audit-only and never promoted to durable graph status inside verify;
 - verified proposals remain pending curation;
+- verified claims remain audit outcomes, not durable memory;
+- assumptions are not promoted to supported facts;
 - deterministic verification can run without a model adapter.
 
 ## Step 8: OpenSearch Index Baseline
@@ -549,6 +559,7 @@ Deliverables:
 - Markdown-first answer verification mode implementation.
 - `kp ask` creates a retrieval plan, retrieves evidence, reasons from evidence, and stores a run trace.
 - Verification checks cited evidence exists and flags unsupported claims.
+- Verification emits audit results without rewriting the draft answer.
 
 V1 implementation scope:
 
@@ -564,6 +575,7 @@ First validation rules:
 - verifier checks cited evidence refs resolve;
 - verifier checks Markdown section or block refs before multi-media verification;
 - unsupported claims are flagged;
+- assumptions remain assumptions;
 - reasoning and verification do not write durable memory.
 
 ## Step 15: Curation and Update

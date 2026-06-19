@@ -39,6 +39,8 @@ Verify should:
 - resolve target refs;
 - resolve cited evidence refs;
 - check support, freshness, conflict, and uncertainty;
+- preserve assumptions as assumptions;
+- mark unsupported or under-evidenced parts explicitly;
 - emit per-target `VerificationResult` artifacts;
 - emit `VerificationReport`;
 - hand audit outcomes to `update` or later curation workflows.
@@ -46,6 +48,14 @@ Verify should:
 ## Primary Purpose
 
 The primary purpose of `verify` is to make unsupported, stale, contradictory, or under-evidenced outputs visible before they become trusted.
+
+The stage exists because neither relationship proposals nor fluent draft answers should certify themselves.
+
+Connect can propose relationships.
+
+Reason can synthesize a draft.
+
+Verify decides whether each target has enough cited support to be trusted downstream.
 
 For the current stage transition, verification starts with `RelationshipProposal` artifacts emitted by `connect`.
 
@@ -56,6 +66,15 @@ The key shift is:
 ```text
 proposal or answer -> evidence-grounded verification result
 ```
+
+In practical terms, `verify` should make these things explicit:
+
+- which relationship proposals or draft claims are supported;
+- which are unsupported, uncertain, stale, contradictory, or missing evidence;
+- which assumptions remain assumptions;
+- which evidence refs resolved and which did not;
+- which results require human review;
+- which outputs may become update signals later.
 
 ## Verification Modes
 
@@ -91,6 +110,23 @@ Verify should produce:
 The expected output is not durable memory.
 
 The expected output is an audit report that later curation can use.
+
+It is also the gate that prevents draft answers from being treated as reliable just because they are fluent.
+
+## Success Criteria
+
+The `verify` stage is successful when:
+
+- the incoming handoff validates;
+- every target ref resolves or is reported missing;
+- every cited evidence ref resolves or is reported missing;
+- every relationship proposal or draft claim gets a `VerificationResult`;
+- assumptions are preserved and not marked as supported facts;
+- unsupported, stale, contradictory, uncertain, and review-needed results are explicit;
+- Markdown-first answer verification checks cited section or block refs before multi-media verification;
+- `VerificationReport` schema validates;
+- audit outcomes can be consumed by `update` or curation workflows;
+- no durable memory write, graph acceptance, source mutation, rollback, or deletion occurs.
 
 ## Expected Effects
 
@@ -129,6 +165,9 @@ The stage may say:
 
 - "this relationship proposal is supported by cited evidence";
 - "this relationship proposal is unsupported";
+- "this draft claim is supported by cited evidence";
+- "this draft claim is unsupported or under-evidenced";
+- "this answer contains assumptions that are not verified facts";
 - "this proposal has unresolved endpoints";
 - "this proposal needs human review";
 - "this evidence appears stale."
