@@ -231,7 +231,7 @@ The orchestrator should grant tools by stage, not by agent personality.
 | `understand` | source read/locate, artifact read/write, taxonomy read/validate/classify, candidate emit, ambiguity emit, review request, model adapter |
 | `connect` | artifact read/write, record search, optional graph query, taxonomy read/validate, schema validate, candidate emit, ambiguity emit, review request, optional model adapter |
 | `plan` | retrieval plan, record search, index search metadata, schema validate, artifact write, optional graph query, optional preview lookup, optional model adapter |
-| `retrieve` | index search, record search, graph query, source locate/read, evidence fetch, optional preview lookup |
+| `retrieve` | artifact read/write, schema validate, index search, record search, graph query, source locate/read, evidence fetch, optional preview lookup |
 | `reason` | evidence read, model adapter, reason synthesize, artifact write |
 | `verify` | artifact read/write, schema validate, taxonomy read/validate, verification check, optional evidence read, optional record/graph search, audit trace |
 | `update` | candidate emit, review request, `curation.propose`, artifact write |
@@ -351,6 +351,45 @@ Not allowed:
 - `delete.create_tombstone`.
 
 Plan may inspect metadata and produce a retrieval strategy, but it must not fetch evidence or synthesize answers.
+
+## Retrieve Stage Tool Set
+
+The first `retrieve` implementation should execute a validated plan and return evidence bundles.
+
+The full agent contract is defined in [Retrieval Agent Spec](../agents/retrieval-agent.md).
+
+Required:
+
+- `artifact.read`;
+- `schema.validate`;
+- `index.search`;
+- `record.search`;
+- `source.locate`;
+- `source.read`;
+- `retrieval.fetch_evidence`;
+- `artifact.write`;
+- `audit.trace`.
+
+Optional:
+
+- `graph.query`;
+- `preview.lookup`;
+- `taxonomy.read`;
+- `model.embed`.
+
+Not allowed:
+
+- `retrieval.plan`;
+- `reason.synthesize`;
+- `verification.check`;
+- `candidate.emit`;
+- `memory.write`;
+- `curation.decide`;
+- `source.write`;
+- `source.tombstone`;
+- `delete.create_tombstone`.
+
+Retrieve may fetch bounded evidence, but it must not synthesize answers or mutate durable state.
 
 ## Permission Model
 

@@ -674,6 +674,35 @@ Examples:
 
 Retrieval budget helps prevent broad media queries from becoming unbounded source reads.
 
+### Evidence Bundle
+
+A run-scoped artifact produced by the `retrieve` stage.
+
+It contains selected evidence refs, bounded evidence item metadata, missing evidence notes, conflict refs, freshness metadata, and provenance.
+
+It is not an answer.
+
+It is not a durable memory record.
+
+### Evidence Ref
+
+A reference to source-grounded evidence that can be resolved by the system.
+
+Examples:
+
+- `src_md_001#section_001`;
+- `src_img_001#region_001`;
+- `src_wav_001#transcript_span_001`;
+- `record://decisions/index-content-policy`.
+
+Evidence refs must remain traceable through source records, manifests, access units, records, or artifacts.
+
+### RetrieveToReasonHandoff
+
+The handoff envelope produced by the Retrieval Agent and consumed by the Reasoning Agent.
+
+It carries the evidence bundle ref, evidence refs, missing evidence notes, and conflict refs needed for synthesis.
+
 ### Knowledge Candidate
 
 A proposed claim, decision, concept, procedure, question, constraint, or bounded summary extracted from source evidence.

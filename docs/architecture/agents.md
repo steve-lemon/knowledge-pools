@@ -141,15 +141,18 @@ Detailed v1 contract: [Retrieval Agent Spec](../agents/retrieval-agent.md).
 
 Responsibilities:
 
-- Run source lookup, keyword search, vector search, graph traversal, and temporal filtering as needed.
+- Load and validate `PlanToRetrieveHandoff`.
+- Run source lookup, keyword search, record search, graph traversal, preview lookup, and bounded evidence fetch as needed.
 - Return evidence bundles rather than raw search results only.
+- Preserve source, version, access-unit, freshness, and conflict metadata.
 - Mark missing evidence and possible conflicts.
+- Hand off evidence to reasoning.
 
 Tool contract:
 
-- required: `index.search`, `record.search`, `source.locate`, `source.read`, `retrieval.fetch_evidence`, `artifact.write`, `audit.trace`;
-- optional: `graph.query`;
-- forbidden: `memory.write`, `curation.decide`, `source.tombstone`, `delete.create_tombstone`.
+- required: `artifact.read`, `schema.validate`, `index.search`, `record.search`, `source.locate`, `source.read`, `retrieval.fetch_evidence`, `artifact.write`, `audit.trace`;
+- optional: `graph.query`, `preview.lookup`, `taxonomy.read`, `model.embed`;
+- forbidden: `retrieval.plan`, `reason.synthesize`, `verification.check`, `candidate.emit`, `memory.write`, `curation.decide`, `source.write`, `source.tombstone`, `delete.create_tombstone`.
 
 ## Reasoning Agent
 

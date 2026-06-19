@@ -20,6 +20,7 @@ Use [Ultimate Knowledge Loop](ultimate-loop.md) and [Terminology](terminology.md
 - [Connect Baseline](connect-baseline.md)
 - [Verify Baseline](verify-baseline.md)
 - [Plan Baseline](plan-baseline.md)
+- [Retrieve Baseline](retrieve-baseline.md)
 
 Future baselines should be added here:
 
@@ -38,6 +39,7 @@ Future baselines should be added here:
 - [Connect and Verify Boundary](connect-verify-boundary.md)
 - [Connect to Verify Handoff](connect-verify-handoff.md)
 - [Plan to Retrieve Handoff](plan-retrieve-handoff.md)
+- [Retrieve to Reason Handoff](retrieve-reason-handoff.md)
 - [Understand vs Task Understanding](understand-vs-task-understanding.md)
 
 ## Readiness Reviews

@@ -415,13 +415,39 @@ First validation rules:
 
 ## Step 13: Basic Ask and Verify
 
+Purpose:
+
+- execute retrieval plans;
+- return evidence bundles rather than raw hits;
+- preserve source, record, version, freshness, and conflict refs;
+- hand off evidence to reasoning.
+
 Deliverables:
 
+- Retrieve baseline architecture document.
+- Retrieve-to-reason handoff artifact schema and validation.
+- Retrieval Agent detailed spec.
+- Evidence bundle schema.
+- Missing evidence note schema.
+- Conflict candidate refs in evidence bundles.
+- Retrieve tool sequence using `artifact.read`, `schema.validate`, `index.search`, `record.search`, `source.locate`, `source.read`, `retrieval.fetch_evidence`, `artifact.write`, and `audit.trace`, with optional `graph.query`, `preview.lookup`, `taxonomy.read`, and `model.embed`.
+- Failure classes for invalid handoff, missing retrieval plan, unsupported retrieval mode, unresolved source/access-unit refs, missing evidence, permission denied, and schema errors.
 - `kp ask` creates a retrieval plan.
 - Retrieval returns an evidence bundle.
 - Reasoning produces a grounded answer.
 - Verification checks cited evidence exists.
 - Run trace is stored.
+
+First validation rules:
+
+- `PlanToRetrieveHandoff` validates;
+- retrieval plan ref resolves;
+- every retrieval step is allowed by tool grants;
+- every evidence item has an evidence ref;
+- source evidence includes source id and source version id;
+- missing evidence is explicit;
+- conflict refs are included when conflict search was requested;
+- retrieve does not synthesize answers.
 
 ## Step 14: Curation and Update
 

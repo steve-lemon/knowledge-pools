@@ -430,6 +430,9 @@ export interface RetrieveToReasonPayload {
   evidence_refs: RefString[];
   missing_evidence: string[];
   conflict_refs: RefString[];
+  retrieval_plan_ref?: RefString;
+  freshness_scope?: "latest" | "stable" | "historical" | "any";
+  required_evidence_types?: string[];
 }
 
 export interface ReasonToVerifyPayload {
