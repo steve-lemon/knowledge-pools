@@ -432,6 +432,7 @@ Deliverables:
 - Evidence bundle schema.
 - Missing evidence note schema.
 - Conflict candidate refs in evidence bundles.
+- Media retrieve concept proofs for Markdown/text, image, WAV/audio, MP4/video, and PDF.
 - Retrieve tool sequence using `artifact.read`, `schema.validate`, `index.search`, `record.search`, `source.locate`, `source.read`, `retrieval.fetch_evidence`, `artifact.write`, and `audit.trace`, with optional `graph.query`, `preview.lookup`, `taxonomy.read`, and `model.embed`.
 - Failure classes for invalid handoff, missing retrieval plan, unsupported retrieval mode, unresolved source/access-unit refs, missing evidence, permission denied, and schema errors.
 - Local fixture retrieval from source, access-unit, record, preview, and graph-like artifacts.

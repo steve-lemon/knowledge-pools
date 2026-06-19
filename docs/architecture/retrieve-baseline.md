@@ -123,6 +123,8 @@ A good retrieve result should be:
 - media-aware: evidence units preserve the correct locator shape for text, image, audio, video, PDF, graph, or record data;
 - reasoning-ready: the handoff contains enough refs and metadata for `reason` to synthesize without broad search.
 
+Media-specific retrieval behavior is validated in [Media Retrieve Concept Proofs](media-retrieve-concept-proofs.md).
+
 ## Expected Effects
 
 | Effect | Why it matters |

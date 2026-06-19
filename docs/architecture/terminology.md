@@ -684,6 +684,28 @@ It is not an answer.
 
 It is not a durable memory record.
 
+### Evidence Item
+
+One selected evidence entry inside an `EvidenceBundle`.
+
+An evidence item describes how a chosen evidence ref was retrieved and how it can be resolved.
+
+Typical fields:
+
+- evidence ref;
+- evidence type;
+- source ref or record ref;
+- source version id when source-grounded;
+- access unit ref when applicable;
+- retrieval step id;
+- content ref when a bounded artifact was created;
+- preview refs when used for inspection;
+- freshness, version, lifecycle, and confidence metadata.
+
+An evidence item is not an answer claim.
+
+It is the retrieval-stage packaging of usable evidence for reasoning.
+
 ### Evidence Ref
 
 A reference to source-grounded evidence that can be resolved by the system.
@@ -693,9 +715,13 @@ Examples:
 - `src_md_001#section_001`;
 - `src_img_001#region_001`;
 - `src_wav_001#transcript_span_001`;
+- `src_mp4_001#scene_006`;
+- `src_pdf_001#page_012_block_004`;
 - `record://decisions/index-content-policy`.
 
 Evidence refs must remain traceable through source records, manifests, access units, records, or artifacts.
+
+Search hits are not evidence refs until retrieve resolves and selects them.
 
 ### RetrieveToReasonHandoff
 
