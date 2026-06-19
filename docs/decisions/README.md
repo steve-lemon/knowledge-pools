@@ -60,6 +60,7 @@ YYYY-MM-DD-short-title.md
 - [Curation Baseline](2026-06-19-curation-baseline.md)
 - [Media Curation Concept Proofs](2026-06-19-media-curation-concept-proofs.md)
 - [Curation Readiness Review](2026-06-19-curation-readiness-review.md)
+- [Evaluate Baseline](2026-06-19-evaluate-baseline.md)
 
 ## Template
 

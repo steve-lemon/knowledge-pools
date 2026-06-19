@@ -301,6 +301,10 @@ Signals:
 - user corrections
 - successful answer patterns
 
+See [Evaluate Baseline](evaluate-baseline.md).
+
+The handoff from curation to evaluation is defined in [Curation to Evaluate Handoff](curation-evaluate-handoff.md).
+
 ## Target Principle
 
 Knowledge Pools should not merely answer from stored information.

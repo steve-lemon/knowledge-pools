@@ -56,6 +56,10 @@ The handoff from update to curation is defined in [Update to Curation Handoff](u
 
 The curation readiness and tool permission review is defined in [Curation Readiness Review](curation-readiness-review.md).
 
+The evaluation stage baseline is defined in [Evaluate Baseline](evaluate-baseline.md).
+
+The handoff from curation to evaluation is defined in [Curation to Evaluate Handoff](curation-evaluate-handoff.md).
+
 The connection implementation checklist is defined in [Connect Readiness Review](connect-readiness-review.md).
 
 Media-specific connection proofs are defined in [Media Connect Concept Proofs](media-connect-concept-proofs.md).

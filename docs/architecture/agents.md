@@ -249,6 +249,8 @@ Records quality signals from completed runs.
 
 Detailed v1 contract: [Evaluation Agent Spec](../agents/evaluation-agent.md).
 
+Stage baseline: [Evaluate Baseline](evaluate-baseline.md).
+
 Responsibilities:
 
 - Track retrieval misses.
@@ -256,9 +258,10 @@ Responsibilities:
 - Track stale or conflicting evidence usage.
 - Record user corrections.
 - Identify patterns that should improve future retrieval and verification.
+- Emit evaluation reports without mutating durable memory.
 
 Tool contract:
 
-- required: `audit.read_trace`, `evaluation.record`, `artifact.read`;
-- optional: `evaluation.report`, `record.search`;
-- forbidden: `memory.write`, `curation.decide`, `source.tombstone`, `delete.create_tombstone`.
+- required: `audit.read_trace`, `audit.trace`, `evaluation.record`, `artifact.read`, `schema.validate`, `artifact.write`;
+- optional: `evaluation.report`, `record.search`, `taxonomy.read`, `review.request`;
+- forbidden: `memory.write`, `memory.update_status`, `curation.decide`, `candidate.emit`, `verification.check`, `retrieval.fetch_evidence`, `index.write_projection`, `index.deactivate_projection`, `source.read`, `source.write`, `source.version`, `source.tombstone`, `delete.create_tombstone`.

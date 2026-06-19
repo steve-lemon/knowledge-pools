@@ -24,10 +24,9 @@ Use [Ultimate Knowledge Loop](ultimate-loop.md) and [Terminology](terminology.md
 - [Verify Baseline](verify-baseline.md)
 - [Update Baseline](update-baseline.md)
 - [Curation Baseline](curation-baseline.md)
+- [Evaluate Baseline](evaluate-baseline.md)
 
-Future baselines should be added here:
-
-- `evaluate`
+All canonical baselines are currently defined.
 
 ## Stage Boundaries And Handoffs
 
@@ -42,6 +41,7 @@ Future baselines should be added here:
 - [Reason to Verify Handoff](reason-verify-handoff.md)
 - [Verify to Update Handoff](verify-update-handoff.md)
 - [Update to Curation Handoff](update-curation-handoff.md)
+- [Curation to Evaluate Handoff](curation-evaluate-handoff.md)
 - [Understand vs Task Understanding](understand-vs-task-understanding.md)
 
 ## Readiness Reviews

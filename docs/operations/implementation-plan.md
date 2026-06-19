@@ -696,14 +696,56 @@ First validation rules:
 - curation emits `CurationToEvaluateHandoff`;
 - every durable write or lifecycle update is traced.
 
-## Step 17: Evaluation Loop
+## Step 17: Evaluation Baseline
+
+Purpose:
+
+- record quality signals from completed runs and curation outcomes;
+- summarize retrieval misses, verifier failures, update candidate outcomes, and curation decisions;
+- propose regression fixtures and future improvements without mutating durable memory;
+- keep improvement signals traceable to run, task, artifact, and decision refs.
+
+Expected results:
+
+- validated `CurationToEvaluateHandoff`;
+- one `EvaluationReport`;
+- zero or more `EvaluationSignal` records;
+- retrieval miss, unsupported claim, accepted/rejected/deferred candidate, and schema failure counts;
+- regression candidate recommendations where useful;
+- no durable memory, curation, source lifecycle, or index projection mutation.
 
 Deliverables:
 
+- Evaluate baseline architecture document.
+- Curation-to-evaluate handoff artifact schema and validation.
+- Evaluation Agent detailed spec.
+- `EvaluationReport` schema.
+- `EvaluationSignal` schema.
 - Store retrieval misses.
 - Store verifier failures.
 - Store user corrections.
+- Store curation outcomes.
 - Add simple quality reports.
+- Markdown-first regression fixture proposal format.
+
+V1 implementation scope:
+
+- Markdown/text completed runs only;
+- curation outcome summaries;
+- retrieval miss summaries;
+- verifier failure summaries;
+- schema failure summaries;
+- trace completeness checks;
+- no automatic update candidate or durable memory mutation.
+
+First validation rules:
+
+- `CurationToEvaluateHandoff` validates;
+- curation decision refs resolve;
+- quality report ref resolves;
+- trace refs are available or marked missing;
+- evaluation report schema validates;
+- evaluation does not write durable memory or change curation decisions.
 
 ## First Engineering Decision Needed
 

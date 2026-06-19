@@ -236,7 +236,7 @@ The orchestrator should grant tools by stage, not by agent personality.
 | `verify` | artifact read/write, schema validate, taxonomy read/validate, verification check, optional evidence read, optional record/graph search, audit trace |
 | `update` | artifact read/write, schema validate, candidate emit, optional review request, optional taxonomy read/validate, optional record search, optional `curation.propose`, audit trace |
 | `curation` | artifact read/write, schema validate, curation decide, memory write, optional memory status update, optional taxonomy read/validate, optional record search, optional review request, optional rollback/delete events, audit trace |
-| `evaluate` | `audit.read_trace`, `evaluation.record`, `evaluation.report` |
+| `evaluate` | `audit.read_trace`, audit trace, artifact read/write, schema validate, `evaluation.record`, optional `evaluation.report`, optional record search, optional review request |
 
 ## Agent Design Requirement
 

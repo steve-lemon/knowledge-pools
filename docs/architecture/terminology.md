@@ -72,6 +72,8 @@ Use these names to avoid mixing stage responsibilities:
 | `RelationshipProposal` | `connect` | Proposed edge between candidates, records, sources, or graph context | No |
 | `UpdateCandidate` | `update` | Proposed reusable memory change from verified outcomes or feedback | No |
 | `CurationDecision` | `curation` | Decision to accept, edit, defer, reject, or apply lifecycle state to a candidate or record | Yes, as governance record |
+| `EvaluationSignal` | `evaluate` | Quality signal about a run, artifact, decision, failure, or improvement opportunity | No durable memory write |
+| `EvaluationReport` | `evaluate` | Summary of quality signals and metrics for a run or stage scope | Evaluation store only |
 | `GraphRecord` | after verification and curation | Accepted graph node or edge | Yes |
 
 Do not call a `RelationshipProposal` a `relation candidate`.
@@ -109,6 +111,16 @@ Use `requires_human_approval` for curation decisions that cannot safely proceed 
 Do not use `curation` to mean summarization or manual editing in general.
 
 In this architecture, curation means governed acceptance or rejection of proposed memory changes.
+
+### Evaluation Terms
+
+Use `EvaluationSignal` for a traceable quality observation, such as retrieval miss, unsupported claim, stale evidence, schema failure, or curation outcome.
+
+Use `EvaluationReport` for the stage output that summarizes signals, metrics, and recommended follow-ups.
+
+Do not use `evaluate` to mean automatic self-modification.
+
+Evaluation records improvement evidence. It does not write durable knowledge directly.
 
 ### Taxonomy
 

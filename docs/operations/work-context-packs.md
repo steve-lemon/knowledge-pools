@@ -139,6 +139,8 @@ Use for `plan`, `retrieve`, `reason`, and answer verification work:
 - [Update to Curation Handoff](../architecture/update-curation-handoff.md)
 - [Media Curation Concept Proofs](../architecture/media-curation-concept-proofs.md)
 - [Curation Readiness Review](../architecture/curation-readiness-review.md)
+- [Evaluate Baseline](../architecture/evaluate-baseline.md)
+- [Curation to Evaluate Handoff](../architecture/curation-evaluate-handoff.md)
 - [Feedback Update Relationships](../architecture/feedback-update-relationships.md)
 - [Knowledge Update Agent Spec](../agents/knowledge-update-agent.md)
 - [Curation Agent Spec](../agents/curation-agent.md)
