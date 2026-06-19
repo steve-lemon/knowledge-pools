@@ -231,28 +231,53 @@ Artifacts to include:
 - Stale evidence warning.
 - Contradiction warning.
 
-## Stage 8: Update, Curation, and Evaluation
+## Stage 8: Update
 
 Repository state:
 
 - Useful interactions produce update candidates.
-- Curation decides what becomes durable memory or graph state.
-- Planner, retriever, reasoner, verifier, and updater agents run as a coordinated workflow.
-- Agent traces are stored for evaluation.
+- Update consumes verification results.
+- Update emits `UpdateCandidate` and `UpdateToCurationHandoff`.
+- Durable memory writes are still deferred to curation.
 
 Core message:
 
-> The system becomes useful when it can learn from work without turning every chat into permanent memory.
+> The system becomes useful when it can learn from verified work without turning every chat into permanent memory.
 
 Post angles:
 
 - "Durable memory should be curated, not dumped."
 - "The update agent proposes decisions, corrections, constraints, and open questions."
-- "The curation agent decides what becomes durable."
-- "Agent traces make the system inspectable."
+- "Empty update is better than noisy memory."
+- "Candidate emission is allowed; memory write is forbidden."
 
 Artifacts to include:
 
-- End-to-end run trace.
-- Memory update example.
+- Update candidate example.
+- Verify-to-update handoff.
+- Media update concept proofs.
+- Update readiness review.
+
+## Stage 9: Curation and Evaluation
+
+Repository state:
+
+- Curation decides what becomes durable memory or graph state.
+- Accepted candidates can create durable records or lifecycle changes.
+- Agent traces are stored for evaluation.
+
+Core message:
+
+> Durable memory should be governed, not accumulated automatically.
+
+Post angles:
+
+- "The curation agent decides what becomes durable."
+- "Agent traces make the system inspectable."
+- "Rollback and deletion policies matter after durable writes exist."
+
+Artifacts to include:
+
+- Curation decision example.
+- Durable memory update example.
 - Evaluation checklist.

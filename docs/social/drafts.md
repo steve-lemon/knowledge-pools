@@ -665,3 +665,56 @@ claim -> Markdown section/block citation이 맞는지 검증합니다.
 좋은 RAG/agent memory는 답변을 바로 저장하지 않고,
 먼저 "이 claim은 어떤 evidence로 검증됐는가?"를 남겨야 한다고 봅니다.
 ```
+
+## Stage 8: Update Architecture Baseline
+
+Status: draft
+
+Related commits:
+
+- `82317ee` Define update stage baseline
+- `dce8db1` Clarify update stage purpose
+- `b6ee1f6` Add media update concept proofs
+- `ecf5e7b` Add update readiness review
+
+Related docs:
+
+- `docs/architecture/update-baseline.md`
+- `docs/architecture/verify-update-handoff.md`
+- `docs/architecture/media-update-concept-proofs.md`
+- `docs/architecture/update-readiness-review.md`
+- `docs/architecture/feedback-update-relationships.md`
+- `docs/agents/knowledge-update-agent.md`
+- `docs/social/stage-8-update-baseline.md`
+
+### Korean Update Baseline Post
+
+```text
+Knowledge Pools의 update 단계 설계를 정리했습니다.
+
+이번 결론:
+
+update는 memory write가 아닙니다.
+curation도 아닙니다.
+
+verify가 만든 VerificationReport를 바탕으로,
+재사용할 만한 학습 신호만 골라
+UpdateCandidate로 만드는 단계입니다.
+
+출력은 durable memory가 아니라:
+
+- UpdateCandidate
+- update quality report
+- review request
+- UpdateToCurationHandoff
+- trace events
+
+빈 update도 정상입니다.
+
+배울 것이 없는 run이라면 아무것도 저장하지 않는 편이
+noisy memory보다 낫습니다.
+
+좋은 agent memory는 모든 대화를 기억하는 것이 아니라,
+검증된 결과를 후보로 만들고,
+curation을 통해 durable memory로 승격해야 한다고 봅니다.
+```
