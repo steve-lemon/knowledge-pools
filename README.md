@@ -9,7 +9,7 @@ The goal is not just to retrieve document chunks. The goal is to maintain a livi
 - Treat knowledge as structured claims, decisions, concepts, procedures, and evidence.
 - Preserve original sources and make every important answer traceable.
 - Combine vector search, keyword search, graph traversal, and temporal reasoning.
-- Use agents for ingestion, retrieval planning, reasoning, verification, and knowledge updates.
+- Use agents for ingestion, planning, retrieval, reasoning, verification, update candidates, curation, and evaluation.
 - Record architecture decisions as the system evolves.
 
 ## Documentation Map

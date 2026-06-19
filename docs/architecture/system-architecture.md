@@ -14,7 +14,9 @@ interfaces
   -> retrieval services
   -> reasoning service
   -> verification service
-  -> update and curation service
+  -> update candidate service
+  -> curation service
+  -> durable update writers
   -> evaluation store
 ```
 
@@ -198,24 +200,51 @@ Later checks:
 - regression tests against known questions
 - warnings when evidence was later quarantined or retracted
 
-## Update and Curation Service
+## Update Candidate Service
 
-Writes durable records after verification.
+Creates update candidates after verification.
 
-The curation gate decides whether a candidate update should be:
+It may propose:
+
+- reusable project facts;
+- corrected facts;
+- accepted decisions;
+- reusable procedures;
+- failed approaches;
+- open questions;
+- new relationships.
+
+Feedback-derived changes should first become update candidates with proposed relationships.
+
+The update candidate service does not write durable memory.
+
+## Curation Service
+
+Decides which update candidates become durable records.
+
+The `curation` stage decides whether a candidate update should be:
 
 - accepted
 - edited
 - deferred
 - rejected
 
-Feedback-derived changes should first become update candidates with proposed relationships.
-
 Accepted candidates become durable records only after curation.
 
 See [Feedback Update Relationships](feedback-update-relationships.md).
 
-Rollback and quarantine are handled here as explicit operational events.
+## Durable Update Writers
+
+Apply accepted curation decisions to durable stores.
+
+Depending on the decision, this may update:
+
+- memory records;
+- graph records;
+- lifecycle state;
+- retrieval projections.
+
+Rollback and quarantine are explicit operational events attached to this layer.
 
 Wrongly injected data should be quarantined first, then corrected through source pointer restoration, projection deactivation, reindexing, or retracted knowledge records.
 

@@ -13,11 +13,22 @@ feedback
   -> update candidate
   -> evidence and context attachment
   -> relationship proposals
-  -> verification
-  -> curation gate
+  -> connect or reconnect when relationships are needed
+  -> verification when support must be checked
+  -> curation
   -> durable knowledge record
   -> indexed projection
 ```
+
+This is a feedback sub-loop.
+
+It does not replace the canonical runtime flow:
+
+```text
+ingest -> understand -> connect -> plan -> retrieve -> reason -> verify -> update -> curation -> evaluate
+```
+
+When feedback creates new candidate knowledge, that candidate may re-enter connection and verification before curation accepts it.
 
 The system should never silently overwrite older knowledge.
 
@@ -205,4 +216,4 @@ Feedback is not memory.
 
 Feedback is a proposal to change memory.
 
-The relationship layer decides how that proposal connects to existing knowledge, and the curation gate decides whether it becomes durable.
+The relationship layer decides how that proposal connects to existing knowledge, verification checks whether the proposal is supported, and curation decides whether it becomes durable.

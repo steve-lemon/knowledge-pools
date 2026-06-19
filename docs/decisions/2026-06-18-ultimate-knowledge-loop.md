@@ -1,7 +1,7 @@
 # Decision: Ultimate Knowledge Loop
 
 Date: 2026-06-18
-Status: accepted
+Status: accepted, amended by [Canonical Stage Flow](2026-06-19-canonical-stage-flow.md)
 
 ## Context
 
@@ -22,6 +22,12 @@ ingest -> understand -> connect -> plan -> retrieve -> reason -> verify -> updat
 ```
 
 Treat curation as a required gate inside the update step before durable memory is written.
+
+Later implementation documents make `curation` an explicit stage:
+
+```text
+ingest -> understand -> connect -> plan -> retrieve -> reason -> verify -> update -> curation -> evaluate
+```
 
 ## Rationale
 
@@ -50,4 +56,3 @@ The architecture becomes slightly more complex, but the complexity maps directly
 - Define on-disk record schemas.
 - Add a run trace format.
 - Decide the first storage backend.
-

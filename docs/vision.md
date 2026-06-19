@@ -4,11 +4,21 @@ Knowledge Pools is a durable knowledge operating layer for LLM agents.
 
 Most RAG systems answer by retrieving semantically similar chunks. That is useful, but it fails when the system must remember why something was decided, distinguish newer knowledge from older knowledge, resolve contradictory sources, or reuse project-specific context over a long period of time.
 
-Knowledge Pools aims to support a stronger loop:
+Knowledge Pools aims to support a stronger loop.
+
+The public shorthand is:
 
 ```text
 ingest -> understand -> connect -> retrieve -> reason -> verify -> update
 ```
+
+The implementation loop makes planning, curation, and evaluation explicit:
+
+```text
+ingest -> understand -> connect -> plan -> retrieve -> reason -> verify -> update -> curation -> evaluate
+```
+
+The canonical stage order is defined in [Ultimate Knowledge Loop](architecture/ultimate-loop.md).
 
 ## North Star
 

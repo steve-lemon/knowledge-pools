@@ -134,7 +134,7 @@ Recommended side effect levels:
 
 Most agents should only have `read_only`, `derive`, or `propose` tools.
 
-Durable mutation should be limited to curation/update workflows.
+Durable mutation should be limited to curation and accepted durable-update workflows.
 
 ## Common Tool Families
 

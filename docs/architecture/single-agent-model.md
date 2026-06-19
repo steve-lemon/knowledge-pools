@@ -124,7 +124,7 @@ accept task -> inspect context -> choose action -> call tools -> produce result 
 
 The agent should not silently mutate global state.
 
-If it wants to update durable memory, it must return a candidate update for the curation gate.
+If it wants to update durable memory, it must return an update candidate for the `curation` stage.
 
 ## LLM Independence
 

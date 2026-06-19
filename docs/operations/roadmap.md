@@ -27,27 +27,37 @@
 - Create evidence bundle format.
 - Add basic temporal metadata.
 
-## Phase 3: Verification Loop
+## Phase 3: Connection and Verification Loop
 
-- Add answer grounding checks.
-- Track unsupported claims.
-- Surface contradictory records.
+- Add relationship proposal verification.
+- Track unsupported proposals and claims.
+- Surface contradictory or stale records.
 - Add freshness and supersession checks.
 
-## Phase 4: Knowledge Graph
+## Phase 4: Plan, Retrieve, and Reason
+
+- Add task understanding inside the Retrieval Planner.
+- Create evidence bundle format.
+- Add planned source, keyword, structured, and graph-aware retrieval.
+- Produce draft answers or proposed actions from evidence.
+- Add answer grounding checks after reasoning is available.
+
+## Phase 5: Knowledge Graph and Curation
 
 - Add graph-backed relationships.
 - Link claims, concepts, decisions, and sources.
 - Support graph traversal in retrieval planning.
+- Add curation decisions before durable graph writes.
 
-## Phase 5: Durable Memory and Curation
+## Phase 6: Durable Memory and Update Candidates
 
+- Produce update candidates after useful verified interactions.
 - Store project decisions.
 - Store active project context.
 - Store reusable user preferences.
 - Add update review before committing new durable memory.
 
-## Phase 6: Agent Orchestration and Evaluation
+## Phase 7: Agent Orchestration and Evaluation
 
 - Add planner-driven retrieval.
 - Add specialized ingestion, reasoning, verifier, and updater agents.

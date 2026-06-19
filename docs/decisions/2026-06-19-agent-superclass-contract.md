@@ -9,7 +9,7 @@ Status: Accepted
 Knowledge Pools uses multiple agents across the loop:
 
 ```text
-ingest -> understand -> connect -> plan -> retrieve -> reason -> verify -> update -> curate -> evaluate
+ingest -> understand -> connect -> plan -> retrieve -> reason -> verify -> update -> curation -> evaluate
 ```
 
 Each agent needs different implementation logic, but all agents need the same operational guarantees:

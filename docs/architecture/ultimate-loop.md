@@ -8,23 +8,56 @@ The earlier shorthand loop was:
 ingest -> understand -> connect -> retrieve -> reason -> verify -> update
 ```
 
-The target loop adds explicit planning, evaluation, and curation:
+The target implementation loop adds explicit planning, update candidates, curation, durable updates, and evaluation:
 
 ```text
-ingest -> understand -> connect -> plan -> retrieve -> reason -> verify -> update -> evaluate
+ingest -> understand -> connect -> plan -> retrieve -> reason -> verify -> update -> curation -> evaluate
 ```
 
 This is not a simple linear pipeline. It is a controlled feedback system.
 
 ```text
-                    +-----------------------------+
-                    |                             |
-                    v                             |
+                          +--------------------------------+
+                          |                                |
+                          v                                |
 ingest -> understand -> connect -> plan -> retrieve -> reason -> verify
    ^                                                        |       |
    |                                                        v       v
-   +------------- evaluate <- update <- curation gate <- durable output
+   +--------- evaluate <- durable update <- curation <- update candidate
 ```
+
+The shortest public shorthand may still be:
+
+```text
+ingest -> understand -> connect -> retrieve -> reason -> verify -> update
+```
+
+But implementation documents should use the canonical stage flow above.
+
+## Canonical Flow Rule
+
+Use this document as the source of truth for stage order and ownership.
+
+The canonical implementation flow is:
+
+| Order | Stage | Primary role | Primary artifact | Durable write? |
+| --- | --- | --- | --- | --- |
+| 1 | `ingest` | Preserve, normalize, segment, locate, classify | `IngestArtifact` | No |
+| 2 | `understand` | Extract source-grounded knowledge candidates | `UnderstandingArtifact` | No |
+| 3 | `connect` | Propose relationships between candidates and known context | `ConnectionArtifact` | No |
+| 4 | `plan` | Understand the task and choose retrieval strategy | `RetrievalPlan` | No |
+| 5 | `retrieve` | Gather evidence through approved retrieval paths | `EvidenceBundle` | No |
+| 6 | `reason` | Produce a draft answer or proposed action from evidence | `DraftAnswer` or `ProposedAction` | No |
+| 7 | `verify` | Audit grounding, freshness, and conflicts | `VerificationReport` | No |
+| 8 | `update` | Convert useful outcomes into update candidates | `UpdateCandidate` | No |
+| 9 | `curation` | Accept, edit, defer, reject, retract, or supersede candidates | `CurationDecision` | Yes, when accepted |
+| 10 | `evaluate` | Record traces, failures, corrections, and quality signals | `EvaluationReport` | Evaluation store only |
+
+The `update` stage proposes reusable memory changes.
+
+It does not directly write durable memory.
+
+Durable knowledge, graph, and memory writes happen only after `curation`.
 
 ## Why This Shape
 
@@ -39,8 +72,8 @@ The loop is designed around the main failure modes of basic RAG.
 | Similarity is mistaken for relevance | `retrieve` uses vector, keyword, graph, source, and temporal search |
 | Answers become unsupported synthesis | `reason` separates facts, assumptions, and unknowns |
 | Hallucinations slip through | `verify` checks grounding, freshness, and conflict handling |
-| Useful learning disappears | `update` stores reusable knowledge |
-| Memory becomes noisy | `curation gate` decides what becomes durable |
+| Useful learning disappears | `update` proposes reusable knowledge changes |
+| Memory becomes noisy | `curation` decides what becomes durable |
 | The system cannot improve | `evaluate` stores traces, errors, and quality signals |
 
 ## Stage Definitions
@@ -98,18 +131,22 @@ See also [Understand vs Task Understanding](understand-vs-task-understanding.md)
 
 ### 3. Connect
 
-Attach knowledge candidates to the existing knowledge fabric.
+Propose how knowledge candidates relate to the existing knowledge fabric.
 
 Canonical agent: `Connection Agent`.
 
 Outputs:
 
-- source links
-- concept links
-- support relationships
-- contradiction relationships
-- supersession relationships
-- dependency relationships
+- source link proposals
+- concept link proposals
+- support relationship proposals
+- contradiction relationship proposals
+- supersession relationship proposals
+- dependency relationship proposals
+
+Connect does not create durable graph edges.
+
+See [Connect Baseline](connect-baseline.md).
 
 ### 4. Plan
 
@@ -172,11 +209,13 @@ Outputs:
 
 ### 7. Verify
 
-Audit the reasoning result before treating it as reliable.
+Audit relationship proposals, draft answers, or proposed actions before treating them as reliable.
 
 Checks:
 
 - Is each key claim supported?
+- Is each relationship proposal supported?
+- Do proposed relationship endpoints resolve?
 - Is the answer using stale knowledge as current?
 - Were known contradictions ignored?
 - Are assumptions clearly labeled?
@@ -184,19 +223,26 @@ Checks:
 
 Outputs:
 
-- verification result
+- verification report
+- verification result artifacts
 - unsupported claim list
 - stale evidence warning
 - contradiction warning
 - revision request if needed
 
+V1 starts with relationship proposal verification after `connect`.
+
+Answer verification is added after `plan`, `retrieve`, and `reason` are implemented.
+
+See [Verify Baseline](verify-baseline.md).
+
 ### 8. Update
 
-Convert useful outcomes into knowledge candidates.
+Convert useful outcomes into update candidates.
 
 Candidates:
 
-- accepted decisions
+- decision candidates
 - corrected facts
 - project constraints
 - reusable procedures
@@ -208,7 +254,7 @@ Feedback-derived knowledge should enter as update candidates, not durable record
 
 See [Feedback Update Relationships](feedback-update-relationships.md).
 
-### 9. Curation Gate
+### 9. Curation
 
 Decide what becomes durable memory.
 
@@ -219,6 +265,8 @@ Rules:
 - Mark uncertainty.
 - Prefer concise records.
 - Avoid overwriting older knowledge without supersession metadata.
+
+Accepted curation decisions may create or modify durable graph records, memory records, lifecycle states, or index projections.
 
 ### 10. Evaluate
 

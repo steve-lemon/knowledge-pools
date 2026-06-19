@@ -20,6 +20,14 @@ Use agent names as noun phrases ending in `Agent`, except `Retrieval Planner`, w
 
 Primary artifact names should match the stage outcome.
 
+Canonical stage order:
+
+```text
+ingest -> understand -> connect -> plan -> retrieve -> reason -> verify -> update -> curation -> evaluate
+```
+
+Older short explanations may omit `plan`, `curation`, and `evaluate`, but implementation documents should use the canonical order above.
+
 | Stage | Canonical agent name | Primary output artifact | Meaning |
 | --- | --- | --- | --- |
 | `ingest` | `Ingestion Agent` | `IngestArtifact` | Preserve and structure source evidence |

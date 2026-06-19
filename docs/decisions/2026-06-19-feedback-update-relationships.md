@@ -5,7 +5,9 @@ Status: accepted
 
 ## Context
 
-The knowledge loop includes `verify -> update -> curation -> evaluate`.
+The canonical knowledge loop includes `verify -> update -> curation -> evaluate`.
+
+Feedback-derived candidates may re-enter connection and verification before curation when they introduce new relationships or claims.
 
 The user asked how relationships are formed when the feedback loop adds new knowledge.
 
@@ -24,7 +26,7 @@ Each update candidate should carry:
 - confidence;
 - review status.
 
-Durable records are created only after verification and curation.
+Durable records are created only after verification when needed and curation in all cases.
 
 ## Rationale
 
@@ -41,4 +43,3 @@ Implementation should define:
 - curation decision schema;
 - rules for supersession instead of overwriting;
 - verification warnings when old knowledge is contradicted or superseded.
-

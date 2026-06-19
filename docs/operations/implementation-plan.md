@@ -2,6 +2,14 @@
 
 This plan turns the target architecture into concrete implementation steps.
 
+The canonical runtime stage flow is:
+
+```text
+ingest -> understand -> connect -> plan -> retrieve -> reason -> verify -> update -> curation -> evaluate
+```
+
+Implementation steps do not have to follow this exact order when infrastructure must be built first, but every runtime stage should map back to this flow.
+
 ## Current Target
 
 Build a CLI MVP that proves the architecture with filesystem-compatible source storage and an OpenSearch-compatible indexing boundary.
@@ -32,7 +40,7 @@ kp verify <run-id>
 - Review stage boundaries before moving to the next major stage. See [Stage Transition Guidelines](stage-transition-guidelines.md).
 - Store run traces from the beginning.
 - Add vector search only after OpenSearch source, keyword, and structured retrieval are reliable.
-- Add durable memory only behind a curation gate.
+- Add durable memory only behind the `curation` stage.
 - Define the smallest useful lifecycle and provenance contract before large-scale ingest.
 - Defer multi-repository, clustering, full ACL, distributed queues, and separate graph/vector databases.
 

@@ -5,7 +5,7 @@ Knowledge Pools is organized around layered stores and specialized agents.
 The target operating loop is:
 
 ```text
-ingest -> understand -> connect -> plan -> retrieve -> reason -> verify -> update -> evaluate
+ingest -> understand -> connect -> plan -> retrieve -> reason -> verify -> update -> curation -> evaluate
 ```
 
 The loop is described in detail in [Ultimate Knowledge Loop](ultimate-loop.md).
@@ -40,13 +40,13 @@ Before implementing multi-agent behavior, the system should define a single agen
 - [Agent Connection Model](agent-connection-model.md)
 - [Context and Session Model](context-session-model.md)
 
-Earlier shorthand:
+Public shorthand:
 
 ```text
 ingest -> understand -> connect -> retrieve -> reason -> verify -> update
 ```
 
-This shorthand remains useful for explanation, but implementation should include explicit planning, curation, and evaluation.
+This shorthand remains useful for explanation, but implementation documents should use the canonical flow in [Ultimate Knowledge Loop](ultimate-loop.md).
 
 The main component path is:
 
@@ -65,7 +65,9 @@ raw sources
   -> retrieval services
   -> reasoning service
   -> verification service
-  -> curation gate
+  -> update candidates
+  -> curation service
+  -> durable updates
   -> evaluation store
 ```
 

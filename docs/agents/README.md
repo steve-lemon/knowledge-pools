@@ -27,6 +27,8 @@ Shared contracts:
 
 ## Stage Mapping
 
+The canonical stage order is defined in [Ultimate Knowledge Loop](../architecture/ultimate-loop.md).
+
 | Stage | Agent spec | Primary output |
 | --- | --- | --- |
 | `ingest` | [Ingestion Agent](ingestion-agent.md) | `IngestArtifact` |

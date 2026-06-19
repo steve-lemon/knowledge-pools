@@ -90,7 +90,7 @@ Responsibilities:
 - Find likely duplicate or related records.
 - Propose `supports`, `contradicts`, `depends_on`, and `supersedes` relationships.
 - Preserve evidence refs and uncertainty.
-- Hand off relation proposals to verification and curation.
+- Hand off relation proposals to verification.
 
 Tool contract:
 
@@ -189,7 +189,7 @@ Tool contract:
 
 ## Knowledge Update Agent
 
-Writes durable knowledge back into the repository after useful interactions.
+Turns useful verified outcomes into update candidates.
 
 Detailed v1 contract: [Knowledge Update Agent Spec](../agents/knowledge-update-agent.md).
 
@@ -202,7 +202,9 @@ Candidates for storage:
 - failed approaches
 - open questions
 
-The update agent should prefer concise structured records over full transcripts.
+The update agent should prefer concise structured candidates over full transcripts.
+
+It does not write durable memory. Curation decides whether an update candidate becomes a durable record.
 
 Tool contract:
 

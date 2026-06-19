@@ -22,6 +22,7 @@ Post angles:
 - "The problem is not just retrieval. It is maintaining knowledge over time."
 - "A knowledge system should preserve why something was decided, not only where it was mentioned."
 - "The first design loop is ingest -> understand -> connect -> retrieve -> reason -> verify -> update."
+- "The implementation loop makes plan, curation, and evaluation explicit."
 
 Artifacts to include:
 
@@ -118,7 +119,8 @@ Artifacts to include:
 
 Repository state:
 
-- Answers and relationship proposals are checked against retrieved evidence.
+- Relationship proposals are audited before curation.
+- Later, answers are checked against retrieved evidence after plan/retrieve/reason are implemented.
 - Unsupported claims are flagged.
 - Stale or superseded knowledge is surfaced.
 
@@ -137,36 +139,38 @@ Artifacts to include:
 - Verification report.
 - Example unsupported answer.
 - Conflict handling example.
+- Connect-to-verify handoff.
 
-## Stage 5: Knowledge Graph
+## Stage 5: Plan, Retrieve, and Reason
 
 Repository state:
 
-- Verified entities and relationships are stored.
-- Retrieval planner can traverse relationships.
-- Claims, concepts, decisions, and sources are linked.
+- Runtime task understanding is implemented in the Retrieval Planner.
+- Retrieval returns evidence bundles rather than raw hits only.
+- Reasoning produces draft answers or proposed actions from evidence.
 
 Core message:
 
-> Similarity search finds related text. Graph structure helps recover meaning and dependency.
+> Retrieval should be planned before searching, and reasoning should stay evidence-bounded.
 
 Post angles:
 
-- "The graph makes 'why' and 'what depends on this' queryable."
-- "A decision can supersede another decision."
-- "Contradiction should be an edge only after it survives verification."
+- "User-question understanding belongs in planning, not source understanding."
+- "The retriever should return evidence bundles, not just nearby chunks."
+- "Reasoning should label assumptions before verification checks them."
 
 Artifacts to include:
 
-- Graph schema.
-- Example traversal.
-- Visual relationship diagram.
+- Retrieval plan example.
+- Evidence bundle example.
+- Draft answer with evidence refs.
 
-## Stage 6: Durable Memory and Agent Orchestration
+## Stage 6: Update, Curation, and Evaluation
 
 Repository state:
 
-- Project memory is updated after useful interactions.
+- Useful interactions produce update candidates.
+- Curation decides what becomes durable memory or graph state.
 - Planner, retriever, reasoner, verifier, and updater agents run as a coordinated workflow.
 - Agent traces are stored for evaluation.
 
@@ -177,7 +181,8 @@ Core message:
 Post angles:
 
 - "Durable memory should be curated, not dumped."
-- "The update agent stores decisions, corrections, constraints, and open questions."
+- "The update agent proposes decisions, corrections, constraints, and open questions."
+- "The curation agent decides what becomes durable."
 - "Agent traces make the system inspectable."
 
 Artifacts to include:
