@@ -24,6 +24,16 @@ UnderstandToConnectHandoff
 
 The agent should make candidate relationships explicit enough for `verify`, `curation`, retrieval, and graph storage to use later.
 
+In practical terms, the agent answers:
+
+- does this candidate look new or duplicated?
+- does it support or contradict something already known?
+- does it depend on a concept, procedure, source, or record?
+- does it supersede older knowledge?
+- does it mention or apply to a known entity or context?
+
+The answer is always a proposal, not an accepted graph edge.
+
 The stage baseline is defined in [Connect Baseline](../architecture/connect-baseline.md).
 
 The boundary from understand is defined in [Understand and Connect Boundary](../architecture/understand-connect-boundary.md).
@@ -40,6 +50,8 @@ The agent owns:
 - loading taxonomy relation rules;
 - searching existing records and graph neighborhoods;
 - detecting likely local duplicates;
+- detecting likely mentions and applicability scopes;
+- identifying possible support, contradiction, dependency, or supersession relationships;
 - proposing relationship candidates;
 - attaching evidence refs and rationale refs;
 - emitting ambiguity notes or review requests;

@@ -20,6 +20,50 @@ The key shift is:
 evidence-grounded candidate -> evidence-grounded relationship proposal
 ```
 
+## Stage Role
+
+`connect` is the bridge between isolated candidate extraction and graph-aware knowledge work.
+
+Without `connect`, the system may know that a source contains a claim, decision, concept, or procedure, but it does not know whether that candidate:
+
+- repeats something already known;
+- supports an existing claim;
+- conflicts with an older decision;
+- depends on another concept or procedure;
+- supersedes stale knowledge;
+- mentions a known entity, source, or project;
+- applies only to a specific context.
+
+The role of this stage is to create those possible links as inspectable proposals.
+
+It prepares the system for verification, curation, retrieval, and graph traversal without pretending that the links are already true.
+
+## Why This Stage Exists
+
+`understand` creates candidate meaning units.
+
+That is useful, but candidate units are still isolated.
+
+If the system stops there, it can answer:
+
+```text
+What did this source appear to say?
+```
+
+It cannot reliably answer:
+
+```text
+Is this new?
+Does it conflict with what we already know?
+What does this decision depend on?
+Which older record might this replace?
+Which concept does this candidate mention?
+```
+
+`connect` exists to turn candidate memory into relational memory.
+
+It is the first stage where the system starts to see knowledge as a graph, while still keeping every edge provisional.
+
 ## Expected Results
 
 Connect should produce:
@@ -37,6 +81,48 @@ Connect should produce:
 The expected output is not a verified graph.
 
 The expected output is a structured set of relationship proposals that later stages can verify, curate, and index.
+
+## Expected Effects
+
+Connect improves the system in these ways:
+
+| Effect | Why it matters |
+| --- | --- |
+| Duplicate control | New candidates can be compared against existing candidates or records before memory becomes noisy |
+| Conflict visibility | Possible contradictions become explicit proposals instead of hidden surprises |
+| Better retrieval paths | Retrieval can later use proposed or accepted edges, not only keyword or vector similarity |
+| Temporal awareness | Supersession proposals help identify stale decisions and replaced assumptions |
+| Safer graph growth | Edges are proposed before they become durable graph records |
+| Better verification | Verifier receives concrete relationship claims to check against evidence |
+| Better curation | Human or system curation can inspect why a relation was proposed |
+
+The practical effect is that Knowledge Pools can move from a list of extracted candidates toward an inspectable knowledge graph.
+
+It does this without letting the graph mutate itself automatically.
+
+## Success Criteria
+
+The `connect` stage is successful when:
+
+- every emitted relationship proposal has resolvable endpoints;
+- every proposal keeps source evidence or an explicit indirect-evidence rationale;
+- relation types are valid under the active taxonomy version;
+- uncertain relationships are marked for review;
+- duplicate and conflict candidates are visible;
+- no durable graph edge is written by this stage;
+- downstream `verify` can audit each proposal.
+
+## Non-Goals
+
+The `connect` stage is not responsible for:
+
+- deciding whether a relationship is true;
+- resolving contradictions;
+- accepting graph edges;
+- deleting or superseding durable records;
+- creating new source interpretations;
+- answering user questions;
+- writing durable memory.
 
 ## Stage Boundary
 
