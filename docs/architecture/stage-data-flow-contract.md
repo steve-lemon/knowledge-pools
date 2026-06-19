@@ -191,7 +191,7 @@ It should not replace artifacts or handoffs.
 | `connect -> verify` | connection artifact ref, relationship proposal refs, conflict/unresolved refs, quality report, taxonomy refs | `ConnectToVerifyHandoff` | proposal refs, endpoint refs, evidence refs, taxonomy, handoff schema |
 | `plan -> retrieve` | retrieval plan ref, evidence requirements, freshness scope, conflict-search flag, retrieval budget | `PlanToRetrieveHandoff` | plan schema, permitted retrieval paths, freshness constraints |
 | `retrieve -> reason` | evidence bundle ref, evidence refs, missing evidence, conflict refs | `RetrieveToReasonHandoff` | evidence refs, missing evidence, conflict handling requirements |
-| `reason -> verify` | draft answer or proposed action ref, evidence bundle ref, claim refs, assumption refs | `ReasonToVerifyHandoff` | cited evidence, claim refs, assumptions, answer/action schema |
+| `reason -> verify` | draft answer or proposed action ref, evidence bundle ref, claim refs, assumption refs, cited evidence refs | `ReasonToVerifyHandoff` | cited evidence, claim refs, assumptions, answer/action schema |
 | `verify -> update` | verification report ref, verified/rejected/unsupported/uncertain refs, review refs, update signal refs | `VerifyToUpdateHandoff` | verification status, unsupported refs, review requirements |
 | `update -> curation` | update candidate refs, source/evidence refs, review flag | `UpdateToCurationHandoff` | candidate schema, provenance, evidence, duplication/conflict policy |
 | `curation -> evaluate` | curation decision refs, accepted/rejected refs | `CurationToEvaluateHandoff` | decision refs, durable write refs, trace completeness |

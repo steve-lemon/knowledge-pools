@@ -169,9 +169,9 @@ Responsibilities:
 
 Tool contract:
 
-- required: `artifact.read`, `source.read`, `artifact.write`, `audit.trace`;
+- required: `artifact.read`, `schema.validate`, `artifact.write`, `audit.trace`;
 - optional: `model.complete`, `reason.synthesize`, `record.search`;
-- forbidden: `memory.write`, `curation.decide`, `source.tombstone`, `delete.create_tombstone`.
+- forbidden: `retrieval.plan`, `index.search`, `retrieval.fetch_evidence`, `verification.check`, `candidate.emit`, `memory.write`, `curation.decide`, `source.write`, `source.tombstone`, `delete.create_tombstone`.
 
 ## Verifier Agent
 

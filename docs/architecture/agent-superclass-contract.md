@@ -441,6 +441,10 @@ export interface ReasonToVerifyPayload {
   evidence_bundle_ref: RefString;
   claim_refs: RefString[];
   assumption_refs: RefString[];
+  cited_evidence_refs: RefString[];
+  missing_evidence?: string[];
+  conflict_refs?: RefString[];
+  quality_report_refs?: RefString[];
 }
 
 export interface VerifyToUpdatePayload {

@@ -232,7 +232,7 @@ The orchestrator should grant tools by stage, not by agent personality.
 | `connect` | artifact read/write, record search, optional graph query, taxonomy read/validate, schema validate, candidate emit, ambiguity emit, review request, optional model adapter |
 | `plan` | retrieval plan, record search, index search metadata, schema validate, artifact write, optional graph query, optional preview lookup, optional model adapter |
 | `retrieve` | artifact read/write, schema validate, index search, record search, graph query, source locate/read, evidence fetch, optional preview lookup |
-| `reason` | evidence read, model adapter, reason synthesize, artifact write |
+| `reason` | artifact read/write, schema validate, optional bounded source read, model adapter, reason synthesize |
 | `verify` | artifact read/write, schema validate, taxonomy read/validate, verification check, optional evidence read, optional record/graph search, audit trace |
 | `update` | candidate emit, review request, `curation.propose`, artifact write |
 | `curation` | curation decide, memory write, memory status update, rollback/delete events |
@@ -390,6 +390,41 @@ Not allowed:
 - `delete.create_tombstone`.
 
 Retrieve may fetch bounded evidence, but it must not synthesize answers or mutate durable state.
+
+## Reason Stage Tool Set
+
+The first `reason` implementation should synthesize from a validated evidence bundle and return draft artifacts.
+
+The full agent contract is defined in [Reasoning Agent Spec](../agents/reasoning-agent.md).
+
+Required:
+
+- `artifact.read`;
+- `schema.validate`;
+- `artifact.write`;
+- `audit.trace`.
+
+Optional:
+
+- `source.read`;
+- `model.complete`;
+- `reason.synthesize`;
+- `record.search`.
+
+Not allowed:
+
+- `retrieval.plan`;
+- `index.search`;
+- `retrieval.fetch_evidence`;
+- `verification.check`;
+- `candidate.emit`;
+- `memory.write`;
+- `curation.decide`;
+- `source.write`;
+- `source.tombstone`;
+- `delete.create_tombstone`.
+
+Reason may synthesize draft output from evidence, but it must not retrieve new evidence, verify itself, or mutate durable state.
 
 ## Permission Model
 

@@ -42,6 +42,10 @@ The retrieval stage baseline is defined in [Retrieve Baseline](retrieve-baseline
 
 The handoff from retrieval to reasoning is defined in [Retrieve to Reason Handoff](retrieve-reason-handoff.md).
 
+The reasoning stage baseline is defined in [Reason Baseline](reason-baseline.md).
+
+The handoff from reasoning to verification is defined in [Reason to Verify Handoff](reason-verify-handoff.md).
+
 The difference between source understanding and user-question understanding is defined in [Understand vs Task Understanding](understand-vs-task-understanding.md).
 
 Before implementing multi-agent behavior, the system should define a single agent contract, agent handoff model, and explicit context/session ownership:

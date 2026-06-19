@@ -213,6 +213,12 @@ Outputs:
 - cited evidence references
 - confidence notes
 
+Reason produces draft output.
+
+It does not verify itself or write durable memory.
+
+See [Reason Baseline](reason-baseline.md).
+
 ### 7. Verify
 
 Audit relationship proposals, draft answers, or proposed actions before treating them as reliable.

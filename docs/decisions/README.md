@@ -52,6 +52,7 @@ YYYY-MM-DD-short-title.md
 - [Media Plan Concept Proofs](2026-06-19-media-plan-concept-proofs.md)
 - [Plan Readiness Review](2026-06-19-plan-readiness-review.md)
 - [Retrieve Baseline](2026-06-19-retrieve-baseline.md)
+- [Reason Baseline](2026-06-19-reason-baseline.md)
 
 ## Template
 

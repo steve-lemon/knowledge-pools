@@ -729,6 +729,32 @@ The handoff envelope produced by the Retrieval Agent and consumed by the Reasoni
 
 It carries the evidence bundle ref, evidence refs, missing evidence notes, and conflict refs needed for synthesis.
 
+### DraftAnswer
+
+A draft response artifact produced by the `reason` stage from an `EvidenceBundle`.
+
+It contains answer text or structured answer parts, claim refs, cited evidence refs, assumptions, unresolved questions, conflict notes, and confidence notes.
+
+It is not verified.
+
+It is not durable memory.
+
+### ProposedAction
+
+A draft action or recommendation artifact produced by the `reason` stage from an `EvidenceBundle`.
+
+It should cite evidence refs, state assumptions, and preserve constraints.
+
+It is not executed automatically.
+
+It is not a curation decision.
+
+### ReasonToVerifyHandoff
+
+The handoff envelope produced by the Reasoning Agent and consumed by the Verifier Agent.
+
+It carries the draft answer or proposed action ref, evidence bundle ref, claim refs, assumption refs, cited evidence refs, missing evidence, and conflict refs needed for verification.
+
 ### Knowledge Candidate
 
 A proposed claim, decision, concept, procedure, question, constraint, or bounded summary extracted from source evidence.

@@ -173,35 +173,62 @@ Artifacts to include:
 - Missing evidence example.
 - Conflict refs example.
 
-## Stage 6: Reason and Verification Loop
+## Stage 6: Reason Architecture Baseline
 
 Repository state:
 
 - Reasoning produces draft answers or proposed actions from evidence bundles.
+- `DraftAnswer`, `ProposedAction`, and `ReasonToVerifyHandoff` are documented.
+- Supported claims, assumptions, unknowns, missing evidence, and conflicts are separated.
+- Reasoning Agent tool permissions are reviewed before moving to answer verification.
+
+Core message:
+
+> Reasoning should synthesize from evidence without certifying itself.
+
+Post angles:
+
+- "Reason is not verification."
+- "A draft answer should cite evidence and label assumptions before verification runs."
+- "Reasoning should label assumptions before verification checks them."
+- "Missing evidence should become an explicit unknown, not an invented answer."
+- "Contradictions should be surfaced in the draft, not hidden by synthesis."
+
+Artifacts to include:
+
+- Draft answer with evidence refs.
+- Reason-to-verify handoff.
+- Reason baseline.
+- Reasoning Agent spec.
+- Example insufficient evidence answer.
+- Conflict handling example.
+
+## Stage 7: Verification Loop
+
+Repository state:
+
 - Answers and relationship proposals are checked against retrieved evidence.
 - Unsupported claims are flagged.
 - Stale or superseded knowledge is surfaced.
 
 Core message:
 
-> Reasoning and verification should be explicit stages after evidence retrieval.
+> Verification should audit draft reasoning before the system treats it as reliable.
 
 Post angles:
 
-- "Reasoning should label assumptions before verification checks them."
 - "The verifier agent asks: which sentence is supported by which evidence?"
-- "Contradictions are not errors to hide; they are knowledge to represent."
 - "A grounded answer is not complete until its evidence path can be audited."
+- "Contradictions are not errors to hide; they are knowledge to represent."
 
 Artifacts to include:
 
-- Draft answer with evidence refs.
-- Reason-to-verify handoff.
 - Verification report.
 - Example unsupported answer.
-- Conflict handling example.
+- Stale evidence warning.
+- Contradiction warning.
 
-## Stage 7: Update, Curation, and Evaluation
+## Stage 8: Update, Curation, and Evaluation
 
 Repository state:
 

@@ -79,6 +79,8 @@ Use for `plan`, `retrieve`, `reason`, and answer verification work:
 - [Retrieve to Reason Handoff](../architecture/retrieve-reason-handoff.md)
 - [Media Retrieve Concept Proofs](../architecture/media-retrieve-concept-proofs.md)
 - [Retrieve Readiness Review](../architecture/retrieve-readiness-review.md)
+- [Reason Baseline](../architecture/reason-baseline.md)
+- [Reason to Verify Handoff](../architecture/reason-verify-handoff.md)
 - [Retrieval Planner Spec](../agents/retrieval-planner.md)
 - [Retrieval Agent Spec](../agents/retrieval-agent.md)
 - [Reasoning Agent Spec](../agents/reasoning-agent.md)
