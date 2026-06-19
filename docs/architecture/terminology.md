@@ -104,6 +104,8 @@ Use `durable record` for accepted knowledge records created after curation.
 
 Use `lifecycle update` for durable state changes such as `superseded`, `retracted`, `quarantined`, `archived`, or `tombstoned`.
 
+Use `requires_human_approval` for curation decisions that cannot safely proceed automatically.
+
 Do not use `curation` to mean summarization or manual editing in general.
 
 In this architecture, curation means governed acceptance or rejection of proposed memory changes.

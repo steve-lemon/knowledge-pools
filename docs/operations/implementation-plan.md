@@ -666,6 +666,7 @@ Deliverables:
 - Update-to-curation handoff artifact schema and validation.
 - Curation Agent detailed spec.
 - `CurationDecision` schema.
+- Media curation concept proofs for Markdown/text, image, WAV/audio, MP4/video, and PDF.
 - Curation states: `accepted`, `edited`, `deferred`, `rejected`.
 - Durable decision and claim records.
 - Supersession metadata.

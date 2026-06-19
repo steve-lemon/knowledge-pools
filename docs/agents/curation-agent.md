@@ -8,6 +8,8 @@ It is allowed to write memory only through explicit curation decisions.
 
 Stage baseline: [Curation Baseline](../architecture/curation-baseline.md).
 
+Media behavior: [Media Curation Concept Proofs](../architecture/media-curation-concept-proofs.md).
+
 Input handoff: [Update to Curation Handoff](../architecture/update-curation-handoff.md).
 
 Output handoff: `CurationToEvaluateHandoff`.

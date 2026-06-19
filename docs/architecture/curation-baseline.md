@@ -258,6 +258,8 @@ Deferred:
 - PDF-derived durable records unless they have verified text access units;
 - automatic rollback or deletion workflows without human approval.
 
+Media-specific curation behavior is validated in [Media Curation Concept Proofs](media-curation-concept-proofs.md).
+
 ## Tool Contract
 
 Required ports:
