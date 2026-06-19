@@ -10,6 +10,8 @@ Stage baseline: [Update Baseline](../architecture/update-baseline.md).
 
 Media behavior: [Media Update Concept Proofs](../architecture/media-update-concept-proofs.md).
 
+Readiness review: [Update Readiness Review](../architecture/update-readiness-review.md).
+
 Input handoff: [Verify to Update Handoff](../architecture/verify-update-handoff.md).
 
 Output handoff: `UpdateToCurationHandoff`.
@@ -57,8 +59,16 @@ Forbidden ports:
 - `memory.write`;
 - `memory.update_status`;
 - `curation.decide`;
+- `source.write`;
+- `source.version`;
+- `source.locate`;
+- `source.read`;
+- `source.restore`;
 - `index.write_projection`;
 - `index.deactivate_projection`;
+- `index.search`;
+- `retrieval.fetch_evidence`;
+- `verification.check`;
 - `source.tombstone`;
 - `delete.create_tombstone`;
 - `rollback.create_event`.

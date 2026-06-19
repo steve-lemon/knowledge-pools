@@ -48,6 +48,8 @@ The update stage baseline is defined in [Update Baseline](update-baseline.md).
 
 Media-specific update proofs are defined in [Media Update Concept Proofs](media-update-concept-proofs.md).
 
+The update readiness and tool permission review is defined in [Update Readiness Review](update-readiness-review.md).
+
 The connection implementation checklist is defined in [Connect Readiness Review](connect-readiness-review.md).
 
 Media-specific connection proofs are defined in [Media Connect Concept Proofs](media-connect-concept-proofs.md).

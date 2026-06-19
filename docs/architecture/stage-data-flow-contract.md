@@ -193,7 +193,7 @@ It should not replace artifacts or handoffs.
 | `retrieve -> reason` | evidence bundle ref, evidence refs, missing evidence, conflict refs | `RetrieveToReasonHandoff` | evidence refs, missing evidence, conflict handling requirements |
 | `reason -> verify` | draft answer or proposed action ref, evidence bundle ref, claim refs, assumption refs, cited evidence refs | `ReasonToVerifyHandoff` | cited evidence, claim refs, assumptions, answer/action schema |
 | `verify -> update` | verification report ref, verified/rejected/unsupported/uncertain refs, review refs, update signal refs | `VerifyToUpdateHandoff` | verification status, unsupported refs, review requirements |
-| `update -> curation` | update candidate refs, source/evidence refs, review flag | `UpdateToCurationHandoff` | candidate schema, provenance, evidence, duplication/conflict policy |
+| `update -> curation` | update candidate refs, source/evidence refs, review refs, quality report ref, review flag | `UpdateToCurationHandoff` | candidate schema, provenance, evidence, quality report, duplication/conflict policy |
 | `curation -> evaluate` | curation decision refs, accepted/rejected refs | `CurationToEvaluateHandoff` | decision refs, durable write refs, trace completeness |
 
 ## Context vs Handoff

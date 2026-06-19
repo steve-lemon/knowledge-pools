@@ -461,6 +461,8 @@ export interface UpdateToCurationPayload {
   update_candidate_refs: RefString[];
   source_refs: RefString[];
   evidence_refs: RefString[];
+  review_refs?: RefString[];
+  quality_report_ref: RefString;
   requires_human_review: boolean;
 }
 

@@ -219,7 +219,7 @@ Tool contract:
 
 - required: `artifact.read`, `schema.validate`, `candidate.emit`, `artifact.write`, `audit.trace`;
 - optional: `review.request`, `curation.propose`, `record.search`, `taxonomy.read`, `taxonomy.validate`, `model.complete`;
-- forbidden: `memory.write`, `memory.update_status`, `curation.decide`, `index.write_projection`, `index.deactivate_projection`, `source.tombstone`, `delete.create_tombstone`, `rollback.create_event`.
+- forbidden: `memory.write`, `memory.update_status`, `curation.decide`, `source.write`, `source.version`, `source.locate`, `source.read`, `source.restore`, `index.write_projection`, `index.deactivate_projection`, `index.search`, `retrieval.fetch_evidence`, `verification.check`, `source.tombstone`, `delete.create_tombstone`, `rollback.create_event`.
 
 ## Curation Agent
 

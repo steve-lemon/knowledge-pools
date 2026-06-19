@@ -269,6 +269,8 @@ Deferred:
 
 Media-specific update behavior is validated in [Media Update Concept Proofs](media-update-concept-proofs.md).
 
+Final readiness and tool permission review are defined in [Update Readiness Review](update-readiness-review.md).
+
 ## Tool Contract
 
 Required ports:
@@ -293,8 +295,16 @@ Forbidden ports:
 - `memory.write`;
 - `memory.update_status`;
 - `curation.decide`;
+- `source.write`;
+- `source.version`;
+- `source.locate`;
+- `source.read`;
+- `source.restore`;
 - `index.write_projection`;
 - `index.deactivate_projection`;
+- `index.search`;
+- `retrieval.fetch_evidence`;
+- `verification.check`;
 - `source.tombstone`;
 - `delete.create_tombstone`;
 - `rollback.create_event`.

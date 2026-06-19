@@ -615,6 +615,7 @@ Deliverables:
 - Tool sequence using `artifact.read`, `schema.validate`, `candidate.emit`, `artifact.write`, and `audit.trace`, with optional `review.request`, `curation.propose`, `record.search`, `taxonomy.read`, `taxonomy.validate`, and `model.complete`.
 - Failure classes for invalid handoff, missing verification report, unresolved evidence refs, schema errors, taxonomy errors, and forbidden durable mutation attempts.
 - V1 acceptance criteria for candidate emission with no durable memory writes.
+- Update readiness checklist and tool permission review.
 
 V1 implementation scope:
 
