@@ -92,12 +92,12 @@ Wiki source features should be extracted as runtime signals first, not immediate
 | --- | --- | --- |
 | document title | source metadata / label | alias proposal if repeated |
 | heading | access unit locator | category proposal only if reusable |
-| wiki link | relation instance candidate | relation type proposal if unknown |
-| backlink | relation instance candidate | none by default |
+| wiki link | shallow relation candidate | relation type proposal if unknown |
+| backlink | shallow relation candidate | none by default |
 | tag | category or attribute value candidate | category/vocabulary proposal if repeated |
 | redirect | alias candidate | alias proposal |
-| citation | evidence/source relation candidate | relation type if new semantics |
-| template/transclusion | source relation candidate | deferred unless needed |
+| citation | shallow evidence/source relation candidate | relation type if new semantics |
+| template/transclusion | shallow source relation candidate | deferred unless needed |
 
 ## Relation Handling
 
@@ -187,4 +187,3 @@ Connect as graph candidates.
 Retrieve through content-minimal index documents.
 
 Answer from fetched source units.
-

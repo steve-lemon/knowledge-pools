@@ -53,6 +53,21 @@ Avoid mixing forms:
 - do not call source `understand` "task understanding";
 - do not call `Retrieval Planner` the "Planning Agent" unless the role is renamed everywhere.
 
+### Candidate and Proposal Quick Map
+
+Use these names to avoid mixing stage responsibilities:
+
+| Term | Stage | Meaning | Durable? |
+| --- | --- | --- | --- |
+| `ShallowRelationCandidate` | `ingest` | Visible source-structure relation signal | No |
+| `KnowledgeCandidate` | `understand` | Proposed claim, decision, concept, procedure, question, constraint, or summary | No |
+| `RelationshipProposal` | `connect` | Proposed edge between candidates, records, sources, or graph context | No |
+| `GraphRecord` | after verification and curation | Accepted graph node or edge | Yes |
+
+Do not call a `RelationshipProposal` a `relation candidate`.
+
+Reserve `relation candidate` language for shallow ingest signals only, and prefer `ShallowRelationCandidate` when possible.
+
 ### Taxonomy
 
 The human-governed conceptual system used to classify and constrain knowledge.
@@ -515,11 +530,28 @@ It links:
 - taxonomy bundle version
 - category assignments
 - entity candidates
-- relation candidates
+- shallow relation candidates
 - validation result
 - taxonomy proposals
 
 Ingest artifacts may include shallow candidates from visible structure, but they are not durable knowledge records.
+
+### Shallow Relation Candidate
+
+A visible-structure relation signal emitted during ingest.
+
+Examples:
+
+- wiki link;
+- citation marker;
+- explicit backlink;
+- file reference;
+- table-of-contents relation;
+- visible media annotation link.
+
+Shallow relation candidates do not assert semantic meaning.
+
+They may become hints for `understand` or `connect`, but they are not relationship proposals.
 
 ### Understanding Artifact
 
@@ -565,11 +597,48 @@ They are not durable graph records.
 
 ### Relationship Proposal
 
-A candidate relationship emitted by the connect stage.
+A candidate edge emitted by the connect stage.
 
 Relationship proposals include relation type, endpoints, evidence refs, confidence, rationale refs, ambiguity refs, review flags, and taxonomy refs.
 
 They remain proposals until verification and curation approve durable graph storage.
+
+Use `Relationship Proposal` for the output of `connect`.
+
+Do not call it a `relation candidate` unless referring to shallow ingest signals.
+
+### Relation Hint
+
+A non-authoritative signal that may help `connect` propose a relationship.
+
+Relation hints can come from:
+
+- shallow relation candidates;
+- wiki links;
+- explicit mentions;
+- understand ambiguity notes;
+- prior graph neighborhoods;
+- search results.
+
+Relation hints are inputs to relationship proposal, not relationship proposal outputs.
+
+### Endpoint Ref
+
+A reference to one side of a relationship proposal.
+
+Endpoint refs may point to:
+
+- knowledge candidates;
+- relationship proposals;
+- source records;
+- access units;
+- knowledge records;
+- graph records;
+- concepts or entities.
+
+Every relationship proposal must have a `from_ref` and `to_ref`.
+
+If an endpoint cannot be resolved, the proposal must be marked unresolved rather than accepted.
 
 ### UnderstandToConnectHandoff
 
@@ -604,9 +673,11 @@ Review requests should include the target ref, reason, review type, and whether 
 
 ### Graph Candidate
 
-An entity instance or relation instance proposed during ingest or understanding.
+An entity instance proposed before durable graph storage.
 
 Graph candidates require validation before becoming graph records.
+
+Use `Relationship Proposal` for candidate edges emitted by `connect`.
 
 ### Graph Record
 

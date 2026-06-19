@@ -51,12 +51,12 @@ This system should avoid treating parser output, generated summaries, or raw can
 | Create preview artifacts | Yes | No | No |
 | Extract headings, links, tags, OCR, transcript refs | Yes | Reads | Reads |
 | Apply taxonomy categories to source/access units | Yes | May refine candidates | No |
-| Emit entity/relation candidates | Yes, shallow | Yes, semantic | No |
+| Emit entity or relation signals | Yes, shallow | Yes, semantic candidates | No |
 | Extract claims, decisions, procedures, questions | No, except obvious typed markers | Yes | No |
 | Resolve ambiguity | No | Yes | May use graph context |
-| Decide contradiction, support, supersession | No | Propose | Yes |
-| Link to existing knowledge records | No | Propose refs | Yes |
-| Create durable knowledge records | No | No | After validation/curation |
+| Propose contradiction, support, supersession | No | Hint only | Yes, as relationship proposals |
+| Link to existing knowledge records | No | Propose refs | Yes, as relationship proposals |
+| Create durable knowledge records or graph records | No | No | No |
 
 ## Ingest Outputs
 

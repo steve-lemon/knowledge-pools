@@ -265,7 +265,7 @@ load understand-to-connect handoff
   -> load taxonomy relation rules
   -> search existing records and graph neighborhoods
   -> propose local duplicate relations
-  -> propose relation candidates
+  -> propose relationship proposals
   -> attach evidence refs and rationale refs
   -> emit ambiguity and review artifacts
   -> validate output schemas

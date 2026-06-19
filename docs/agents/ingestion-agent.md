@@ -209,7 +209,7 @@ Allowed examples:
 | Source pattern | Shallow output |
 | --- | --- |
 | Markdown heading | heading access unit |
-| Wiki link | link signal or relation candidate |
+| Wiki link | link signal or shallow relation candidate |
 | Tag | tag signal |
 | Explicit `Decision:` heading | decision marker |
 | Explicit `Question:` heading | question marker |

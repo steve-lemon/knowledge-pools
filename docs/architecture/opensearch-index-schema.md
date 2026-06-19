@@ -256,9 +256,9 @@ If arbitrary metadata must be kept:
 }
 ```
 
-## Candidate Fields
+## Candidate and Proposal Fields
 
-Knowledge and relation candidates should remain candidates until later stages validate them.
+Knowledge candidates and relationship proposals should remain candidate/proposal-level until later stages validate them.
 
 Common fields:
 

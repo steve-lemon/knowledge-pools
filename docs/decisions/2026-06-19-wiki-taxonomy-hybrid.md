@@ -14,7 +14,7 @@ Adopt a hybrid architecture:
 - wiki-style sources are the narrative layer;
 - source manifests and access units are the access layer;
 - taxonomy bundles are the semantic control layer;
-- entity and relation candidates are the connection layer;
+- entity candidates and shallow relation candidates are the connection signal layer;
 - content-minimal OpenSearch-compatible documents are the retrieval layer.
 
 Wiki links, tags, headings, aliases, and redirects should be extracted as runtime signals. They should not automatically become taxonomy definitions.
@@ -34,4 +34,3 @@ The system should create taxonomy proposals when repeated wiki patterns suggest 
 - Define wiki structure extraction for Markdown links, headings, tags, and backlinks.
 - Add relation types such as `references`, `same_as`, and `redirects_to` if accepted.
 - Define title/alias/redirect handling without using titles as stable IDs.
-

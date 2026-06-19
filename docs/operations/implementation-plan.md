@@ -205,6 +205,7 @@ Purpose:
 - propose duplicate, support, contradiction, dependency, supersession, mention, and applicability relationships;
 - preserve evidence refs, rationale, ambiguity, and review needs before verification or curation;
 - keep relationship proposals separate from durable graph records.
+- use `RelationshipProposal` for connect outputs and reserve shallow relation candidates for ingest signals.
 
 Deliverables:
 
@@ -237,7 +238,7 @@ First validation rules:
 - every relationship proposal has `from_ref` and `to_ref`;
 - every endpoint ref resolves or is marked unresolved;
 - every relation type is allowed by the taxonomy version;
-- relationship proposal status is never promoted to durable graph status inside connect;
+- relationship proposal status is never promoted to durable graph record status inside connect;
 - relation proposals preserve evidence refs or explicit indirect-evidence rationale;
 - deterministic matching can run without a model adapter.
 

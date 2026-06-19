@@ -340,7 +340,7 @@ kp:repo_main:relation:md:sha256_ab12cd34ef90:rel_001
 - access unit id;
 - preview artifact id;
 - entity candidate id;
-- relation candidate id;
+- shallow relation candidate id or relationship proposal id;
 - hash of canonical projection metadata.
 
 Every OpenSearch projection should include:

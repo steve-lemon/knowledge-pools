@@ -54,7 +54,7 @@ The agent owns:
 - detecting likely local duplicates;
 - detecting likely mentions and applicability scopes;
 - identifying possible support, contradiction, dependency, or supersession relationships;
-- proposing relationship candidates;
+- proposing relationship proposals;
 - attaching evidence refs and rationale refs;
 - emitting ambiguity notes or review requests;
 - validating output schemas;
