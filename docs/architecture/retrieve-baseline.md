@@ -14,7 +14,15 @@ It does not write durable memory.
 
 ## Role
 
-The role of `retrieve` is to turn retrieval strategy into an evidence bundle.
+The role of `retrieve` is to turn a validated retrieval strategy into a bounded evidence bundle.
+
+It is the evidence acquisition stage of the runtime loop.
+
+It answers this question:
+
+```text
+Given this retrieval plan, which source-grounded evidence units should the system use next?
+```
 
 It sits between planning and reasoning:
 
@@ -33,11 +41,18 @@ Retrieve should:
 - fetch exact evidence units when required;
 - preserve freshness and conflict-search constraints;
 - report missing evidence;
-- return bounded evidence, not unbounded source dumps.
+- return bounded evidence, not unbounded source dumps;
+- make the next stage able to reason without rerunning search.
 
 ## Primary Purpose
 
 The primary purpose of `retrieve` is to gather the evidence needed for reasoning without losing provenance.
+
+The stage exists because search hits are not enough for trustworthy reasoning.
+
+Search can say something might be relevant.
+
+Retrieve must say which bounded evidence unit is usable, where it came from, which version it belongs to, and what was missing.
 
 The key shift is:
 
@@ -50,6 +65,16 @@ Retrieve is not just search.
 Search returns candidates or hits.
 
 Retrieve turns selected hits into traceable evidence refs and bounded source-grounded evidence.
+
+In practical terms, `retrieve` should reduce ambiguity for `reason`.
+
+It should make these things explicit:
+
+- which evidence was selected;
+- which retrieval step selected it;
+- which source version or record version it belongs to;
+- whether it is current, historical, stale, missing, or conflicting;
+- whether the evidence is a source unit, record, graph result, preview, or bounded content artifact.
 
 ## Non-Goals
 
@@ -82,6 +107,22 @@ Retrieve should produce:
 
 The most important result is that `reason` can use evidence without rerunning search or guessing provenance.
 
+The expected result is not a natural-language answer.
+
+The expected result is a compact, auditable evidence package that can support or limit a future answer.
+
+## Expected Quality Bar
+
+A good retrieve result should be:
+
+- bounded: it returns pages, sections, regions, transcript spans, frames, records, or graph results instead of whole sources by default;
+- source-grounded: every item resolves back to a source, access unit, durable record, or generated artifact with provenance;
+- version-aware: current, historical, superseded, stale, or tombstoned material is not mixed silently;
+- plan-compliant: every retrieval action maps back to a retrieval step and allowed tool grant;
+- explicit about gaps: missing, blocked, or low-confidence evidence is reported instead of hidden;
+- media-aware: evidence units preserve the correct locator shape for text, image, audio, video, PDF, graph, or record data;
+- reasoning-ready: the handoff contains enough refs and metadata for `reason` to synthesize without broad search.
+
 ## Expected Effects
 
 | Effect | Why it matters |
@@ -92,6 +133,20 @@ The most important result is that `reason` can use evidence without rerunning se
 | Better conflict handling | Planned contradiction search can surface opposing evidence before reasoning |
 | Better failure behavior | Missing evidence is explicit instead of silently ignored |
 | Better verification | Later verification can check the same evidence refs |
+
+## Success Criteria
+
+The `retrieve` stage is successful when:
+
+- `PlanToRetrieveHandoff` and `RetrievalPlan` validate;
+- the agent executes only approved retrieval modes;
+- selected evidence refs resolve;
+- bounded content artifacts are created only when needed;
+- missing evidence is represented as first-class output;
+- conflicts requested by the plan are included or explicitly marked missing;
+- the `EvidenceBundle` validates;
+- `RetrieveToReasonHandoff` can be consumed by the Reasoning Agent;
+- no answer text, durable memory update, or curation decision is produced.
 
 ## Stage Boundary
 

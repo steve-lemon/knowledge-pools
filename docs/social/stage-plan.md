@@ -143,36 +143,65 @@ Artifacts to include:
 - Plan readiness review.
 - Minimal retrieval plan JSON example.
 
-## Stage 5: Retrieve, Reason, and Verification Loop
+## Stage 5: Retrieve Architecture Baseline
 
 Repository state:
 
-- Retrieval returns evidence bundles rather than raw hits only.
-- Reasoning produces draft answers or proposed actions from evidence.
+- Retrieve is separated from search, reasoning, verification, and durable update.
+- `EvidenceBundle` and `RetrieveToReasonHandoff` are documented.
+- Retrieval returns bounded evidence units rather than raw hits or whole source dumps.
+- Missing evidence, conflict refs, freshness, version status, and provenance are explicit.
+- Retrieval Agent tool permissions are reviewed before moving to reasoning.
+
+Core message:
+
+> Retrieval should return auditable evidence bundles, not just nearby chunks.
+
+Post angles:
+
+- "The retriever should return evidence bundles, not just nearby chunks."
+- "Search finds candidates. Retrieve packages usable evidence."
+- "A good retrieval result should say what was found, where it came from, which version it belongs to, and what was missing."
+- "The retriever should not answer. It should prepare the evidence that makes answering auditable."
+
+Artifacts to include:
+
+- Evidence bundle example.
+- Retrieve baseline.
+- Retrieve-to-reason handoff.
+- Retrieval Agent spec.
+- Missing evidence example.
+- Conflict refs example.
+
+## Stage 6: Reason and Verification Loop
+
+Repository state:
+
+- Reasoning produces draft answers or proposed actions from evidence bundles.
 - Answers and relationship proposals are checked against retrieved evidence.
 - Unsupported claims are flagged.
 - Stale or superseded knowledge is surfaced.
 
 Core message:
 
-> Retrieval is only half the problem. Evidence bundles, reasoning, and verification need explicit boundaries.
+> Reasoning and verification should be explicit stages after evidence retrieval.
 
 Post angles:
 
-- "The retriever should return evidence bundles, not just nearby chunks."
 - "Reasoning should label assumptions before verification checks them."
 - "The verifier agent asks: which sentence is supported by which evidence?"
 - "Contradictions are not errors to hide; they are knowledge to represent."
+- "A grounded answer is not complete until its evidence path can be audited."
 
 Artifacts to include:
 
-- Evidence bundle example.
 - Draft answer with evidence refs.
+- Reason-to-verify handoff.
 - Verification report.
 - Example unsupported answer.
 - Conflict handling example.
 
-## Stage 6: Update, Curation, and Evaluation
+## Stage 7: Update, Curation, and Evaluation
 
 Repository state:
 

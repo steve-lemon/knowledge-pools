@@ -413,14 +413,16 @@ First validation rules:
 - conflict-search requirement is explicit;
 - the planner does not fetch full evidence or synthesize an answer.
 
-## Step 13: Basic Ask and Verify
+## Step 13: Retrieval Baseline
 
 Purpose:
 
+- turn a validated `RetrievalPlan` into a bounded `EvidenceBundle`;
 - execute retrieval plans;
 - return evidence bundles rather than raw hits;
 - preserve source, record, version, freshness, and conflict refs;
-- hand off evidence to reasoning.
+- make missing evidence explicit;
+- hand off evidence to reasoning without synthesizing answers.
 
 Deliverables:
 
@@ -432,10 +434,9 @@ Deliverables:
 - Conflict candidate refs in evidence bundles.
 - Retrieve tool sequence using `artifact.read`, `schema.validate`, `index.search`, `record.search`, `source.locate`, `source.read`, `retrieval.fetch_evidence`, `artifact.write`, and `audit.trace`, with optional `graph.query`, `preview.lookup`, `taxonomy.read`, and `model.embed`.
 - Failure classes for invalid handoff, missing retrieval plan, unsupported retrieval mode, unresolved source/access-unit refs, missing evidence, permission denied, and schema errors.
-- `kp ask` creates a retrieval plan.
+- Local fixture retrieval from source, access-unit, record, preview, and graph-like artifacts.
 - Retrieval returns an evidence bundle.
-- Reasoning produces a grounded answer.
-- Verification checks cited evidence exists.
+- Retrieve-to-reason handoff is emitted.
 - Run trace is stored.
 
 First validation rules:
@@ -449,7 +450,33 @@ First validation rules:
 - conflict refs are included when conflict search was requested;
 - retrieve does not synthesize answers.
 
-## Step 14: Curation and Update
+## Step 14: Basic Ask, Reason, and Verify
+
+Purpose:
+
+- use retrieved evidence bundles to produce grounded draft answers;
+- verify answer claims against cited evidence;
+- keep reasoning and verification separate from retrieval and durable updates.
+
+Deliverables:
+
+- Reason baseline architecture document.
+- Reasoning Agent detailed spec.
+- Answer draft schema with evidence citations.
+- Reason-to-verify handoff artifact schema and validation.
+- Answer verification mode implementation.
+- `kp ask` creates a retrieval plan, retrieves evidence, reasons from evidence, and stores a run trace.
+- Verification checks cited evidence exists and flags unsupported claims.
+
+First validation rules:
+
+- reasoning consumes `RetrieveToReasonHandoff`;
+- every answer claim cites evidence or is marked as assumption;
+- verifier checks cited evidence refs resolve;
+- unsupported claims are flagged;
+- reasoning and verification do not write durable memory.
+
+## Step 15: Curation and Update
 
 Deliverables:
 
@@ -466,7 +493,7 @@ Deliverables:
 - Content hide, soft-delete, archive, restore, and purge workflow definitions.
 - Delete propagation rules for source versions, access units, previews, candidates, records, and relations.
 
-## Step 15: Evaluation Loop
+## Step 16: Evaluation Loop
 
 Deliverables:
 
