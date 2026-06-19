@@ -85,17 +85,46 @@ Artifacts to include:
 - Minimal knowledge candidate JSON example.
 - Ingest-to-understand handoff.
 
-## Stage 3: Verification Loop
+## Stage 3: Connect Architecture Baseline
 
 Repository state:
 
-- Answers are checked against retrieved evidence.
+- The boundary between `understand` and `connect` is explicit.
+- `UnderstandToConnectHandoff`, `ConnectionArtifact`, and `RelationshipProposal` are documented.
+- Media connect concept proofs are documented.
+- Candidate/proposal terminology is clarified.
+- Tool permissions are reviewed before implementation.
+
+Core message:
+
+> Connect is not graph storage. It turns isolated candidates into evidence-grounded relationship proposals.
+
+Post angles:
+
+- "Do not jump from candidates to graph edges. Create relationship proposals first."
+- "Connect should be graph-aware, not graph-mutating."
+- "Contradiction should first be a proposal that can be verified."
+- "Tool permissions matter: connect must not receive durable mutation tools."
+
+Artifacts to include:
+
+- Connect baseline.
+- Understand-to-connect handoff.
+- Media connect concept proofs.
+- Connect readiness review.
+- Minimal relationship proposal JSON example.
+
+## Stage 4: Verification Loop
+
+Repository state:
+
+- Answers and relationship proposals are checked against retrieved evidence.
 - Unsupported claims are flagged.
 - Stale or superseded knowledge is surfaced.
 
 Core message:
 
-> Retrieval is only half the problem. The answer needs to be audited.
+> Retrieval is only half the problem. The answer and proposed relationships need to be audited.
 
 Post angles:
 
@@ -109,11 +138,11 @@ Artifacts to include:
 - Example unsupported answer.
 - Conflict handling example.
 
-## Stage 4: Knowledge Graph
+## Stage 5: Knowledge Graph
 
 Repository state:
 
-- Entities and relationships are stored.
+- Verified entities and relationships are stored.
 - Retrieval planner can traverse relationships.
 - Claims, concepts, decisions, and sources are linked.
 
@@ -125,7 +154,7 @@ Post angles:
 
 - "The graph makes 'why' and 'what depends on this' queryable."
 - "A decision can supersede another decision."
-- "Contradiction should be an edge, not a hidden surprise."
+- "Contradiction should be an edge only after it survives verification."
 
 Artifacts to include:
 
@@ -133,7 +162,7 @@ Artifacts to include:
 - Example traversal.
 - Visual relationship diagram.
 
-## Stage 5: Durable Memory and Agent Orchestration
+## Stage 6: Durable Memory and Agent Orchestration
 
 Repository state:
 

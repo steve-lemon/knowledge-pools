@@ -400,3 +400,122 @@ But it should not say:
 
 To move beyond basic RAG, I think we need this middle layer between chunks and durable knowledge.
 ```
+
+## Stage 3: Connect Architecture Baseline
+
+Status: draft
+
+Related commits:
+
+- `5f86666` Define connect stage baseline
+- `1612140` Clarify connect stage purpose
+- `fca1052` Add media connect concept proofs
+- `36a92f9` Clarify candidate and proposal terminology
+- `e9a80a3` Add connect readiness review
+
+Related docs:
+
+- `docs/architecture/connect-baseline.md`
+- `docs/architecture/understand-connect-boundary.md`
+- `docs/architecture/understand-connect-handoff.md`
+- `docs/architecture/media-connect-concept-proofs.md`
+- `docs/architecture/connect-readiness-review.md`
+- `docs/agents/connection-agent.md`
+- `docs/architecture/terminology.md`
+- `docs/social/stage-3-connect-baseline.md`
+
+### Korean Connect Baseline Post
+
+```text
+Knowledge Pools의 connect 단계 설계를 정리했습니다.
+
+이번 결론:
+
+connect는 graph 저장 단계가 아닙니다.
+관계를 확정하는 단계도 아닙니다.
+
+understand가 만든 knowledge candidate를 기존 record/candidate/source와 비교해서
+다음 관계를 "제안"합니다.
+
+- duplicates
+- supports
+- contradicts
+- depends_on
+- supersedes
+- mentions
+- applies_to
+
+출력은 durable graph edge가 아니라 RelationshipProposal입니다.
+
+즉 graph-aware이지만 graph-mutating은 아닙니다.
+
+RAG가 chunk 검색을 넘어가려면,
+후보 지식 사이의 관계를 바로 확정하지 말고
+검증 가능한 proposal로 먼저 다뤄야 한다고 봅니다.
+```
+
+### Longer Korean Connect Baseline Post
+
+```text
+Knowledge Pools의 connect 단계 설계를 정리했습니다.
+
+이번 단계의 핵심 결론은 이것입니다.
+
+connect는 graph 저장 단계가 아닙니다.
+그리고 관계를 "확정"하는 단계도 아닙니다.
+
+understand가 source unit에서 claim, decision, concept 같은 지식 후보를 만든다면,
+connect는 그 후보가 기존 지식과 어떤 관계일 수 있는지 제안합니다.
+
+예를 들면:
+
+- duplicates
+- supports
+- contradicts
+- depends_on
+- supersedes
+- mentions
+- applies_to
+
+중요한 점은 이 출력이 durable graph edge가 아니라
+RelationshipProposal이라는 것입니다.
+
+즉 "이 후보는 저 기록을 support하는 것 같다"라고 말할 수는 있지만,
+"이 관계는 확정됐다"라고 말하지는 않습니다.
+
+이번 경계는 이렇게 잡았습니다.
+
+understand = interpret, extract knowledge units, align evidence
+connect = relate candidates to existing records and graph context
+verify = check whether proposed relationships and claims are supported
+
+좋은 agent memory는 graph를 자동으로 오염시키지 않고,
+먼저 evidence-grounded relationship proposal을 만든 뒤
+verify와 curate를 거쳐야 한다고 봅니다.
+```
+
+### English Connect Baseline Post
+
+```text
+I finished the connect architecture baseline for Knowledge Pools.
+
+The main lesson:
+
+connect is not graph storage.
+It is not relationship acceptance either.
+
+If understand turns source units into knowledge candidates, connect proposes how those candidates may relate to existing knowledge:
+
+- duplicates
+- supports
+- contradicts
+- depends_on
+- supersedes
+- mentions
+- applies_to
+
+The output is not a durable graph edge.
+It is a RelationshipProposal.
+
+To move beyond basic RAG, I think we need a proposal layer between extracted candidates and durable graph memory.
+```

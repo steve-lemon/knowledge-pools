@@ -17,6 +17,7 @@ Do not create new stage-specific posts automatically. Use this directory as a re
 - [stage-0-problem-approach.md](stage-0-problem-approach.md): first public narrative about the problem and approach.
 - [stage-1-ingest-baseline.md](stage-1-ingest-baseline.md): second public narrative about the ingest architecture baseline.
 - [stage-2-understand-baseline.md](stage-2-understand-baseline.md): third public narrative about the understand architecture baseline.
+- [stage-3-connect-baseline.md](stage-3-connect-baseline.md): fourth public narrative about the connect architecture baseline.
 - [on-demand-workflow.md](on-demand-workflow.md): rules for creating social content only when requested.
 - [post-template.md](post-template.md): reusable format for drafting posts.
 - [drafts.md](drafts.md): existing draft posts and reference material.
