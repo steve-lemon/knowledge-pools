@@ -6,6 +6,8 @@ The Reasoning Agent implements the `reason` stage.
 
 It synthesizes a draft answer or proposed action from an evidence bundle.
 
+Its job is to make a useful, cited, verification-ready draft.
+
 It does not retrieve evidence.
 
 It does not verify claims.
@@ -26,6 +28,7 @@ The agent owns:
 - drafting supported claims from evidence;
 - labeling assumptions and unknowns;
 - preserving missing evidence and conflicts;
+- preserving freshness and lifecycle warnings;
 - producing `DraftAnswer` or `ProposedAction`;
 - emitting `ReasonToVerifyHandoff`;
 - emitting trace events.
@@ -71,8 +74,11 @@ Forbidden ports:
 ## Outputs
 
 - `DraftAnswer` or `ProposedAction`;
+- cited claim refs;
 - assumptions;
 - unresolved questions;
+- missing evidence notes;
+- conflict notes;
 - cited evidence refs;
 - confidence notes;
 - `ReasonToVerifyHandoff`;

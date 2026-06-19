@@ -456,7 +456,9 @@ First validation rules:
 
 Purpose:
 
-- use retrieved evidence bundles to produce grounded draft answers;
+- turn retrieved evidence bundles into cited draft answers or proposed actions;
+- distinguish supported claims, assumptions, unknowns, missing evidence, and conflicts;
+- hand draft outputs to verification without certifying them inside reason;
 - verify answer claims against cited evidence;
 - keep reasoning and verification separate from retrieval and durable updates.
 

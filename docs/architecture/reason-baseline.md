@@ -16,6 +16,14 @@ It does not decide curation.
 
 The role of `reason` is to synthesize from an `EvidenceBundle` without losing citation discipline.
 
+It is the draft synthesis stage of the runtime loop.
+
+It answers this question:
+
+```text
+Given this evidence bundle, what can the system responsibly say or propose?
+```
+
 It sits between retrieval and verification:
 
 ```text
@@ -34,11 +42,18 @@ Reason should:
 - cite evidence refs from the evidence bundle;
 - surface missing evidence instead of inventing facts;
 - preserve conflict and freshness warnings;
+- limit the response to what the evidence can support;
 - hand the draft to `verify`.
 
 ## Primary Purpose
 
 The primary purpose of `reason` is to turn evidence into a useful but still unverified response artifact.
+
+The stage exists because evidence does not explain itself.
+
+Retrieve can gather source-grounded evidence, but the user usually needs synthesis: an explanation, comparison, recommendation, next action, or honest statement that the evidence is insufficient.
+
+Reason must do that synthesis while keeping the evidence path visible.
 
 The key shift is:
 
@@ -49,6 +64,15 @@ evidence bundle -> cited draft answer or proposed action
 Reason is not final truth.
 
 It is structured synthesis that remains open to verification.
+
+In practical terms, `reason` should make these things explicit:
+
+- which statements are supported by cited evidence;
+- which statements are assumptions;
+- which questions remain unresolved;
+- which conflicts or missing evidence limit the answer;
+- whether the answer uses current, historical, stale, or superseded evidence;
+- why the output is a draft that still needs verification.
 
 ## Non-Goals
 
@@ -83,6 +107,37 @@ It should also produce:
 - trace events.
 
 The most important result is that `verify` can audit the draft without guessing which evidence supports which claim.
+
+The expected result is not durable knowledge.
+
+The expected result is a usable draft with enough structure for verification, revision, and later update-candidate generation.
+
+## Expected Effects
+
+| Effect | Why it matters |
+| --- | --- |
+| Better answer discipline | Claims must cite evidence or be labeled as assumptions |
+| Better uncertainty handling | Missing evidence and unknowns are visible instead of hidden |
+| Better conflict handling | Contradictory evidence is surfaced before verification |
+| Better freshness handling | Current, historical, stale, or superseded evidence is not mixed silently |
+| Better verification | Verifier receives claim refs, assumption refs, and cited evidence refs |
+| Better update hygiene | Draft outputs can later become update signals without writing memory directly |
+
+## Success Criteria
+
+The `reason` stage is successful when:
+
+- `RetrieveToReasonHandoff` validates;
+- `EvidenceBundle` resolves and validates;
+- every factual claim has cited evidence or is marked as assumption;
+- every cited evidence ref exists in the evidence bundle;
+- missing evidence is surfaced when it limits the answer;
+- conflict refs are represented in the draft or explicitly marked irrelevant;
+- freshness and lifecycle warnings are preserved;
+- output follows the requested answer shape where possible;
+- `DraftAnswer`, `ProposedAction`, or `insufficient_evidence` schema validates;
+- `ReasonToVerifyHandoff` can be consumed by the Verifier Agent;
+- no new broad retrieval, verification report, durable memory write, or curation decision is produced.
 
 ## Expected Quality Bar
 

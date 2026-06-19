@@ -180,11 +180,12 @@ Repository state:
 - Reasoning produces draft answers or proposed actions from evidence bundles.
 - `DraftAnswer`, `ProposedAction`, and `ReasonToVerifyHandoff` are documented.
 - Supported claims, assumptions, unknowns, missing evidence, and conflicts are separated.
+- Reason output is positioned as verification-ready draft synthesis, not final truth.
 - Reasoning Agent tool permissions are reviewed before moving to answer verification.
 
 Core message:
 
-> Reasoning should synthesize from evidence without certifying itself.
+> Reasoning should produce useful cited drafts without certifying itself.
 
 Post angles:
 
