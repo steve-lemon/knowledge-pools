@@ -37,17 +37,19 @@ V1 modes:
 - `verify_relationships`: audit `RelationshipProposal` artifacts from `connect`;
 - `verify_answer`: audit `DraftAnswer` or `ProposedAction` artifacts from `reason`.
 
-The first implementation should support `verify_relationships`.
+The first implementation should support Markdown/text `verify_answer` after the reason baseline, while keeping `verify_relationships` available for connection outputs.
 
-Answer verification should be expanded after retrieval and reasoning baselines are complete.
+Media-specific answer verification should be expanded only after Markdown/text verification is stable.
 
 ## Responsibilities
 
 The agent owns:
 
-- loading and validating the connect-to-verify handoff;
+- loading and validating the connect-to-verify or reason-to-verify handoff;
 - resolving connection artifact refs;
 - resolving relationship proposal refs;
+- resolving draft answer or proposed action refs;
+- resolving claim refs and assumption refs;
 - resolving endpoint refs;
 - resolving evidence refs;
 - validating relation types against taxonomy;
@@ -113,6 +115,36 @@ Recommended task shape for relationship verification:
 }
 ```
 
+Recommended task shape for answer verification:
+
+```json
+{
+  "task_id": "task_verify_answer_001",
+  "run_id": "run_001",
+  "agent_id": "verifier_agent",
+  "stage": "verify",
+  "intent": "verify_answer",
+  "input": {
+    "handoff_ref": "artifact://runs/run_001/handoffs/reason-to-verify.json",
+    "draft_answer_ref": "artifact://runs/run_001/reason/draft-answer.json",
+    "evidence_bundle_ref": "artifact://runs/run_001/retrieve/evidence-bundle.json",
+    "mode": "verify_answer"
+  },
+  "constraints": {
+    "require_cited_evidence_refs": true,
+    "allow_model": false,
+    "preferred_precision": "high"
+  },
+  "allowed_tool_ports": [
+    "artifact.read",
+    "schema.validate",
+    "verification.check",
+    "artifact.write",
+    "audit.trace"
+  ]
+}
+```
+
 ## Context Envelope
 
 The context envelope should contain refs, constraints, and schemas, not full source dumps.
@@ -124,7 +156,13 @@ Recommended fields:
 - `run_id`;
 - `handoff_ref`;
 - `connection_artifact_ref`;
+- `draft_answer_ref`;
+- `proposed_action_ref`;
+- `evidence_bundle_ref`;
 - `relationship_proposal_refs`;
+- `claim_refs`;
+- `assumption_refs`;
+- `cited_evidence_refs`;
 - `taxonomy_bundle_ref`;
 - `taxonomy_version`;
 - `schema_refs`;

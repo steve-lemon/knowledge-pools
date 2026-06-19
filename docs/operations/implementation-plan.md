@@ -546,7 +546,7 @@ Deliverables:
 - Markdown/text reasoning implementation first.
 - Reason readiness review and tool permission check.
 - Reason tool sequence and forbidden-port review.
-- Answer verification mode implementation.
+- Markdown-first answer verification mode implementation.
 - `kp ask` creates a retrieval plan, retrieves evidence, reasons from evidence, and stores a run trace.
 - Verification checks cited evidence exists and flags unsupported claims.
 
@@ -560,7 +560,9 @@ First validation rules:
 
 - reasoning consumes `RetrieveToReasonHandoff`;
 - every answer claim cites evidence or is marked as assumption;
+- verification consumes `ReasonToVerifyHandoff`;
 - verifier checks cited evidence refs resolve;
+- verifier checks Markdown section or block refs before multi-media verification;
 - unsupported claims are flagged;
 - reasoning and verification do not write durable memory.
 
