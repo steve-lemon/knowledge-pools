@@ -2,6 +2,8 @@
 
 Knowledge Pools is organized around layered stores and specialized agents.
 
+For a topic-grouped architecture index, see [Architecture Index](README.md).
+
 The target operating loop is:
 
 ```text

@@ -2,6 +2,8 @@
 
 This plan turns the target architecture into concrete implementation steps.
 
+Use [Work Context Packs](work-context-packs.md) to choose the smallest relevant document set before working on a step.
+
 The canonical runtime stage flow is:
 
 ```text

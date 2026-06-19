@@ -4,6 +4,8 @@ This directory contains one specification per agent role.
 
 Use [Agent Design](../architecture/agents.md) as the high-level role map.
 
+For task-focused reading sets, see [Work Context Packs](../operations/work-context-packs.md).
+
 Shared contracts:
 
 - [Single Agent Model](../architecture/single-agent-model.md)

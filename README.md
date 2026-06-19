@@ -14,59 +14,19 @@ The goal is not just to retrieve document chunks. The goal is to maintain a livi
 
 ## Documentation Map
 
-- [Vision](docs/vision.md)
-- [Architecture Overview](docs/architecture/overview.md)
-- [Terminology](docs/architecture/terminology.md)
-- [Ultimate Knowledge Loop](docs/architecture/ultimate-loop.md)
-- [System Architecture](docs/architecture/system-architecture.md)
-- [Infrastructure Baseline](docs/architecture/infrastructure-baseline.md)
-- [Single Repository First](docs/architecture/single-repository-first.md)
-- [Index Content Policy](docs/architecture/index-content-policy.md)
-- [Index ID Policy](docs/architecture/index-id-policy.md)
-- [OpenSearch Index Schema](docs/architecture/opensearch-index-schema.md)
-- [Rollback and Quarantine Policy](docs/architecture/rollback-and-quarantine.md)
-- [Content Deletion Lifecycle](docs/architecture/content-deletion-lifecycle.md)
-- [Wiki and Taxonomy Hybrid Architecture](docs/architecture/wiki-taxonomy-hybrid.md)
-- [Single Agent Model](docs/architecture/single-agent-model.md)
-- [Agent Superclass Contract](docs/architecture/agent-superclass-contract.md)
-- [Agent Connection Model](docs/architecture/agent-connection-model.md)
-- [Context and Session Model](docs/architecture/context-session-model.md)
-- [Agent Tool Pool](docs/architecture/agent-tool-pool.md)
+- [Documentation Index](docs/README.md)
+- [Architecture Index](docs/architecture/README.md)
 - [Agent Specs](docs/agents/README.md)
-- [Feedback Update Relationships](docs/architecture/feedback-update-relationships.md)
-- [Ingest: Taxonomy-Governed Graph Entry](docs/architecture/ingest-taxonomy-graph.md)
-- [Ingestion Agent Spec](docs/agents/ingestion-agent.md)
-- [Ingest and Understand Boundary](docs/architecture/ingest-understand-boundary.md)
-- [Ingest to Understand Handoff](docs/architecture/ingest-understand-handoff.md)
-- [Understand Baseline](docs/architecture/understand-baseline.md)
-- [Understand Readiness Review](docs/architecture/understand-readiness-review.md)
-- [Understand and Connect Boundary](docs/architecture/understand-connect-boundary.md)
-- [Understand to Connect Handoff](docs/architecture/understand-connect-handoff.md)
-- [Connect Baseline](docs/architecture/connect-baseline.md)
-- [Connect Readiness Review](docs/architecture/connect-readiness-review.md)
-- [Media Connect Concept Proofs](docs/architecture/media-connect-concept-proofs.md)
-- [Connect and Verify Boundary](docs/architecture/connect-verify-boundary.md)
-- [Connect to Verify Handoff](docs/architecture/connect-verify-handoff.md)
-- [Verify Baseline](docs/architecture/verify-baseline.md)
-- [Understand vs Task Understanding](docs/architecture/understand-vs-task-understanding.md)
-- [Understanding Agent Spec](docs/agents/understanding-agent.md)
-- [Connection Agent Spec](docs/agents/connection-agent.md)
-- [Verifier Agent Spec](docs/agents/verifier-agent.md)
-- [Ingest Readiness Review](docs/architecture/ingest-readiness-review.md)
-- [Media Ingest Strategies](docs/architecture/media-ingest-strategies.md)
-- [Media Concept Proofs](docs/architecture/media-concept-proofs.md)
-- [Media Understand Concept Proofs](docs/architecture/media-understand-concept-proofs.md)
-- [Taxonomy vs Versioning Responsibilities](docs/architecture/taxonomy-vs-versioning.md)
-- [Architecture Risk Review](docs/architecture/architecture-risk-review.md)
-- [Taxonomy Schema](docs/architecture/taxonomy-schema.md)
-- [Taxonomy Evolution Workflow](docs/architecture/taxonomy-evolution.md)
-- [Agent Design](docs/architecture/agents.md)
-- [Knowledge Model](docs/architecture/knowledge-model.md)
-- [RAG Limitations](docs/research/rag-limitations.md)
-- [Roadmap](docs/operations/roadmap.md)
-- [Implementation Plan](docs/operations/implementation-plan.md)
-- [Stage Transition Guidelines](docs/operations/stage-transition-guidelines.md)
+- [Work Context Packs](docs/operations/work-context-packs.md)
 - [Decision Log](docs/decisions/README.md)
+- [Social Content Guide](docs/social/README.md)
+
+Core entry points:
+
+- [Vision](docs/vision.md)
+- [Ultimate Knowledge Loop](docs/architecture/ultimate-loop.md)
+- [Terminology](docs/architecture/terminology.md)
+- [Implementation Plan](docs/operations/implementation-plan.md)
 
 ## Working Principle
 
@@ -77,4 +37,4 @@ This repository should grow as both a system and a notebook. Every major impleme
 3. What evidence or constraint shaped it.
 4. What remains uncertain.
 
-Before moving from one major stage to the next, update the stage boundary using [Stage Transition Guidelines](docs/operations/stage-transition-guidelines.md).
+Before moving from one major stage to the next, use [Work Context Packs](docs/operations/work-context-packs.md) to choose the relevant files, then update the stage boundary using [Stage Transition Guidelines](docs/operations/stage-transition-guidelines.md).
