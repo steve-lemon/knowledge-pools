@@ -599,6 +599,30 @@ Task understanding identifies intent, constraints, required evidence types, fres
 
 It belongs to planning, not to the source `understand` stage.
 
+### Retrieval Plan
+
+A run-scoped artifact produced by the `plan` stage.
+
+It describes:
+
+- task intent;
+- expected answer shape;
+- freshness scope;
+- required evidence types;
+- retrieval steps;
+- conflict-search requirement;
+- retrieval budget or limits.
+
+It is not an evidence bundle.
+
+It is not an answer.
+
+### PlanToRetrieveHandoff
+
+The handoff envelope produced by the Retrieval Planner and consumed by the Retrieval Agent.
+
+It carries the retrieval plan ref and constraints needed to gather evidence.
+
 ### Knowledge Candidate
 
 A proposed claim, decision, concept, procedure, question, constraint, or bounded summary extracted from source evidence.

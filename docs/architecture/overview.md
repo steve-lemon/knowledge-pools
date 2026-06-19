@@ -34,6 +34,10 @@ The boundary between connection and verification is defined in [Connect and Veri
 
 The verification stage baseline is defined in [Verify Baseline](verify-baseline.md).
 
+The planning stage baseline is defined in [Plan Baseline](plan-baseline.md).
+
+The handoff from planning to retrieval is defined in [Plan to Retrieve Handoff](plan-retrieve-handoff.md).
+
 The difference between source understanding and user-question understanding is defined in [Understand vs Task Understanding](understand-vs-task-understanding.md).
 
 Before implementing multi-agent behavior, the system should define a single agent contract, agent handoff model, and explicit context/session ownership:

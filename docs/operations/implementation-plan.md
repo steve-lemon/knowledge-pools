@@ -371,12 +371,26 @@ Deliverables:
 
 ## Step 12: Retrieval Planning
 
+Purpose:
+
+- interpret the user or workflow request as task understanding;
+- decide what evidence is needed before retrieval starts;
+- produce a schema-valid `RetrievalPlan`;
+- hand off retrieval requirements to the Retrieval Agent without fetching full evidence.
+
 Deliverables:
 
+- Plan baseline architecture document.
+- Plan-to-retrieve handoff artifact schema and validation.
+- Retrieval Planner detailed spec.
 - Task classifier.
 - Task understanding schema for user intent, constraints, freshness scope, required evidence, and answer shape.
 - Retrieval plan schema.
 - Evidence bundle schema.
+- Quality report with intent confidence, retrieval step count, freshness scope, conflict-search flag, and schema failures.
+- Plan tool sequence using `retrieval.plan`, `record.search`, `index.search`, `schema.validate`, `artifact.write`, and `audit.trace`, with optional `graph.query`, `taxonomy.read`, `model.complete`, and `artifact.read`.
+- Failure classes for invalid task input, unsupported retrieval mode, missing schema, missing indexes, invalid model output, and invalid handoff.
+- V1 acceptance criteria for deterministic source lookup, keyword search, decision recall, and hybrid evidence lookup planning.
 
 Initial plan types:
 
@@ -385,6 +399,19 @@ Initial plan types:
 - concept_search
 - decision_recall
 - verification_check
+- conflict_check
+- latest_state_summary
+- source_audit
+
+First validation rules:
+
+- task intent is present;
+- expected answer shape is present;
+- freshness scope is explicit;
+- at least one retrieval step is present;
+- required evidence types are explicit;
+- conflict-search requirement is explicit;
+- the planner does not fetch full evidence or synthesize an answer.
 
 ## Step 13: Basic Ask and Verify
 

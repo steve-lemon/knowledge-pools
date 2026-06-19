@@ -13,6 +13,7 @@ Read these first when joining the project or re-orienting:
 - [Terminology](architecture/terminology.md)
 - [Architecture Overview](architecture/overview.md)
 - [Implementation Plan](operations/implementation-plan.md)
+- [Work Context Packs](operations/work-context-packs.md)
 
 ## Work Context Packs
 

@@ -415,8 +415,14 @@ export interface ConnectToVerifyPayload {
 export interface PlanToRetrievePayload {
   retrieval_plan_ref: RefString;
   required_evidence_types: string[];
-  freshness_scope?: string;
+  freshness_scope: "latest" | "stable" | "historical" | "any";
   conflict_search_required: boolean;
+  retrieval_budget?: {
+    max_evidence_refs?: number;
+    max_search_steps?: number;
+  };
+  preferred_indexes?: string[];
+  blocked_indexes?: string[];
 }
 
 export interface RetrieveToReasonPayload {

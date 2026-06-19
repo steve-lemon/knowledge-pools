@@ -229,7 +229,7 @@ The orchestrator should grant tools by stage, not by agent personality.
 | `ingest` | source, parsing/media, taxonomy read/classify, artifact, candidate emit, index projection |
 | `understand` | source read/locate, artifact read/write, taxonomy read/validate/classify, candidate emit, ambiguity emit, review request, model adapter |
 | `connect` | artifact read/write, record search, optional graph query, taxonomy read/validate, schema validate, candidate emit, ambiguity emit, review request, optional model adapter |
-| `plan` | record search, graph query, index search metadata, `retrieval.plan` |
+| `plan` | retrieval plan, record search, index search metadata, schema validate, artifact write, optional graph query, optional model adapter |
 | `retrieve` | index search, record search, graph query, source locate/read, evidence fetch |
 | `reason` | evidence read, model adapter, reason synthesize, artifact write |
 | `verify` | artifact read/write, schema validate, taxonomy read/validate, verification check, optional evidence read, optional record/graph search, audit trace |

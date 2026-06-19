@@ -48,6 +48,7 @@ YYYY-MM-DD-short-title.md
 - [Verify Baseline](2026-06-19-verify-baseline.md)
 - [Canonical Stage Flow](2026-06-19-canonical-stage-flow.md)
 - [Stage Data Flow Contract](2026-06-19-stage-data-flow-contract.md)
+- [Plan Stage Preparation](2026-06-19-plan-stage-preparation.md)
 
 ## Template
 

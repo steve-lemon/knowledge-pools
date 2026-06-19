@@ -125,9 +125,9 @@ Outputs:
 
 Tool contract:
 
-- required: `retrieval.plan`, `record.search`, `index.search`, `audit.trace`;
-- optional: `graph.query`, `taxonomy.read`, `schema.validate`;
-- forbidden: `memory.write`, `curation.decide`, `source.tombstone`, `delete.create_tombstone`.
+- required: `retrieval.plan`, `record.search`, `index.search`, `schema.validate`, `artifact.write`, `audit.trace`;
+- optional: `graph.query`, `taxonomy.read`, `model.complete`, `artifact.read`;
+- forbidden: `source.read`, `retrieval.fetch_evidence`, `reason.synthesize`, `verification.check`, `memory.write`, `curation.decide`, `source.tombstone`, `delete.create_tombstone`.
 
 ## Retrieval Agent
 
