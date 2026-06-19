@@ -18,14 +18,14 @@ Use [Ultimate Knowledge Loop](ultimate-loop.md) and [Terminology](terminology.md
 - [Ingest: Taxonomy-Governed Graph Entry](ingest-taxonomy-graph.md)
 - [Understand Baseline](understand-baseline.md)
 - [Connect Baseline](connect-baseline.md)
-- [Verify Baseline](verify-baseline.md)
 - [Plan Baseline](plan-baseline.md)
 - [Retrieve Baseline](retrieve-baseline.md)
 - [Reason Baseline](reason-baseline.md)
+- [Verify Baseline](verify-baseline.md)
+- [Update Baseline](update-baseline.md)
 
 Future baselines should be added here:
 
-- `update`
 - `curation`
 - `evaluate`
 
@@ -40,6 +40,7 @@ Future baselines should be added here:
 - [Plan to Retrieve Handoff](plan-retrieve-handoff.md)
 - [Retrieve to Reason Handoff](retrieve-reason-handoff.md)
 - [Reason to Verify Handoff](reason-verify-handoff.md)
+- [Verify to Update Handoff](verify-update-handoff.md)
 - [Understand vs Task Understanding](understand-vs-task-understanding.md)
 
 ## Readiness Reviews

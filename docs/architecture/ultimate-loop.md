@@ -264,6 +264,10 @@ Candidates:
 
 Feedback-derived knowledge should enter as update candidates, not durable records.
 
+See [Update Baseline](update-baseline.md).
+
+The handoff from verification to update is defined in [Verify to Update Handoff](verify-update-handoff.md).
+
 See [Feedback Update Relationships](feedback-update-relationships.md).
 
 ### 9. Curation

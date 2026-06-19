@@ -580,13 +580,44 @@ First validation rules:
 - assumptions remain assumptions;
 - reasoning and verification do not write durable memory.
 
-## Step 15: Curation and Update
+## Step 15: Update Candidate Baseline
 
 Deliverables:
 
+- Update baseline architecture document.
+- Verify-to-update handoff artifact schema and validation.
 - Candidate update schema.
 - Feedback update relationship rules.
 - Relationship proposal schema for update candidates.
+- Knowledge Update Agent detailed spec.
+- Update candidate quality report.
+- Markdown/text update candidate implementation first.
+- Rules that convert unsupported claims into open questions or review requests, not facts.
+- Tool sequence using `artifact.read`, `schema.validate`, `candidate.emit`, `artifact.write`, and `audit.trace`, with optional `review.request`, `curation.propose`, `record.search`, `taxonomy.read`, `taxonomy.validate`, and `model.complete`.
+- Failure classes for invalid handoff, missing verification report, unresolved evidence refs, schema errors, taxonomy errors, and forbidden durable mutation attempts.
+- V1 acceptance criteria for candidate emission with no durable memory writes.
+
+V1 implementation scope:
+
+- verified Markdown/text answer claims;
+- verified Markdown/text relationship proposals;
+- explicit user corrections captured as run artifacts;
+- verifier failures that produce open questions or stale warnings;
+- no image, audio, video, or PDF-derived update candidates until those media verification paths are reliable.
+
+First validation rules:
+
+- `VerifyToUpdateHandoff` validates;
+- verification report ref resolves;
+- every update candidate preserves evidence, source, run, and verification refs when available;
+- unsupported and uncertain outputs are not promoted to facts;
+- update emits `UpdateToCurationHandoff`;
+- update does not write durable memory, source lifecycle changes, or accepted index projections.
+
+## Step 16: Curation Baseline
+
+Deliverables:
+
 - Curation states: `accepted`, `edited`, `deferred`, `rejected`.
 - Durable decision and claim records.
 - Supersession metadata.
@@ -597,7 +628,7 @@ Deliverables:
 - Content hide, soft-delete, archive, restore, and purge workflow definitions.
 - Delete propagation rules for source versions, access units, previews, candidates, records, and relations.
 
-## Step 16: Evaluation Loop
+## Step 17: Evaluation Loop
 
 Deliverables:
 

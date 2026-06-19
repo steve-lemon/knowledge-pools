@@ -54,6 +54,7 @@ YYYY-MM-DD-short-title.md
 - [Retrieve Baseline](2026-06-19-retrieve-baseline.md)
 - [Reason Baseline](2026-06-19-reason-baseline.md)
 - [Markdown-First Implementation](2026-06-19-markdown-first-implementation.md)
+- [Update Baseline](2026-06-19-update-baseline.md)
 
 ## Template
 

@@ -131,6 +131,8 @@ Use for `plan`, `retrieve`, `reason`, and answer verification work:
 
 ## Update, Curation, And Evaluation Pack
 
+- [Update Baseline](../architecture/update-baseline.md)
+- [Verify to Update Handoff](../architecture/verify-update-handoff.md)
 - [Feedback Update Relationships](../architecture/feedback-update-relationships.md)
 - [Knowledge Update Agent Spec](../agents/knowledge-update-agent.md)
 - [Curation Agent Spec](../agents/curation-agent.md)

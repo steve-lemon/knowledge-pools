@@ -200,6 +200,8 @@ Turns useful verified outcomes into update candidates.
 
 Detailed v1 contract: [Knowledge Update Agent Spec](../agents/knowledge-update-agent.md).
 
+Stage baseline: [Update Baseline](update-baseline.md).
+
 Candidates for storage:
 
 - decisions
@@ -215,9 +217,9 @@ It does not write durable memory. Curation decides whether an update candidate b
 
 Tool contract:
 
-- required: `artifact.read`, `candidate.emit`, `review.request`, `artifact.write`, `audit.trace`;
-- optional: `curation.propose`, `record.search`, `model.complete`;
-- forbidden: `memory.write`, `curation.decide`, `source.tombstone`, `delete.create_tombstone`.
+- required: `artifact.read`, `schema.validate`, `candidate.emit`, `artifact.write`, `audit.trace`;
+- optional: `review.request`, `curation.propose`, `record.search`, `taxonomy.read`, `taxonomy.validate`, `model.complete`;
+- forbidden: `memory.write`, `memory.update_status`, `curation.decide`, `index.write_projection`, `index.deactivate_projection`, `source.tombstone`, `delete.create_tombstone`, `rollback.create_event`.
 
 ## Curation Agent
 

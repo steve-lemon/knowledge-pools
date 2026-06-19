@@ -26,13 +26,7 @@ The boundary between understanding and connection is defined in [Understand and 
 
 The connection stage baseline is defined in [Connect Baseline](connect-baseline.md).
 
-The connection implementation checklist is defined in [Connect Readiness Review](connect-readiness-review.md).
-
-Media-specific connection proofs are defined in [Media Connect Concept Proofs](media-connect-concept-proofs.md).
-
 The boundary between connection and verification is defined in [Connect and Verify Boundary](connect-verify-boundary.md).
-
-The verification stage baseline is defined in [Verify Baseline](verify-baseline.md).
 
 The planning stage baseline is defined in [Plan Baseline](plan-baseline.md).
 
@@ -45,6 +39,16 @@ The handoff from retrieval to reasoning is defined in [Retrieve to Reason Handof
 The reasoning stage baseline is defined in [Reason Baseline](reason-baseline.md).
 
 The handoff from reasoning to verification is defined in [Reason to Verify Handoff](reason-verify-handoff.md).
+
+The verification stage baseline is defined in [Verify Baseline](verify-baseline.md).
+
+The handoff from verification to update is defined in [Verify to Update Handoff](verify-update-handoff.md).
+
+The update stage baseline is defined in [Update Baseline](update-baseline.md).
+
+The connection implementation checklist is defined in [Connect Readiness Review](connect-readiness-review.md).
+
+Media-specific connection proofs are defined in [Media Connect Concept Proofs](media-connect-concept-proofs.md).
 
 The difference between source understanding and user-question understanding is defined in [Understand vs Task Understanding](understand-vs-task-understanding.md).
 
