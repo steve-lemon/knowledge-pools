@@ -468,6 +468,7 @@ Deliverables:
 - Reasoning Agent detailed spec.
 - Answer draft schema with evidence citations.
 - Reason-to-verify handoff artifact schema and validation.
+- Media reason concept proofs for Markdown/text, image, WAV/audio, MP4/video, and PDF.
 - Reason tool sequence and forbidden-port review.
 - Answer verification mode implementation.
 - `kp ask` creates a retrieval plan, retrieves evidence, reasons from evidence, and stores a run trace.

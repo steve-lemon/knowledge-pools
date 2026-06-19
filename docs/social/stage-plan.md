@@ -201,6 +201,7 @@ Artifacts to include:
 - Reason-to-verify handoff.
 - Reason baseline.
 - Reasoning Agent spec.
+- Media reason concept proofs.
 - Example insufficient evidence answer.
 - Conflict handling example.
 

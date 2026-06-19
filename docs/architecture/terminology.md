@@ -739,6 +739,46 @@ It is not verified.
 
 It is not durable memory.
 
+### DraftClaim
+
+One factual statement inside a `DraftAnswer` or `ProposedAction`.
+
+Draft claims must either cite evidence refs or be marked as assumptions.
+
+They are not verified claims until the `verify` stage audits them.
+
+### ClaimRef
+
+A reference to one draft claim inside a reasoning artifact.
+
+Example:
+
+```text
+claim://runs/run_001/reason/claim_001
+```
+
+The verifier uses claim refs to audit support claim by claim.
+
+### AssumptionRef
+
+A reference to one assumption inside a reasoning artifact.
+
+Example:
+
+```text
+assumption://runs/run_001/reason/assumption_001
+```
+
+Assumptions must not be treated as supported facts.
+
+### CitedEvidenceRef
+
+An `EvidenceRef` cited by a draft claim, proposed action, assumption, or conflict note.
+
+Cited evidence refs must come from the `EvidenceBundle` consumed by `reason`.
+
+Reason should not cite evidence it did not receive through the retrieve-to-reason handoff.
+
 ### ProposedAction
 
 A draft action or recommendation artifact produced by the `reason` stage from an `EvidenceBundle`.

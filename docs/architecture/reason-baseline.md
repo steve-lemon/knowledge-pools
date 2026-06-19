@@ -150,6 +150,8 @@ A good reason result should be:
 - uncertainty-aware: unknowns and insufficient evidence are explicit;
 - verification-ready: claim refs and evidence refs are structured for `verify`.
 
+Media-specific reasoning behavior is validated in [Media Reason Concept Proofs](media-reason-concept-proofs.md).
+
 ## Stage Boundary
 
 ```text
