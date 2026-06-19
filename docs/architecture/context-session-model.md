@@ -2,6 +2,8 @@
 
 This document defines how Knowledge Pools maintains context and sessions across agents in an LLM-independent way.
 
+For the full data boundary between `Session`, `Run`, `Task`, `ContextEnvelope`, `Artifact`, `HandoffEnvelope`, and `TraceEvent`, see [Stage Data Flow Contract](stage-data-flow-contract.md).
+
 ## Core Principle
 
 The system owns session state. The LLM does not.
@@ -74,6 +76,10 @@ A bounded, explicit context package passed into an agent.
 
 The context envelope is assembled by the orchestrator for each task.
 
+Context is not the handoff between stages.
+
+Handoffs declare what moves forward. Context envelopes declare what one task is allowed to see.
+
 Recommended fields:
 
 ```json
@@ -82,6 +88,7 @@ Recommended fields:
   "session_id": "session_01",
   "run_id": "run_01",
   "task_id": "task_01",
+  "purpose": "task_context",
   "summary": "Short session summary.",
   "active_goal": "Define agent connection model.",
   "instructions": [],
@@ -250,3 +257,6 @@ Context is not whatever fits in the prompt.
 
 Context is an explicit, versioned, inspectable package that the system assembles for a task.
 
+Session is continuity.
+
+Context is bounded working memory for one task.

@@ -487,7 +487,7 @@ A stage-specific agent provides its own input payload, output artifact payload, 
 
 A run-scoped structured output produced by an agent or pipeline step.
 
-Artifacts are inspectable handoff objects.
+Artifacts are inspectable outputs.
 
 Examples:
 
@@ -499,13 +499,23 @@ Examples:
 
 Artifacts are not automatically durable knowledge records.
 
-### Handoff Artifact
+### Handoff Envelope
 
-A run-scoped artifact that transfers responsibility from one stage or agent to another.
+A typed transition object that transfers responsibility from one stage or agent to another.
 
-Handoff artifacts contain refs, constraints, validation status, and trace refs.
+Handoff envelopes contain refs, constraints, validation status, quality report refs, and trace refs.
 
 They should not contain unbounded source content.
+
+A handoff references artifacts.
+
+It is not the same thing as the artifact itself.
+
+### Handoff Artifact
+
+A persisted artifact representation of a `HandoffEnvelope`.
+
+Use this term only when referring to the stored JSON artifact.
 
 ### IngestToUnderstandHandoff
 
@@ -759,11 +769,19 @@ A bounded context package assembled by the orchestrator for an agent task.
 
 Do not confuse context envelopes with LLM chat history.
 
+Do not confuse context envelopes with handoff envelopes.
+
+Context defines what one task may see.
+
+Handoff defines what moves to the next stage.
+
 ### Session
 
 A continuity boundary for user or workflow state.
 
 The system owns sessions. LLM providers do not.
+
+Session is not a payload transport between stages.
 
 ### Run
 
@@ -778,6 +796,8 @@ Examples:
 ### Task
 
 One unit of work assigned to one agent.
+
+For the complete object boundary, see [Stage Data Flow Contract](stage-data-flow-contract.md).
 
 ## Common Confusions
 

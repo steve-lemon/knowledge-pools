@@ -12,6 +12,7 @@ Read these for any architectural change:
 - [Ultimate Knowledge Loop](../architecture/ultimate-loop.md)
 - [Terminology](../architecture/terminology.md)
 - [Architecture Overview](../architecture/overview.md)
+- [Stage Data Flow Contract](../architecture/stage-data-flow-contract.md)
 - [Implementation Plan](implementation-plan.md)
 
 ## Stage Transition Pack
@@ -21,6 +22,7 @@ Use before moving from one major stage to the next:
 - [Stage Transition Guidelines](stage-transition-guidelines.md)
 - [Ultimate Knowledge Loop](../architecture/ultimate-loop.md)
 - [Terminology](../architecture/terminology.md)
+- [Stage Data Flow Contract](../architecture/stage-data-flow-contract.md)
 - current stage baseline
 - previous-to-current boundary
 - current-to-next boundary, if it exists
@@ -94,6 +96,7 @@ Use for `plan`, `retrieve`, `reason`, and answer verification work:
 - [Agent Superclass Contract](../architecture/agent-superclass-contract.md)
 - [Agent Connection Model](../architecture/agent-connection-model.md)
 - [Context and Session Model](../architecture/context-session-model.md)
+- [Stage Data Flow Contract](../architecture/stage-data-flow-contract.md)
 - [Agent Tool Pool](../architecture/agent-tool-pool.md)
 
 ## Update, Curation, And Evaluation Pack

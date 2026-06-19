@@ -11,6 +11,7 @@ Use [Ultimate Knowledge Loop](ultimate-loop.md) and [Terminology](terminology.md
 - [System Architecture](system-architecture.md)
 - [Terminology](terminology.md)
 - [Knowledge Model](knowledge-model.md)
+- [Stage Data Flow Contract](stage-data-flow-contract.md)
 
 ## Stage Baselines
 
@@ -53,6 +54,7 @@ Add a readiness review before moving each major stage forward.
 - [Agent Superclass Contract](agent-superclass-contract.md)
 - [Agent Connection Model](agent-connection-model.md)
 - [Context and Session Model](context-session-model.md)
+- [Stage Data Flow Contract](stage-data-flow-contract.md)
 - [Agent Tool Pool](agent-tool-pool.md)
 
 Detailed role specs live in [Agent Specs](../agents/README.md).

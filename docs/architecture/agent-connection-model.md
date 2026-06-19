@@ -10,6 +10,8 @@ The orchestrator owns the workflow, session, context, and traces. Agents receive
 
 The common typed handoff envelope is defined in [Agent Superclass Contract](agent-superclass-contract.md).
 
+The object boundary between context, session, artifact, handoff, and trace is defined in [Stage Data Flow Contract](stage-data-flow-contract.md).
+
 ```text
 agent A -> artifact -> orchestrator -> context envelope -> agent B
 ```
@@ -118,6 +120,10 @@ Every agent handoff should answer:
 3. Which evidence was cited?
 4. What assumptions were made?
 5. What should the next agent do?
+
+A handoff is not a replacement for context.
+
+The orchestrator uses the handoff plus run/session state to assemble the next task's context envelope.
 
 Example:
 

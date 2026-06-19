@@ -30,6 +30,18 @@ Recommended shape:
   "handoff_type": "understand_to_connect",
   "schema_version": "0.1.0",
   "run_id": "run_001",
+  "from_stage": "understand",
+  "from_agent": "understanding_agent",
+  "to_stage": "connect",
+  "to_agent": "connection_agent",
+  "purpose": "stage_transition",
+  "artifact_refs": [
+    "artifact://runs/run_001/understand/understanding-artifact.json"
+  ],
+  "context_refs": [],
+  "evidence_refs": [
+    "src_path_a91c72#section_001"
+  ],
   "source_id": "src_path_a91c72",
   "source_version_id": "srcv_md_sha256_ab12cd34ef90",
   "understanding_artifact_ref": "artifact://runs/run_001/understand/understanding-artifact.json",
@@ -39,6 +51,9 @@ Recommended shape:
   "ambiguity_refs": [],
   "review_refs": [],
   "quality_report_ref": "artifact://runs/run_001/understand/quality-report.json",
+  "quality_report_refs": [
+    "artifact://runs/run_001/understand/quality-report.json"
+  ],
   "taxonomy_bundle_id": "knowledge-pools-core",
   "taxonomy_version": "0.1.0",
   "validation_status": "passed",
@@ -59,6 +74,14 @@ The handoff must include:
 - `handoff_type`;
 - `schema_version`;
 - `run_id`;
+- `from_stage`;
+- `from_agent`;
+- `to_stage`;
+- `to_agent`;
+- `purpose`;
+- `artifact_refs`;
+- `context_refs`;
+- `evidence_refs`;
 - `source_id`;
 - `source_version_id`;
 - `understanding_artifact_ref`;
@@ -66,6 +89,7 @@ The handoff must include:
 - `ambiguity_refs`;
 - `review_refs`;
 - `quality_report_ref`;
+- `quality_report_refs`;
 - `taxonomy_bundle_id`;
 - `taxonomy_version`;
 - `validation_status`;

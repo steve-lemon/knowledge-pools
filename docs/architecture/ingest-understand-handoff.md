@@ -30,6 +30,19 @@ Recommended shape:
   "handoff_type": "ingest_to_understand",
   "schema_version": "0.1.0",
   "run_id": "run_001",
+  "from_stage": "ingest",
+  "from_agent": "ingestion_agent",
+  "to_stage": "understand",
+  "to_agent": "understanding_agent",
+  "purpose": "stage_transition",
+  "artifact_refs": [
+    "artifact://runs/run_001/ingest/ingest-artifact.json",
+    "artifact://runs/run_001/ingest/source-manifest.json"
+  ],
+  "context_refs": [],
+  "evidence_refs": [
+    "src_path_a91c72#section_001"
+  ],
   "source_id": "src_path_a91c72",
   "source_version_id": "srcv_md_sha256_ab12cd34ef90",
   "source_manifest_ref": "artifact://runs/run_001/ingest/source-manifest.json",
@@ -50,6 +63,9 @@ Recommended shape:
   "media_type": "text/markdown",
   "media_hint": "md",
   "validation_report_ref": "artifact://runs/run_001/ingest/validation-report.json",
+  "quality_report_refs": [
+    "artifact://runs/run_001/ingest/validation-report.json"
+  ],
   "validation_status": "passed",
   "trace_refs": [
     "trace_ingest_001"
@@ -68,6 +84,14 @@ The handoff must include:
 - `handoff_type`;
 - `schema_version`;
 - `run_id`;
+- `from_stage`;
+- `from_agent`;
+- `to_stage`;
+- `to_agent`;
+- `purpose`;
+- `artifact_refs`;
+- `context_refs`;
+- `evidence_refs`;
 - `source_id`;
 - `source_version_id`;
 - `source_manifest_ref`;
@@ -80,6 +104,7 @@ The handoff must include:
 - `media_type`;
 - `media_hint`;
 - `validation_report_ref`;
+- `quality_report_refs`;
 - `validation_status`;
 - `trace_refs`.
 

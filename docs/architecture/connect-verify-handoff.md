@@ -30,6 +30,18 @@ Recommended shape:
   "handoff_type": "connect_to_verify",
   "schema_version": "0.1.0",
   "run_id": "run_001",
+  "from_stage": "connect",
+  "from_agent": "connection_agent",
+  "to_stage": "verify",
+  "to_agent": "verifier_agent",
+  "purpose": "stage_transition",
+  "artifact_refs": [
+    "artifact://runs/run_001/connect/connection-artifact.json"
+  ],
+  "context_refs": [],
+  "evidence_refs": [
+    "src_path_a91c72#section_001"
+  ],
   "connection_artifact_ref": "artifact://runs/run_001/connect/connection-artifact.json",
   "relationship_proposal_refs": [
     "artifact://runs/run_001/connect/relations/rp_supports_001.json"
@@ -39,6 +51,9 @@ Recommended shape:
   "ambiguity_refs": [],
   "review_refs": [],
   "quality_report_ref": "artifact://runs/run_001/connect/quality-report.json",
+  "quality_report_refs": [
+    "artifact://runs/run_001/connect/quality-report.json"
+  ],
   "taxonomy_bundle_id": "knowledge-pools-core",
   "taxonomy_version": "0.1.0",
   "validation_status": "passed",
@@ -59,6 +74,14 @@ The handoff must include:
 - `handoff_type`;
 - `schema_version`;
 - `run_id`;
+- `from_stage`;
+- `from_agent`;
+- `to_stage`;
+- `to_agent`;
+- `purpose`;
+- `artifact_refs`;
+- `context_refs`;
+- `evidence_refs`;
 - `connection_artifact_ref`;
 - `relationship_proposal_refs`;
 - `conflict_candidate_refs`;
@@ -66,6 +89,7 @@ The handoff must include:
 - `ambiguity_refs`;
 - `review_refs`;
 - `quality_report_ref`;
+- `quality_report_refs`;
 - `taxonomy_bundle_id`;
 - `taxonomy_version`;
 - `validation_status`;

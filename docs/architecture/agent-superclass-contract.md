@@ -4,6 +4,8 @@ This document defines the common superclass contract for all Knowledge Pools age
 
 Detailed behavior still belongs to each agent spec. The superclass defines only the shared runtime shape, validation lifecycle, trace requirements, and typed handoff envelope.
 
+Object ownership across `Session`, `Run`, `Task`, `ContextEnvelope`, `Artifact`, `HandoffEnvelope`, and `TraceEvent` is defined in [Stage Data Flow Contract](stage-data-flow-contract.md).
+
 ## Purpose
 
 Every agent should be replaceable if it satisfies the same contract.
@@ -186,6 +188,7 @@ export interface AgentTask<TInput = unknown> {
   constraints: AgentConstraints;
   allowed_tool_ports: string[];
   output_schema_ref: RefString;
+  expected_handoff_schema_ref?: RefString;
   created_at: IsoDateTime;
 }
 
@@ -207,6 +210,7 @@ export interface ContextEnvelope {
   task_id: string;
   stage: StageName;
   agent_id: AgentName;
+  purpose: "task_context";
   artifact_refs: RefString[];
   source_refs: RefString[];
   evidence_refs: RefString[];
@@ -214,6 +218,7 @@ export interface ContextEnvelope {
   taxonomy_refs: RefString[];
   schema_refs: RefString[];
   constraints: AgentConstraints;
+  excluded_context: RefString[];
   created_at: IsoDateTime;
 }
 
@@ -308,9 +313,11 @@ export interface HandoffEnvelope<TPayload = unknown> {
   from_agent: AgentName;
   to_stage: StageName;
   to_agent: AgentName;
+  purpose: "stage_transition";
   artifact_refs: RefString[];
   context_refs: RefString[];
   evidence_refs: RefString[];
+  quality_report_refs: RefString[];
   validation_status: ValidationStatus;
   payload: TPayload;
   trace_refs: RefString[];
@@ -431,7 +438,10 @@ export interface VerifyToUpdatePayload {
   verification_report_ref: RefString;
   verified_claim_refs: RefString[];
   rejected_claim_refs: RefString[];
-  update_candidate_refs: RefString[];
+  unsupported_refs: RefString[];
+  uncertain_refs: RefString[];
+  review_refs: RefString[];
+  update_signal_refs: RefString[];
 }
 
 export interface UpdateToCurationPayload {

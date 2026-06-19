@@ -38,6 +38,7 @@ High-level anchors:
 
 - [System Architecture](architecture/system-architecture.md)
 - [Knowledge Model](architecture/knowledge-model.md)
+- [Stage Data Flow Contract](architecture/stage-data-flow-contract.md)
 - [Agent Design](architecture/agents.md)
 - [Agent Tool Pool](architecture/agent-tool-pool.md)
 

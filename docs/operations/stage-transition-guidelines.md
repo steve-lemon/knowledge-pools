@@ -4,6 +4,8 @@ This document defines the required review whenever the project moves from one ar
 
 The goal is to prevent stage boundaries from becoming blurry as the system grows.
 
+For the common object model used at each transition, see [Stage Data Flow Contract](../architecture/stage-data-flow-contract.md).
+
 ## Core Rule
 
 Before starting a new stage, explicitly define the boundary between:
@@ -31,6 +33,8 @@ Every stage transition should answer these questions:
 8. Which data is source evidence, derived preview, generated interpretation, or durable knowledge?
 9. Which indexes or projections are allowed at this stage?
 10. Which later stage must validate, connect, verify, or curate the output?
+11. Which data belongs in `Artifact`, `HandoffEnvelope`, `ContextEnvelope`, `Session`, and `TraceEvent`?
+12. Which refs must be resolvable before the next task starts?
 
 ## Boundary Checklist
 
@@ -43,6 +47,7 @@ Before moving to a new stage, update or create:
 - decision record when the boundary affects architecture;
 - index/storage policy if new projections are introduced;
 - validation rules that enforce the boundary.
+- object ownership review for context, session, handoff, artifact, and trace.
 
 ## Candidate vs Record Rule
 
@@ -143,4 +148,3 @@ The rule from that boundary should be reused for later transitions:
 ingest = preserve, normalize, segment, locate, classify, and propose
 understand = interpret, extract knowledge units, align evidence, and prepare meaning for connection
 ```
-
