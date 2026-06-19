@@ -152,6 +152,8 @@ A good reason result should be:
 
 Media-specific reasoning behavior is validated in [Media Reason Concept Proofs](media-reason-concept-proofs.md).
 
+Final tool and handoff readiness is reviewed in [Reason Readiness Review](reason-readiness-review.md).
+
 ## Stage Boundary
 
 ```text
