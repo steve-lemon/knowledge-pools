@@ -91,6 +91,8 @@ For implementation, the Markdown-first MVP should add `verify_answer` for Markdo
 
 Media-specific verification behavior is validated in [Media Verify Concept Proofs](media-verify-concept-proofs.md).
 
+Final tool and handoff readiness is reviewed in [Verify Readiness Review](verify-readiness-review.md).
+
 ## Expected Results
 
 Verify should produce:

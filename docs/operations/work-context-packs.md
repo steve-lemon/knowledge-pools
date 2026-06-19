@@ -79,6 +79,7 @@ Use before moving from one major stage to the next:
 - [Connect to Verify Handoff](../architecture/connect-verify-handoff.md)
 - [Reason to Verify Handoff](../architecture/reason-verify-handoff.md)
 - [Media Verify Concept Proofs](../architecture/media-verify-concept-proofs.md)
+- [Verify Readiness Review](../architecture/verify-readiness-review.md)
 - [Verifier Agent Spec](../agents/verifier-agent.md)
 - [Agent Tool Pool](../architecture/agent-tool-pool.md)
 

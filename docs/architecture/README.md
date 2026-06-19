@@ -50,6 +50,7 @@ Future baselines should be added here:
 - [Plan Readiness Review](plan-readiness-review.md)
 - [Retrieve Readiness Review](retrieve-readiness-review.md)
 - [Reason Readiness Review](reason-readiness-review.md)
+- [Verify Readiness Review](verify-readiness-review.md)
 
 Add a readiness review before moving each major stage forward.
 
