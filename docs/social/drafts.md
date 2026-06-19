@@ -519,3 +519,50 @@ It is a RelationshipProposal.
 
 To move beyond basic RAG, I think we need a proposal layer between extracted candidates and durable graph memory.
 ```
+
+## Stage 5: Retrieve Architecture Baseline
+
+Status: draft
+
+Related commits:
+
+- `8f9a18e` Define retrieve stage baseline
+- `1a0996e` Clarify retrieve stage purpose
+- `5a59ad9` Add media retrieve concept proofs
+- `475c6aa` Add retrieve readiness review
+
+Related docs:
+
+- `docs/architecture/retrieve-baseline.md`
+- `docs/architecture/retrieve-reason-handoff.md`
+- `docs/architecture/media-retrieve-concept-proofs.md`
+- `docs/architecture/retrieve-readiness-review.md`
+- `docs/agents/retrieval-agent.md`
+- `docs/social/stage-5-retrieve-baseline.md`
+
+### Korean Retrieve Baseline Post
+
+```text
+Knowledge Pools의 retrieve 단계 설계를 정리했습니다.
+
+이번 결론:
+
+retrieve는 단순 검색이 아닙니다.
+답변 생성도 아닙니다.
+
+search hit는 아직 evidence가 아닙니다.
+
+retrieve는 검색 후보를 source/version/access unit까지 resolve하고,
+필요한 부분만 bounded fetch해서,
+EvidenceBundle로 패키징하는 단계입니다.
+
+Markdown이면 section,
+image면 region,
+audio면 transcript span,
+video면 scene/frame range,
+PDF면 page/block처럼
+미디어마다 evidence locator가 달라집니다.
+
+좋은 RAG/agent memory는 "가까운 chunk"가 아니라
+"감사 가능한 evidence bundle"을 넘겨야 한다고 봅니다.
+```
