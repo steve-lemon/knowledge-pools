@@ -16,11 +16,41 @@ It is the durable memory gate.
 
 Unlike `update`, this stage may create durable records or lifecycle changes when a candidate is accepted, edited, retracted, superseded, archived, or rejected.
 
+More precisely, `curation` is the governance stage for memory acceptance.
+
+It turns proposed learning into either durable knowledge, durable lifecycle state, or an auditable non-acceptance decision.
+
 The core question is:
 
 ```text
 Should this proposed change become part of durable knowledge, and under what lifecycle state?
 ```
+
+## Primary Goal
+
+The primary goal is to keep durable memory useful, traceable, and reversible.
+
+The stage should answer six questions:
+
+1. Is this candidate reusable enough to keep?
+2. Is it sufficiently supported by evidence, verification, or review?
+3. Does it duplicate, refine, contradict, retract, or supersede existing knowledge?
+4. Should it become a claim, decision, procedure, question, relation, context record, or lifecycle event?
+5. Does accepting it require human approval?
+6. What should future retrieval treat as current, historical, rejected, or unavailable?
+
+## Operating Principle
+
+Curation is intentionally slower than update.
+
+The stage favors:
+
+- governed acceptance over automatic memory growth;
+- explicit decisions over hidden mutation;
+- lifecycle state over deletion by default;
+- supersession over overwrite;
+- review gates for risky or uncertain candidates;
+- auditability over convenience.
 
 ## Role In The Loop
 
@@ -44,11 +74,34 @@ The curation stage should:
 
 - keep durable memory intentionally governed;
 - prevent automatic memory growth;
+- separate accepted knowledge from proposed, rejected, deferred, and quarantined candidates;
 - preserve provenance for every accepted or rejected candidate;
 - allow human review where needed;
 - convert accepted candidates into durable records or durable relation/lifecycle changes;
 - preserve old records instead of silently overwriting them;
+- decide current-vs-historical status when knowledge changes;
+- leave enough rationale for future maintainers to understand why a record exists;
 - make rollback, quarantine, deletion, and evaluation possible later.
+
+## Expected Results
+
+After a successful curation run, the system should have:
+
+- a validated `CurationDecision` for every reviewed candidate or lifecycle target;
+- zero or more durable records;
+- zero or more durable relation records;
+- zero or more durable lifecycle events;
+- candidate statuses updated or recorded as accepted, edited, deferred, rejected, needs-more-evidence, superseded, retracted, quarantined, or tombstoned;
+- preserved provenance from candidate to evidence, source, verification, review, and curation decision;
+- clear rationale for every acceptance, edit, deferral, rejection, or lifecycle decision;
+- current-vs-historical state made explicit when records are superseded or retracted;
+- a curation quality report;
+- a `CurationToEvaluateHandoff`;
+- trace events for every decision and durable mutation.
+
+Curation may produce no new durable knowledge.
+
+Rejecting, deferring, or requiring more evidence can be the correct outcome.
 
 ## Inputs
 

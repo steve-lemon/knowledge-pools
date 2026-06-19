@@ -2,6 +2,10 @@
 
 The Curation Agent decides which candidates become durable records.
 
+Its purpose is to govern durable memory acceptance.
+
+It is allowed to write memory only through explicit curation decisions.
+
 Stage baseline: [Curation Baseline](../architecture/curation-baseline.md).
 
 Input handoff: [Update to Curation Handoff](../architecture/update-curation-handoff.md).
@@ -14,6 +18,8 @@ Output handoff: `CurationToEvaluateHandoff`.
 - validate update candidates and quality report refs;
 - decide whether candidates are accepted, edited, deferred, rejected, or need more evidence;
 - create durable records when candidates are accepted;
+- update candidate or record lifecycle status when the decision requires it;
+- decide current-vs-historical state when a record is superseded or retracted;
 - preserve provenance, curation rationale, and lifecycle metadata;
 - avoid silent overwrites by using supersession, retraction, or quarantine metadata;
 - emit curation decisions, quality report, and traces.
@@ -63,10 +69,26 @@ Forbidden ports:
 
 - curation decisions;
 - durable records;
+- durable relation records;
 - curation quality report;
 - status updates;
+- lifecycle event refs;
 - `CurationToEvaluateHandoff`;
 - rollback or tombstone events when approved.
+
+## Expected Result
+
+A successful run should leave the knowledge base in a clearer state than before.
+
+For each reviewed candidate, the agent should explain:
+
+- what decision was made;
+- why the decision was made;
+- what durable records or lifecycle states changed;
+- which evidence, verification, review, and candidate refs support the decision;
+- whether the resulting knowledge is current, historical, rejected, deferred, or unavailable.
+
+Creating no durable record is a valid result when candidates are weak, duplicate, risky, or not reusable.
 
 ## Validation Rules
 

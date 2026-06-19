@@ -639,17 +639,23 @@ First validation rules:
 Purpose:
 
 - decide which update candidates become durable knowledge;
+- govern memory acceptance, rejection, deferral, and lifecycle state changes;
 - preserve provenance for every accepted, edited, deferred, rejected, superseded, retracted, quarantined, or tombstoned candidate;
 - open durable memory writes only behind explicit curation decisions;
 - prevent silent overwrites by using lifecycle and relationship metadata;
+- make current-vs-historical knowledge status explicit;
 - hand curation outcomes to evaluation.
 
 Expected results:
 
 - validated `UpdateToCurationHandoff`;
-- one or more `CurationDecision` artifacts;
+- one `CurationDecision` artifact per reviewed candidate or lifecycle target;
 - zero or more durable records;
+- zero or more durable relation records;
 - zero or more durable lifecycle updates;
+- explicit candidate status outcomes such as accepted, edited, deferred, rejected, needs-more-evidence, superseded, retracted, quarantined, or tombstoned;
+- preserved provenance from candidate to evidence, source, verification, review, and curation decision;
+- current-vs-historical state when records change;
 - curation quality report;
 - `CurationToEvaluateHandoff`;
 - trace events for every decision and durable mutation.
