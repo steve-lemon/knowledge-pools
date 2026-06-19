@@ -218,8 +218,9 @@ Deliverables:
 - Duplicate and unresolved relation proposal schema.
 - Quality report with relation counts, unresolved endpoints, evidence coverage, review rate, and schema failures.
 - Media connect concept proofs for Markdown/text, image, WAV/audio, MP4/video, and PDF.
-- Deterministic matching policy for labels, aliases, explicit mentions, compatible candidate kinds, and taxonomy relation rules.
-- Connect tool sequence using `artifact.read`, `record.search`, `graph.query`, `taxonomy.read`, `taxonomy.validate`, `schema.validate`, `candidate.emit`, `artifact.write`, and `audit.trace`.
+- Connect readiness checklist and tool permission review.
+- Deterministic matching policy for labels, aliases, explicit mentions, compatible candidate kinds, local record fixtures, and taxonomy relation rules.
+- Connect tool sequence using `artifact.read`, `record.search`, `taxonomy.read`, `taxonomy.validate`, `schema.validate`, `candidate.emit`, `artifact.write`, and `audit.trace`, with optional `graph.query`, `index.search`, `model.complete`, `ambiguity.emit`, and `review.request`.
 - Failure classes for invalid handoff, unresolved candidates, unresolved endpoints, taxonomy relation errors, schema errors, and invalid model output.
 - V1 acceptance criteria for deterministic duplicate, mention, and support proposals with no durable graph mutation.
 

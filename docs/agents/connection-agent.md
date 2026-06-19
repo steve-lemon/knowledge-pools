@@ -36,6 +36,8 @@ The answer is always a proposal, not an accepted graph edge.
 
 The stage baseline is defined in [Connect Baseline](../architecture/connect-baseline.md).
 
+Implementation readiness checks are defined in [Connect Readiness Review](../architecture/connect-readiness-review.md).
+
 Media-specific examples are defined in [Media Connect Concept Proofs](../architecture/media-connect-concept-proofs.md).
 
 The boundary from understand is defined in [Understand and Connect Boundary](../architecture/understand-connect-boundary.md).
@@ -50,7 +52,8 @@ The agent owns:
 - resolving understanding artifact refs;
 - resolving knowledge candidate refs;
 - loading taxonomy relation rules;
-- searching existing records and graph neighborhoods;
+- searching existing records and candidate fixtures;
+- optionally querying graph neighborhoods;
 - detecting likely local duplicates;
 - detecting likely mentions and applicability scopes;
 - identifying possible support, contradiction, dependency, or supersession relationships;
@@ -108,7 +111,6 @@ Recommended task shape:
   "allowed_tool_ports": [
     "artifact.read",
     "record.search",
-    "graph.query",
     "taxonomy.read",
     "taxonomy.validate",
     "schema.validate",
@@ -150,7 +152,6 @@ Required ports:
 
 - `artifact.read`;
 - `record.search`;
-- `graph.query`;
 - `taxonomy.read`;
 - `taxonomy.validate`;
 - `schema.validate`;
@@ -160,6 +161,7 @@ Required ports:
 
 Optional ports:
 
+- `graph.query`;
 - `model.complete`;
 - `ambiguity.emit`;
 - `review.request`;
@@ -196,15 +198,16 @@ V1 pipeline:
 5. load understanding artifact
 6. resolve knowledge candidate refs
 7. load taxonomy relation rules
-8. search existing records and graph neighborhoods
-9. run deterministic matching rules
-10. normalize relationship proposals
-11. attach evidence and rationale refs
-12. emit ambiguity and review artifacts
-13. validate output schemas
-14. write connection artifact
-15. emit quality report
-16. emit trace events
+8. search existing records and candidate fixtures
+9. optionally query graph neighborhoods
+10. run deterministic matching rules
+11. normalize relationship proposals
+12. attach evidence and rationale refs
+13. emit ambiguity and review artifacts
+14. validate output schemas
+15. write connection artifact
+16. emit quality report
+17. emit trace events
 ```
 
 Optional model-assisted relation proposal may run after step 9.

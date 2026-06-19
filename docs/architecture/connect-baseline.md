@@ -138,6 +138,8 @@ The concrete handoff is defined in [Understand to Connect Handoff](understand-co
 
 Media-specific concept proofs are defined in [Media Connect Concept Proofs](media-connect-concept-proofs.md).
 
+The implementation readiness checklist is defined in [Connect Readiness Review](connect-readiness-review.md).
+
 ## Core Rule
 
 Connection output is always proposal output.
@@ -169,7 +171,7 @@ Required inputs:
 - `source_id`;
 - `source_version_id`;
 - candidate evidence refs;
-- existing record or graph search access.
+- existing record search access.
 
 Optional inputs:
 
@@ -263,7 +265,8 @@ load understand-to-connect handoff
   -> validate candidate refs
   -> load candidate records
   -> load taxonomy relation rules
-  -> search existing records and graph neighborhoods
+  -> search existing records and candidate fixtures
+  -> optionally query graph neighborhoods
   -> propose local duplicate relations
   -> propose relationship proposals
   -> attach evidence refs and rationale refs
@@ -289,6 +292,7 @@ Recommended signals:
 - shared source or access-unit refs;
 - explicit wiki links or mentions;
 - existing concept aliases;
+- local record/candidate fixture matches;
 - temporal/version metadata;
 - relation hints from understand.
 

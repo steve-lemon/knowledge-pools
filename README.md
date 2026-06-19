@@ -43,6 +43,7 @@ The goal is not just to retrieve document chunks. The goal is to maintain a livi
 - [Understand and Connect Boundary](docs/architecture/understand-connect-boundary.md)
 - [Understand to Connect Handoff](docs/architecture/understand-connect-handoff.md)
 - [Connect Baseline](docs/architecture/connect-baseline.md)
+- [Connect Readiness Review](docs/architecture/connect-readiness-review.md)
 - [Media Connect Concept Proofs](docs/architecture/media-connect-concept-proofs.md)
 - [Understand vs Task Understanding](docs/architecture/understand-vs-task-understanding.md)
 - [Understanding Agent Spec](docs/agents/understanding-agent.md)
