@@ -125,6 +125,8 @@ A good retrieve result should be:
 
 Media-specific retrieval behavior is validated in [Media Retrieve Concept Proofs](media-retrieve-concept-proofs.md).
 
+Final tool and handoff readiness is reviewed in [Retrieve Readiness Review](retrieve-readiness-review.md).
+
 ## Expected Effects
 
 | Effect | Why it matters |
