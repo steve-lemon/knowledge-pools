@@ -21,6 +21,7 @@ Do not create new stage-specific posts automatically. Use this directory as a re
 - [stage-4-plan-baseline.md](stage-4-plan-baseline.md): fifth public narrative about the plan architecture baseline.
 - [stage-5-retrieve-baseline.md](stage-5-retrieve-baseline.md): sixth public narrative about the retrieve architecture baseline.
 - [stage-6-reason-baseline.md](stage-6-reason-baseline.md): seventh public narrative about the reason architecture baseline.
+- [stage-7-verify-baseline.md](stage-7-verify-baseline.md): eighth public narrative about the verify architecture baseline.
 - [on-demand-workflow.md](on-demand-workflow.md): rules for creating social content only when requested.
 - [post-template.md](post-template.md): reusable format for drafting posts.
 - [drafts.md](drafts.md): existing draft posts and reference material.

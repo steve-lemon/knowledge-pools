@@ -615,3 +615,53 @@ verify가 감사할 수 있는 draft입니다.
 좋은 agent memory는 "그럴듯한 답변"보다
 "검증 가능한 초안"을 먼저 만들어야 한다고 봅니다.
 ```
+
+## Stage 7: Verify Architecture Baseline
+
+Status: draft
+
+Related commits:
+
+- `5df5f1f` Expand verify baseline for answer verification
+- `88c4bd4` Clarify verify stage purpose
+- `6343a69` Add media verify concept proofs
+- `fa1fa06` Add verify readiness review
+
+Related docs:
+
+- `docs/architecture/verify-baseline.md`
+- `docs/architecture/connect-verify-handoff.md`
+- `docs/architecture/reason-verify-handoff.md`
+- `docs/architecture/media-verify-concept-proofs.md`
+- `docs/architecture/verify-readiness-review.md`
+- `docs/agents/verifier-agent.md`
+- `docs/social/stage-7-verify-baseline.md`
+
+### Korean Verify Baseline Post
+
+```text
+Knowledge Pools의 verify 단계 설계를 정리했습니다.
+
+이번 결론:
+
+verify는 curation이 아닙니다.
+memory write도 아닙니다.
+
+verify는 DraftAnswer나 RelationshipProposal을 받아서,
+각 claim/proposal이 evidence로 지지되는지 감사합니다.
+
+출력은 durable memory가 아니라:
+
+- VerificationResult
+- VerificationReport
+- unsupported refs
+- stale refs
+- contradiction refs
+- review refs
+
+Markdown-first MVP에서는 먼저
+claim -> Markdown section/block citation이 맞는지 검증합니다.
+
+좋은 RAG/agent memory는 답변을 바로 저장하지 않고,
+먼저 "이 claim은 어떤 evidence로 검증됐는가?"를 남겨야 한다고 봅니다.
+```
