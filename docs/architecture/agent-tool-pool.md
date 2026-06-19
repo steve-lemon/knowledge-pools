@@ -235,7 +235,7 @@ The orchestrator should grant tools by stage, not by agent personality.
 | `reason` | artifact read/write, schema validate, optional bounded source read, model adapter, reason synthesize |
 | `verify` | artifact read/write, schema validate, taxonomy read/validate, verification check, optional evidence read, optional record/graph search, audit trace |
 | `update` | artifact read/write, schema validate, candidate emit, optional review request, optional taxonomy read/validate, optional record search, optional `curation.propose`, audit trace |
-| `curation` | artifact read/write, schema validate, curation decide, memory write, optional memory status update, optional taxonomy validate, optional rollback/delete events, audit trace |
+| `curation` | artifact read/write, schema validate, curation decide, memory write, optional memory status update, optional taxonomy read/validate, optional record search, optional review request, optional rollback/delete events, audit trace |
 | `evaluate` | `audit.read_trace`, `evaluation.record`, `evaluation.report` |
 
 ## Agent Design Requirement

@@ -54,6 +54,7 @@ Future baselines should be added here:
 - [Reason Readiness Review](reason-readiness-review.md)
 - [Verify Readiness Review](verify-readiness-review.md)
 - [Update Readiness Review](update-readiness-review.md)
+- [Curation Readiness Review](curation-readiness-review.md)
 
 Add a readiness review before moving each major stage forward.
 

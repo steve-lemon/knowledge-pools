@@ -10,6 +10,8 @@ Stage baseline: [Curation Baseline](../architecture/curation-baseline.md).
 
 Media behavior: [Media Curation Concept Proofs](../architecture/media-curation-concept-proofs.md).
 
+Readiness review: [Curation Readiness Review](../architecture/curation-readiness-review.md).
+
 Input handoff: [Update to Curation Handoff](../architecture/update-curation-handoff.md).
 
 Output handoff: `CurationToEvaluateHandoff`.
@@ -61,9 +63,12 @@ Forbidden ports:
 - `verification.check`;
 - `retrieval.fetch_evidence`;
 - `index.search`;
+- `index.write_projection`;
+- `index.deactivate_projection`;
 - `source.read`;
 - `source.write`;
 - `source.version`;
+- `source.tombstone`;
 - `source.restore`;
 - direct provider-specific memory writes.
 

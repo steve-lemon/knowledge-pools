@@ -667,6 +667,7 @@ Deliverables:
 - Curation Agent detailed spec.
 - `CurationDecision` schema.
 - Media curation concept proofs for Markdown/text, image, WAV/audio, MP4/video, and PDF.
+- Curation readiness checklist and tool permission review.
 - Curation states: `accepted`, `edited`, `deferred`, `rejected`.
 - Durable decision and claim records.
 - Supersession metadata.

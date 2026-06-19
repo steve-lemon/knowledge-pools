@@ -260,6 +260,8 @@ Deferred:
 
 Media-specific curation behavior is validated in [Media Curation Concept Proofs](media-curation-concept-proofs.md).
 
+Final readiness and tool permission review are defined in [Curation Readiness Review](curation-readiness-review.md).
+
 ## Tool Contract
 
 Required ports:
@@ -287,9 +289,12 @@ Forbidden ports:
 - `verification.check`;
 - `retrieval.fetch_evidence`;
 - `index.search`;
+- `index.write_projection`;
+- `index.deactivate_projection`;
 - `source.read`;
 - `source.write`;
 - `source.version`;
+- `source.tombstone`;
 - `source.restore`;
 - direct provider-specific memory writes.
 

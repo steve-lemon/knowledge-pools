@@ -241,7 +241,7 @@ Tool contract:
 
 - required: `artifact.read`, `schema.validate`, `curation.decide`, `memory.write`, `artifact.write`, `audit.trace`;
 - optional: `memory.update_status`, `record.search`, `taxonomy.read`, `taxonomy.validate`, `review.request`, `rollback.create_event`, `delete.create_tombstone`;
-- forbidden: `candidate.emit`, `verification.check`, `retrieval.fetch_evidence`, `index.search`, `source.read`, `source.write`, `source.version`, `source.restore`, direct provider-specific memory writes.
+- forbidden: `candidate.emit`, `verification.check`, `retrieval.fetch_evidence`, `index.search`, `index.write_projection`, `index.deactivate_projection`, `source.read`, `source.write`, `source.version`, `source.tombstone`, `source.restore`, direct provider-specific memory writes.
 
 ## Evaluation Agent
 
