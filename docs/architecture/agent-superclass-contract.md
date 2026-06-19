@@ -395,7 +395,7 @@ export interface UnderstandToConnectPayload {
 
 export interface ConnectToVerifyPayload {
   connection_artifact_ref: RefString;
-  relationship_candidate_refs: RefString[];
+  relationship_proposal_refs: RefString[];
   conflict_candidate_refs: RefString[];
   unresolved_candidate_refs: RefString[];
   ambiguity_refs: RefString[];

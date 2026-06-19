@@ -235,6 +235,45 @@ Fields:
 
 Relationship proposals remain candidates until verification and curation approve them.
 
+### Verification Report
+
+An audit artifact produced by the verify stage.
+
+Fields:
+
+- `id`
+- `mode`
+- `target_artifact_ref`
+- `checked_ref_count`
+- `verified_refs`
+- `rejected_refs`
+- `unsupported_refs`
+- `uncertain_refs`
+- `stale_evidence_refs`
+- `review_refs`
+- `quality_report_ref`
+
+Verification reports are audit artifacts.
+
+They do not create durable knowledge or graph records.
+
+### Verification Result
+
+A per-target audit result.
+
+Fields:
+
+- `id`
+- `target_ref`
+- `target_type`
+- `status`
+- `checks`
+- `evidence_refs`
+- `confidence`
+- `requires_review`
+
+Verification results can guide curation, but they do not apply curation decisions.
+
 ## Relationship Types
 
 - `duplicates`

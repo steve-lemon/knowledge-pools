@@ -45,6 +45,7 @@ YYYY-MM-DD-short-title.md
 - [Connect Baseline](2026-06-19-connect-baseline.md)
 - [Media Connect Concept Proofs](2026-06-19-media-connect-concept-proofs.md)
 - [Connect Readiness Review](2026-06-19-connect-readiness-review.md)
+- [Verify Baseline](2026-06-19-verify-baseline.md)
 
 ## Template
 

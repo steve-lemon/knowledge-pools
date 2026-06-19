@@ -685,6 +685,22 @@ A validated and stored graph node or edge.
 
 Graph records should preserve provenance and taxonomy version.
 
+### Verification Report
+
+The structured audit output produced by the Verifier Agent.
+
+Verification reports group verification result refs, checked target refs, unsupported refs, stale evidence refs, uncertainty, review refs, quality reports, taxonomy refs, and trace refs.
+
+They do not write durable memory or graph records.
+
+### Verification Result
+
+A per-target audit result produced by the verify stage.
+
+Verification results indicate whether a relationship proposal, draft answer claim, or proposed action is `verified`, `rejected`, `unsupported`, `uncertain`, `stale`, or `needs_review`.
+
+Verification results guide curation, but they are not curation decisions.
+
 ### Quarantine
 
 A temporary or permanent exclusion state for suspicious or known-bad data.

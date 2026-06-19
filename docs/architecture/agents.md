@@ -168,21 +168,23 @@ Tool contract:
 
 ## Verifier Agent
 
-Checks whether an answer is grounded in the retrieved evidence.
+Checks whether a relationship proposal, draft answer, or proposed action is grounded, fresh, and conflict-aware.
 
 Detailed v1 contract: [Verifier Agent Spec](../agents/verifier-agent.md).
 
 Checks:
 
 - Is each key claim supported?
+- Is each relationship proposal supported?
+- Do relationship endpoints resolve?
 - Are stale sources presented as current?
 - Were known contradictions ignored?
 - Is uncertainty represented honestly?
 
 Tool contract:
 
-- required: `artifact.read`, `verification.check`, `record.search`, `audit.trace`;
-- optional: `graph.query`, `source.read`, `retrieval.fetch_evidence`;
+- required: `artifact.read`, `schema.validate`, `taxonomy.read`, `taxonomy.validate`, `verification.check`, `artifact.write`, `audit.trace`;
+- optional: `record.search`, `graph.query`, `source.locate`, `source.read`, `retrieval.fetch_evidence`, `review.request`, `model.complete`;
 - forbidden: `memory.write`, `curation.decide`, `source.tombstone`, `delete.create_tombstone`.
 
 ## Knowledge Update Agent

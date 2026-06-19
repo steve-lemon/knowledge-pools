@@ -28,6 +28,10 @@ The connection implementation checklist is defined in [Connect Readiness Review]
 
 Media-specific connection proofs are defined in [Media Connect Concept Proofs](media-connect-concept-proofs.md).
 
+The boundary between connection and verification is defined in [Connect and Verify Boundary](connect-verify-boundary.md).
+
+The verification stage baseline is defined in [Verify Baseline](verify-baseline.md).
+
 The difference between source understanding and user-question understanding is defined in [Understand vs Task Understanding](understand-vs-task-understanding.md).
 
 Before implementing multi-agent behavior, the system should define a single agent contract, agent handoff model, and explicit context/session ownership:

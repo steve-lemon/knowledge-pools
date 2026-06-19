@@ -232,7 +232,7 @@ The orchestrator should grant tools by stage, not by agent personality.
 | `plan` | record search, graph query, index search metadata, `retrieval.plan` |
 | `retrieve` | index search, record search, graph query, source locate/read, evidence fetch |
 | `reason` | evidence read, model adapter, reason synthesize, artifact write |
-| `verify` | evidence read, record search, graph query, verification check, audit trace |
+| `verify` | artifact read/write, schema validate, taxonomy read/validate, verification check, optional evidence read, optional record/graph search, audit trace |
 | `update` | candidate emit, review request, `curation.propose`, artifact write |
 | `curation` | curation decide, memory write, memory status update, rollback/delete events |
 | `evaluate` | `audit.read_trace`, `evaluation.record`, `evaluation.report` |

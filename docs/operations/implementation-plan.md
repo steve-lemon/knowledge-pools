@@ -243,7 +243,50 @@ First validation rules:
 - relation proposals preserve evidence refs or explicit indirect-evidence rationale;
 - deterministic matching can run without a model adapter.
 
-## Step 7: OpenSearch Index Baseline
+## Step 7: Verification Baseline
+
+Purpose:
+
+- audit relationship proposals before they become durable graph records;
+- audit draft answers later, after retrieval and reasoning are designed;
+- surface unsupported, stale, uncertain, or contradictory outputs;
+- keep verification reports separate from curation decisions and durable memory writes.
+
+Deliverables:
+
+- Verify baseline architecture document.
+- Connect and verify boundary document.
+- Connect-to-verify handoff artifact schema and validation.
+- Verifier Agent detailed spec.
+- Verification report schema.
+- Verification result schema.
+- Relationship proposal verification mode.
+- Answer verification mode placeholder for later retrieval/reasoning stages.
+- Quality report with checked count, verified count, rejected count, unsupported count, uncertain count, stale evidence count, review rate, and schema failures.
+- Verification tool sequence using `artifact.read`, `schema.validate`, `taxonomy.read`, `taxonomy.validate`, `verification.check`, `artifact.write`, and `audit.trace`, with optional `record.search`, `graph.query`, `source.locate`, `source.read`, `retrieval.fetch_evidence`, `review.request`, and `model.complete`.
+- Failure classes for invalid handoff, unresolved proposals, unresolved endpoints, missing evidence, taxonomy errors, schema errors, and invalid model output.
+- V1 acceptance criteria for deterministic relationship proposal verification with no durable graph mutation.
+
+Initial verification inputs:
+
+- connect-to-verify handoff ref;
+- connection artifact ref;
+- relationship proposal refs;
+- quality report ref;
+- taxonomy bundle id and version;
+- endpoint refs;
+- evidence refs.
+
+First validation rules:
+
+- every verification target ref resolves;
+- every evidence ref resolves or is marked missing;
+- every relation type validates against taxonomy;
+- verification result status is audit-only and never promoted to durable graph status inside verify;
+- verified proposals remain pending curation;
+- deterministic verification can run without a model adapter.
+
+## Step 8: OpenSearch Index Baseline
 
 Deliverables:
 
@@ -279,7 +322,7 @@ Initial indexed document types:
 - procedure_candidate
 - question_candidate
 
-## Step 8: Evaluation Seed
+## Step 9: Evaluation Seed
 
 Deliverables:
 
@@ -288,7 +331,7 @@ Deliverables:
 - Retrieval result comparison report.
 - Ingest quality checks for missing source links and parser failures.
 
-## Step 9: Single Agent Contract
+## Step 10: Single Agent Contract
 
 Deliverables:
 
@@ -307,7 +350,7 @@ Deliverables:
 
 The first agent can be deterministic and model-free. This proves the orchestration contract before adding LLM behavior.
 
-## Step 10: Agent Handoff
+## Step 11: Agent Handoff
 
 Deliverables:
 
@@ -316,7 +359,7 @@ Deliverables:
 - Sequential handoff from planner to retriever.
 - Trace events for each handoff.
 
-## Step 11: Retrieval Planning
+## Step 12: Retrieval Planning
 
 Deliverables:
 
@@ -333,7 +376,7 @@ Initial plan types:
 - decision_recall
 - verification_check
 
-## Step 12: Basic Ask and Verify
+## Step 13: Basic Ask and Verify
 
 Deliverables:
 
@@ -343,7 +386,7 @@ Deliverables:
 - Verification checks cited evidence exists.
 - Run trace is stored.
 
-## Step 13: Curation and Update
+## Step 14: Curation and Update
 
 Deliverables:
 
@@ -360,7 +403,7 @@ Deliverables:
 - Content hide, soft-delete, archive, restore, and purge workflow definitions.
 - Delete propagation rules for source versions, access units, previews, candidates, records, and relations.
 
-## Step 14: Evaluation Loop
+## Step 15: Evaluation Loop
 
 Deliverables:
 
