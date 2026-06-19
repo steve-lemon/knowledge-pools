@@ -150,11 +150,13 @@ See [Connect Baseline](connect-baseline.md).
 
 ### 4. Plan
 
-Decide how to retrieve and reason before searching.
+Translate the task into evidence requirements and a retrieval strategy before searching.
 
 Canonical agent: `Retrieval Planner`.
 
 Plan includes task understanding: interpreting the user's question or instruction into intent, constraints, required evidence, freshness scope, and answer shape.
+
+The stage prevents retrieval from becoming blind similarity search.
 
 The planner should choose based on the task type:
 
@@ -169,10 +171,14 @@ The planner should choose based on the task type:
 Outputs:
 
 - retrieval plan
+- task understanding metadata
 - required evidence types
 - freshness requirements
 - conflict search requirement
 - expected answer shape
+- retrieval budget or limits
+
+Plan does not retrieve evidence or produce answers.
 
 ### 5. Retrieve
 

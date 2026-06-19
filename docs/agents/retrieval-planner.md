@@ -6,9 +6,13 @@ The Retrieval Planner implements the `plan` stage.
 
 The Retrieval Planner owns task understanding for user questions and workflow requests.
 
-It turns a request into a retrieval plan.
+It turns a request into explicit evidence requirements and a retrieval plan.
+
+Its job is to decide what retrieval should do before retrieval starts.
 
 It does not retrieve evidence.
+
+It does not synthesize answers.
 
 It does not write durable memory.
 
@@ -26,6 +30,8 @@ The planner owns:
 - identifying required evidence types;
 - deciding whether conflict search is required;
 - choosing retrieval strategy steps;
+- setting retrieval budget or limits;
+- marking missing prerequisites;
 - validating the retrieval plan schema;
 - emitting `PlanToRetrieveHandoff`;
 - emitting trace events.
@@ -36,7 +42,25 @@ The planner does not own:
 - ranking retrieved evidence;
 - synthesizing answers;
 - verifying answer claims;
+- creating relationship proposals;
 - writing durable memory.
+
+## Expected Results
+
+The planner should produce:
+
+- `RetrievalPlan`;
+- task understanding metadata;
+- required evidence types;
+- freshness scope;
+- conflict-search requirement;
+- expected answer shape;
+- retrieval budget or limits;
+- missing prerequisite notes;
+- `PlanToRetrieveHandoff`;
+- trace events.
+
+The planner is successful when the Retrieval Agent can execute the plan without reinterpreting the raw user request.
 
 ## Tool Contract
 
@@ -73,7 +97,7 @@ Forbidden ports:
 - task understanding metadata;
 - freshness constraints;
 - required evidence types;
-- expected answer shape.
+- expected answer shape;
 - `PlanToRetrieveHandoff`;
 - trace events.
 
@@ -95,3 +119,5 @@ The handoff must include:
 The Retrieval Planner understands the user task.
 
 It does not understand source documents into knowledge candidates.
+
+It does not search for evidence.

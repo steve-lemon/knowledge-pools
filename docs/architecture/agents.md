@@ -100,7 +100,7 @@ Tool contract:
 
 ## Retrieval Planner
 
-Turns a user question or agent task into a retrieval strategy.
+Turns a user question or agent task into explicit evidence requirements and a retrieval strategy.
 
 Detailed v1 contract: [Retrieval Planner Spec](../agents/retrieval-planner.md).
 
@@ -110,18 +110,22 @@ Do not confuse this with the Understanding Agent, which processes source documen
 
 Responsibilities:
 
-- Identify required knowledge types.
-- Choose vector, keyword, graph, temporal, or source retrieval.
-- Prefer recent decisions when the user asks about current state.
-- Search for contradicting evidence when the answer may be contested.
+- Identify user intent and expected answer shape.
+- Identify required evidence types.
+- Choose vector, keyword, graph, temporal, record, or source retrieval.
+- Set freshness scope when the user asks about current or historical state.
+- Require conflict search when the answer may be contested.
+- Emit a retrieval plan that retrieval can execute without reinterpreting the raw request.
 
 Outputs:
 
 - retrieval plan
+- task understanding metadata
 - required evidence types
 - freshness constraints
 - conflict search requirements
 - expected answer shape
+- retrieval budget or limits
 
 Tool contract:
 
