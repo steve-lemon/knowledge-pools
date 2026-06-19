@@ -566,3 +566,52 @@ PDF면 page/block처럼
 좋은 RAG/agent memory는 "가까운 chunk"가 아니라
 "감사 가능한 evidence bundle"을 넘겨야 한다고 봅니다.
 ```
+
+## Stage 6: Reason Architecture Baseline
+
+Status: draft
+
+Related commits:
+
+- `ad948f4` Define reason stage baseline
+- `11296ac` Clarify reason stage purpose
+- `8ec7645` Add media reason concept proofs
+- `d99ddc1` Add reason readiness review
+
+Related docs:
+
+- `docs/architecture/reason-baseline.md`
+- `docs/architecture/reason-verify-handoff.md`
+- `docs/architecture/media-reason-concept-proofs.md`
+- `docs/architecture/reason-readiness-review.md`
+- `docs/agents/reasoning-agent.md`
+- `docs/social/stage-6-reason-baseline.md`
+
+### Korean Reason Baseline Post
+
+```text
+Knowledge Pools의 reason 단계 설계를 정리했습니다.
+
+이번 결론:
+
+reason은 verification이 아닙니다.
+답변이 유창하다고 해서 truth가 되는 것도 아닙니다.
+
+reason은 EvidenceBundle을 바탕으로
+DraftAnswer 또는 ProposedAction을 만드는 단계입니다.
+
+모든 factual claim은 evidence ref를 가져야 하고,
+근거가 부족하면 assumption 또는 unknown으로 표시해야 합니다.
+
+retrieve
+-> evidence bundle
+-> reason
+-> cited draft
+-> verify
+
+즉 reason의 출력은 최종 답이 아니라
+verify가 감사할 수 있는 draft입니다.
+
+좋은 agent memory는 "그럴듯한 답변"보다
+"검증 가능한 초안"을 먼저 만들어야 한다고 봅니다.
+```
