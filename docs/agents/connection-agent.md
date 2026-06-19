@@ -36,6 +36,8 @@ The answer is always a proposal, not an accepted graph edge.
 
 The stage baseline is defined in [Connect Baseline](../architecture/connect-baseline.md).
 
+Media-specific examples are defined in [Media Connect Concept Proofs](../architecture/media-connect-concept-proofs.md).
+
 The boundary from understand is defined in [Understand and Connect Boundary](../architecture/understand-connect-boundary.md).
 
 The required handoff from understand is defined in [Understand to Connect Handoff](../architecture/understand-connect-handoff.md).

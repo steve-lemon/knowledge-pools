@@ -136,6 +136,8 @@ The detailed boundary is defined in [Understand and Connect Boundary](understand
 
 The concrete handoff is defined in [Understand to Connect Handoff](understand-connect-handoff.md).
 
+Media-specific concept proofs are defined in [Media Connect Concept Proofs](media-connect-concept-proofs.md).
+
 ## Core Rule
 
 Connection output is always proposal output.

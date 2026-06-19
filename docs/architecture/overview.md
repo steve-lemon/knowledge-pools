@@ -24,6 +24,8 @@ The boundary between understanding and connection is defined in [Understand and 
 
 The connection stage baseline is defined in [Connect Baseline](connect-baseline.md).
 
+Media-specific connection proofs are defined in [Media Connect Concept Proofs](media-connect-concept-proofs.md).
+
 The difference between source understanding and user-question understanding is defined in [Understand vs Task Understanding](understand-vs-task-understanding.md).
 
 Before implementing multi-agent behavior, the system should define a single agent contract, agent handoff model, and explicit context/session ownership:
