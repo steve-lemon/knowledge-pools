@@ -115,55 +115,62 @@ Artifacts to include:
 - Connect readiness review.
 - Minimal relationship proposal JSON example.
 
-## Stage 4: Verification Loop
+## Stage 4: Plan Architecture Baseline
 
 Repository state:
 
-- Relationship proposals are audited before curation.
-- Later, answers are checked against retrieved evidence after plan/retrieve/reason are implemented.
+- Runtime task understanding is assigned to the Retrieval Planner.
+- `RetrievalPlan` and `PlanToRetrieveHandoff` are documented.
+- Media-specific plan concept proofs are documented.
+- Plan tool permissions are reviewed before moving to retrieve.
+
+Core message:
+
+> Retrieval should be planned before searching.
+
+Post angles:
+
+- "User-question understanding belongs in planning, not source understanding."
+- "The planner should produce evidence requirements before retrieval runs."
+- "Planning should be media-aware, but not media-consuming."
+- "Tool permissions matter: the planner must not fetch evidence or synthesize answers."
+
+Artifacts to include:
+
+- Plan baseline.
+- Plan-to-retrieve handoff.
+- Media plan concept proofs.
+- Plan readiness review.
+- Minimal retrieval plan JSON example.
+
+## Stage 5: Retrieve, Reason, and Verification Loop
+
+Repository state:
+
+- Retrieval returns evidence bundles rather than raw hits only.
+- Reasoning produces draft answers or proposed actions from evidence.
+- Answers and relationship proposals are checked against retrieved evidence.
 - Unsupported claims are flagged.
 - Stale or superseded knowledge is surfaced.
 
 Core message:
 
-> Retrieval is only half the problem. The answer and proposed relationships need to be audited.
+> Retrieval is only half the problem. Evidence bundles, reasoning, and verification need explicit boundaries.
 
 Post angles:
 
+- "The retriever should return evidence bundles, not just nearby chunks."
+- "Reasoning should label assumptions before verification checks them."
 - "The verifier agent asks: which sentence is supported by which evidence?"
-- "A good knowledge system should say when it is unsure."
 - "Contradictions are not errors to hide; they are knowledge to represent."
 
 Artifacts to include:
 
+- Evidence bundle example.
+- Draft answer with evidence refs.
 - Verification report.
 - Example unsupported answer.
 - Conflict handling example.
-- Connect-to-verify handoff.
-
-## Stage 5: Plan, Retrieve, and Reason
-
-Repository state:
-
-- Runtime task understanding is implemented in the Retrieval Planner.
-- Retrieval returns evidence bundles rather than raw hits only.
-- Reasoning produces draft answers or proposed actions from evidence.
-
-Core message:
-
-> Retrieval should be planned before searching, and reasoning should stay evidence-bounded.
-
-Post angles:
-
-- "User-question understanding belongs in planning, not source understanding."
-- "The retriever should return evidence bundles, not just nearby chunks."
-- "Reasoning should label assumptions before verification checks them."
-
-Artifacts to include:
-
-- Retrieval plan example.
-- Evidence bundle example.
-- Draft answer with evidence refs.
 
 ## Stage 6: Update, Curation, and Evaluation
 
