@@ -18,6 +18,7 @@
 - Implement the V1 required tool-port subset with local file and JSON backends.
 - Provide keyword and source lookup.
 - Store run traces.
+- Keep image, audio, video, and PDF as documented extension tracks only.
 
 ## Phase 2: Understanding and Planning
 
@@ -38,9 +39,18 @@
 
 - Add task understanding inside the Retrieval Planner.
 - Create evidence bundle format.
-- Add planned source, keyword, structured, and graph-aware retrieval.
-- Produce draft answers or proposed actions from evidence.
-- Add answer grounding checks after reasoning is available.
+- Add planned source and keyword retrieval for Markdown/text first.
+- Produce draft answers or proposed actions from Markdown/text evidence.
+- Add answer grounding checks for Markdown/text evidence.
+- Expand to structured, graph-aware, and media-specific retrieval after the Markdown/text flow is stable.
+
+## Phase 4.5: Media Expansion Tracks
+
+- Add image access units, previews, OCR/labels, and region evidence.
+- Add PDF page, block, table, figure, and OCR evidence.
+- Add audio transcript spans, time ranges, waveform previews, and confidence handling.
+- Add video scene, subtitle, frame range, keyframe, and storyboard evidence.
+- Keep Markdown/text regression tests passing while each media type is added.
 
 ## Phase 5: Knowledge Graph and Curation
 

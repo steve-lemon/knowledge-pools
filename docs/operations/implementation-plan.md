@@ -14,9 +14,13 @@ Implementation steps do not have to follow this exact order when infrastructure 
 
 ## Current Target
 
-Build a CLI MVP that proves the architecture with filesystem-compatible source storage and an OpenSearch-compatible indexing boundary.
+Build a Markdown-first CLI MVP that proves the architecture with filesystem-compatible source storage and an OpenSearch-compatible indexing boundary.
 
 Local development may use files or fixtures before a real OpenSearch instance is connected, but the document shapes and query boundary should be designed for OpenSearch from the beginning.
+
+The first implementation is a vertical slice for Markdown/text only.
+
+Image, PDF, audio, and video support should be added after the full Markdown/text flow works end to end.
 
 Target commands:
 
@@ -30,6 +34,8 @@ kp verify <run-id>
 ## Guiding Constraints
 
 - Single repository first.
+- Markdown/text first.
+- Prove the full loop before expanding media types.
 - Start local and inspectable.
 - Preserve sources before generating summaries.
 - Store original sources in filesystem-compatible object storage.
@@ -44,7 +50,41 @@ kp verify <run-id>
 - Add vector search only after OpenSearch source, keyword, and structured retrieval are reliable.
 - Add durable memory only behind the `curation` stage.
 - Define the smallest useful lifecycle and provenance contract before large-scale ingest.
+- Treat image, audio, video, and PDF as extension tracks after the Markdown/text MVP.
 - Defer multi-repository, clustering, full ACL, distributed queues, and separate graph/vector databases.
+
+## Implementation Strategy
+
+Use [Markdown-First Implementation Strategy](markdown-first-implementation.md) as the implementation scope control document.
+
+The architecture documents describe the target system.
+
+The first implementation should prove the smallest useful vertical slice:
+
+```text
+Markdown source
+  -> ingest
+  -> understand
+  -> connect
+  -> plan
+  -> retrieve
+  -> reason
+  -> verify
+  -> update candidate
+  -> trace/evaluate
+```
+
+This means:
+
+- implement deterministic Markdown/text parsing before media parsing;
+- implement local JSON/file-backed records before external services;
+- implement fixture search before real OpenSearch;
+- implement cited draft answers before multi-modal reasoning;
+- implement answer verification for Markdown evidence before expanding media verification.
+
+Do not implement all media strategies at once.
+
+Each additional media type should be added only after the Markdown/text regression path remains green.
 
 ## Step 1: Project Skeleton
 
@@ -119,7 +159,8 @@ Deliverables:
 
 - Ingestion Agent detailed spec.
 - Markdown file scanner.
-- Media concept fixtures for Markdown, image, WAV, MP4, and PDF.
+- Markdown concept fixtures.
+- Media concept fixtures for image, WAV, MP4, and PDF as documentation-only expansion references.
 - Simple ingest job status.
 - Source record schema.
 - Source version lifecycle with current pointer and supersession status.
@@ -128,7 +169,7 @@ Deliverables:
 - Object-store-compatible raw source storage.
 - Source manifest schema.
 - Access unit schema for large or long files.
-- Media ingest strategy interface.
+- Media ingest strategy interface, implemented first for Markdown/text.
 - Version fields for source, manifest, parser, taxonomy, and index.
 - Current-vs-historical retrieval fields such as `is_current` and `version_status`.
 - Minimal lifecycle metadata.
@@ -140,6 +181,14 @@ Deliverables:
 - Handoff contract from ingest to understand.
 - `IngestToUnderstandHandoff` artifact schema and validation.
 - Ingest readiness review before moving to understand.
+
+V1 implementation scope:
+
+- Markdown/text only;
+- heading-aware sections and blocks;
+- wiki links and tags as structural signals;
+- outline or short summary previews optional;
+- no image, audio, video, or PDF parsing yet.
 
 First source fields:
 
@@ -180,11 +229,17 @@ Deliverables:
 - Local run workspace layout for understanding artifacts, candidates, ambiguity notes, review requests, and traces.
 - V1 deterministic Markdown/text structural extractors.
 - Media understand concept proofs for Markdown/text, image, WAV/audio, MP4/video, and PDF.
+- Markdown/text understanding implementation first.
 - Understand tool sequence using `artifact.read`, `source.locate`, `source.read`, `taxonomy.read`, `taxonomy.validate`, `schema.validate`, `candidate.emit`, `ambiguity.emit`, `review.request`, `artifact.write`, and `audit.trace`.
 - Failure classes for invalid handoff, unresolved refs, schema errors, and invalid model output.
 - Quality report with candidate counts, evidence coverage, review rate, unresolved refs, and schema failures.
 - Understand readiness checklist and quality gate before handoff to connect.
 - V1 acceptance criteria for Markdown/text, deterministic extraction, evidence refs, schema validation, and no durable mutation.
+
+V1 implementation scope:
+
+- deterministic Markdown/text candidate extraction;
+- no OCR, transcript, subtitle, scene, or PDF block extraction yet.
 
 Initial understanding inputs:
 
@@ -228,11 +283,17 @@ Deliverables:
 - Duplicate and unresolved relation proposal schema.
 - Quality report with relation counts, unresolved endpoints, evidence coverage, review rate, and schema failures.
 - Media connect concept proofs for Markdown/text, image, WAV/audio, MP4/video, and PDF.
+- Markdown/text connection implementation first.
 - Connect readiness checklist and tool permission review.
 - Deterministic matching policy for labels, aliases, explicit mentions, compatible candidate kinds, local record fixtures, and taxonomy relation rules.
 - Connect tool sequence using `artifact.read`, `record.search`, `taxonomy.read`, `taxonomy.validate`, `schema.validate`, `candidate.emit`, `artifact.write`, and `audit.trace`, with optional `graph.query`, `index.search`, `model.complete`, `ambiguity.emit`, and `review.request`.
 - Failure classes for invalid handoff, unresolved candidates, unresolved endpoints, taxonomy relation errors, schema errors, and invalid model output.
 - V1 acceptance criteria for deterministic duplicate, mention, and support proposals with no durable graph mutation.
+
+V1 implementation scope:
+
+- deterministic duplicate, mention, and support proposals for Markdown/text candidates;
+- no media-derived relationship proposals yet.
 
 Initial connection inputs:
 
@@ -331,6 +392,12 @@ Initial indexed document types:
 - concept_candidate
 - procedure_candidate
 - question_candidate
+
+V1 implementation scope:
+
+- local JSON fixture index first;
+- Markdown source and access-unit projections first;
+- OpenSearch-compatible mapping files before connecting a real OpenSearch server.
 
 ## Step 9: Evaluation Seed
 
@@ -433,6 +500,7 @@ Deliverables:
 - Missing evidence note schema.
 - Conflict candidate refs in evidence bundles.
 - Media retrieve concept proofs for Markdown/text, image, WAV/audio, MP4/video, and PDF.
+- Markdown/text retrieval implementation first.
 - Retrieve readiness review and tool permission check.
 - Retrieve tool sequence using `artifact.read`, `schema.validate`, `index.search`, `record.search`, `source.locate`, `source.read`, `retrieval.fetch_evidence`, `artifact.write`, and `audit.trace`, with optional `graph.query`, `preview.lookup`, `taxonomy.read`, and `model.embed`.
 - Failure classes for invalid handoff, missing retrieval plan, unsupported retrieval mode, unresolved source/access-unit refs, missing evidence, permission denied, and schema errors.
@@ -440,6 +508,12 @@ Deliverables:
 - Retrieval returns an evidence bundle.
 - Retrieve-to-reason handoff is emitted.
 - Run trace is stored.
+
+V1 implementation scope:
+
+- source lookup and keyword search over Markdown/text fixtures;
+- evidence bundles from Markdown sections or blocks;
+- no image region, audio span, video scene, or PDF block fetching yet.
 
 First validation rules:
 
@@ -469,11 +543,18 @@ Deliverables:
 - Answer draft schema with evidence citations.
 - Reason-to-verify handoff artifact schema and validation.
 - Media reason concept proofs for Markdown/text, image, WAV/audio, MP4/video, and PDF.
+- Markdown/text reasoning implementation first.
 - Reason readiness review and tool permission check.
 - Reason tool sequence and forbidden-port review.
 - Answer verification mode implementation.
 - `kp ask` creates a retrieval plan, retrieves evidence, reasons from evidence, and stores a run trace.
 - Verification checks cited evidence exists and flags unsupported claims.
+
+V1 implementation scope:
+
+- draft answers from Markdown/text evidence bundles;
+- verification checks claim-to-section or claim-to-block citations;
+- no multi-modal answer verification yet.
 
 First validation rules:
 

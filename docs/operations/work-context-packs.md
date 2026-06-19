@@ -14,6 +14,21 @@ Read these for any architectural change:
 - [Architecture Overview](../architecture/overview.md)
 - [Stage Data Flow Contract](../architecture/stage-data-flow-contract.md)
 - [Implementation Plan](implementation-plan.md)
+- [Markdown-First Implementation Strategy](markdown-first-implementation.md)
+
+## Markdown-First Implementation Pack
+
+Use for actual MVP implementation work before expanding media support:
+
+- [Implementation Plan](implementation-plan.md)
+- [Markdown-First Implementation Strategy](markdown-first-implementation.md)
+- [Terminology](../architecture/terminology.md)
+- [Stage Data Flow Contract](../architecture/stage-data-flow-contract.md)
+- [Agent Tool Pool](../architecture/agent-tool-pool.md)
+- [Agent Superclass Contract](../architecture/agent-superclass-contract.md)
+- stage baseline for the feature being implemented
+- current agent spec for the feature being implemented
+- relevant handoff document for the feature being implemented
 
 ## Stage Transition Pack
 
