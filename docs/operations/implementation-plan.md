@@ -582,6 +582,24 @@ First validation rules:
 
 ## Step 15: Update Candidate Baseline
 
+Purpose:
+
+- convert verified runtime outcomes into structured update candidates;
+- preserve useful learning without writing durable memory;
+- decide which verified claims, corrections, decisions, procedures, failed approaches, stale warnings, contradictions, and open questions should be reviewed by curation;
+- keep unsupported or uncertain outputs from becoming facts;
+- make every proposed memory change traceable to verification, evidence, source, run, or feedback refs.
+
+Expected results:
+
+- validated update artifact;
+- zero or more `UpdateCandidate` artifacts;
+- update quality report;
+- review requests where human judgment or more evidence is needed;
+- `UpdateToCurationHandoff`;
+- trace events for selected and skipped update signals;
+- no durable memory, source lifecycle, or accepted index projection mutation.
+
 Deliverables:
 
 - Update baseline architecture document.

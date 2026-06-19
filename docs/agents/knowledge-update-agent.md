@@ -2,6 +2,10 @@
 
 The Knowledge Update Agent converts useful run outcomes into update candidates.
 
+Its purpose is to preserve reusable learning without granting the agent durable memory write authority.
+
+It is a proposal generator, not a memory writer.
+
 Stage baseline: [Update Baseline](../architecture/update-baseline.md).
 
 Input handoff: [Verify to Update Handoff](../architecture/verify-update-handoff.md).
@@ -12,8 +16,10 @@ Output handoff: `UpdateToCurationHandoff`.
 
 - consume `VerifyToUpdateHandoff`;
 - inspect the referenced verification report and update signals;
+- decide which signals are worth proposing as reusable knowledge changes;
 - emit `UpdateCandidate` artifacts for reusable verified outcomes;
 - convert unsupported or uncertain outcomes into review, open-question, or needs-more-evidence candidates;
+- skip signals that are transient, unsupported, duplicate, or not reusable;
 - preserve verification, evidence, source, run, and taxonomy refs;
 - emit a quality report and trace events.
 
@@ -63,6 +69,20 @@ Forbidden ports:
 - curation proposals;
 - `UpdateToCurationHandoff`;
 - trace events.
+
+## Expected Result
+
+A successful run should leave curation with a small, typed set of candidate changes.
+
+Each candidate should say:
+
+- what memory change is proposed;
+- why the signal matters;
+- which verification result supports it;
+- which evidence or feedback refs are attached;
+- whether human review is required.
+
+When there is nothing useful to learn, the agent should still emit a quality report and `UpdateToCurationHandoff` with an empty candidate list.
 
 ## Validation Rules
 

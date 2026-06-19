@@ -20,6 +20,35 @@ The answer is never written directly to durable memory in this stage.
 
 Instead, `update` produces `UpdateCandidate` artifacts for `curation`.
 
+More precisely, `update` is the learning proposal stage.
+
+It turns verified work into reviewable candidate changes while preserving enough provenance for later curation, rollback, and evaluation.
+
+## Primary Goal
+
+The primary goal is to prevent useful learning from disappearing without allowing unreviewed memory growth.
+
+The stage should answer four questions:
+
+1. What did this run reveal that may be reusable?
+2. Is the reusable item supported, corrected, uncertain, stale, or contradictory?
+3. What evidence, verification result, source, or interaction supports that signal?
+4. What candidate should curation inspect next?
+
+## Operating Principle
+
+`update` is selective.
+
+It should create fewer, better candidates rather than preserve every conversation turn.
+
+The stage favors:
+
+- concise statements over transcripts;
+- refs over copied source content;
+- typed candidate records over freeform notes;
+- explicit review requirements over silent promotion;
+- reversible proposals over direct mutation.
+
 ## Role In The Loop
 
 `verify` decides whether a claim, answer, relationship proposal, or proposed action is supported, unsupported, uncertain, stale, or contradictory.
@@ -27,6 +56,8 @@ Instead, `update` produces `UpdateCandidate` artifacts for `curation`.
 `update` decides whether that verified outcome should become a candidate memory change.
 
 `curation` later decides whether the candidate becomes durable knowledge.
+
+This makes `update` the bridge between runtime quality control and durable knowledge governance.
 
 ```text
 VerificationReport
@@ -42,11 +73,33 @@ The update stage should:
 
 - preserve useful learning from verified interactions;
 - convert user corrections into reviewable candidate changes;
+- capture reusable decisions, procedures, constraints, and failed approaches;
+- turn unsupported results into open questions or review requests;
+- surface stale or contradictory knowledge before it becomes hidden debt;
 - keep unsupported or uncertain outcomes out of durable memory;
 - retain source, evidence, run, and verification refs;
 - prevent noisy automatic memory writes;
 - make future curation faster by proposing typed changes;
 - keep the system LLM-independent by relying on typed artifacts rather than hidden chat state.
+
+## Expected Results
+
+After a successful update run, the system should have:
+
+- a validated update artifact for the run;
+- zero or more `UpdateCandidate` artifacts;
+- a clear reason for every emitted candidate;
+- preserved refs to verification, evidence, source, run, and feedback artifacts;
+- review requests for candidates that are uncertain, corrective, stale, contradictory, or policy-sensitive;
+- an `UpdateToCurationHandoff` even when no candidate is emitted;
+- a quality report explaining selected, skipped, and rejected update signals;
+- trace events for candidate selection and candidate rejection decisions.
+
+The expected result can be empty.
+
+If a run produced no durable learning signal, `update` should emit a quality report and handoff that say so.
+
+An empty update is better than noisy memory.
 
 ## Inputs
 
