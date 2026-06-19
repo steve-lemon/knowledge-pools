@@ -284,6 +284,10 @@ Rules:
 
 Accepted curation decisions may create or modify durable graph records, memory records, lifecycle states, or index projections.
 
+See [Curation Baseline](curation-baseline.md).
+
+The handoff from update to curation is defined in [Update to Curation Handoff](update-curation-handoff.md).
+
 ### 10. Evaluate
 
 Record traces and quality signals so the system can improve.

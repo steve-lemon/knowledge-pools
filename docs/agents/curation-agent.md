@@ -2,32 +2,80 @@
 
 The Curation Agent decides which candidates become durable records.
 
+Stage baseline: [Curation Baseline](../architecture/curation-baseline.md).
+
+Input handoff: [Update to Curation Handoff](../architecture/update-curation-handoff.md).
+
+Output handoff: `CurationToEvaluateHandoff`.
+
+## Responsibilities
+
+- consume `UpdateToCurationHandoff`;
+- validate update candidates and quality report refs;
+- decide whether candidates are accepted, edited, deferred, rejected, or need more evidence;
+- create durable records when candidates are accepted;
+- preserve provenance, curation rationale, and lifecycle metadata;
+- avoid silent overwrites by using supersession, retraction, or quarantine metadata;
+- emit curation decisions, quality report, and traces.
+
+## Non-Responsibilities
+
+- do not create new update candidates;
+- do not re-verify evidence;
+- do not perform broad retrieval;
+- do not read raw source content by default;
+- do not bypass curation decisions with provider-specific memory writes.
+
 ## Tool Contract
 
 Required ports:
 
 - `artifact.read`;
+- `schema.validate`;
 - `curation.decide`;
 - `memory.write`;
-- `memory.update_status`;
+- `artifact.write`;
 - `audit.trace`.
 
 Optional ports:
 
+- `memory.update_status`;
+- `record.search`;
+- `taxonomy.read`;
+- `taxonomy.validate`;
+- `review.request`;
 - `rollback.create_event`;
 - `delete.create_tombstone`;
-- `record.search`.
 
 Forbidden ports:
 
+- `candidate.emit`;
+- `verification.check`;
+- `retrieval.fetch_evidence`;
+- `index.search`;
+- `source.read`;
+- `source.write`;
+- `source.version`;
+- `source.restore`;
 - direct provider-specific memory writes.
 
 ## Outputs
 
 - curation decisions;
 - durable records;
+- curation quality report;
 - status updates;
+- `CurationToEvaluateHandoff`;
 - rollback or tombstone events when approved.
+
+## Validation Rules
+
+- `UpdateToCurationHandoff` must validate before work starts.
+- Every target candidate ref must resolve.
+- Accepted records must preserve candidate, evidence, source, verification, and curation refs when available.
+- Review-required candidates must not be accepted without review resolution.
+- Supersession and retraction must not overwrite older records silently.
+- Durable record kinds and taxonomy-scoped fields must validate.
 
 ## Design Rule
 

@@ -50,6 +50,10 @@ Media-specific update proofs are defined in [Media Update Concept Proofs](media-
 
 The update readiness and tool permission review is defined in [Update Readiness Review](update-readiness-review.md).
 
+The curation stage baseline is defined in [Curation Baseline](curation-baseline.md).
+
+The handoff from update to curation is defined in [Update to Curation Handoff](update-curation-handoff.md).
+
 The connection implementation checklist is defined in [Connect Readiness Review](connect-readiness-review.md).
 
 Media-specific connection proofs are defined in [Media Connect Concept Proofs](media-connect-concept-proofs.md).

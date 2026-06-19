@@ -227,18 +227,21 @@ Decides whether proposed updates should become durable memory.
 
 Detailed v1 contract: [Curation Agent Spec](../agents/curation-agent.md).
 
+Stage baseline: [Curation Baseline](curation-baseline.md).
+
 Responsibilities:
 
 - Accept, edit, defer, or reject candidate updates.
 - Ensure each durable update has provenance.
 - Avoid storing noisy conversation fragments.
 - Preserve supersession instead of overwriting older knowledge silently.
+- Emit curation decisions and handoff outcomes to evaluation.
 
 Tool contract:
 
-- required: `artifact.read`, `curation.decide`, `memory.write`, `memory.update_status`, `audit.trace`;
-- optional: `rollback.create_event`, `delete.create_tombstone`, `record.search`;
-- forbidden: direct provider-specific memory writes.
+- required: `artifact.read`, `schema.validate`, `curation.decide`, `memory.write`, `artifact.write`, `audit.trace`;
+- optional: `memory.update_status`, `record.search`, `taxonomy.read`, `taxonomy.validate`, `review.request`, `rollback.create_event`, `delete.create_tombstone`;
+- forbidden: `candidate.emit`, `verification.check`, `retrieval.fetch_evidence`, `index.search`, `source.read`, `source.write`, `source.version`, `source.restore`, direct provider-specific memory writes.
 
 ## Evaluation Agent
 

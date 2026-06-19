@@ -194,7 +194,7 @@ It should not replace artifacts or handoffs.
 | `reason -> verify` | draft answer or proposed action ref, evidence bundle ref, claim refs, assumption refs, cited evidence refs | `ReasonToVerifyHandoff` | cited evidence, claim refs, assumptions, answer/action schema |
 | `verify -> update` | verification report ref, verified/rejected/unsupported/uncertain refs, review refs, update signal refs | `VerifyToUpdateHandoff` | verification status, unsupported refs, review requirements |
 | `update -> curation` | update candidate refs, source/evidence refs, review refs, quality report ref, review flag | `UpdateToCurationHandoff` | candidate schema, provenance, evidence, quality report, duplication/conflict policy |
-| `curation -> evaluate` | curation decision refs, accepted/rejected refs | `CurationToEvaluateHandoff` | decision refs, durable write refs, trace completeness |
+| `curation -> evaluate` | curation decision refs, accepted/rejected/deferred refs, lifecycle event refs, quality report ref | `CurationToEvaluateHandoff` | decision refs, durable write refs, lifecycle events, trace completeness |
 
 ## Context vs Handoff
 

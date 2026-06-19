@@ -636,8 +636,30 @@ First validation rules:
 
 ## Step 16: Curation Baseline
 
+Purpose:
+
+- decide which update candidates become durable knowledge;
+- preserve provenance for every accepted, edited, deferred, rejected, superseded, retracted, quarantined, or tombstoned candidate;
+- open durable memory writes only behind explicit curation decisions;
+- prevent silent overwrites by using lifecycle and relationship metadata;
+- hand curation outcomes to evaluation.
+
+Expected results:
+
+- validated `UpdateToCurationHandoff`;
+- one or more `CurationDecision` artifacts;
+- zero or more durable records;
+- zero or more durable lifecycle updates;
+- curation quality report;
+- `CurationToEvaluateHandoff`;
+- trace events for every decision and durable mutation.
+
 Deliverables:
 
+- Curation baseline architecture document.
+- Update-to-curation handoff artifact schema and validation.
+- Curation Agent detailed spec.
+- `CurationDecision` schema.
 - Curation states: `accepted`, `edited`, `deferred`, `rejected`.
 - Durable decision and claim records.
 - Supersession metadata.
@@ -647,6 +669,24 @@ Deliverables:
 - Tombstone record schema.
 - Content hide, soft-delete, archive, restore, and purge workflow definitions.
 - Delete propagation rules for source versions, access units, previews, candidates, records, and relations.
+
+V1 implementation scope:
+
+- Markdown/text-derived update candidates only;
+- accept, edit-and-accept, defer, reject, and needs-more-evidence decisions;
+- simple durable claim, decision, procedure, and question records;
+- supersession metadata without silent overwrite;
+- no image, audio, video, or PDF-derived durable records until media verification and curation rules are stable.
+
+First validation rules:
+
+- `UpdateToCurationHandoff` validates;
+- update candidate refs resolve;
+- quality report ref resolves;
+- every accepted durable record preserves candidate, source, evidence, verification, and curation refs when available;
+- review-required candidates are not accepted without review resolution;
+- curation emits `CurationToEvaluateHandoff`;
+- every durable write or lifecycle update is traced.
 
 ## Step 17: Evaluation Loop
 

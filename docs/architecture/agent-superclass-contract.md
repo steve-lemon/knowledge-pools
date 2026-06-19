@@ -470,6 +470,9 @@ export interface CurationToEvaluatePayload {
   curation_decision_refs: RefString[];
   accepted_record_refs: RefString[];
   rejected_candidate_refs: RefString[];
+  deferred_candidate_refs?: RefString[];
+  lifecycle_event_refs?: RefString[];
+  quality_report_ref: RefString;
 }
 ```
 

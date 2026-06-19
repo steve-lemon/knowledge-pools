@@ -71,6 +71,7 @@ Use these names to avoid mixing stage responsibilities:
 | `KnowledgeCandidate` | `understand` | Proposed claim, decision, concept, procedure, question, constraint, or summary | No |
 | `RelationshipProposal` | `connect` | Proposed edge between candidates, records, sources, or graph context | No |
 | `UpdateCandidate` | `update` | Proposed reusable memory change from verified outcomes or feedback | No |
+| `CurationDecision` | `curation` | Decision to accept, edit, defer, reject, or apply lifecycle state to a candidate or record | Yes, as governance record |
 | `GraphRecord` | after verification and curation | Accepted graph node or edge | Yes |
 
 Do not call a `RelationshipProposal` a `relation candidate`.
@@ -94,6 +95,18 @@ Use `media_basis` for the evidence basis behind a candidate, such as `markdown_s
 Do not use `update` to mean durable write.
 
 Durable writes belong to `curation` and accepted durable-update workflows.
+
+### Curation Terms
+
+Use `CurationDecision` for the durable governance record that explains what happened to an `UpdateCandidate`.
+
+Use `durable record` for accepted knowledge records created after curation.
+
+Use `lifecycle update` for durable state changes such as `superseded`, `retracted`, `quarantined`, `archived`, or `tombstoned`.
+
+Do not use `curation` to mean summarization or manual editing in general.
+
+In this architecture, curation means governed acceptance or rejection of proposed memory changes.
 
 ### Taxonomy
 
