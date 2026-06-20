@@ -60,6 +60,8 @@ The evaluation stage baseline is defined in [Evaluate Baseline](evaluate-baselin
 
 The handoff from curation to evaluation is defined in [Curation to Evaluate Handoff](curation-evaluate-handoff.md).
 
+The evaluation readiness and tool permission review is defined in [Evaluate Readiness Review](evaluate-readiness-review.md).
+
 The connection implementation checklist is defined in [Connect Readiness Review](connect-readiness-review.md).
 
 Media-specific connection proofs are defined in [Media Connect Concept Proofs](media-connect-concept-proofs.md).

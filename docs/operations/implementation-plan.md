@@ -725,6 +725,7 @@ Deliverables:
 - Evaluation Agent detailed spec.
 - `EvaluationReport` schema.
 - `EvaluationSignal` schema.
+- Evaluate readiness checklist and tool permission review.
 - Store retrieval misses.
 - Store verifier failures.
 - Store user corrections.
@@ -750,6 +751,7 @@ First validation rules:
 - trace refs are available or marked missing;
 - evaluation report schema validates;
 - evaluation does not write durable memory or change curation decisions.
+- evaluation does not emit update candidates, run verification, fetch evidence, or mutate source/index lifecycle.
 
 ## First Engineering Decision Needed
 

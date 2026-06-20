@@ -264,4 +264,4 @@ Tool contract:
 
 - required: `audit.read_trace`, `audit.trace`, `evaluation.record`, `artifact.read`, `schema.validate`, `artifact.write`;
 - optional: `evaluation.report`, `record.search`, `taxonomy.read`, `review.request`;
-- forbidden: `memory.write`, `memory.update_status`, `curation.decide`, `candidate.emit`, `verification.check`, `retrieval.fetch_evidence`, `index.write_projection`, `index.deactivate_projection`, `source.read`, `source.write`, `source.version`, `source.tombstone`, `delete.create_tombstone`.
+- forbidden: `memory.write`, `memory.update_status`, `curation.decide`, `curation.propose`, `candidate.emit`, `verification.check`, `retrieval.fetch_evidence`, `index.search`, `index.write_projection`, `index.deactivate_projection`, `source.read`, `source.write`, `source.version`, `source.tombstone`, `delete.create_tombstone`.

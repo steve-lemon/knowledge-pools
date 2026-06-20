@@ -54,9 +54,11 @@ Forbidden ports:
 - `memory.write`;
 - `memory.update_status`;
 - `curation.decide`;
+- `curation.propose`;
 - `candidate.emit`;
 - `verification.check`;
 - `retrieval.fetch_evidence`;
+- `index.search`;
 - `index.write_projection`;
 - `index.deactivate_projection`;
 - `source.read`;

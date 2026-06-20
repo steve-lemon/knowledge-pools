@@ -55,6 +55,7 @@ All canonical baselines are currently defined.
 - [Verify Readiness Review](verify-readiness-review.md)
 - [Update Readiness Review](update-readiness-review.md)
 - [Curation Readiness Review](curation-readiness-review.md)
+- [Evaluate Readiness Review](evaluate-readiness-review.md)
 
 Add a readiness review before moving each major stage forward.
 

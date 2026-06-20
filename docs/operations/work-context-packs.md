@@ -141,6 +141,7 @@ Use for `plan`, `retrieve`, `reason`, and answer verification work:
 - [Curation Readiness Review](../architecture/curation-readiness-review.md)
 - [Evaluate Baseline](../architecture/evaluate-baseline.md)
 - [Curation to Evaluate Handoff](../architecture/curation-evaluate-handoff.md)
+- [Evaluate Readiness Review](../architecture/evaluate-readiness-review.md)
 - [Feedback Update Relationships](../architecture/feedback-update-relationships.md)
 - [Knowledge Update Agent Spec](../agents/knowledge-update-agent.md)
 - [Curation Agent Spec](../agents/curation-agent.md)
