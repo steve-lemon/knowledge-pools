@@ -277,7 +277,7 @@ P3 tool ports:
 - [x] Define `source.version`. See [Source Tool Ports](../specs/tools/source-tool-ports.md).
 - [x] Define `parse.document`. See [Document Structure Tool Ports](../specs/tools/document-structure-tool-ports.md).
 - [x] Define `chunk.create`. See [Document Structure Tool Ports](../specs/tools/document-structure-tool-ports.md).
-- [ ] Define `preview.create`.
+- [x] Define `preview.create`. See [Preview Tool Ports](../specs/tools/preview-tool-ports.md).
 - [ ] Define `taxonomy.read`.
 - [ ] Define `taxonomy.validate`.
 - [ ] Define `schema.validate`.
@@ -297,6 +297,7 @@ Completion artifact targets:
 - `docs/specs/tools/common-tool-port-contracts.md`
 - `docs/specs/tools/source-tool-ports.md`
 - `docs/specs/tools/document-structure-tool-ports.md`
+- `docs/specs/tools/preview-tool-ports.md`
 
 ## 7. Runtime And Orchestrator Contracts
 

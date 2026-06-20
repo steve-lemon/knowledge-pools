@@ -10,6 +10,19 @@ Recommended filename:
 YYYY-MM-DD-short-title.md
 ```
 
+## Tracking Rule
+
+Add a decision record when a change chooses an architecture boundary, stage responsibility, storage/indexing policy, tool-port contract shape, runtime constraint, or implementation scope rule that future work should not rediscover.
+
+Do not add a decision record for every small wording edit. Prefer one record for a coherent decision, and update an existing record only when it is still the same decision.
+
+When adding a decision file:
+
+1. Use the filename format above.
+2. Add the file to the Records list below.
+3. Link the decision from the current architecture, operations, or spec document when it constrains future work.
+4. Keep the decision in the same commit as the spec or architecture change it explains.
+
 ## Records
 
 - [Repository Foundation](2026-06-18-repository-foundation.md)

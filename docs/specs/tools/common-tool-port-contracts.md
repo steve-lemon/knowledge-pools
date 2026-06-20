@@ -53,6 +53,7 @@ export type ToolPortId =
   | "source.version"
   | "parse.document"
   | "chunk.create"
+  | "preview.create"
   | string;
 
 export interface ToolPortRegistry {

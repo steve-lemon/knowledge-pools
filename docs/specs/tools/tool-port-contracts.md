@@ -21,7 +21,7 @@ groups. It does not define request/response details directly.
 | Common runtime boundary | [Common Tool Port Contracts](common-tool-port-contracts.md) | request/response envelopes, errors, side effects, traces |
 | Source storage and versioning | [Source Tool Ports](source-tool-ports.md) | `source.locate`, `source.read`, `source.write`, `source.version` |
 | Document structure | [Document Structure Tool Ports](document-structure-tool-ports.md) | `parse.document`, `chunk.create` |
-| Preview and derived navigation | Pending | `preview.create` |
+| Preview and derived navigation | [Preview Tool Ports](preview-tool-ports.md) | `preview.create` |
 | Taxonomy | Pending | `taxonomy.read`, `taxonomy.validate` |
 | Schema and artifact stores | Pending | `schema.validate`, `artifact.read`, `artifact.write` |
 | Index and retrieval | Pending | `index.write_projection`, `index.search`, `retrieval.plan`, `retrieval.fetch_evidence` |

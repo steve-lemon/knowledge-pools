@@ -101,3 +101,11 @@ This repository should grow as both a system and a notebook. Every major impleme
 4. What remains uncertain.
 
 Before moving from one major stage to the next, use [Work Context Packs](docs/operations/work-context-packs.md) to choose the relevant files, then update the stage boundary using [Stage Transition Guidelines](docs/operations/stage-transition-guidelines.md).
+
+## Work Tracking
+
+Keep commits scoped to one coherent specification, prototype, or documentation change.
+
+Prefer concise commit messages that name the kind of change, such as `feat:`, `fix:`, `docs:`, `chore:`, or `refactor:`. Include checklist updates and related spec links in the same commit as the spec change they describe.
+
+When a change makes or changes an architecture decision, add or update a record in [Decision Log](docs/decisions/README.md). Use `docs/decisions/YYYY-MM-DD-short-title.md`, update the decision index, and link the decision from relevant architecture or operations docs when it affects future work.
