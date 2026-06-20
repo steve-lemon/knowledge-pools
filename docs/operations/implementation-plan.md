@@ -701,7 +701,9 @@ First validation rules:
 Purpose:
 
 - record quality signals from completed runs and curation outcomes;
+- turn completed work into inspectable improvement evidence;
 - summarize retrieval misses, verifier failures, update candidate outcomes, and curation decisions;
+- distinguish clean runs from runs with missing trace, schema, evidence, or tool signals;
 - propose regression fixtures and future improvements without mutating durable memory;
 - keep improvement signals traceable to run, task, artifact, and decision refs.
 
@@ -711,6 +713,8 @@ Expected results:
 - one `EvaluationReport`;
 - zero or more `EvaluationSignal` records;
 - retrieval miss, unsupported claim, accepted/rejected/deferred candidate, and schema failure counts;
+- trace completeness and missing artifact warnings when needed;
+- clean-run status when no quality issue is found;
 - regression candidate recommendations where useful;
 - no durable memory, curation, source lifecycle, or index projection mutation.
 

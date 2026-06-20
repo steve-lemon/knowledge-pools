@@ -24,6 +24,31 @@ The core question is:
 What should the system learn about its own process quality?
 ```
 
+## Primary Goal
+
+The primary goal is to turn completed work into inspectable improvement evidence.
+
+The stage should answer six questions:
+
+1. Did the run complete the intended stage flow?
+2. Which retrieval, reasoning, verification, update, or curation signals indicate quality problems?
+3. Which decisions or outputs should become regression fixtures?
+4. Which failures were caused by missing evidence, bad schemas, tool errors, stale knowledge, or weak candidates?
+5. Which curation outcomes indicate upstream noise or useful memory formation?
+6. What future work should be considered without mutating durable memory now?
+
+## Operating Principle
+
+Evaluation is observational.
+
+The stage favors:
+
+- quality signals over automatic fixes;
+- traceable metrics over vague impressions;
+- regression candidates over one-off anecdotes;
+- recommendations over direct mutation;
+- stage-scoped analysis over global blame.
+
 ## Role In The Loop
 
 `curation` decides what becomes durable memory.
@@ -49,6 +74,8 @@ The evaluate stage should:
 - identify retrieval misses, verifier failures, unsupported claims, stale evidence, and curation outcomes;
 - help build regression tests and fixtures;
 - provide feedback to future implementation planning;
+- distinguish clean runs from runs that merely produced no obvious error;
+- show where the loop needs better schemas, tools, prompts, taxonomy, or tests;
 - avoid mutating durable knowledge directly;
 - keep improvement signals traceable to run, task, artifact, and decision refs.
 
@@ -61,10 +88,14 @@ After a successful evaluation run, the system should have:
 - quality metrics for the run or stage;
 - issue or follow-up refs when needed;
 - links to traces, artifacts, curation decisions, and affected records;
+- clear status for whether the run is regression-worthy;
+- explicit missing-trace or missing-artifact warnings when auditability is incomplete;
 - a clear list of improvements to consider later;
 - no durable memory write.
 
 No new improvement action is a valid result when the run was clean.
+
+A clean report should still say why it is clean.
 
 ## Inputs
 
