@@ -220,11 +220,13 @@ Reason: before defining the full tool pool, validate a small `SummaryAgent` that
 - [x] Define model-policy feasibility cases for `SummaryAgent`.
 - [x] Define tool-call and LLM-call reports separately.
 - [x] Define feasibility dimensions for model comparison.
+- [ ] Implement `SummaryAgent` runtime mode through superclass and `ToolPortRegistry`.
 
 Completion artifact targets:
 
 - `docs/specs/tools/llm-gateway-contract.md`
 - `docs/specs/agents/agent-core-summary-proof.md`
+- `docs/operations/summary-agent-superclass-implementation-plan.md`
 
 ## 6. Tool Port Contracts
 

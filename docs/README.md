@@ -16,6 +16,7 @@ Read these first when joining the project or re-orienting:
 - [Implementation Plan](operations/implementation-plan.md)
 - [Implementation-Near Specification Preparation](operations/implementation-near-spec.md)
 - [Specification Review Checklist](operations/spec-review-checklist.md)
+- [SummaryAgent Superclass Implementation Plan](operations/summary-agent-superclass-implementation-plan.md)
 - [Work Context Packs](operations/work-context-packs.md)
 
 For implementation-near specification work, start from P0 items in the [Specification Review Checklist](operations/spec-review-checklist.md), then move to P1 and later phases only when dependencies are clear.

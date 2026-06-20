@@ -100,6 +100,7 @@ This means:
 - specify local JSON/file-backed records before external services;
 - prove `tool.read(path) -> summarize` with a small `SummaryAgent` and a mock LLM gateway before introducing provider adapters;
 - compare model policies through the same `SummaryAgent` flow when provider adapters are introduced;
+- move `SummaryAgent` from direct dependency mode to superclass + `ToolPortRegistry` runtime mode before adding more sample agents;
 - specify fixture search before real OpenSearch;
 - specify cited draft answers before multi-modal reasoning;
 - specify answer verification for Markdown evidence before expanding media verification.
