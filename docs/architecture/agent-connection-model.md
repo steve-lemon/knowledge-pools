@@ -16,6 +16,16 @@ The object boundary between context, session, artifact, handoff, and trace is de
 agent A -> artifact -> orchestrator -> context envelope -> agent B
 ```
 
+`SummaryAgent` adds a smaller validation case:
+
+```text
+task -> SummaryAgent -> tool calls -> artifact -> evaluation/review
+```
+
+This is not agent-to-agent handoff yet.
+
+It validates whether a single agent can connect to tools cleanly before multi-agent handoffs are implemented.
+
 ## Why Not Pass Raw Conversation
 
 Passing raw conversation between agents creates several problems:
@@ -29,6 +39,36 @@ Passing raw conversation between agents creates several problems:
 Instead, agents should pass durable or semi-durable artifacts.
 
 ## Connection Types
+
+### 0. Prototype Tool-Call Connection
+
+One prototype agent calls shared tools through the same port registry production agents will use.
+
+Example:
+
+```text
+SummaryAgent
+  -> summary.read
+  -> llm.summarize
+  -> schema.validate
+  -> artifact.write
+  -> audit.trace
+```
+
+Purpose:
+
+- verify abstraction boundaries;
+- verify tool permission enforcement;
+- verify model gateway replacement;
+- verify trace completeness;
+- verify that no hidden provider session becomes workflow state.
+
+Output:
+
+- `summary_proof_result`;
+- optional `summary_feasibility_report`.
+
+The orchestrator may route the result to an evaluation or review step, but there is no normal stage handoff.
 
 ### 1. Sequential Handoff
 
@@ -89,6 +129,8 @@ Recommended artifacts:
 
 - `task`
 - `context_envelope`
+- `summary_proof_result`
+- `summary_feasibility_report`
 - `source_record`
 - `knowledge_record`
 - `retrieval_plan`
@@ -151,6 +193,7 @@ The orchestrator must:
 - store handoff records;
 - enforce verification before update;
 - keep provider-specific model sessions out of the core architecture.
+- support prototype runs that validate tool-call connections without creating normal stage handoffs.
 
 ## Agent Responsibilities
 
@@ -162,6 +205,7 @@ Each agent must:
 - cite evidence references where relevant;
 - avoid writing durable memory directly;
 - emit trace events.
+- distinguish tool failures from model failures when a prototype or agent calls both.
 
 ## Anti-Patterns
 
@@ -178,4 +222,19 @@ Avoid:
 
 The system should be replayable.
 
-Given the same task, context envelope, artifacts, and model adapter configuration, the run should be inspectable even if the exact model output is not deterministic.
+Given the same task, context envelope, artifacts, and LLM gateway/model policy configuration, the run should be inspectable even if the exact model output is not deterministic.
+
+## SummaryAgent Design Check
+
+The connection model is considered sufficient for the first prototype only if `SummaryAgent` can:
+
+- receive a typed task and bounded context;
+- call `summary.read` without direct filesystem knowledge;
+- call `llm.summarize` without provider-specific state;
+- write a `summary_proof_result` artifact;
+- optionally write a `summary_feasibility_report`;
+- record separate trace events for read-tool calls and LLM calls;
+- complete without creating a fake stage handoff;
+- be replayed from task, context refs, artifact refs, trace refs, and model policy metadata.
+
+If any of these require ad hoc agent-to-agent chat, hidden provider thread IDs, or untyped blobs, the connection model is not ready for production stage agents.

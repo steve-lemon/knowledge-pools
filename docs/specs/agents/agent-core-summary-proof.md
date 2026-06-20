@@ -82,11 +82,57 @@ Design pressure to watch:
 - if `SummaryReadTool` needs prompt or summary policy, the tool is too broad;
 - if feasibility cannot be compared across models, the result metadata is too weak.
 
+## Architecture Sufficiency Review
+
+Current architecture documents are sufficient as a foundation only after the prototype additions are observed in implementation-near tests.
+
+| Architecture area | Current sufficiency | What `SummaryAgent` must validate |
+| --- | --- | --- |
+| Agent superclass | Strong enough for task, context, artifact, trace, and tool grants | `prototype` stage can run without special runtime shortcuts |
+| Tool pool | Strong enough after adding `summary.read` and `llm.*` ports | agent can call tools by port, not by private dependencies |
+| Connection model | Strong enough for artifact-based multi-agent flow | single-agent tool-call connection works before handoff flow |
+| LLM independence | Conceptually strong | gateway/model policy can switch models without changing agent code |
+| Storage abstraction | Strong enough for local/S3-compatible reads | read tool can wrap one `StorageSupportable` without leaking backend details |
+| Traceability | Strong enough in principle | read and LLM calls produce separate trace events and failure classes |
+
+The prototype should be considered failed if it requires:
+
+- a provider thread ID as workflow state;
+- direct filesystem calls inside `SummaryAgent`;
+- source or index mutation;
+- untyped model output;
+- a freeform agent-to-agent message to explain what happened;
+- a feasibility report that cannot separate tool failure from model failure.
+
 ## Dependencies
 
 - [Storage And Indexing Contract](../stores/storage-indexing-contract.md)
 - [Common Contracts And IDs](../contracts/common-contracts.md)
 - [LLM Gateway Contract](../tools/llm-gateway-contract.md)
+- [Agent Superclass Contract](../../architecture/agent-superclass-contract.md)
+- [Agent Tool Pool](../../architecture/agent-tool-pool.md)
+- [Agent Connection Model](../../architecture/agent-connection-model.md)
+
+## Superclass Alignment
+
+`SummaryAgent` should validate the shared agent architecture, not bypass it.
+
+Runtime-mode tests should map it to the common contract:
+
+| Contract field | Value |
+| --- | --- |
+| `stage` | `prototype` |
+| `agent_id` | `summary_agent` |
+| output artifact | `summary_proof_result` |
+| feasibility artifact | `summary_feasibility_report` |
+| required ports | `summary.read`, `llm.summarize`, `schema.validate`, `artifact.write`, `audit.trace` |
+| optional ports | `llm.describe_capabilities`, `artifact.read` |
+| forbidden ports | `source.write`, `index.write_projection`, `memory.write`, `curation.decide` |
+| normal handoff | none |
+
+Direct constructor dependencies are acceptable for unit tests.
+
+Runtime-mode prototype tests should use `ToolPortRegistry` so permission checks, trace hooks, and side-effect levels are exercised.
 
 ## Public Interface
 
@@ -108,6 +154,8 @@ import type {
   LlmGateway,
   LlmModelInfo,
   LlmModelPolicy,
+  LlmSummaryRequest,
+  LlmSummaryResponse,
   LlmTraceContext
 } from "../tools/llm-gateway-contract";
 
@@ -139,6 +187,46 @@ export interface SummaryAgent {
 }
 ```
 
+## Runtime Tool Registry Shape
+
+The prototype can be tested in two modes.
+
+Unit mode:
+
+- inject `SummaryReadTool`;
+- inject `LlmGateway`;
+- assert decode, validation, and result shaping.
+
+Runtime mode:
+
+- call tools through the superclass `ToolPortRegistry`;
+- enforce allowed ports;
+- record trace events;
+- write artifacts through `artifact.write`.
+
+Recommended runtime port calls:
+
+```ts
+const readResult = await ports.call<
+  SummaryReadRequest,
+  SummaryReadResult
+>("summary.read", { path: input.path });
+
+const llmResult = await ports.call<
+  SummaryLlmRequest,
+  SummaryLlmResponse
+>("llm.summarize", {
+  inputText,
+  inputRefs,
+  purpose: "summaryAgentPrototype",
+  maxSummaryChars: input.maxSummaryChars,
+  languageHint: input.languageHint,
+  modelPolicy
+});
+```
+
+The direct `readTool` and `llmGateway` interfaces remain useful because a concrete `ToolPortRegistry` adapter can delegate to them.
+
 ## TypeScript Types
 
 ```ts
@@ -159,6 +247,13 @@ export interface SummaryReadResult<
   data: TStorageData;
   meta: TStorageMeta;
 }
+
+export interface SummaryReadRequest {
+  path: StoragePath;
+}
+
+export type SummaryLlmRequest = LlmSummaryRequest;
+export type SummaryLlmResponse = LlmSummaryResponse;
 
 export interface SummarizePathInput {
   schemaVersion: SchemaVersion;

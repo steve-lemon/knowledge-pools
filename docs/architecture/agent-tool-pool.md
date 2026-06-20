@@ -33,7 +33,7 @@ The first implementation can use:
 - JSON files for records, traces, and run workspaces;
 - deterministic parsers and validators;
 - optional OpenSearch for projection search;
-- optional model adapter for structured extraction;
+- optional LLM gateway adapter for structured extraction;
 - explicit orchestrator permission checks.
 
 The tool pool should be read as a port catalog, not a mandate to implement every port immediately.
@@ -43,7 +43,7 @@ The tool pool should be read as a port catalog, not a mandate to implement every
 | Tier | Meaning | Examples |
 | --- | --- | --- |
 | V1 required | Needed for the first local implementation path | source read, artifact read/write, schema validation, candidate emit, audit trace |
-| V1 optional | Useful in v1 when available, but not required to prove the architecture | model adapter, OpenSearch projection search, taxonomy classify |
+| V1 optional | Useful in v1 when available, but not required to prove the architecture | LLM gateway adapter, OpenSearch projection search, taxonomy classify |
 | Deferred | Needed for scale, governance, or later stages | durable memory write, rollback, deletion, graph traversal, evaluation reports |
 
 ## V1 Implementable Port Set
@@ -81,7 +81,9 @@ Optional V1 ports:
 | `record.search` | Search local JSON records |
 | `retrieval.fetch_evidence` | Resolve refs and call `source.read` |
 | `retrieval.plan` | Deterministic planner over task type and constraints |
-| `model.complete` | Model adapter returning schema-validated JSON |
+| `llm.summarize` | Model gateway summary call used by `SummaryAgent` feasibility checks |
+| `llm.complete` | Model gateway returning schema-validated structured output |
+| `llm.describe_capabilities` | Return normalized model/provider capabilities when available |
 | `verification.check` | Deterministic grounding and freshness checks |
 | `evaluation.record` | Append evaluation JSON records |
 
@@ -137,6 +139,16 @@ Most agents should only have `read_only`, `derive`, or `propose` tools.
 Durable mutation should be limited to curation and accepted durable-update workflows.
 
 ## Common Tool Families
+
+### Prototype Tools
+
+| Port | Purpose | Side effect |
+| --- | --- | --- |
+| `summary.read` | Read one path through a `StorageSupportable`-backed adapter for `SummaryAgent` validation | `read_only` |
+
+Prototype tools exist to validate the architecture before a full stage tool is finalized.
+
+They should either graduate into a production tool family or remain explicitly scoped to prototype agents.
 
 ### Source Tools
 
@@ -197,7 +209,9 @@ Durable mutation should be limited to curation and accepted durable-update workf
 
 | Port | Purpose | Side effect |
 | --- | --- | --- |
-| `model.complete` | Produce structured model-assisted output | `derive` |
+| `llm.summarize` | Produce a bounded summary from bounded input text | `derive` |
+| `llm.complete` | Produce structured model-assisted output | `derive` |
+| `llm.describe_capabilities` | Describe normalized gateway/model capabilities | `read_only` |
 | `model.embed` | Produce embeddings where enabled | `derive` |
 | `reason.synthesize` | Create draft answers or plans from evidence | `derive` |
 | `verification.check` | Check grounding, freshness, contradiction, and policy constraints | `read_only` |
@@ -205,6 +219,12 @@ Durable mutation should be limited to curation and accepted durable-update workf
 Model tools are optional implementation details.
 
 They must not expose provider-specific chat state as durable system state.
+
+`model.complete` is a legacy architecture label.
+
+Implementation-near specs should use `llm.complete` behind `LlmGateway`.
+
+`SummaryAgent` should use `llm.summarize` and optionally `llm.describe_capabilities` to validate model feasibility without introducing private provider calls.
 
 ### Lifecycle and Governance Tools
 
@@ -227,12 +247,13 @@ The orchestrator should grant tools by stage, not by agent personality.
 
 | Stage | Default allowed tool families |
 | --- | --- |
+| `prototype` | summary read, schema validation, artifact write, audit trace, optional LLM gateway |
 | `ingest` | source, parsing/media, taxonomy read/classify, artifact, candidate emit, index projection |
-| `understand` | source read/locate, artifact read/write, taxonomy read/validate/classify, candidate emit, ambiguity emit, review request, model adapter |
-| `connect` | artifact read/write, record search, optional graph query, taxonomy read/validate, schema validate, candidate emit, ambiguity emit, review request, optional model adapter |
-| `plan` | retrieval plan, record search, index search metadata, schema validate, artifact write, optional graph query, optional preview lookup, optional model adapter |
+| `understand` | source read/locate, artifact read/write, taxonomy read/validate/classify, candidate emit, ambiguity emit, review request, optional LLM gateway |
+| `connect` | artifact read/write, record search, optional graph query, taxonomy read/validate, schema validate, candidate emit, ambiguity emit, review request, optional LLM gateway |
+| `plan` | retrieval plan, record search, index search metadata, schema validate, artifact write, optional graph query, optional preview lookup, optional LLM gateway |
 | `retrieve` | artifact read/write, schema validate, index search, record search, graph query, source locate/read, evidence fetch, optional preview lookup |
-| `reason` | artifact read/write, schema validate, optional bounded source read, model adapter, reason synthesize |
+| `reason` | artifact read/write, schema validate, optional bounded source read, optional LLM gateway, reason synthesize |
 | `verify` | artifact read/write, schema validate, taxonomy read/validate, verification check, optional evidence read, optional record/graph search, audit trace |
 | `update` | artifact read/write, schema validate, candidate emit, optional review request, optional taxonomy read/validate, optional record search, optional `curation.propose`, audit trace |
 | `curation` | artifact read/write, schema validate, curation decide, memory write, optional memory status update, optional taxonomy read/validate, optional record search, optional review request, optional rollback/delete events, audit trace |
@@ -276,6 +297,66 @@ Maximum side effect level:
 - ...
 ```
 
+## SummaryAgent Prototype Tool Set
+
+`SummaryAgent` is the first tool-pool validation agent.
+
+It exists to check whether a small agent can compose storage-backed reads and LLM gateway calls through stable ports.
+
+Required:
+
+- `summary.read`;
+- `llm.summarize`;
+- `schema.validate`;
+- `artifact.write`;
+- `audit.trace`.
+
+Optional:
+
+- `llm.describe_capabilities`;
+- `artifact.read`.
+
+Not allowed:
+
+- `source.write`;
+- `source.version`;
+- `index.write_projection`;
+- `index.deactivate_projection`;
+- `candidate.emit`;
+- `memory.write`;
+- `curation.decide`;
+- `source.tombstone`;
+- `delete.create_tombstone`;
+- `rollback.create_event`.
+
+Maximum side effect level:
+
+- `derive`.
+
+The `summary.read` port may be backed by one `StorageSupportable`.
+
+The agent should not call `StorageSupportable` directly in runtime-mode tests. Direct dependency injection is allowed only for unit-level adapter tests.
+
+Tool-call sequence:
+
+```text
+schema.validate(task.input)
+  -> summary.read(path)
+  -> llm.summarize(bounded_text, model_policy)
+  -> schema.validate(summary_result)
+  -> artifact.write(summary_proof_result or summary_feasibility_report)
+  -> audit.trace(...)
+```
+
+This sequence validates:
+
+- tool permission checks;
+- read-tool boundary;
+- LLM gateway boundary;
+- output schema validation;
+- artifact write behavior;
+- trace completeness.
+
 ## Understand Stage Tool Set
 
 The first `understand` implementation should use a narrow tool set.
@@ -299,7 +380,7 @@ Required:
 Optional:
 
 - `taxonomy.classify`;
-- `model.complete`;
+- `llm.complete`;
 - `parse.document` for structural re-checks;
 - `retrieval.fetch_evidence` when access-unit refs need exact text or media spans.
 
@@ -334,7 +415,7 @@ Optional:
 
 - `graph.query`;
 - `taxonomy.read`;
-- `model.complete`;
+- `llm.complete`;
 - `artifact.read`;
 - `preview.lookup`.
 
@@ -407,7 +488,7 @@ Required:
 Optional:
 
 - `source.read`;
-- `model.complete`;
+- `llm.complete`;
 - `reason.synthesize`;
 - `record.search`.
 

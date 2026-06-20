@@ -111,6 +111,7 @@ These types are the v1 implementation target. They are intentionally plain TypeS
 
 ```ts
 export type StageName =
+  | "prototype"
   | "ingest"
   | "understand"
   | "connect"
@@ -123,6 +124,7 @@ export type StageName =
   | "evaluate";
 
 export type AgentName =
+  | "summary_agent"
   | "ingestion_agent"
   | "understanding_agent"
   | "connection_agent"
@@ -135,6 +137,8 @@ export type AgentName =
   | "evaluation_agent";
 
 export type ArtifactType =
+  | "summary_proof_result"
+  | "summary_feasibility_report"
   | "ingest_artifact"
   | "understanding_artifact"
   | "connection_artifact"
@@ -351,6 +355,62 @@ export interface ToolPortRegistry {
   ): Promise<TResponse>;
 }
 ```
+
+## Prototype Agent Rule
+
+Prototype agents are not production stages, but they must still use the same superclass contract.
+
+`SummaryAgent` is the first prototype agent.
+
+Its job is to validate whether the shared agent, tool, gateway, artifact, validation, and trace contracts are usable before the full stage agents are implemented.
+
+Prototype agents must:
+
+- use `stage: "prototype"`;
+- declare an `agent_id`;
+- declare required, optional, and forbidden tool ports;
+- receive a normal `AgentTask`;
+- receive a bounded `ContextEnvelope`;
+- call tools through `ToolPortRegistry` in runtime-mode tests;
+- emit typed artifacts;
+- emit trace refs;
+- avoid durable memory writes and index writes;
+- avoid normal stage handoffs unless a later spec explicitly introduces a prototype handoff.
+
+Prototype agents may:
+
+- use direct constructor dependencies in unit tests;
+- run model feasibility checks;
+- produce evaluation-only artifacts;
+- compare adapters or model policies.
+
+Prototype agents must not:
+
+- become a hidden shortcut around tool permission checks;
+- choose production model policy implicitly;
+- write results into OpenSearch-compatible projections;
+- mutate source records, memory records, or lifecycle records.
+
+## SummaryAgent Contract Fit
+
+`SummaryAgent` should be used to validate the superclass design itself.
+
+Expected mapping:
+
+| Contract field | SummaryAgent value |
+| --- | --- |
+| `stage` | `prototype` |
+| `agent_id` | `summary_agent` |
+| output artifact | `summary_proof_result` |
+| feasibility artifact | `summary_feasibility_report` |
+| required ports | `summary.read`, `llm.summarize`, `schema.validate`, `artifact.write`, `audit.trace` |
+| optional ports | `llm.describe_capabilities`, `artifact.read` |
+| forbidden ports | `source.write`, `index.write_projection`, `memory.write`, `curation.decide` |
+| handoff | none by default |
+
+The design is sufficient only if `SummaryAgent` can run without adding private runtime concepts outside `AgentTask`, `ContextEnvelope`, `ToolPortRegistry`, `Artifact`, `ValidationSummary`, and `TraceEvent`.
+
+If `SummaryAgent` needs a new primitive, update the superclass contract before treating that primitive as agent-specific.
 
 ## Stage-Specific Handoff Payloads
 
