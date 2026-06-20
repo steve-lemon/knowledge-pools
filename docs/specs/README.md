@@ -98,3 +98,5 @@ Start with [Storage And Indexing Contract](stores/storage-indexing-contract.md).
 This spec must shape the common ID and ref policy that follows.
 
 Then continue with [Common Contracts And IDs](contracts/common-contracts.md).
+
+The next P0 store spec is [Local Store Layout](stores/local-store-layout.md).

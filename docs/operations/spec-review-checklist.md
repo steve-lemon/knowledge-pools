@@ -150,18 +150,18 @@ Priority: P0.
 
 Reason: Markdown-first validation needs a concrete local place for sources, versions, manifests, artifacts, traces, projections, and fixtures before command behavior can be specified.
 
-- [ ] Define local data root and configurable path behavior.
-- [ ] Define source storage layout.
-- [ ] Define source version layout.
-- [ ] Define manifest storage layout.
-- [ ] Define artifact storage layout by stage.
-- [ ] Define run/session/task storage layout.
-- [ ] Define append-only trace storage layout.
-- [ ] Define taxonomy bundle storage layout.
-- [ ] Define OpenSearch-compatible local projection storage layout.
-- [ ] Define fixture and expected-output storage layout.
-- [ ] Define read/write/overwrite policy for each store.
-- [ ] Define cleanup, quarantine, tombstone, and restore behavior where relevant.
+- [x] Define local data root and configurable path behavior.
+- [x] Define source storage layout.
+- [x] Define source version layout.
+- [x] Define manifest storage layout.
+- [x] Define artifact storage layout by stage.
+- [x] Define run/session/task storage layout.
+- [x] Define append-only trace storage layout.
+- [x] Define taxonomy bundle storage layout.
+- [x] Define OpenSearch-compatible local projection storage layout.
+- [x] Define fixture and expected-output storage layout.
+- [x] Define read/write/overwrite policy for each store.
+- [x] Define cleanup, quarantine, tombstone, and restore behavior where relevant.
 
 Completion artifact target:
 
@@ -526,9 +526,9 @@ Completion artifact targets:
 Start with:
 
 ```text
-3. Local Store Layout
+4. CLI Command Contracts
 ```
 
 Reason:
 
-Storage/indexing and common ID/ref contracts are now defined. The next step is to define the concrete local layout that implements those contracts for Markdown-first validation.
+Storage/indexing, common ID/ref contracts, and the local store layout are now defined. The next step is to define the command contracts that exercise the Markdown-first flow against those stores.
