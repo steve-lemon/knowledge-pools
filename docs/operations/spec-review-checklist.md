@@ -198,7 +198,7 @@ Completion artifact target:
 
 Priority: P0.
 
-Reason: before defining the full tool pool, validate a small `SummaryAgent` that connects to a simple storage-backed read tool and summarizes the read data.
+Reason: before defining the full tool pool, validate a small `SummaryAgent` that connects to a simple storage-backed read tool, summarizes the read data, and checks whether the agent-tool-LLM abstraction is feasible across models.
 
 - [x] Define provider-independent `LlmGateway`.
 - [x] Define `summarize` operation for the `SummaryAgent` prototype.
@@ -213,6 +213,9 @@ Reason: before defining the full tool pool, validate a small `SummaryAgent` that
 - [x] Define summary proof result payload.
 - [x] Define validation and failure behavior.
 - [x] Confirm provider SDKs do not leak into the prototype agent.
+- [x] Define model-policy feasibility cases for `SummaryAgent`.
+- [x] Define tool-call and LLM-call reports separately.
+- [x] Define feasibility dimensions for model comparison.
 
 Completion artifact targets:
 
@@ -558,4 +561,4 @@ Start with:
 
 Reason:
 
-Storage/indexing, common ID/ref contracts, local store layout, CLI command contracts, LLM gateway boundary, and the first one-storage `SummaryAgent` prototype are now defined. The next step is to define the remaining provider-independent tool ports that commands and agents may call.
+Storage/indexing, common ID/ref contracts, local store layout, CLI command contracts, LLM gateway boundary, and the first one-storage `SummaryAgent` prototype/feasibility harness are now defined. The next step is to define the remaining provider-independent tool ports that commands and agents may call.

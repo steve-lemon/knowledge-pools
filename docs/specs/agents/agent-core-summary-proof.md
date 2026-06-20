@@ -6,12 +6,18 @@ It combines one `StorageSupportable`-backed read tool with one `LlmGateway`.
 
 `SummaryAgent` reads a path through a storage-backed tool and returns a summary result.
 
+The prototype is also the first feasibility harness for checking whether the abstraction level is right before building the full agent and tool system.
+
 ## Purpose
 
 Validate the smallest useful agent-tool connection before implementing the broader tool pool.
 
 This proves:
 
+- whether an agent should call a domain tool or a storage adapter directly;
+- whether tool calls compose cleanly with LLM calls;
+- whether the handoff between tool output and model input is explicit enough;
+- whether each LLM model can reliably perform the same bounded summary task;
 - storage adapter compatibility;
 - byte-to-text conversion for Markdown-first input;
 - optional common LLM gateway usage;
@@ -25,6 +31,8 @@ The prototype covers Markdown, text, and JSON-compatible content that can be dec
 The input is one storage path.
 
 The output is a summary result payload.
+
+The same prototype may be repeated across multiple gateway adapters or model policies to compare feasibility.
 
 ## Non-Goals
 
@@ -55,6 +63,25 @@ The prototype agent must not know which storage backend or LLM provider is used.
 
 The LLM gateway must not know how storage is implemented.
 
+## Abstraction Levels Under Review
+
+`SummaryAgent` is intentionally small so the project can inspect the boundaries before locking the broader tool pool.
+
+| Level | Prototype object | Owns | Must not own | Question being tested |
+| --- | --- | --- | --- | --- |
+| Agent | `SummaryAgent` | task flow, validation, result shaping | raw filesystem IO, provider SDK calls | Is the agent boundary small and readable? |
+| Tool | `SummaryReadTool` | path-based read operation, storage error normalization | summary policy, model calls | Is `tool.read(path)` enough for first agent-tool coupling? |
+| Store | `StorageSupportable` | actual read/describe behavior | model input construction | Can local and S3-compatible stores stay interchangeable? |
+| Gateway | `LlmGateway` | model call, provider normalization | storage access, durable memory | Can multiple models be swapped without changing the agent? |
+| Evaluation | `SummaryFeasibilityReport` | compare tool and model behavior | production ranking policy | Which models/adapters are feasible for this task? |
+
+Design pressure to watch:
+
+- if `SummaryAgent` needs provider-specific fields, the gateway is too thin;
+- if `SummaryAgent` needs filesystem or S3 details, the read tool is too thin;
+- if `SummaryReadTool` needs prompt or summary policy, the tool is too broad;
+- if feasibility cannot be compared across models, the result metadata is too weak.
+
 ## Dependencies
 
 - [Storage And Indexing Contract](../stores/storage-indexing-contract.md)
@@ -80,6 +107,7 @@ import type {
 import type {
   LlmGateway,
   LlmModelInfo,
+  LlmModelPolicy,
   LlmTraceContext
 } from "../tools/llm-gateway-contract";
 
@@ -104,6 +132,10 @@ export interface SummaryAgent {
   summarizePath(
     input: SummarizePathInput
   ): Promise<Result<SummaryProofResult>>;
+
+  evaluateFeasibility?(
+    input: SummarizePathFeasibilityInput
+  ): Promise<Result<SummaryFeasibilityReport>>;
 }
 ```
 
@@ -141,6 +173,26 @@ export interface SummarizePathInput {
   trace?: LlmTraceContext;
 }
 
+export interface SummarizePathFeasibilityInput {
+  schemaVersion: SchemaVersion;
+  proofId: SummaryProofId;
+  path: StoragePath;
+  modelPolicies: SummaryModelPolicyCase[];
+  sourceRef?: RefString;
+  mediaHint?: MediaHint;
+  encoding?: "utf8";
+  maxInputChars?: number;
+  maxSummaryChars?: number;
+  languageHint?: string;
+  trace?: LlmTraceContext;
+}
+
+export interface SummaryModelPolicyCase {
+  caseId: string;
+  label: string;
+  modelPolicy?: LlmModelPolicy;
+}
+
 export interface SummaryProofResult {
   schemaVersion: SchemaVersion;
   proofId: SummaryProofId;
@@ -166,6 +218,59 @@ export interface SummaryProofSummary {
   outputRefs: RefString[];
   modelInfo: LlmModelInfo;
 }
+
+export interface SummaryToolCallReport {
+  toolName: "summary.read";
+  path: StoragePath;
+  storageProvider?: string;
+  byteSize?: number;
+  durationMs?: number;
+  succeeded: boolean;
+  errorCode?: string;
+}
+
+export interface SummaryLlmCallReport {
+  caseId: string;
+  label: string;
+  modelInfo?: LlmModelInfo;
+  durationMs?: number;
+  inputCharSize: number;
+  outputCharSize?: number;
+  succeeded: boolean;
+  errorCode?: string;
+}
+
+export interface SummaryFeasibilityScore {
+  schemaValid: boolean;
+  nonEmptySummary: boolean;
+  withinLengthLimit: boolean;
+  preservesSourceLanguage?: boolean;
+  avoidsUnsupportedClaims?: boolean;
+  deterministicEnough?: boolean;
+  notes?: string[];
+}
+
+export interface SummaryFeasibilityCaseResult {
+  caseId: string;
+  label: string;
+  result?: SummaryProofResult;
+  llmCall: SummaryLlmCallReport;
+  score: SummaryFeasibilityScore;
+}
+
+export interface SummaryFeasibilityReport {
+  schemaVersion: SchemaVersion;
+  proofId: SummaryProofId;
+  path: StoragePath;
+  sourceRef?: RefString;
+  mediaHint?: MediaHint;
+  input: SummaryProofInputMeta;
+  readCall: SummaryToolCallReport;
+  cases: SummaryFeasibilityCaseResult[];
+  recommendedCaseId?: string;
+  validation: ValidationSummary;
+  createdAt: string;
+}
 ```
 
 ## Required Prototype Algorithm
@@ -182,6 +287,28 @@ export interface SummaryProofSummary {
 7. Call `llmGateway.summarize`.
 8. Validate that the gateway response contains non-empty `summaryText`.
 9. Return `SummaryProofResult`.
+
+## Feasibility Evaluation Algorithm
+
+`evaluateFeasibility` is optional, but it is the preferred way to use this prototype when comparing LLM models.
+
+1. Read and decode the input once through `readTool.read(path)`.
+2. Build a shared bounded text body and shared `inputRefs`.
+3. For each `SummaryModelPolicyCase`:
+   - call `llmGateway.summarize` with the case-specific `modelPolicy`;
+   - record model metadata, duration, usage, success, and normalized error;
+   - validate the summary against the same rules;
+   - produce a `SummaryFeasibilityCaseResult`.
+4. Select `recommendedCaseId` only when the selection rule is explicit.
+5. Return `SummaryFeasibilityReport`.
+
+The prototype should never select a production model implicitly.
+
+Feasibility checks answer only:
+
+- can this model complete the requested shape?
+- is the output valid enough for this agent-tool pattern?
+- what limitations or adapter issues appeared?
 
 ## Minimal Read Tool
 
@@ -205,6 +332,42 @@ export class StorageSummaryReadTool<
   }
 }
 ```
+
+## LLM Gateway Coupling
+
+`SummaryAgent` should make the LLM call only after the read tool has returned explicit data and metadata.
+
+The gateway request should include:
+
+- bounded `inputText`;
+- `inputRefs`, preferably source/version refs when available;
+- `inputContentHash` when available;
+- `purpose: "summaryAgentPrototype"`;
+- `maxSummaryChars`;
+- `languageHint`;
+- case-specific `modelPolicy` when evaluating feasibility.
+
+The gateway response should be treated as untrusted until validated.
+
+The agent should not pass raw provider request options except through `LlmModelPolicy`.
+
+## Model Feasibility Dimensions
+
+Each model or adapter should be assessed on these dimensions.
+
+| Dimension | Question | Evidence |
+| --- | --- | --- |
+| Adapter fit | Can the gateway call the model without provider-specific leakage? | `modelInfo`, normalized errors |
+| Schema fit | Does the response satisfy `LlmSummaryResponse`? | validation summary |
+| Summary usefulness | Is the summary non-empty, bounded, and relevant? | score flags and reviewer notes |
+| Language fit | Does it preserve or follow the requested language? | `preservesSourceLanguage` |
+| Grounding discipline | Does it avoid claims not present in input? | `avoidsUnsupportedClaims` |
+| Stability | Is repeated output stable enough for fixtures? | `deterministicEnough` |
+| Cost/latency shape | Is the call acceptable for prototype use? | usage and duration metadata |
+
+This report is not a benchmark suite.
+
+It is a feasibility check for whether the agent-tool-gateway abstraction works cleanly.
 
 ## Input Contracts
 
@@ -238,6 +401,10 @@ It must not include:
 - unrelated source content;
 - OpenSearch projection fields.
 
+`SummaryFeasibilityReport` must not be written to the index.
+
+It is a prototype/evaluation artifact only.
+
 ## Failure Modes
 
 | Failure | Required behavior |
@@ -256,7 +423,10 @@ The implementation should emit or allow the caller to emit:
 
 - `summary_proof.started`;
 - `summary_read_tool.read.requested`;
+- `summary_read_tool.read.completed`;
 - `llm.summary.requested`;
+- `llm.summary.completed`;
+- `summary_feasibility.case_completed`;
 - `summary_proof.completed`;
 - `summary_proof.failed`.
 
@@ -274,12 +444,23 @@ Minimum fixtures:
 
 Expected outputs should use `MockLlmGateway` so the result is deterministic.
 
+Feasibility fixtures:
+
+- one mock model case that succeeds;
+- one no-op or disabled model case that fails cleanly;
+- one oversized input case that verifies bounded input behavior;
+- one language-hint case.
+
 ## Acceptance Criteria
 
 - `SummaryAgent` can run with one local `StorageSupportable<Buffer>` through one read tool and one `MockLlmGateway`.
 - The same prototype can later run with S3-compatible storage without changing `SummaryAgent`.
 - `SummaryAgent` does not import provider SDKs.
 - The gateway does not import storage adapters.
+- `SummaryAgent` can compare multiple model policies without changing the read tool.
+- tool call reports and LLM call reports are separate.
+- feasibility reports clearly distinguish tool failures from model failures.
+- feasibility reports are prototype/evaluation artifacts, not production model selection records.
 - The result payload is usable as a future preview or understanding input, but does not claim durable knowledge.
 - Code-facing types use `camelCase`; persisted examples use `snake_case`.
 

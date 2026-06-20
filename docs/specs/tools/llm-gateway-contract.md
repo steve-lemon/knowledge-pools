@@ -11,6 +11,7 @@ When an agent needs model behavior, it should call `LlmGateway`, and provider-sp
 Define a provider-independent gateway shape for:
 
 - summary generation in the `SummaryAgent` prototype;
+- model feasibility checks across multiple gateway adapters or model policies;
 - structured completion when needed later;
 - deterministic mock behavior for core agent tests;
 - model usage, provenance, validation, and trace metadata.
@@ -20,6 +21,8 @@ Define a provider-independent gateway shape for:
 This spec covers the first `SummaryAgent` prototype and later Markdown-first validation.
 
 The first prototype behavior is summary generation from text already read from storage.
+
+The gateway contract should make it possible to run the same `SummaryAgent` scenario against multiple LLM models without changing the agent or read tool.
 
 ## Non-Goals
 
@@ -68,6 +71,7 @@ export interface LlmGateway {
   complete?<TOutput = unknown>(
     request: LlmCompleteRequest
   ): Promise<Result<LlmCompleteResponse<TOutput>>>;
+  describeCapabilities?(): Promise<Result<LlmGatewayCapabilities>>;
 }
 ```
 
@@ -85,6 +89,7 @@ export type LlmRequestId = string;
 
 export type LlmSummaryPurpose =
   | "preview"
+  | "summaryAgentPrototype"
   | "agentCoreProof"
   | "evidenceTriage"
   | "questionUnderstanding";
@@ -102,6 +107,8 @@ export interface LlmModelPolicy {
   maxOutputTokens?: number;
   temperature?: number;
   responseFormat?: "text" | "json";
+  timeoutMs?: number;
+  seed?: number;
 }
 
 export interface LlmSummaryRequest {
@@ -140,6 +147,29 @@ export interface LlmUsage {
   outputTokens?: number;
   totalTokens?: number;
   estimated?: boolean;
+}
+
+export interface LlmGatewayCapabilities {
+  gatewayId: LlmGatewayId;
+  adapterVersion: string;
+  providers: LlmProviderCapabilities[];
+  defaultProviderId?: LlmProviderId;
+  defaultModelId?: LlmModelId;
+}
+
+export interface LlmProviderCapabilities {
+  providerId: LlmProviderId;
+  models: LlmModelCapabilities[];
+}
+
+export interface LlmModelCapabilities {
+  modelId: LlmModelId;
+  supportsSummary: boolean;
+  supportsStructuredOutput?: boolean;
+  supportsJsonMode?: boolean;
+  supportsSeed?: boolean;
+  maxInputTokens?: number;
+  maxOutputTokens?: number;
 }
 
 export interface LlmCompleteRequest {
@@ -205,11 +235,33 @@ P1 may add:
 - provider-specific gateway adapters;
 - local model gateway adapters.
 
+## Feasibility Support
+
+The gateway should support model feasibility checks without leaking provider SDK details.
+
+For `SummaryAgent`, feasibility means the same bounded input can be sent to different `LlmModelPolicy` cases and compared through normalized results.
+
+Gateway adapters should expose:
+
+- model identity through `modelInfo`;
+- usage information when available;
+- timeout and provider errors through normalized `Result` errors;
+- optional capabilities through `describeCapabilities`;
+- deterministic settings such as `seed` only when the model supports them.
+
+Adapters must not expose:
+
+- raw provider response objects;
+- provider-specific request options outside `LlmModelPolicy`;
+- hidden conversation or session state;
+- unbounded source content in trace records.
+
 ## Validation Rules
 
 - `inputText` must be non-empty after trimming.
 - `inputText` must be bounded by caller policy before gateway invocation.
 - `inputRefs` must include at least one resolvable source, artifact, or access-unit ref.
+- `purpose` must describe why the model is being called.
 - `summaryText` must be non-empty after trimming.
 - `summaryText` must not exceed `maxSummaryChars` when that value is provided.
 - `outputRefs` must not introduce refs unrelated to `inputRefs` unless the agent explicitly allows derived artifact refs.
@@ -226,6 +278,7 @@ P1 may add:
 | provider timeout | return typed timeout error with retry hint |
 | invalid response | return typed validation error |
 | model disabled | return typed unsupported capability error |
+| unsupported model policy | return typed unsupported policy error |
 
 ## Trace Events
 
@@ -235,6 +288,12 @@ Every gateway call should produce or allow the caller to produce:
 - `llm.completed`;
 - `llm.failed`.
 
+Feasibility runs may additionally produce:
+
+- `llm.capabilities.described`;
+- `llm.feasibility.case_started`;
+- `llm.feasibility.case_completed`;
+
 Trace records must include refs and metadata, not full source content.
 
 ## Acceptance Criteria
@@ -242,10 +301,12 @@ Trace records must include refs and metadata, not full source content.
 - Agents can depend on `LlmGateway` without importing provider SDKs.
 - A deterministic mock gateway can validate agent core behavior without network access.
 - The `SummaryAgent` prototype can test summary generation with one `StorageSupportable` and one `LlmGateway`.
+- The same prototype can run multiple model policies and compare normalized outputs.
 - Provider-specific adapter fields do not leak into agent-facing TypeScript types.
 - Persisted records follow `snake_case`; code-facing types follow `camelCase`.
 
 ## Open Questions
 
 - Whether structured completion should remain optional or become a separate `StructuredLlmGateway`.
+- Whether model feasibility reports should live under agent artifacts, evaluation artifacts, or a separate prototype artifact namespace.
 - Whether prompt templates deserve a separate spec after the `SummaryAgent` prototype.
