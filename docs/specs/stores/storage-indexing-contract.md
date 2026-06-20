@@ -107,6 +107,175 @@ The source object store must not:
 - require loading full large sources into model context;
 - depend on OpenSearch to reconstruct evidence.
 
+## StorageSupportable Interface
+
+All object-like storage adapters should implement the same minimal interface.
+
+This keeps local filesystem and S3-compatible storage interchangeable.
+
+The interface is intentionally small:
+
+```ts
+export interface StorageSupportable {
+  read(path: StoragePath): Promise<Buffer>;
+  save(path: StoragePath, buffer: Buffer, meta?: StorageObjectMetaInput): Promise<StorageObjectMeta>;
+  describe(path: StoragePath): Promise<StorageObjectMeta>;
+}
+```
+
+`Buffer` is the canonical transport type.
+
+Markdown, text, and JSON can be converted from or to UTF-8 strings at the caller boundary:
+
+```ts
+const markdown = (await storage.read(path)).toString("utf8");
+await storage.save(path, Buffer.from(JSON.stringify(payload, null, 2), "utf8"), meta);
+```
+
+The storage adapter should not parse Markdown, JSON, PDF, image, audio, or video.
+
+Parsing belongs to tool ports such as `parse.document` or `parse.media`.
+
+### StoragePath
+
+`StoragePath` is a logical object path, not necessarily a local absolute path.
+
+```ts
+export type StoragePath = string;
+```
+
+Allowed examples:
+
+```text
+knowledge/sources/src_001/versions/srcv_md_sha256_ab12/original.md
+s3://bucket/repository/sources/src_001/versions/srcv_md_sha256_ab12/original.md
+```
+
+Rules:
+
+- callers should pass repository-scoped logical paths;
+- local adapters may map logical paths to local filesystem paths;
+- S3-compatible adapters may map logical paths to bucket keys;
+- path traversal such as `../` must be rejected by local adapters;
+- adapter-specific credentials, bucket names, and roots belong to adapter configuration, not artifact payloads.
+
+### StorageObjectMetaInput
+
+`meta` on `save` is optional because some objects can be described from bytes and path alone.
+
+When provided, it should be treated as caller-provided metadata, not as proof of storage state.
+
+```ts
+export interface StorageObjectMetaInput {
+  media_type?: string;
+  media_hint?: string;
+  encoding?: "utf8" | "binary" | "base64";
+  content_hash?: string;
+  byte_size?: number;
+  source_id?: string;
+  source_version_id?: string;
+  artifact_id?: string;
+  schema_version?: string;
+  created_by?: string;
+  tags?: string[];
+  attributes?: TypedAttribute[];
+}
+```
+
+Adapters may ignore fields that the backing store cannot persist, but `describe` must still return storage-observed metadata.
+
+### StorageObjectMeta
+
+`describe(path)` returns observed object metadata.
+
+```ts
+export interface StorageObjectMeta {
+  path: StoragePath;
+  exists: boolean;
+  byte_size: number;
+  content_hash?: string;
+  hash_algorithm?: "sha256";
+  media_type?: string;
+  media_hint?: string;
+  encoding?: "utf8" | "binary" | "base64";
+  etag?: string;
+  version_id?: string;
+  last_modified?: string;
+  created_at?: string;
+  updated_at?: string;
+  storage_provider: "local" | "s3_compatible";
+  storage_class?: string;
+  user_meta?: Record<string, string>;
+}
+```
+
+For local storage:
+
+- `etag` may be omitted;
+- `version_id` may be omitted;
+- `last_modified` should come from filesystem metadata where available.
+
+For S3-compatible storage:
+
+- `etag` may not equal SHA-256;
+- `version_id` may be present only when bucket versioning is enabled;
+- caller code must not treat provider `version_id` as `source_version_id`.
+
+### Save Behavior
+
+`save(path, buffer, meta?)` writes bytes.
+
+Rules:
+
+- `buffer` is the source of truth for stored bytes;
+- `content_hash`, when provided in `meta`, must be verified or recomputed by higher-level source-version logic;
+- storage adapters may return observed hash metadata when they compute it;
+- overwriting an existing path is allowed only for mutable locations such as temporary artifacts or current pointers;
+- immutable source-version paths must be written once by policy above this adapter;
+- `save` must return metadata for the stored object.
+
+### Read Behavior
+
+`read(path)` returns full bytes for the object at the path.
+
+Rules:
+
+- `read` does not parse content;
+- `read` does not validate source version;
+- `read` does not apply access-unit slicing by itself;
+- bounded evidence fetch may call `read` and then apply manifest locators, or a later range-capable extension may add a specialized method.
+
+The P0 interface intentionally does not include range reads.
+
+Large-file and media range access should be introduced later as an extension, not by complicating the first adapter.
+
+### Describe Behavior
+
+`describe(path)` must not read the full object body when metadata APIs are available.
+
+Rules:
+
+- local adapters may use filesystem stat plus optional sidecar metadata;
+- S3-compatible adapters may use `HEAD Object`;
+- `describe` should report `exists = false` only when the object is confirmed missing;
+- permission failures should return a typed error, not `exists = false`.
+
+## Storage Adapter Roles
+
+`StorageSupportable` can back multiple higher-level stores.
+
+| Higher-level store | Uses `StorageSupportable` for | Additional policy above adapter |
+| --- | --- | --- |
+| Source object store | original bytes, source manifests, derived previews | immutability, source-version hash policy |
+| Artifact store | JSON artifacts and handoffs | schema validation, artifact metadata |
+| Trace store | append-only trace segments | append discipline and run/task refs |
+| Taxonomy store | taxonomy bundles | schema version and compatibility checks |
+| Index projection fixture store | local JSON projection documents | OpenSearch mapping compatibility and content-minimal audit |
+
+The adapter should stay generic.
+
+Store-specific rules belong to the higher-level store modules.
+
 ## Source Version Contract
 
 `source_id` represents logical source identity.
@@ -459,6 +628,9 @@ The ID policy should be defined after this contract so IDs are shaped around sto
 
 Minimum validation:
 
+- `StorageSupportable.read` returns bytes for an existing object;
+- `StorageSupportable.save` returns observed metadata for written bytes;
+- `StorageSupportable.describe` returns metadata without requiring content parsing;
 - source hash matches stored bytes;
 - source version is immutable;
 - every source version has a manifest;
@@ -475,6 +647,9 @@ Minimum validation:
 | Failure | Required behavior |
 | --- | --- |
 | missing source object | block evidence fetch and emit validation failure |
+| storage permission failure | return typed permission error, not `exists = false` |
+| path traversal attempt | reject path before local filesystem access |
+| S3 `etag` treated as source hash | fail validation; source hash must be explicit SHA-256 |
 | hash mismatch | quarantine source version or block promotion |
 | missing manifest | block ingest-to-understand handoff |
 | unresolved access unit | block evidence bundle creation |
@@ -489,6 +664,8 @@ Minimum validation:
 This spec is ready when:
 
 - storage layers and ownership are clear;
+- `StorageSupportable` is defined for local and S3-compatible adapters;
+- buffer/string compatibility for Markdown and JSON is explicit;
 - source object store is confirmed as evidence source of truth;
 - OpenSearch-compatible index is confirmed as retrieval map only;
 - required projection fields are defined;
