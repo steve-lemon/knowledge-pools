@@ -1,11 +1,19 @@
 #!/usr/bin/env node
 import { randomUUID } from "node:crypto";
+import {
+  EvaluationAgent,
+  toEvaluationReportJson
+} from "../agents/evaluation-agent.js";
 import { SummaryAgent, toSummaryProofJson } from "../agents/summary-agent.js";
-import type { SummarizePathInput } from "../agents/summary-agent.js";
-import type { ContextEnvelope, AgentTask } from "../runtime/agent-contracts.js";
+import type {
+  SummarizePathInput,
+  SummaryProofResult
+} from "../agents/summary-agent.js";
+import type { AgentResult } from "../runtime/agent-contracts.js";
 import { InMemoryToolPortRegistry } from "../runtime/in-memory-tool-port-registry.js";
 import type { LogLevel, Logger } from "../runtime/logger.js";
 import { ConsoleLogger, noopLogger } from "../runtime/logger.js";
+import { PrototypeRuntimeOrchestrator } from "../runtime/prototype-runtime-orchestrator.js";
 import { MockLlmGateway, NoopLlmGateway } from "../tools/llm-gateway.js";
 import {
   DEFAULT_OPENAI_MODEL,
@@ -28,10 +36,16 @@ interface CliOptions {
   model?: string;
   logLevel: LogLevel;
   quiet: boolean;
+  evaluate: boolean;
 }
 
 function parseArgs(argv: string[]): CliOptions {
-  const options: CliOptions = { gateway: "mock", logLevel: "info", quiet: false };
+  const options: CliOptions = {
+    gateway: "mock",
+    logLevel: "info",
+    quiet: false,
+    evaluate: false
+  };
 
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index];
@@ -54,6 +68,8 @@ function parseArgs(argv: string[]): CliOptions {
       options.logLevel = parseLogLevel(argv[++index]);
     } else if (arg === "--quiet") {
       options.quiet = true;
+    } else if (arg === "--evaluate") {
+      options.evaluate = true;
     } else if (arg === "--help" || arg === "-h") {
       printHelp();
       process.exit(0);
@@ -81,6 +97,7 @@ Options:
   --max-summary-chars <n>   Limit mock summary length.
   --log-level <level>       debug|info|warn|error. Defaults to info.
   --quiet                   Disable execution verification logs.
+  --evaluate                Run a sample EvaluationAgent over the SummaryAgent result.
 
 Logs are written to stderr as inline lines. Result payload stays on stdout.
 `);
@@ -101,6 +118,8 @@ async function main(): Promise<void> {
   warnIfModelIsIgnored(options, logger);
   const llmGateway = createGateway(options);
   const agent = new SummaryAgent(logger);
+  const evaluationAgent = new EvaluationAgent(logger);
+  const orchestrator = new PrototypeRuntimeOrchestrator();
   const input: SummarizePathInput = {
     schemaVersion: "summary-agent-prototype/v1",
     proofId: `summary_${randomUUID()}`,
@@ -109,8 +128,14 @@ async function main(): Promise<void> {
     maxInputChars: options.maxInputChars,
     maxSummaryChars: options.maxSummaryChars
   };
-  const task = createTask(input, agent);
-  const context = createContext(task);
+  const task = orchestrator.createTask(input, agent, {
+    intent: "summarize_path",
+    constraints: {
+      allowModel: true,
+      maxToolCalls: 8
+    }
+  });
+  const context = orchestrator.createContext(task);
   const ports = new InMemoryToolPortRegistry(task.allowedToolPorts, logger);
   const artifactPort = createInMemoryArtifactWritePort();
   const auditPort = createInMemoryAuditTracePort();
@@ -121,7 +146,30 @@ async function main(): Promise<void> {
   ports.register("artifact.write", artifactPort.handler);
   ports.register("audit.trace", auditPort.handler);
 
-  const result = await agent.run(task, context, ports);
+  const dispatch = await orchestrator.dispatch(task, context, agent, ports);
+
+  if (!dispatch.ok) {
+    console.error(
+      JSON.stringify(
+        {
+          ok: false,
+          error: dispatch.error,
+          orchestrator: {
+            task_id: task.taskId,
+            run_id: task.runId,
+            stage: task.stage,
+            agent_id: task.agentId
+          }
+        },
+        null,
+        2
+      )
+    );
+    process.exitCode = 1;
+    return;
+  }
+
+  const result = dispatch.value.result;
 
   if (result.status === "failed" || !result.artifact) {
     console.error(
@@ -146,6 +194,34 @@ async function main(): Promise<void> {
     return;
   }
 
+  const evaluation = options.evaluate
+    ? await runEvaluation(orchestrator, evaluationAgent, result, logger)
+    : undefined;
+
+  if (evaluation && !evaluation.ok) {
+    console.error(
+      JSON.stringify(
+        {
+          ok: false,
+          errors: evaluation.errors,
+          summary_agent_result: {
+            task_id: result.taskId,
+            run_id: result.runId,
+            stage: result.stage,
+            agent_id: result.agentId,
+            status: result.status,
+            artifact_id: result.artifact.meta.id,
+            trace_refs: result.traceRefs
+          }
+        },
+        null,
+        2
+      )
+    );
+    process.exitCode = 1;
+    return;
+  }
+
   console.log(
     JSON.stringify(
       {
@@ -159,7 +235,8 @@ async function main(): Promise<void> {
           status: result.status,
           artifact_id: result.artifact.meta.id,
           trace_refs: result.traceRefs
-        }
+        },
+        evaluation: evaluation?.value
       },
       null,
       2
@@ -167,49 +244,70 @@ async function main(): Promise<void> {
   );
 }
 
-function createTask(
-  input: SummarizePathInput,
-  agent: SummaryAgent
-): AgentTask<SummarizePathInput> {
-  const runId = `run_${randomUUID()}`;
-  const taskId = `task_${randomUUID()}`;
-
-  return {
-    taskId,
-    runId,
-    stage: agent.stage,
-    agentId: agent.agentId,
-    intent: "summarize_path",
-    input,
-    contextRefs: [],
-    constraints: {
-      allowModel: true,
-      maxToolCalls: 8
-    },
-    allowedToolPorts: [...agent.tools.required, ...agent.tools.optional],
-    outputSchemaRef: agent.outputSchemaRef,
-    createdAt: new Date().toISOString()
+async function runEvaluation(
+  orchestrator: PrototypeRuntimeOrchestrator,
+  agent: EvaluationAgent,
+  summaryResult: AgentResult<SummaryProofResult>,
+  logger: Logger
+): Promise<
+  | { ok: true; value: unknown }
+  | { ok: false; errors: unknown[] }
+> {
+  const evaluationInput = {
+    schemaVersion: "evaluation-agent-prototype/v1",
+    evaluationId: `evaluation_${randomUUID()}`,
+    summaryAgentResult: summaryResult
   };
-}
+  const evaluationTask = orchestrator.createTask(evaluationInput, agent, {
+    intent: "evaluate_summary_run",
+    constraints: {
+      allowModel: false,
+      maxToolCalls: 4
+    }
+  });
+  const evaluationContext = orchestrator.createContext(evaluationTask);
+  const evaluationPorts = new InMemoryToolPortRegistry(
+    evaluationTask.allowedToolPorts,
+    logger
+  );
+  const evaluationArtifactPort = createInMemoryArtifactWritePort();
+  const evaluationAuditPort = createInMemoryAuditTracePort();
 
-function createContext(task: AgentTask<SummarizePathInput>): ContextEnvelope {
+  evaluationPorts.register("schema.validate", createSchemaValidatePort());
+  evaluationPorts.register("artifact.write", evaluationArtifactPort.handler);
+  evaluationPorts.register("audit.trace", evaluationAuditPort.handler);
+
+  const evaluationDispatch = await orchestrator.dispatch(
+    evaluationTask,
+    evaluationContext,
+    agent,
+    evaluationPorts
+  );
+
+  if (!evaluationDispatch.ok) {
+    return { ok: false, errors: [evaluationDispatch.error] };
+  }
+
+  const evaluationResult = evaluationDispatch.value.result;
+
+  if (evaluationResult.status === "failed" || !evaluationResult.artifact) {
+    return { ok: false, errors: evaluationResult.errors };
+  }
+
   return {
-    contextId: `context_${randomUUID()}`,
-    runId: task.runId,
-    sessionId: task.sessionId,
-    taskId: task.taskId,
-    stage: task.stage,
-    agentId: task.agentId,
-    purpose: "task_context",
-    artifactRefs: [],
-    sourceRefs: [],
-    evidenceRefs: [],
-    memoryRefs: [],
-    taxonomyRefs: [],
-    schemaRefs: [task.outputSchemaRef],
-    constraints: task.constraints,
-    excludedContext: [],
-    createdAt: new Date().toISOString()
+    ok: true,
+    value: {
+      value: toEvaluationReportJson(evaluationResult.artifact.payload),
+      agent_result: {
+        task_id: evaluationResult.taskId,
+        run_id: evaluationResult.runId,
+        stage: evaluationResult.stage,
+        agent_id: evaluationResult.agentId,
+        status: evaluationResult.status,
+        artifact_id: evaluationResult.artifact.meta.id,
+        trace_refs: evaluationResult.traceRefs
+      }
+    }
   };
 }
 

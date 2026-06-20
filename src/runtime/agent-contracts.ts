@@ -7,8 +7,11 @@ import type {
 } from "../contracts/common.js";
 
 export type StageName = "prototype";
-export type AgentName = "summary_agent";
-export type ArtifactType = "summary_proof_result" | "summary_feasibility_report";
+export type AgentName = "summary_agent" | "evaluation_agent";
+export type ArtifactType =
+  | "summary_proof_result"
+  | "summary_feasibility_report"
+  | "evaluation_report";
 
 export type AgentStatus =
   | "completed"

@@ -306,18 +306,18 @@ Priority: P1.
 
 Reason: runtime orchestration should be defined once P0 object and tool boundaries are known.
 
-- [ ] Define runtime module responsibilities.
-- [ ] Define orchestrator entry points.
-- [ ] Define session creation and lookup behavior.
-- [ ] Define run creation, status, and replay behavior.
-- [ ] Define task creation and dispatch behavior.
-- [ ] Define context envelope assembly rules.
-- [ ] Define tool grant enforcement.
-- [ ] Define artifact write and validation sequence.
-- [ ] Define handoff creation and validation sequence.
-- [ ] Define trace creation rules.
-- [ ] Define retry and partial-result policy.
-- [ ] Define failure propagation rules.
+- [x] Define runtime module responsibilities. See [Runtime And Orchestrator Contracts](../specs/modules/runtime-orchestrator.md).
+- [x] Define orchestrator entry points. See [Runtime And Orchestrator Contracts](../specs/modules/runtime-orchestrator.md).
+- [x] Define session creation and lookup behavior. See [Runtime And Orchestrator Contracts](../specs/modules/runtime-orchestrator.md).
+- [x] Define run creation, status, and replay behavior. See [Runtime And Orchestrator Contracts](../specs/modules/runtime-orchestrator.md).
+- [x] Define task creation and dispatch behavior. See [Runtime And Orchestrator Contracts](../specs/modules/runtime-orchestrator.md).
+- [x] Define context envelope assembly rules. See [Runtime And Orchestrator Contracts](../specs/modules/runtime-orchestrator.md).
+- [x] Define tool grant enforcement. See [Runtime And Orchestrator Contracts](../specs/modules/runtime-orchestrator.md).
+- [x] Define artifact write and validation sequence. See [Runtime And Orchestrator Contracts](../specs/modules/runtime-orchestrator.md).
+- [x] Define handoff creation and validation sequence. See [Runtime And Orchestrator Contracts](../specs/modules/runtime-orchestrator.md).
+- [x] Define trace creation rules. See [Runtime And Orchestrator Contracts](../specs/modules/runtime-orchestrator.md).
+- [x] Define retry and partial-result policy. See [Runtime And Orchestrator Contracts](../specs/modules/runtime-orchestrator.md).
+- [x] Define failure propagation rules. See [Runtime And Orchestrator Contracts](../specs/modules/runtime-orchestrator.md).
 
 Completion artifact target:
 
