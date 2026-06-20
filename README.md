@@ -4,6 +4,12 @@ Knowledge Pools is an agent-oriented knowledge repository designed to go beyond 
 
 The goal is not just to retrieve document chunks. The goal is to maintain a living knowledge system that can ingest sources, extract claims, connect evidence, reason across time, detect conflicts, and preserve reusable decisions.
 
+This repository is scoped as an implementation-near specification project.
+
+It should not grow into a broad runtime implementation yet.
+
+Prototype code is limited to `SummaryAgent`, which exists to validate the agent, tool, storage, and LLM gateway contracts.
+
 ## Core Direction
 
 - Treat knowledge as structured claims, decisions, concepts, procedures, and evidence.
@@ -24,6 +30,7 @@ The goal is not just to retrieve document chunks. The goal is to maintain a livi
 Core entry points:
 
 - [Vision](docs/vision.md)
+- [Project Purpose And Scope](docs/project-purpose-and-scope.md)
 - [Ultimate Knowledge Loop](docs/architecture/ultimate-loop.md)
 - [Terminology](docs/architecture/terminology.md)
 - [Implementation Specification Architecture](docs/architecture/implementation-spec-architecture.md)

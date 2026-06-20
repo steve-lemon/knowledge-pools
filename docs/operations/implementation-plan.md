@@ -6,6 +6,10 @@ Use [Work Context Packs](work-context-packs.md) to choose the smallest relevant 
 
 The current project mode is implementation-near specification, not broad runtime implementation.
 
+The project-wide scope is defined in [Project Purpose And Scope](../project-purpose-and-scope.md).
+
+Runtime sample code is limited to `SummaryAgent` unless that scope document changes.
+
 Use [Implementation-Near Specification Preparation](implementation-near-spec.md) before creating code.
 
 Use [Specification Review Checklist](spec-review-checklist.md) to track each detailed spec item and mark completion as the work progresses.
@@ -28,7 +32,7 @@ It is an implementation-facing specification for command contracts, module bound
 
 Future local development may use files or fixtures before a real OpenSearch instance is connected, but the document shapes and query boundary should be designed for OpenSearch from the beginning.
 
-The first implementation is a vertical slice for Markdown/text only.
+The first detailed specification path is a vertical slice for Markdown/text only.
 
 Image, PDF, audio, and video support should be added after the full Markdown/text flow works end to end.
 
@@ -45,7 +49,8 @@ kp verify <run-id>
 
 - Single repository first.
 - Markdown/text first.
-- Prove the full loop before expanding media types.
+- Specify the full loop before expanding media types.
+- Keep runtime sample code limited to `SummaryAgent`.
 - Start local and inspectable.
 - Preserve sources before generating summaries.
 - Call LLMs only through the common `LlmGateway`; agents must not import provider SDKs.
@@ -74,7 +79,7 @@ Use [Implementation-Near Specification Preparation](implementation-near-spec.md)
 
 The architecture documents describe the target system.
 
-The first implementation-facing specification should prove the smallest useful vertical slice:
+The first implementation-facing specification should define the smallest useful vertical slice:
 
 ```text
 Markdown source
@@ -91,13 +96,13 @@ Markdown source
 
 This means:
 
-- implement deterministic Markdown/text parsing before media parsing;
-- implement local JSON/file-backed records before external services;
+- specify deterministic Markdown/text parsing before media parsing;
+- specify local JSON/file-backed records before external services;
 - prove `tool.read(path) -> summarize` with a small `SummaryAgent` and a mock LLM gateway before introducing provider adapters;
 - compare model policies through the same `SummaryAgent` flow when provider adapters are introduced;
-- implement fixture search before real OpenSearch;
-- implement cited draft answers before multi-modal reasoning;
-- implement answer verification for Markdown evidence before expanding media verification.
+- specify fixture search before real OpenSearch;
+- specify cited draft answers before multi-modal reasoning;
+- specify answer verification for Markdown evidence before expanding media verification.
 
 Do not implement all media strategies at once.
 

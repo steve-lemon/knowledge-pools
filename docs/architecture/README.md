@@ -4,6 +4,8 @@ This page groups architecture documents by use case.
 
 Use [Ultimate Knowledge Loop](ultimate-loop.md) and [Terminology](terminology.md) as the canonical references for stage order and naming.
 
+Use [Project Purpose And Scope](../project-purpose-and-scope.md) as the boundary for what this repository should and should not implement.
+
 ## Core
 
 - [Ultimate Knowledge Loop](ultimate-loop.md)

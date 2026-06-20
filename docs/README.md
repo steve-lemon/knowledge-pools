@@ -9,6 +9,7 @@ Use this page to choose the smallest useful reading set before starting work.
 Read these first when joining the project or re-orienting:
 
 - [Vision](vision.md)
+- [Project Purpose And Scope](project-purpose-and-scope.md)
 - [Ultimate Knowledge Loop](architecture/ultimate-loop.md)
 - [Terminology](architecture/terminology.md)
 - [Architecture Overview](architecture/overview.md)
@@ -91,6 +92,7 @@ Use this layout for new documents:
 
 | Kind | Location |
 | --- | --- |
+| Project-wide purpose or scope | `docs/` |
 | Current architecture | `docs/architecture/` |
 | Agent role spec | `docs/agents/` |
 | Implementation-near spec | `docs/specs/` |

@@ -2,6 +2,12 @@
 
 Knowledge Pools is a durable knowledge operating layer for LLM agents.
 
+This repository currently focuses on implementation-near specifications, not a broad production runtime.
+
+Prototype code is intentionally limited to `SummaryAgent` so the project can validate the agent/tool/storage/LLM gateway contracts before broader implementation.
+
+The project boundary is defined in [Project Purpose And Scope](project-purpose-and-scope.md).
+
 Most RAG systems answer by retrieving semantically similar chunks. That is useful, but it fails when the system must remember why something was decided, distinguish newer knowledge from older knowledge, resolve contradictory sources, or reuse project-specific context over a long period of time.
 
 Knowledge Pools aims to support a stronger loop.
@@ -30,6 +36,7 @@ Build a knowledge repository that can answer with grounded context, preserve unc
 - Do not rely only on vector similarity.
 - Do not store every conversation verbatim as durable memory.
 - Do not treat generated summaries as equal to source evidence.
+- Do not expand runtime code beyond the `SummaryAgent` prototype until the scope document changes.
 
 ## Design Bet
 

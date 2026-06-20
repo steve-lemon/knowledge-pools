@@ -6,6 +6,10 @@ The goal is to move one item at a time from architecture intent to implementatio
 
 Do not mark an item complete until the relevant spec includes interfaces, types, validation rules, failure behavior, and acceptance criteria.
 
+The project scope is specification-first.
+
+Runtime sample code is limited to `SummaryAgent` unless [Project Purpose And Scope](../project-purpose-and-scope.md) changes.
+
 ## Progress Rule
 
 Each checklist item should end in one of these states:

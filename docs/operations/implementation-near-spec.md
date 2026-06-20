@@ -6,6 +6,10 @@ The project is not moving into broad implementation yet.
 
 It is moving into implementation-near specification: detailed enough for implementation, but still maintained as documentation.
 
+The project-wide boundary is defined in [Project Purpose And Scope](../project-purpose-and-scope.md).
+
+Sample runtime code should be limited to `SummaryAgent` unless that scope document is updated first.
+
 Use [Implementation Specification Architecture](../architecture/implementation-spec-architecture.md) to organize module, infrastructure, agent, tool, interface, and validation specs.
 
 ## Purpose
@@ -23,7 +27,9 @@ The specification should answer:
 - which validation gates block the next stage;
 - which behavior is intentionally deferred.
 
-It should not create runtime code, external infrastructure, or broad media support yet.
+It should not create broad runtime code, external infrastructure, or broad media support yet.
+
+The only planned sample code is `SummaryAgent`, used to validate the agent/tool/storage/LLM gateway contracts.
 
 ## Scope
 
