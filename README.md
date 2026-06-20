@@ -37,6 +37,33 @@ Core entry points:
 - [Implementation Plan](docs/operations/implementation-plan.md)
 - [Implementation-Near Specification Preparation](docs/operations/implementation-near-spec.md)
 
+## SummaryAgent Prototype
+
+This repository includes a small TypeScript prototype only for architecture validation.
+
+Install dependencies and run the local mock summary flow:
+
+```bash
+npm install
+npm run build
+npm run summary -- fixtures/summary-agent/basic.md
+```
+
+For direct TypeScript execution during development:
+
+```bash
+npm run dev:summary -- fixtures/summary-agent/basic.md
+```
+
+The prototype uses:
+
+- `LocalStorage`;
+- `StorageSummaryReadTool`;
+- `MockLlmGateway`;
+- `SummaryAgent`.
+
+It does not implement the full Knowledge Pools runtime.
+
 ## Working Principle
 
 This repository should grow as both a system and a notebook. Every major implementation step should leave behind:

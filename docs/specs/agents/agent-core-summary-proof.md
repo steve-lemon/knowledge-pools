@@ -173,7 +173,9 @@ export interface SummaryReadTool<
   TStorageData = Buffer,
   TStorageMeta extends StorageObjectMeta = StorageObjectMeta
 > {
-  read(path: StoragePath): Promise<SummaryReadResult<TStorageData, TStorageMeta>>;
+  read(
+    request: SummaryReadRequest
+  ): Promise<SummaryReadResult<TStorageData, TStorageMeta>>;
 }
 
 export interface SummaryAgent {
@@ -370,7 +372,7 @@ export interface SummaryFeasibilityReport {
 
 ## Required Prototype Algorithm
 
-1. Call `readTool.read(path)`.
+1. Call `readTool.read({ path })`.
 2. Validate that the object exists and is readable through the returned metadata.
 3. Convert the returned data to text:
    - `Buffer` uses `toString("utf8")`;
@@ -387,7 +389,7 @@ export interface SummaryFeasibilityReport {
 
 `evaluateFeasibility` is optional, but it is the preferred way to use this prototype when comparing LLM models.
 
-1. Read and decode the input once through `readTool.read(path)`.
+1. Read and decode the input once through `readTool.read({ path })`.
 2. Build a shared bounded text body and shared `inputRefs`.
 3. For each `SummaryModelPolicyCase`:
    - call `llmGateway.summarize` with the case-specific `modelPolicy`;
@@ -419,10 +421,10 @@ export class StorageSummaryReadTool<
   ) {}
 
   async read(
-    path: StoragePath
+    request: SummaryReadRequest
   ): Promise<SummaryReadResult<TStorageData, TStorageMeta>> {
-    const meta = await this.storage.describe(path);
-    const data = await this.storage.read(path);
+    const meta = await this.storage.describe(request.path);
+    const data = await this.storage.read(request.path);
     return { data, meta };
   }
 }
