@@ -102,3 +102,8 @@ Then continue with [Common Contracts And IDs](contracts/common-contracts.md).
 The next P0 store spec is [Local Store Layout](stores/local-store-layout.md).
 
 The first command spec is [CLI Command Contracts](commands/cli-command-contracts.md).
+
+Before broad tool-port and agent specs, validate the smallest agent core through:
+
+- [LLM Gateway Contract](tools/llm-gateway-contract.md)
+- [Agent Core Summary Proof](agents/agent-core-summary-proof.md)

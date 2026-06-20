@@ -48,6 +48,8 @@ kp verify <run-id>
 - Prove the full loop before expanding media types.
 - Start local and inspectable.
 - Preserve sources before generating summaries.
+- Call LLMs only through the common `LlmGateway`; agents must not import provider SDKs.
+- Validate the first agent core with one `StorageSupportable` and one `LlmGateway` before broader agent orchestration.
 - Store original sources in filesystem-compatible object storage.
 - Use OpenSearch-compatible documents first, then connect a real OpenSearch server.
 - Keep every indexed document linked to original source units.
@@ -90,6 +92,7 @@ This means:
 
 - implement deterministic Markdown/text parsing before media parsing;
 - implement local JSON/file-backed records before external services;
+- prove `read(path) -> summarize` with a mock LLM gateway before introducing provider adapters;
 - implement fixture search before real OpenSearch;
 - implement cited draft answers before multi-modal reasoning;
 - implement answer verification for Markdown evidence before expanding media verification.
@@ -234,7 +237,7 @@ Deliverables:
 - Evidence span alignment from candidates back to access units.
 - Ambiguity and confidence notes.
 - Review request artifact schema.
-- Model adapter metadata for model-assisted extraction.
+- LLM gateway metadata for model-assisted extraction.
 - Rules that keep generated summaries outside OpenSearch by default.
 - Validation that understanding outputs remain candidates, not durable knowledge records.
 - Initial structural understanding rules before model-assisted extraction.
@@ -298,7 +301,7 @@ Deliverables:
 - Markdown/text connection implementation first.
 - Connect readiness checklist and tool permission review.
 - Deterministic matching policy for labels, aliases, explicit mentions, compatible candidate kinds, local record fixtures, and taxonomy relation rules.
-- Connect tool sequence using `artifact.read`, `record.search`, `taxonomy.read`, `taxonomy.validate`, `schema.validate`, `candidate.emit`, `artifact.write`, and `audit.trace`, with optional `graph.query`, `index.search`, `model.complete`, `ambiguity.emit`, and `review.request`.
+- Connect tool sequence using `artifact.read`, `record.search`, `taxonomy.read`, `taxonomy.validate`, `schema.validate`, `candidate.emit`, `artifact.write`, and `audit.trace`, with optional `graph.query`, `index.search`, `llm.complete`, `ambiguity.emit`, and `review.request`.
 - Failure classes for invalid handoff, unresolved candidates, unresolved endpoints, taxonomy relation errors, schema errors, and invalid model output.
 - V1 acceptance criteria for deterministic duplicate, mention, and support proposals with no durable graph mutation.
 
@@ -349,7 +352,7 @@ Deliverables:
 - Media verify concept proofs for Markdown/text, image, WAV/audio, MP4/video, and PDF.
 - Verify readiness review and tool permission check.
 - Quality report with checked count, verified count, rejected count, unsupported count, uncertain count, stale evidence count, review rate, and schema failures.
-- Verification tool sequence using `artifact.read`, `schema.validate`, `taxonomy.read`, `taxonomy.validate`, `verification.check`, `artifact.write`, and `audit.trace`, with optional `record.search`, `graph.query`, `source.locate`, `source.read`, `retrieval.fetch_evidence`, `review.request`, and `model.complete`.
+- Verification tool sequence using `artifact.read`, `schema.validate`, `taxonomy.read`, `taxonomy.validate`, `verification.check`, `artifact.write`, and `audit.trace`, with optional `record.search`, `graph.query`, `source.locate`, `source.read`, `retrieval.fetch_evidence`, `review.request`, and `llm.complete`.
 - Failure classes for invalid handoff, unresolved proposals, unresolved endpoints, missing evidence, taxonomy errors, schema errors, and invalid model output.
 - V1 acceptance criteria for deterministic relationship proposal verification with no durable graph mutation.
 - V1 acceptance criteria for Markdown/text answer verification with no durable memory mutation.
@@ -443,13 +446,13 @@ Deliverables:
 - Shared agent tool pool.
 - Stage-scoped tool permission policy.
 - Tool side effect levels and trace requirements.
-- V1 implementable tool-port subset backed by local files, JSON artifacts, deterministic functions, and optional OpenSearch/model adapters.
+- V1 implementable tool-port subset backed by local files, JSON artifacts, deterministic functions, optional OpenSearch adapters, and optional LLM gateway adapters.
 - Agent tool contracts that link each agent role to required, optional, and forbidden ports.
-- Model adapter interface.
+- LLM gateway interface.
 - Schema validation for agent outputs.
 - Shared handoff envelope type with stage-specific payload schemas.
 
-The first agent can be deterministic and model-free. This proves the orchestration contract before adding LLM behavior.
+The first agent core can be deterministic apart from a mock LLM gateway. This proves the storage, gateway, and result contract before adding provider LLM behavior.
 
 ## Step 11: Agent Handoff
 
@@ -479,7 +482,7 @@ Deliverables:
 - Retrieval plan schema.
 - Evidence bundle schema.
 - Quality report with intent confidence, retrieval step count, freshness scope, conflict-search flag, and schema failures.
-- Plan tool sequence using `retrieval.plan`, `record.search`, `index.search`, `schema.validate`, `artifact.write`, and `audit.trace`, with optional `graph.query`, `taxonomy.read`, `model.complete`, `artifact.read`, and `preview.lookup`.
+- Plan tool sequence using `retrieval.plan`, `record.search`, `index.search`, `schema.validate`, `artifact.write`, and `audit.trace`, with optional `graph.query`, `taxonomy.read`, `llm.complete`, `artifact.read`, and `preview.lookup`.
 - Failure classes for invalid task input, unsupported retrieval mode, missing schema, missing indexes, invalid model output, and invalid handoff.
 - V1 acceptance criteria for deterministic source lookup, keyword search, decision recall, and hybrid evidence lookup planning.
 
@@ -624,7 +627,7 @@ Deliverables:
 - Media update concept proofs for Markdown/text, image, WAV/audio, MP4/video, and PDF.
 - Markdown/text update candidate implementation first.
 - Rules that convert unsupported claims into open questions or review requests, not facts.
-- Tool sequence using `artifact.read`, `schema.validate`, `candidate.emit`, `artifact.write`, and `audit.trace`, with optional `review.request`, `curation.propose`, `record.search`, `taxonomy.read`, `taxonomy.validate`, and `model.complete`.
+- Tool sequence using `artifact.read`, `schema.validate`, `candidate.emit`, `artifact.write`, and `audit.trace`, with optional `review.request`, `curation.propose`, `record.search`, `taxonomy.read`, `taxonomy.validate`, and `llm.complete`.
 - Failure classes for invalid handoff, missing verification report, unresolved evidence refs, schema errors, taxonomy errors, and forbidden durable mutation attempts.
 - V1 acceptance criteria for candidate emission with no durable memory writes.
 - Update readiness checklist and tool permission review.

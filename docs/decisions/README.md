@@ -65,6 +65,7 @@ YYYY-MM-DD-short-title.md
 - [Implementation-Near Specification Before Code](2026-06-20-implementation-near-specification.md)
 - [Implementation Specification Architecture](2026-06-20-implementation-spec-architecture.md)
 - [Storage And Indexing Contract Before ID Policy](2026-06-20-storage-indexing-before-id-policy.md)
+- [LLM Gateway And Agent Core Summary Proof](2026-06-20-llm-gateway-agent-core-proof.md)
 
 ## Template
 

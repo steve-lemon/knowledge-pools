@@ -203,7 +203,7 @@ Focus on:
 | `preview.create` | outline/summary optional | thumbnail/rendition | waveform/spectrogram | poster/storyboard | page thumbnail |
 | `index.search` | local fixture keyword search | metadata/OCR search | transcript search | subtitle/OCR search | page/block text search |
 | `retrieval.fetch_evidence` | section/block fetch | region/OCR fetch | transcript/time fetch | scene/frame fetch | page/block/table fetch |
-| `model.complete` | optional after deterministic flow | optional visual captioning later | optional transcript cleanup later | optional scene summary later | optional PDF summary later |
+| `llm.summarize` / `llm.complete` | summary proof first, optional after deterministic flow | optional visual captioning later | optional transcript cleanup later | optional scene summary later | optional PDF summary later |
 | `verification.check` | deterministic citation support | region/OCR support later | transcript support later | scene/frame support later | page/block support later |
 
 ## V1 Acceptance Gate

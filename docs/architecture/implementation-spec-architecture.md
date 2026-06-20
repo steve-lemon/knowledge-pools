@@ -105,7 +105,7 @@ src/
     artifact/
     index/
     retrieval/
-    model/
+    llm-gateway/
     verification/
     audit/
     evaluation/
@@ -152,7 +152,7 @@ Use specs docs to define implementation-facing contracts.
 | Contracts | `src/contracts/` | `docs/specs/contracts/` | TypeScript interfaces, JSON-compatible schemas, enum values | tool implementations |
 | Runtime | `src/runtime/` | `docs/specs/modules/` | sessions, runs, tasks, context assembly, handoff routing, trace orchestration | semantic extraction, reasoning |
 | Agents | `src/agents/` | `docs/specs/agents/` | stage-specific task handling and artifact creation | hidden state, direct infrastructure access outside tools |
-| Tools | `src/tools/` | `docs/specs/tools/` | stable ports and provider-independent implementations | agent policy decisions |
+| Tools | `src/tools/` | `docs/specs/tools/` | stable ports, LLM gateway, and provider-independent implementations | agent policy decisions |
 | Stores | `src/stores/` | `docs/specs/stores/` | filesystem layout, record persistence, projections, artifact IO | interpretation of knowledge |
 | Fixtures | `src/fixtures/` or test resources | `docs/specs/fixtures/` | sample inputs and expected outputs | production behavior |
 | Validation | `src/core/validation/` and test harness | `docs/specs/validation/` | schema checks, ref resolution, trace checks, regression gates | silent correction of invalid artifacts |
@@ -170,7 +170,7 @@ The first detailed specs should keep infrastructure simple and replaceable.
 | Taxonomy store | Local taxonomy bundle | provide category, attribute, and relation refs | taxonomy ref validation |
 | Index projection store | Local OpenSearch-compatible JSON fixtures first | store retrieval maps, not raw content | content-minimal index audit |
 | Evidence fetch path | `source.locate` + `source.read` | fetch exact bounded Markdown units by ref | citation-to-source check |
-| Model adapter | Optional tool implementation | return schema-validated output, no durable hidden state | output schema and provenance check |
+| LLM gateway | Common provider-independent gateway first | return schema-validated output, no durable hidden state, support deterministic mock adapters | output schema, provenance check, summary proof fixture |
 
 ## Agent Module Requirements
 
@@ -215,7 +215,7 @@ Every tool spec should define a stable port contract.
 | Artifact | `artifact.read`, `artifact.write` | artifact metadata, payload, provenance, validation |
 | Index | `index.write_projection`, `index.search` | OpenSearch-compatible document shape, query boundary |
 | Retrieval | `retrieval.plan`, `retrieval.fetch_evidence` | evidence requirements, bounded fetch behavior |
-| Model | `model.complete` | optional adapter, schema output, provider independence |
+| LLM gateway | `llm.summarize`, optional structured completion | common gateway contract, schema output, provider independence, deterministic mock behavior |
 | Verification | `verification.check` | citation support, missing evidence, stale evidence |
 | Audit | `audit.trace`, `audit.read_trace` | append-only events, replay requirements |
 | Evaluation | `evaluation.record` | quality signals, regression outcome shape |

@@ -35,10 +35,10 @@ Do not start P3 work to solve a P0 problem.
 
 | Priority | Focus | Checklist sections |
 | --- | --- | --- |
-| P0 | Storage/indexing boundary, stable common contracts, local refs, Markdown source storage, minimum tool ports, and validation basics | 1, 2, 3, 5, 8, 9, 10 |
-| P1 | CLI contracts, runtime orchestration, ingest/understand/connect/retrieve/reason/verify loop | 4, 6, 7, 8, 9, 10 |
-| P2 | update, curation, evaluate, lifecycle, regression readiness, runtime-code readiness | 7, 8, 10, 11 |
-| P3 | image, PDF, audio, video, real OpenSearch, graph/vector stores, distributed or multi-repo behavior | 12 and deferred infrastructure specs |
+| P0 | Storage/indexing boundary, stable common contracts, local refs, Markdown source storage, LLM gateway boundary, minimum summary proof, minimum tool ports, and validation basics | 1, 2, 3, 5, 6, 9, 10, 11 |
+| P1 | CLI contracts, runtime orchestration, ingest/understand/connect/retrieve/reason/verify loop | 4, 7, 8, 9, 10, 11 |
+| P2 | update, curation, evaluate, lifecycle, regression readiness, runtime-code readiness | 8, 9, 11, 12 |
+| P3 | image, PDF, audio, video, real OpenSearch, graph/vector stores, distributed or multi-repo behavior | 13 and deferred infrastructure specs |
 
 ## Media Expansion Strategy
 
@@ -87,14 +87,15 @@ Follow this order unless a later item is blocking an earlier one.
 2. Shared contracts and IDs.
 3. Local store layout.
 4. CLI command contracts.
-5. Tool port contracts.
-6. Runtime and orchestrator contracts.
-7. Agent specs by stage.
-8. Stage artifact and handoff payloads.
-9. Fixtures.
-10. Validation harness.
-11. Readiness review before runtime code.
-12. Media expansion readiness.
+5. LLM gateway and agent core summary proof.
+6. Tool port contracts.
+7. Runtime and orchestrator contracts.
+8. Agent specs by stage.
+9. Stage artifact and handoff payloads.
+10. Fixtures.
+11. Validation harness.
+12. Readiness review before runtime code.
+13. Media expansion readiness.
 
 ## 1. Storage And Indexing Contract
 
@@ -193,7 +194,31 @@ Completion artifact target:
 
 - `docs/specs/commands/cli-command-contracts.md`
 
-## 5. Tool Port Contracts
+## 5. LLM Gateway And Agent Core Summary Proof
+
+Priority: P0.
+
+Reason: agents should not embed provider-specific LLM calls, and the first core behavior should be verifiable before full agent orchestration.
+
+- [x] Define provider-independent `LlmGateway`.
+- [x] Define required `summarize` operation.
+- [x] Define optional structured completion boundary for later stages.
+- [x] Define model metadata and usage normalization.
+- [x] Define deterministic mock gateway requirement.
+- [x] Define that gateway adapters must not persist hidden conversation state.
+- [x] Define one-storage summary proof path.
+- [x] Define `StorageSupportable.read(path)` to text decoding boundary.
+- [x] Define `LlmGateway.summarize` request and response boundary.
+- [x] Define summary proof result payload.
+- [x] Define validation and failure behavior.
+- [x] Confirm provider SDKs do not leak into agent core specs.
+
+Completion artifact targets:
+
+- `docs/specs/tools/llm-gateway-contract.md`
+- `docs/specs/agents/agent-core-summary-proof.md`
+
+## 6. Tool Port Contracts
 
 Priority: P0 for required Markdown ports, P1 for orchestration ports, P2 for lifecycle ports, P3 for media and external infrastructure ports.
 
@@ -228,7 +253,7 @@ P2 tool ports:
 
 P3 tool ports:
 
-- optional `model.complete`
+- optional provider-specific model adapters behind `LlmGateway`
 - media parsing tools
 - external infrastructure adapters
 
@@ -254,13 +279,13 @@ P3 tool ports:
 - [ ] Define `retrieval.fetch_evidence`.
 - [ ] Define `verification.check`.
 - [ ] Define `audit.trace`.
-- [ ] Define optional `model.complete` adapter boundary.
+- [x] Define LLM adapter boundary through `LlmGateway`.
 
 Completion artifact target:
 
 - `docs/specs/tools/tool-port-contracts.md`
 
-## 6. Runtime And Orchestrator Contracts
+## 7. Runtime And Orchestrator Contracts
 
 Priority: P1.
 
@@ -283,7 +308,7 @@ Completion artifact target:
 
 - `docs/specs/modules/runtime-orchestrator.md`
 
-## 7. Agent Specs By Stage
+## 8. Agent Specs By Stage
 
 Priority: P1 for Markdown-first loop agents, P2 for lifecycle agents, P3 for media-specific behavior.
 
@@ -327,7 +352,7 @@ Completion artifact target:
 
 - `docs/specs/agents/`
 
-## 8. Stage Artifact And Handoff Payloads
+## 9. Stage Artifact And Handoff Payloads
 
 Priority: P0 for source, artifact, evidence, and verification skeletons; P1 for first loop payloads; P2 for lifecycle payloads.
 
@@ -379,7 +404,7 @@ Completion artifact target:
 
 - `docs/specs/contracts/stage-artifacts-and-handoffs.md`
 
-## 9. Markdown-First Fixture Set
+## 10. Markdown-First Fixture Set
 
 Priority: P0 for the minimum fixture path, P1 for full loop fixture coverage, P2 for negative and regression fixtures.
 
@@ -429,7 +454,7 @@ Completion artifact target:
 
 - `docs/specs/fixtures/markdown-fixtures.md`
 
-## 10. Validation And Verification Harness
+## 11. Validation And Verification Harness
 
 Priority: P0 for schema/ref/source validation, P1 for evidence and handoff validation, P2 for replay and readiness validation.
 
@@ -471,7 +496,7 @@ Completion artifact target:
 
 - `docs/specs/validation/spec-validation-harness.md`
 
-## 11. Readiness Before Runtime Code
+## 12. Readiness Before Runtime Code
 
 Priority: P2.
 
@@ -494,7 +519,7 @@ Completion artifact target:
 
 - `docs/specs/validation/runtime-code-readiness.md`
 
-## 12. Media Expansion Readiness
+## 13. Media Expansion Readiness
 
 Priority: P3.
 
@@ -527,9 +552,9 @@ Completion artifact targets:
 Start with:
 
 ```text
-5. Tool Port Contracts
+6. Tool Port Contracts
 ```
 
 Reason:
 
-Storage/indexing, common ID/ref contracts, local store layout, and CLI command contracts are now defined. The next step is to define provider-independent tool ports that commands and agents may call.
+Storage/indexing, common ID/ref contracts, local store layout, CLI command contracts, LLM gateway boundary, and the first one-storage summary proof are now defined. The next step is to define the remaining provider-independent tool ports that commands and agents may call.
