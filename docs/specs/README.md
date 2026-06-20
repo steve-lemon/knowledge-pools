@@ -19,6 +19,7 @@ docs/specs/
   tools/
   stores/
   fixtures/
+  media/
   validation/
 ```
 
@@ -35,6 +36,7 @@ Create these subfolders when the first spec in each category is written.
 | `tools/` | Tool port contracts and adapter behavior. |
 | `stores/` | Filesystem, artifact, source, trace, taxonomy, and index projection store contracts. |
 | `fixtures/` | Markdown fixture definitions and expected outputs. |
+| `media/` | Image, PDF, audio, and video extension contracts after Markdown-first validation is stable. |
 | `validation/` | Schema, ref, trace, handoff, and regression validation rules. |
 
 ## Spec Template

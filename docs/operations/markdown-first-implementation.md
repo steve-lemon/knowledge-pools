@@ -36,6 +36,19 @@ add audio
 add video
 ```
 
+Media expansion belongs to P3 in [Specification Review Checklist](spec-review-checklist.md).
+
+The planned order is:
+
+```text
+P3a image
+P3b PDF
+P3c audio
+P3d video
+```
+
+Each media type must extend the same source, manifest, access-unit, index, evidence, verification, and trace contracts rather than creating a separate pipeline.
+
 ## Rationale
 
 The current architecture defines a broad target system.

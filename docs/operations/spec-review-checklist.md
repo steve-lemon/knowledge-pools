@@ -38,7 +38,46 @@ Do not start P3 work to solve a P0 problem.
 | P0 | Stable common contracts, local refs, Markdown source storage, minimum tool ports, and validation basics | 1, 2, 4, 7, 8, 9 |
 | P1 | CLI contracts, runtime orchestration, ingest/understand/connect/retrieve/reason/verify loop | 3, 5, 6, 7, 8, 9 |
 | P2 | update, curation, evaluate, lifecycle, regression readiness, runtime-code readiness | 6, 7, 9, 10 |
-| P3 | image, PDF, audio, video, real OpenSearch, graph/vector stores, distributed or multi-repo behavior | deferred media and infrastructure specs |
+| P3 | image, PDF, audio, video, real OpenSearch, graph/vector stores, distributed or multi-repo behavior | 11 and deferred infrastructure specs |
+
+## Media Expansion Strategy
+
+Markdown-first does not mean Markdown-only forever.
+
+It means every later media type must reuse the same contracts:
+
+- `SourceRecord`;
+- `SourceVersion`;
+- `SourceManifest`;
+- `AccessUnit`;
+- `PreviewArtifact`;
+- `IndexProjection`;
+- `EvidenceBundle`;
+- `VerificationReport`;
+- `TraceEvent`.
+
+Each media type may add access-unit kinds, preview kinds, parser tools, and validation rules, but it should not create a separate pipeline shape.
+
+Media support should be added in this order unless a concrete product requirement changes the priority.
+
+| Priority | Media | Why this order | Entry condition |
+| --- | --- | --- | --- |
+| P3a | Image | Smallest non-text media surface; proves previews, renditions, regions, OCR refs, and visual evidence boundaries | P0/P1 Markdown refs, source manifests, artifact store, and verification skeleton are stable |
+| P3b | PDF | High-value document format; reuses text evidence but adds pages, blocks, tables, figures, OCR, and page previews | Markdown and image-derived preview/access-unit patterns are stable |
+| P3c | Audio | Adds time-based evidence and transcript confidence | Text evidence, confidence handling, and bounded evidence refs are stable |
+| P3d | Video | Most complex; combines image, audio, subtitles, scenes, keyframes, and time ranges | Image, audio, and time-based evidence contracts are stable |
+
+Media expansion rule:
+
+1. Add media-specific source manifest and access-unit types.
+2. Add preview and derived-artifact policy.
+3. Add content-minimal index projection fields.
+4. Add media-specific retrieval evidence refs.
+5. Add media-specific verification checks.
+6. Add fixtures and expected outputs.
+7. Keep Markdown-first regression fixtures passing.
+
+Do not allow a media-derived update candidate to become durable until verification can prove the referenced media evidence supports it.
 
 ## Review Order
 
@@ -423,6 +462,34 @@ Reason: runtime code readiness should be checked only after P0 and P1 specs defi
 Completion artifact target:
 
 - `docs/specs/validation/runtime-code-readiness.md`
+
+## 11. Media Expansion Readiness
+
+Priority: P3.
+
+Reason: media support should extend the Markdown-first contract after the first loop is stable.
+
+- [ ] Define media extension contract shared by image, PDF, audio, and video.
+- [ ] Define image source manifest and access-unit extensions.
+- [ ] Define image preview, rendition, OCR, and region evidence policy.
+- [ ] Define image retrieval and verification fixture expectations.
+- [ ] Define PDF page, block, table, figure, OCR, and preview extensions.
+- [ ] Define PDF retrieval and verification fixture expectations.
+- [ ] Define audio transcript span, time range, waveform, and confidence extensions.
+- [ ] Define audio retrieval and verification fixture expectations.
+- [ ] Define video scene, subtitle, frame range, keyframe, storyboard, and audio/visual conflict extensions.
+- [ ] Define video retrieval and verification fixture expectations.
+- [ ] Confirm each media type keeps content-minimal index rules.
+- [ ] Confirm each media type keeps original source retrieval as the evidence source of truth.
+- [ ] Confirm Markdown-first regression fixtures remain unchanged and passing.
+
+Completion artifact targets:
+
+- `docs/specs/media/media-extension-contract.md`
+- `docs/specs/media/image-spec.md`
+- `docs/specs/media/pdf-spec.md`
+- `docs/specs/media/audio-spec.md`
+- `docs/specs/media/video-spec.md`
 
 ## Current Next Item
 
