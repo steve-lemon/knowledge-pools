@@ -69,3 +69,9 @@ Create these subfolders when the first spec in each category is written.
 Architecture documents explain why the system is shaped this way.
 
 Spec documents explain exactly what an implementation must satisfy.
+
+## First P0 Spec
+
+Start with [Storage And Indexing Contract](stores/storage-indexing-contract.md).
+
+This spec must shape the common ID and ref policy that follows.

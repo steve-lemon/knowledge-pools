@@ -35,10 +35,10 @@ Do not start P3 work to solve a P0 problem.
 
 | Priority | Focus | Checklist sections |
 | --- | --- | --- |
-| P0 | Stable common contracts, local refs, Markdown source storage, minimum tool ports, and validation basics | 1, 2, 4, 7, 8, 9 |
-| P1 | CLI contracts, runtime orchestration, ingest/understand/connect/retrieve/reason/verify loop | 3, 5, 6, 7, 8, 9 |
-| P2 | update, curation, evaluate, lifecycle, regression readiness, runtime-code readiness | 6, 7, 9, 10 |
-| P3 | image, PDF, audio, video, real OpenSearch, graph/vector stores, distributed or multi-repo behavior | 11 and deferred infrastructure specs |
+| P0 | Storage/indexing boundary, stable common contracts, local refs, Markdown source storage, minimum tool ports, and validation basics | 1, 2, 3, 5, 8, 9, 10 |
+| P1 | CLI contracts, runtime orchestration, ingest/understand/connect/retrieve/reason/verify loop | 4, 6, 7, 8, 9, 10 |
+| P2 | update, curation, evaluate, lifecycle, regression readiness, runtime-code readiness | 7, 8, 10, 11 |
+| P3 | image, PDF, audio, video, real OpenSearch, graph/vector stores, distributed or multi-repo behavior | 12 and deferred infrastructure specs |
 
 ## Media Expansion Strategy
 
@@ -83,21 +83,49 @@ Do not allow a media-derived update candidate to become durable until verificati
 
 Follow this order unless a later item is blocking an earlier one.
 
-1. Shared contracts and IDs.
-2. Local store layout.
-3. CLI command contracts.
-4. Tool port contracts.
-5. Runtime and orchestrator contracts.
-6. Agent specs by stage.
-7. Stage artifact and handoff payloads.
-8. Fixtures and validation harness.
-9. Readiness review before runtime code.
+1. Storage and indexing contract.
+2. Shared contracts and IDs.
+3. Local store layout.
+4. CLI command contracts.
+5. Tool port contracts.
+6. Runtime and orchestrator contracts.
+7. Agent specs by stage.
+8. Stage artifact and handoff payloads.
+9. Fixtures.
+10. Validation harness.
+11. Readiness review before runtime code.
+12. Media expansion readiness.
 
-## 1. Shared Contracts And IDs
+## 1. Storage And Indexing Contract
 
 Priority: P0.
 
-Reason: every Markdown-first artifact, handoff, source unit, trace, and fixture depends on stable IDs and refs.
+Reason: storage and indexing boundaries determine source truth, projection behavior, access-unit refs, content-minimal indexing, and the ID policy that follows.
+
+- [x] Define source object store as evidence source of truth.
+- [x] Define OpenSearch-compatible index as retrieval map only.
+- [x] Define source version and manifest ownership.
+- [x] Define access-unit addressing requirements.
+- [x] Define derived and preview artifact storage rules.
+- [x] Define artifact and trace store boundaries.
+- [x] Define required index projection fields.
+- [x] Define content-minimal index policy.
+- [x] Define explicit mapping and typed attribute rules.
+- [x] Define source-to-index link contract.
+- [x] Define lifecycle and projection status behavior.
+- [x] Define media extension constraints for future image, PDF, audio, and video.
+- [x] Define validation and failure behavior for storage/indexing.
+- [x] Define how this contract constrains ID and ref policy.
+
+Completion artifact target:
+
+- `docs/specs/stores/storage-indexing-contract.md`
+
+## 2. Shared Contracts And IDs
+
+Priority: P0.
+
+Reason: every Markdown-first artifact, handoff, source unit, trace, and fixture depends on stable IDs and refs, but those IDs must follow the storage and indexing boundaries first.
 
 - [ ] Define ID families: source, version, access unit, artifact, handoff, run, session, task, trace, candidate, relation, evidence, lifecycle.
 - [ ] Define stable ref string format and parsing rules.
@@ -114,7 +142,7 @@ Completion artifact target:
 
 - `docs/specs/contracts/common-contracts.md`
 
-## 2. Local Store Layout
+## 3. Local Store Layout
 
 Priority: P0.
 
@@ -137,7 +165,7 @@ Completion artifact target:
 
 - `docs/specs/stores/local-store-layout.md`
 
-## 3. CLI Command Contracts
+## 4. CLI Command Contracts
 
 Priority: P1.
 
@@ -162,7 +190,7 @@ Completion artifact target:
 
 - `docs/specs/commands/cli-command-contracts.md`
 
-## 4. Tool Port Contracts
+## 5. Tool Port Contracts
 
 Priority: P0 for required Markdown ports, P1 for orchestration ports, P2 for lifecycle ports, P3 for media and external infrastructure ports.
 
@@ -229,7 +257,7 @@ Completion artifact target:
 
 - `docs/specs/tools/tool-port-contracts.md`
 
-## 5. Runtime And Orchestrator Contracts
+## 6. Runtime And Orchestrator Contracts
 
 Priority: P1.
 
@@ -252,7 +280,7 @@ Completion artifact target:
 
 - `docs/specs/modules/runtime-orchestrator.md`
 
-## 6. Agent Specs By Stage
+## 7. Agent Specs By Stage
 
 Priority: P1 for Markdown-first loop agents, P2 for lifecycle agents, P3 for media-specific behavior.
 
@@ -296,7 +324,7 @@ Completion artifact target:
 
 - `docs/specs/agents/`
 
-## 7. Stage Artifact And Handoff Payloads
+## 8. Stage Artifact And Handoff Payloads
 
 Priority: P0 for source, artifact, evidence, and verification skeletons; P1 for first loop payloads; P2 for lifecycle payloads.
 
@@ -348,7 +376,7 @@ Completion artifact target:
 
 - `docs/specs/contracts/stage-artifacts-and-handoffs.md`
 
-## 8. Markdown-First Fixture Set
+## 9. Markdown-First Fixture Set
 
 Priority: P0 for the minimum fixture path, P1 for full loop fixture coverage, P2 for negative and regression fixtures.
 
@@ -398,7 +426,7 @@ Completion artifact target:
 
 - `docs/specs/fixtures/markdown-fixtures.md`
 
-## 9. Validation And Verification Harness
+## 10. Validation And Verification Harness
 
 Priority: P0 for schema/ref/source validation, P1 for evidence and handoff validation, P2 for replay and readiness validation.
 
@@ -440,7 +468,7 @@ Completion artifact target:
 
 - `docs/specs/validation/spec-validation-harness.md`
 
-## 10. Readiness Before Runtime Code
+## 11. Readiness Before Runtime Code
 
 Priority: P2.
 
@@ -463,7 +491,7 @@ Completion artifact target:
 
 - `docs/specs/validation/runtime-code-readiness.md`
 
-## 11. Media Expansion Readiness
+## 12. Media Expansion Readiness
 
 Priority: P3.
 
@@ -496,9 +524,9 @@ Completion artifact targets:
 Start with:
 
 ```text
-1. Shared Contracts And IDs
+2. Shared Contracts And IDs
 ```
 
 Reason:
 
-All later specs depend on stable IDs, refs, result shapes, provenance, and validation summaries.
+Storage and indexing boundaries now decide where source truth lives, what the index may store, how evidence is fetched, and which ID/ref families the next contract must define.
