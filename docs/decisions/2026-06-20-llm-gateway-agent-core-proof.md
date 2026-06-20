@@ -1,4 +1,4 @@
-# Decision: LLM Gateway And Agent Core Summary Proof
+# Decision: SummaryAgent Prototype And LLM Gateway Boundary
 
 Date: 2026-06-20
 Status: accepted
@@ -11,17 +11,17 @@ That risks mixing model-provider calls into agent implementations before the cor
 
 ## Decision
 
-Extract all LLM usage behind a common `LlmGateway`.
+Keep model-capable agent behavior behind a common `LlmGateway` boundary.
 
-Validate the first agent core with one `StorageSupportable` and one `LlmGateway`:
+Before defining the full tool pool, validate a small `SummaryAgent` with one storage-backed read tool and one `LlmGateway`:
 
 ```text
-read(path) -> decode text -> summarize -> summary proof result
+tool.read(path) -> decode text -> summarize -> summary proof result
 ```
 
 ## Rationale
 
-This keeps the first proof small and implementation-realistic.
+This keeps the first prototype small and implementation-realistic.
 
 It also makes model providers replaceable and allows deterministic tests with a mock gateway.
 
@@ -35,12 +35,12 @@ It also makes model providers replaceable and allows deterministic tests with a 
 
 Agents must depend on the gateway interface, not provider SDKs.
 
-The first runtime proof can verify storage, decoding, gateway usage, validation, and result shaping before implementing the full pipeline.
+The first prototype can verify storage-backed tool reads, decoding, gateway usage, validation, and result shaping before implementing the full pipeline.
 
 Provider adapters can be added later without changing the agent core contract.
 
 ## Follow-ups
 
-- Define the broader tool port contracts after this gateway boundary is accepted.
-- Add fixtures for the summary proof.
-- Decide where summary proof artifacts are persisted.
+- Define the broader tool port contracts after this prototype boundary is accepted.
+- Add fixtures for the `SummaryAgent` prototype.
+- Decide whether prototype summary artifacts are persisted.

@@ -170,7 +170,7 @@ The first detailed specs should keep infrastructure simple and replaceable.
 | Taxonomy store | Local taxonomy bundle | provide category, attribute, and relation refs | taxonomy ref validation |
 | Index projection store | Local OpenSearch-compatible JSON fixtures first | store retrieval maps, not raw content | content-minimal index audit |
 | Evidence fetch path | `source.locate` + `source.read` | fetch exact bounded Markdown units by ref | citation-to-source check |
-| LLM gateway | Common provider-independent gateway first | return schema-validated output, no durable hidden state, support deterministic mock adapters | output schema, provenance check, summary proof fixture |
+| LLM gateway | Common provider-independent gateway for model-capable prototypes and later agents | return schema-validated output, no durable hidden state, support deterministic mock adapters | output schema, provenance check, `SummaryAgent` fixture |
 
 ## Agent Module Requirements
 
@@ -215,7 +215,7 @@ Every tool spec should define a stable port contract.
 | Artifact | `artifact.read`, `artifact.write` | artifact metadata, payload, provenance, validation |
 | Index | `index.write_projection`, `index.search` | OpenSearch-compatible document shape, query boundary |
 | Retrieval | `retrieval.plan`, `retrieval.fetch_evidence` | evidence requirements, bounded fetch behavior |
-| LLM gateway | `llm.summarize`, optional structured completion | common gateway contract, schema output, provider independence, deterministic mock behavior |
+| LLM gateway | `llm.summarize`, optional structured completion | common gateway contract for `SummaryAgent` and later model-capable agents, schema output, provider independence, deterministic mock behavior |
 | Verification | `verification.check` | citation support, missing evidence, stale evidence |
 | Audit | `audit.trace`, `audit.read_trace` | append-only events, replay requirements |
 | Evaluation | `evaluation.record` | quality signals, regression outcome shape |

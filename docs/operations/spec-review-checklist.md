@@ -194,24 +194,25 @@ Completion artifact target:
 
 - `docs/specs/commands/cli-command-contracts.md`
 
-## 5. LLM Gateway And Agent Core Summary Proof
+## 5. SummaryAgent Prototype And LLM Gateway Boundary
 
 Priority: P0.
 
-Reason: agents should not embed provider-specific LLM calls, and the first core behavior should be verifiable before full agent orchestration.
+Reason: before defining the full tool pool, validate a small `SummaryAgent` that connects to a simple storage-backed read tool and summarizes the read data.
 
 - [x] Define provider-independent `LlmGateway`.
-- [x] Define required `summarize` operation.
+- [x] Define `summarize` operation for the `SummaryAgent` prototype.
 - [x] Define optional structured completion boundary for later stages.
 - [x] Define model metadata and usage normalization.
 - [x] Define deterministic mock gateway requirement.
 - [x] Define that gateway adapters must not persist hidden conversation state.
-- [x] Define one-storage summary proof path.
-- [x] Define `StorageSupportable.read(path)` to text decoding boundary.
+- [x] Define one-storage `SummaryAgent` prototype path.
+- [x] Define simple `tool.read(path)` over `StorageSupportable.read(path)`.
+- [x] Define tool-read result to text decoding boundary.
 - [x] Define `LlmGateway.summarize` request and response boundary.
 - [x] Define summary proof result payload.
 - [x] Define validation and failure behavior.
-- [x] Confirm provider SDKs do not leak into agent core specs.
+- [x] Confirm provider SDKs do not leak into the prototype agent.
 
 Completion artifact targets:
 
@@ -557,4 +558,4 @@ Start with:
 
 Reason:
 
-Storage/indexing, common ID/ref contracts, local store layout, CLI command contracts, LLM gateway boundary, and the first one-storage summary proof are now defined. The next step is to define the remaining provider-independent tool ports that commands and agents may call.
+Storage/indexing, common ID/ref contracts, local store layout, CLI command contracts, LLM gateway boundary, and the first one-storage `SummaryAgent` prototype are now defined. The next step is to define the remaining provider-independent tool ports that commands and agents may call.

@@ -1,25 +1,25 @@
 # Spec: LLM Gateway Contract
 
-This spec defines the common LLM access boundary.
+This spec defines the common LLM access boundary for model-capable prototypes and later adapters.
 
 Agents must not call provider SDKs directly.
 
-They call `LlmGateway`, and provider-specific behavior stays behind adapters.
+When an agent needs model behavior, it should call `LlmGateway`, and provider-specific behavior stays behind adapters.
 
 ## Purpose
 
-Define a provider-independent gateway for:
+Define a provider-independent gateway shape for:
 
-- summary generation;
+- summary generation in the `SummaryAgent` prototype;
 - structured completion when needed later;
 - deterministic mock behavior for core agent tests;
 - model usage, provenance, validation, and trace metadata.
 
 ## Scope
 
-This spec covers Markdown-first validation.
+This spec covers the first `SummaryAgent` prototype and later Markdown-first validation.
 
-The first required behavior is summary generation from text already read from storage.
+The first prototype behavior is summary generation from text already read from storage.
 
 ## Non-Goals
 
@@ -29,10 +29,11 @@ The first required behavior is summary generation from text already read from st
 - No conversational memory store.
 - No vector embedding contract.
 - No durable knowledge update.
+- No requirement that every stage or agent must use `llm.summarize`.
 
 ## Core Decision
 
-LLM usage belongs to a common gateway.
+LLM usage should be isolated behind a common gateway whenever a prototype or agent uses model behavior.
 
 Agent core logic owns:
 
@@ -70,7 +71,7 @@ export interface LlmGateway {
 }
 ```
 
-`summarize` is required for P0.
+`summarize` is required only for the `SummaryAgent` prototype and for adapters that claim summary capability.
 
 `complete` is optional until a later agent spec needs generic structured output.
 
@@ -192,9 +193,9 @@ Example trace payload:
 }
 ```
 
-## Required Adapters
+## Prototype Adapters
 
-P0 requires:
+The `SummaryAgent` prototype should be validated with:
 
 - `MockLlmGateway`: deterministic, no network, fixture-friendly;
 - `NoopLlmGateway`: returns explicit unsupported errors when model use is disabled.
@@ -212,7 +213,7 @@ P1 may add:
 - `summaryText` must be non-empty after trimming.
 - `summaryText` must not exceed `maxSummaryChars` when that value is provided.
 - `outputRefs` must not introduce refs unrelated to `inputRefs` unless the agent explicitly allows derived artifact refs.
-- `modelInfo` is required even for mock adapters.
+- `modelInfo` is required when a gateway response is produced, including mock adapters.
 - gateway adapters must not persist hidden conversation state.
 
 ## Failure Modes
@@ -240,11 +241,11 @@ Trace records must include refs and metadata, not full source content.
 
 - Agents can depend on `LlmGateway` without importing provider SDKs.
 - A deterministic mock gateway can validate agent core behavior without network access.
-- Summary generation can be tested with one `StorageSupportable` and one `LlmGateway`.
+- The `SummaryAgent` prototype can test summary generation with one `StorageSupportable` and one `LlmGateway`.
 - Provider-specific adapter fields do not leak into agent-facing TypeScript types.
 - Persisted records follow `snake_case`; code-facing types follow `camelCase`.
 
 ## Open Questions
 
 - Whether structured completion should remain optional or become a separate `StructuredLlmGateway`.
-- Whether prompt templates deserve a separate spec after the first Markdown summary proof.
+- Whether prompt templates deserve a separate spec after the `SummaryAgent` prototype.

@@ -49,7 +49,7 @@ kp verify <run-id>
 - Start local and inspectable.
 - Preserve sources before generating summaries.
 - Call LLMs only through the common `LlmGateway`; agents must not import provider SDKs.
-- Validate the first agent core with one `StorageSupportable` and one `LlmGateway` before broader agent orchestration.
+- Validate a small `SummaryAgent` with one storage-backed read tool and one `LlmGateway` before broader tool and agent orchestration.
 - Store original sources in filesystem-compatible object storage.
 - Use OpenSearch-compatible documents first, then connect a real OpenSearch server.
 - Keep every indexed document linked to original source units.
@@ -92,7 +92,7 @@ This means:
 
 - implement deterministic Markdown/text parsing before media parsing;
 - implement local JSON/file-backed records before external services;
-- prove `read(path) -> summarize` with a mock LLM gateway before introducing provider adapters;
+- prove `tool.read(path) -> summarize` with a small `SummaryAgent` and a mock LLM gateway before introducing provider adapters;
 - implement fixture search before real OpenSearch;
 - implement cited draft answers before multi-modal reasoning;
 - implement answer verification for Markdown evidence before expanding media verification.
@@ -452,7 +452,7 @@ Deliverables:
 - Schema validation for agent outputs.
 - Shared handoff envelope type with stage-specific payload schemas.
 
-The first agent core can be deterministic apart from a mock LLM gateway. This proves the storage, gateway, and result contract before adding provider LLM behavior.
+The first prototype agent is `SummaryAgent`: it connects to a simple storage-backed read tool, reads by path, and summarizes the returned data through a mock LLM gateway. This proves the agent-tool boundary before adding the full tool pool or provider LLM behavior.
 
 ## Step 11: Agent Handoff
 

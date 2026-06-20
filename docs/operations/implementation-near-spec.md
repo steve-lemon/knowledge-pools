@@ -265,7 +265,7 @@ Markdown-first specs should prioritize deterministic tools.
 | `index.search` | Search fixture index by source, keyword, taxonomy, and relation. |
 | `retrieval.fetch_evidence` | Build bounded evidence bundles from refs. |
 | `verification.check` | Check citation and evidence support. |
-| `llm.summarize` / `llm.complete` | Common gateway calls, optional beyond the first summary proof, replaceable, and never the system of record. |
+| `llm.summarize` / `llm.complete` | Common gateway calls, used first by the `SummaryAgent` prototype, optional for the broader loop, replaceable, and never the system of record. |
 
 ## Validation Gates
 

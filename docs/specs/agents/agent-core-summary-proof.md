@@ -1,26 +1,26 @@
-# Spec: Agent Core Summary Proof
+# Spec: SummaryAgent Prototype
 
-This spec defines the first implementation-near proof of an agent core.
+This spec defines a small implementation-near prototype agent.
 
-It combines one `StorageSupportable` with one `LlmGateway`.
+It combines one `StorageSupportable`-backed read tool with one `LlmGateway`.
 
-The proof reads a path and returns a summary result.
+`SummaryAgent` reads a path through a storage-backed tool and returns a summary result.
 
 ## Purpose
 
-Validate the smallest useful agent core before implementing full agents.
+Validate the smallest useful agent-tool connection before implementing the broader tool pool.
 
 This proves:
 
 - storage adapter compatibility;
 - byte-to-text conversion for Markdown-first input;
-- common LLM gateway usage;
+- optional common LLM gateway usage;
 - summary artifact payload shape;
 - validation and failure handling around model output.
 
 ## Scope
 
-P0 covers Markdown, text, and JSON-compatible content that can be decoded as UTF-8.
+The prototype covers Markdown, text, and JSON-compatible content that can be decoded as UTF-8.
 
 The input is one storage path.
 
@@ -38,16 +38,20 @@ The output is a summary result payload.
 
 ## Core Decision
 
-The first core proof should be a pure orchestration function over explicit dependencies.
+The prototype should be a pure orchestration function over explicit dependencies.
 
 ```text
-StorageSupportable.read(path)
+SummaryAgent
+  -> tool.read(path)
+  -> StorageSupportable.read(path)
   -> decode bounded text
   -> LlmGateway.summarize(...)
   -> SummaryProofResult
 ```
 
-The agent core must not know which LLM provider is used.
+`tool.read(path)` may be a very small wrapper around one `StorageSupportable`.
+
+The prototype agent must not know which storage backend or LLM provider is used.
 
 The LLM gateway must not know how storage is implemented.
 
@@ -79,17 +83,24 @@ import type {
   LlmTraceContext
 } from "../tools/llm-gateway-contract";
 
-export interface SummaryAgentCoreDeps<
+export interface SummaryAgentDeps<
   TStorageData = Buffer,
   TStorageMeta extends StorageObjectMeta = StorageObjectMeta
 > {
-  storage: StorageSupportable<TStorageData, TStorageMeta>;
+  readTool: SummaryReadTool<TStorageData, TStorageMeta>;
   llmGateway: LlmGateway;
   clock?: Clock;
   contentHasher?: ContentHasher;
 }
 
-export interface SummaryAgentCore {
+export interface SummaryReadTool<
+  TStorageData = Buffer,
+  TStorageMeta extends StorageObjectMeta = StorageObjectMeta
+> {
+  read(path: StoragePath): Promise<SummaryReadResult<TStorageData, TStorageMeta>>;
+}
+
+export interface SummaryAgent {
   summarizePath(
     input: SummarizePathInput
   ): Promise<Result<SummaryProofResult>>;
@@ -107,6 +118,14 @@ export interface Clock {
 
 export interface ContentHasher {
   sha256(data: Buffer | string): ContentHash;
+}
+
+export interface SummaryReadResult<
+  TStorageData = Buffer,
+  TStorageMeta extends StorageObjectMeta = StorageObjectMeta
+> {
+  data: TStorageData;
+  meta: TStorageMeta;
 }
 
 export interface SummarizePathInput {
@@ -149,27 +168,49 @@ export interface SummaryProofSummary {
 }
 ```
 
-## Required Algorithm
+## Required Prototype Algorithm
 
-1. Call `storage.describe(path)`.
-2. Validate that the object exists and is readable.
-3. Call `storage.read(path)`.
-4. Convert the result to text:
+1. Call `readTool.read(path)`.
+2. Validate that the object exists and is readable through the returned metadata.
+3. Convert the returned data to text:
    - `Buffer` uses `toString("utf8")`;
    - `string` is used directly;
-   - any other type requires an explicit decoder and is out of scope for P0.
-5. Trim only for validation; preserve the bounded text body sent to the gateway.
-6. Apply `maxInputChars` if provided and mark `truncated`.
-7. Compute `contentHash` when a hasher is provided.
-8. Call `llmGateway.summarize`.
-9. Validate that the gateway response contains non-empty `summaryText`.
-10. Return `SummaryProofResult`.
+   - any other type requires an explicit decoder and is out of scope for this prototype.
+4. Trim only for validation; preserve the bounded text body sent to the gateway.
+5. Apply `maxInputChars` if provided and mark `truncated`.
+6. Compute `contentHash` when a hasher is provided.
+7. Call `llmGateway.summarize`.
+8. Validate that the gateway response contains non-empty `summaryText`.
+9. Return `SummaryProofResult`.
+
+## Minimal Read Tool
+
+The first read tool can be a thin adapter over one `StorageSupportable`.
+
+```ts
+export class StorageSummaryReadTool<
+  TStorageData = Buffer,
+  TStorageMeta extends StorageObjectMeta = StorageObjectMeta
+> implements SummaryReadTool<TStorageData, TStorageMeta> {
+  constructor(
+    private readonly storage: StorageSupportable<TStorageData, TStorageMeta>
+  ) {}
+
+  async read(
+    path: StoragePath
+  ): Promise<SummaryReadResult<TStorageData, TStorageMeta>> {
+    const meta = await this.storage.describe(path);
+    const data = await this.storage.read(path);
+    return { data, meta };
+  }
+}
+```
 
 ## Input Contracts
 
 - `path` must be a storage path, not a raw filesystem operation outside the storage adapter.
 - `encoding` defaults to `utf8`.
-- `mediaHint` should be `md`, `txt`, or `json` for P0.
+- `mediaHint` should be `md`, `txt`, or `json` for the prototype.
 - `sourceRef` is recommended when the path already belongs to a known source/version.
 - `maxInputChars` should be provided in CLI or fixture-driven tests.
 - `maxSummaryChars` should be forwarded to `LlmGateway.summarize`.
@@ -201,8 +242,8 @@ It must not include:
 
 | Failure | Required behavior |
 | --- | --- |
-| missing path | return typed storage not-found error |
-| unreadable path | return typed storage read error |
+| missing path | return typed read-tool not-found error |
+| unreadable path | return typed read-tool error |
 | unsupported data type | return typed decoder unsupported error |
 | empty decoded text | return typed validation error |
 | input exceeds limit and truncation is disabled later | return typed bounded-input error |
@@ -214,8 +255,7 @@ It must not include:
 The implementation should emit or allow the caller to emit:
 
 - `summary_proof.started`;
-- `storage.describe.requested`;
-- `storage.read.requested`;
+- `summary_read_tool.read.requested`;
 - `llm.summary.requested`;
 - `summary_proof.completed`;
 - `summary_proof.failed`.
@@ -236,9 +276,9 @@ Expected outputs should use `MockLlmGateway` so the result is deterministic.
 
 ## Acceptance Criteria
 
-- The core proof can run with one local `StorageSupportable<Buffer>` and one `MockLlmGateway`.
-- The same proof can later run with S3-compatible storage without changing the agent core.
-- The agent core does not import provider SDKs.
+- `SummaryAgent` can run with one local `StorageSupportable<Buffer>` through one read tool and one `MockLlmGateway`.
+- The same prototype can later run with S3-compatible storage without changing `SummaryAgent`.
+- `SummaryAgent` does not import provider SDKs.
 - The gateway does not import storage adapters.
 - The result payload is usable as a future preview or understanding input, but does not claim durable knowledge.
 - Code-facing types use `camelCase`; persisted examples use `snake_case`.
