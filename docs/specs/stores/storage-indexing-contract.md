@@ -120,10 +120,13 @@ This keeps local filesystem storage, S3-compatible storage, and OpenSearch-compa
 The interface is intentionally small:
 
 ```ts
-export interface StorageSupportable<T = Buffer> {
+export interface StorageSupportable<
+  T = Buffer,
+  Meta extends StorageObjectMeta = StorageObjectMeta
+> {
   read(path: StoragePath): Promise<T>;
-  save(path: StoragePath, data: T, meta?: StorageObjectMetaInput): Promise<StorageObjectMetaResolved>;
-  describe(path: StoragePath): Promise<StorageObjectMetaResolved>;
+  save(path: StoragePath, data: T, options?: StorageSaveOptions): Promise<Meta>;
+  describe(path: StoragePath): Promise<Meta>;
 }
 ```
 
@@ -145,7 +148,7 @@ Callers may also keep byte storage and convert at the caller boundary:
 
 ```ts
 const markdown = (await storage.read(path)).toString("utf8");
-await storage.save(path, Buffer.from(JSON.stringify(payload, null, 2), "utf8"), meta);
+await storage.save(path, Buffer.from(JSON.stringify(payload, null, 2), "utf8"), options);
 ```
 
 Recommended P0 posture:
@@ -211,19 +214,23 @@ Rules:
 - path traversal such as `../` must be rejected by local adapters;
 - adapter-specific credentials, bucket names, and roots belong to adapter configuration, not artifact payloads.
 
-### StorageObjectMetaInput
+### StorageSaveOptions
 
-`meta` on `save` is optional because some objects can be described from bytes and path alone.
+`options` on `save` is optional because some objects can be described from bytes and path alone.
 
-When provided, it should be treated as caller-provided metadata, not as proof of storage state.
+This object is useful, but it is not storage-observed metadata.
+
+It should be treated as a save request hint.
+
+It should not be named `StorageObjectMetaInput` because that makes it look like the caller can define the stored object's truth.
 
 ```ts
-export interface StorageObjectMetaInput {
+export interface StorageSaveOptions {
   media_type?: string;
   media_hint?: string;
   encoding?: "utf8" | "binary" | "base64";
-  content_hash?: string;
-  byte_size?: number;
+  expected_content_hash?: string;
+  expected_byte_size?: number;
   source_id?: string;
   source_version_id?: string;
   artifact_id?: string;
@@ -231,10 +238,20 @@ export interface StorageObjectMetaInput {
   created_by?: string;
   tags?: string[];
   attributes?: TypedAttribute[];
+  user_meta?: Record<string, string>;
+  overwrite?: boolean;
+  if_absent?: boolean;
 }
 ```
 
-Adapters may ignore fields that the backing store cannot persist, but `describe` must still return storage-observed metadata.
+Rules:
+
+- `expected_content_hash` and `expected_byte_size` are preconditions or hints, not observed state;
+- adapters may use options to set provider user metadata where supported;
+- adapters may ignore fields that the backing store cannot persist;
+- `describe` must still return storage-observed metadata;
+- immutable source-version paths should use `if_absent = true`;
+- mutable projection writes may use `overwrite = true` only when the higher-level index tool allows it.
 
 ### StorageObjectMeta
 
@@ -332,7 +349,7 @@ Local filesystem access can implement `StorageSupportable<Buffer>`.
 Recommended shape:
 
 ```ts
-export type LocalStorage = StorageSupportable<Buffer>;
+export type LocalStorage = StorageSupportable<Buffer, StorageObjectMetaLocal>;
 ```
 
 The local adapter is useful for:
@@ -361,7 +378,8 @@ OpenSearch-compatible projection storage may implement `StorageSupportable<T>` f
 Recommended shape after projection contracts are stable:
 
 ```ts
-export type OSProjectionStorage<TProjection> = StorageSupportable<TProjection>;
+export type OSProjectionStorage<TProjection> =
+  StorageSupportable<TProjection, StorageObjectMetaOS>;
 ```
 
 The OS adapter is useful for:
@@ -383,14 +401,14 @@ Rules:
 
 ### Save Behavior
 
-`save(path, data, meta?)` writes data.
+`save(path, data, options?)` writes data.
 
 Rules:
 
 - `data` is the source of truth for stored bytes or text;
 - `Buffer` writes preserve bytes exactly;
 - `string` writes must use explicit UTF-8 encoding unless a higher-level adapter declares otherwise;
-- `content_hash`, when provided in `meta`, must be verified or recomputed by higher-level source-version logic;
+- `expected_content_hash`, when provided in `options`, must be checked by the adapter or higher-level source-version logic;
 - storage adapters may return observed hash metadata when they compute it;
 - overwriting an existing path is allowed only for mutable locations such as temporary artifacts or current pointers;
 - immutable source-version paths must be written once by policy above this adapter;
