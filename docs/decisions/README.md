@@ -63,6 +63,7 @@ YYYY-MM-DD-short-title.md
 - [Evaluate Baseline](2026-06-19-evaluate-baseline.md)
 - [Evaluate Readiness Review](2026-06-20-evaluate-readiness-review.md)
 - [Implementation-Near Specification Before Code](2026-06-20-implementation-near-specification.md)
+- [Implementation Specification Architecture](2026-06-20-implementation-spec-architecture.md)
 
 ## Template
 

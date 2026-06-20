@@ -26,6 +26,7 @@ Core entry points:
 - [Vision](docs/vision.md)
 - [Ultimate Knowledge Loop](docs/architecture/ultimate-loop.md)
 - [Terminology](docs/architecture/terminology.md)
+- [Implementation Specification Architecture](docs/architecture/implementation-spec-architecture.md)
 - [Implementation Plan](docs/operations/implementation-plan.md)
 - [Implementation-Near Specification Preparation](docs/operations/implementation-near-spec.md)
 

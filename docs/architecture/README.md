@@ -9,6 +9,7 @@ Use [Ultimate Knowledge Loop](ultimate-loop.md) and [Terminology](terminology.md
 - [Ultimate Knowledge Loop](ultimate-loop.md)
 - [Architecture Overview](overview.md)
 - [System Architecture](system-architecture.md)
+- [Implementation Specification Architecture](implementation-spec-architecture.md)
 - [Terminology](terminology.md)
 - [Knowledge Model](knowledge-model.md)
 - [Stage Data Flow Contract](stage-data-flow-contract.md)

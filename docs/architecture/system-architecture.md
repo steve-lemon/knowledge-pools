@@ -2,6 +2,8 @@
 
 This document maps the ultimate knowledge loop to concrete system components.
 
+For implementation-near module boundaries, folder grouping, interface spec structure, and validation planning, see [Implementation Specification Architecture](implementation-spec-architecture.md).
+
 ## Component Map
 
 ```text

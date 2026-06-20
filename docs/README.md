@@ -39,6 +39,7 @@ Use [Architecture Index](architecture/README.md) for architecture documents grou
 High-level anchors:
 
 - [System Architecture](architecture/system-architecture.md)
+- [Implementation Specification Architecture](architecture/implementation-spec-architecture.md)
 - [Knowledge Model](architecture/knowledge-model.md)
 - [Stage Data Flow Contract](architecture/stage-data-flow-contract.md)
 - [Agent Design](architecture/agents.md)
@@ -88,6 +89,7 @@ Use this layout for new documents:
 | --- | --- |
 | Current architecture | `docs/architecture/` |
 | Agent role spec | `docs/agents/` |
+| Implementation-near spec | `docs/specs/` |
 | Implementation workflow | `docs/operations/` |
 | Architecture decision record | `docs/decisions/` |
 | Research notes | `docs/research/` |

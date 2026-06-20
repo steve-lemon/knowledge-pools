@@ -6,6 +6,8 @@ The project is not moving into broad implementation yet.
 
 It is moving into implementation-near specification: detailed enough for implementation, but still maintained as documentation.
 
+Use [Implementation Specification Architecture](../architecture/implementation-spec-architecture.md) to organize module, infrastructure, agent, tool, interface, and validation specs.
+
 ## Purpose
 
 Turn the architecture into a precise Markdown-first implementation specification.
@@ -66,6 +68,7 @@ The next documentation pass should produce or refine these implementation-facing
 
 | Spec | Purpose |
 | --- | --- |
+| Implementation specification architecture | Defines the overall module, infrastructure, agent, tool, contract, and validation map. |
 | Module layout spec | Defines the future TypeScript package boundaries and ownership. |
 | CLI command spec | Defines command names, arguments, outputs, and failure behavior. |
 | Runtime store spec | Defines local directories, JSON record formats, and lifecycle rules. |
@@ -79,55 +82,11 @@ The next documentation pass should produce or refine these implementation-facing
 
 ## Future Module Layout Target
 
-This is a specification target, not a directory creation request.
+Use [Implementation Specification Architecture](../architecture/implementation-spec-architecture.md) as the canonical future runtime folder model.
 
-```text
-src/
-  cli/
-    commands/
-    output/
-  core/
-    ids/
-    refs/
-    result/
-    validation/
-  runtime/
-    orchestrator/
-    sessions/
-    runs/
-    tasks/
-    traces/
-  schemas/
-    common/
-    stages/
-    handoffs/
-    index/
-  stores/
-    filesystem/
-    artifacts/
-    sources/
-    index-fixture/
-  tools/
-    source/
-    parse/
-    chunk/
-    preview/
-    index/
-    retrieval/
-    model/
-    verification/
-  stages/
-    ingest/
-    understand/
-    connect/
-    plan/
-    retrieve/
-    reason/
-    verify/
-    update/
-    curation/
-    evaluate/
-```
+This document defines the work mode.
+
+The architecture document defines the module grouping and folder ownership.
 
 ## Local Data Layout Target
 
