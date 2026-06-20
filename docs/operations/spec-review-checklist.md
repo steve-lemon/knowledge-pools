@@ -280,15 +280,15 @@ P3 tool ports:
 - [x] Define `preview.create`. See [Preview Tool Ports](../specs/tools/preview-tool-ports.md).
 - [ ] Define `taxonomy.read`.
 - [ ] Define `taxonomy.validate`.
-- [ ] Define `schema.validate`.
-- [ ] Define `artifact.read`.
-- [ ] Define `artifact.write`.
+- [x] Define `schema.validate`. See [Schema, Artifact, And Audit Tool Ports](../specs/tools/schema-artifact-audit-tool-ports.md).
+- [x] Define `artifact.read`. See [Schema, Artifact, And Audit Tool Ports](../specs/tools/schema-artifact-audit-tool-ports.md).
+- [x] Define `artifact.write`. See [Schema, Artifact, And Audit Tool Ports](../specs/tools/schema-artifact-audit-tool-ports.md).
 - [ ] Define `index.write_projection`.
 - [ ] Define `index.search`.
 - [ ] Define `retrieval.plan`.
 - [ ] Define `retrieval.fetch_evidence`.
 - [ ] Define `verification.check`.
-- [ ] Define `audit.trace`.
+- [x] Define `audit.trace`. See [Schema, Artifact, And Audit Tool Ports](../specs/tools/schema-artifact-audit-tool-ports.md).
 - [x] Define LLM adapter boundary through `LlmGateway`.
 
 Completion artifact targets:
@@ -298,6 +298,7 @@ Completion artifact targets:
 - `docs/specs/tools/source-tool-ports.md`
 - `docs/specs/tools/document-structure-tool-ports.md`
 - `docs/specs/tools/preview-tool-ports.md`
+- `docs/specs/tools/schema-artifact-audit-tool-ports.md`
 
 ## 7. Runtime And Orchestrator Contracts
 

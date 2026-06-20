@@ -23,9 +23,9 @@ groups. It does not define request/response details directly.
 | Document structure | [Document Structure Tool Ports](document-structure-tool-ports.md) | `parse.document`, `chunk.create` |
 | Preview and derived navigation | [Preview Tool Ports](preview-tool-ports.md) | `preview.create` |
 | Taxonomy | Pending | `taxonomy.read`, `taxonomy.validate` |
-| Schema and artifact stores | Pending | `schema.validate`, `artifact.read`, `artifact.write` |
+| Schema, artifact, and audit | [Schema, Artifact, And Audit Tool Ports](schema-artifact-audit-tool-ports.md) | `schema.validate`, `artifact.read`, `artifact.write`, `audit.trace` |
 | Index and retrieval | Pending | `index.write_projection`, `index.search`, `retrieval.plan`, `retrieval.fetch_evidence` |
-| Verification and audit | Pending | `verification.check`, `audit.trace` |
+| Verification | Pending | `verification.check` |
 | Model access | [LLM Gateway Contract](llm-gateway-contract.md) | provider-independent LLM adapter boundary |
 
 ## Dependency Order
@@ -35,10 +35,12 @@ Detailed tool-port specs should be added in this order:
 1. Common tool-port runtime boundary.
 2. Source storage and versioning ports.
 3. Document structure ports.
-4. Preview, taxonomy, schema, artifact, index, retrieval, verification, and audit ports.
+4. Schema, artifact, and audit support ports.
+5. Preview and taxonomy ports.
+6. Index, retrieval, and verification ports.
 
-The first three groups are currently defined because they are required for the
-Markdown-first source and access-unit path.
+The first four groups are required for the Markdown-first source,
+access-unit, artifact, validation, and trace path.
 
 ## Core Rules
 

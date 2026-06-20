@@ -54,6 +54,10 @@ export type ToolPortId =
   | "parse.document"
   | "chunk.create"
   | "preview.create"
+  | "schema.validate"
+  | "artifact.read"
+  | "artifact.write"
+  | "audit.trace"
   | string;
 
 export interface ToolPortRegistry {
