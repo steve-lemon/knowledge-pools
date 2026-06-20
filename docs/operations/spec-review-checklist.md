@@ -267,16 +267,16 @@ P3 tool ports:
 - media parsing tools
 - external infrastructure adapters
 
-- [ ] Define common tool request and response envelope.
-- [ ] Define common tool error shape.
-- [ ] Define tool side effect levels.
-- [ ] Define tool trace requirements.
-- [ ] Define `source.locate`.
-- [ ] Define `source.read`.
-- [ ] Define `source.write`.
-- [ ] Define `source.version`.
-- [ ] Define `parse.document`.
-- [ ] Define `chunk.create`.
+- [x] Define common tool request and response envelope. See [Common Tool Port Contracts](../specs/tools/common-tool-port-contracts.md).
+- [x] Define common tool error shape. See [Common Tool Port Contracts](../specs/tools/common-tool-port-contracts.md).
+- [x] Define tool side effect levels. See [Common Tool Port Contracts](../specs/tools/common-tool-port-contracts.md).
+- [x] Define tool trace requirements. See [Common Tool Port Contracts](../specs/tools/common-tool-port-contracts.md).
+- [x] Define `source.locate`. See [Source Tool Ports](../specs/tools/source-tool-ports.md).
+- [x] Define `source.read`. See [Source Tool Ports](../specs/tools/source-tool-ports.md).
+- [x] Define `source.write`. See [Source Tool Ports](../specs/tools/source-tool-ports.md).
+- [x] Define `source.version`. See [Source Tool Ports](../specs/tools/source-tool-ports.md).
+- [x] Define `parse.document`. See [Document Structure Tool Ports](../specs/tools/document-structure-tool-ports.md).
+- [x] Define `chunk.create`. See [Document Structure Tool Ports](../specs/tools/document-structure-tool-ports.md).
 - [ ] Define `preview.create`.
 - [ ] Define `taxonomy.read`.
 - [ ] Define `taxonomy.validate`.
@@ -291,9 +291,12 @@ P3 tool ports:
 - [ ] Define `audit.trace`.
 - [x] Define LLM adapter boundary through `LlmGateway`.
 
-Completion artifact target:
+Completion artifact targets:
 
 - `docs/specs/tools/tool-port-contracts.md`
+- `docs/specs/tools/common-tool-port-contracts.md`
+- `docs/specs/tools/source-tool-ports.md`
+- `docs/specs/tools/document-structure-tool-ports.md`
 
 ## 7. Runtime And Orchestrator Contracts
 
