@@ -128,17 +128,17 @@ Priority: P0.
 
 Reason: every Markdown-first artifact, handoff, source unit, trace, and fixture depends on stable IDs and refs, but those IDs must follow the storage and indexing boundaries first.
 
-- [ ] Define ID families: source, version, access unit, artifact, handoff, run, session, task, trace, candidate, relation, evidence, lifecycle.
-- [ ] Define stable ref string format and parsing rules.
-- [ ] Define hash and version policy for source updates.
-- [ ] Define common timestamp, schema version, and status conventions.
+- [x] Define ID families: source, version, access unit, artifact, handoff, run, session, task, trace, candidate, relation, evidence, lifecycle.
+- [x] Define stable ref string format and parsing rules.
+- [x] Define hash and version policy for source updates.
+- [x] Define common timestamp, schema version, and status conventions.
 - [x] Define naming convention boundary: JSON/persisted records use `snake_case`, TypeScript code uses `camelCase`.
-- [ ] Define common `Result` and typed error shapes.
-- [ ] Define provenance object fields and required provenance levels.
-- [ ] Define validation summary shape.
-- [ ] Define TypeScript type export structure.
-- [ ] Define JSON compatibility rules for all contracts.
-- [ ] Define migration/versioning policy for contract changes.
+- [x] Define common `Result` and typed error shapes.
+- [x] Define provenance object fields and required provenance levels.
+- [x] Define validation summary shape.
+- [x] Define TypeScript type export structure.
+- [x] Define JSON compatibility rules for all contracts.
+- [x] Define migration/versioning policy for contract changes.
 
 Completion artifact target:
 
@@ -526,9 +526,9 @@ Completion artifact targets:
 Start with:
 
 ```text
-2. Shared Contracts And IDs
+3. Local Store Layout
 ```
 
 Reason:
 
-Storage and indexing boundaries now decide where source truth lives, what the index may store, how evidence is fetched, and which ID/ref families the next contract must define.
+Storage/indexing and common ID/ref contracts are now defined. The next step is to define the concrete local layout that implements those contracts for Markdown-first validation.

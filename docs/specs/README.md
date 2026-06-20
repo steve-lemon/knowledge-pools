@@ -96,3 +96,5 @@ Do not leak `camelCase` into persisted JSON or OpenSearch-compatible documents.
 Start with [Storage And Indexing Contract](stores/storage-indexing-contract.md).
 
 This spec must shape the common ID and ref policy that follows.
+
+Then continue with [Common Contracts And IDs](contracts/common-contracts.md).
