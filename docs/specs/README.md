@@ -6,6 +6,8 @@ Specs here should be detailed enough for code to be written later, but this dire
 
 Use [Implementation Specification Architecture](../architecture/implementation-spec-architecture.md) as the organizing reference.
 
+Use [Specification Review Checklist](../operations/spec-review-checklist.md) to track detailed review progress.
+
 ## Folder Plan
 
 ```text

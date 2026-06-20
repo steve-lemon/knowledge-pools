@@ -8,6 +8,8 @@ The current project mode is implementation-near specification, not broad runtime
 
 Use [Implementation-Near Specification Preparation](implementation-near-spec.md) before creating code.
 
+Use [Specification Review Checklist](spec-review-checklist.md) to track each detailed spec item and mark completion as the work progresses.
+
 The canonical runtime stage flow is:
 
 ```text
