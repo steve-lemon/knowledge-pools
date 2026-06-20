@@ -70,6 +70,27 @@ Architecture documents explain why the system is shaped this way.
 
 Spec documents explain exactly what an implementation must satisfy.
 
+## Naming Convention
+
+This convention is mandatory.
+
+Persisted data objects and JSON-compatible records use `snake_case`.
+
+TypeScript code uses `camelCase`.
+
+Examples:
+
+| Layer | Example |
+| --- | --- |
+| JSON/index/source record | `byte_size`, `source_id`, `created_at` |
+| TypeScript code | `byteSize`, `sourceId`, `createdAt` |
+
+Adapters and mappers translate between the two.
+
+Do not leak `snake_case` into TypeScript APIs except for raw JSON types.
+
+Do not leak `camelCase` into persisted JSON or OpenSearch-compatible documents.
+
 ## First P0 Spec
 
 Start with [Storage And Indexing Contract](stores/storage-indexing-contract.md).

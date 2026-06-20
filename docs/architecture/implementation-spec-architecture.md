@@ -273,6 +273,7 @@ When a future spec defines an interface, it should include:
 
 - TypeScript type or interface name;
 - stable field names;
+- naming boundary between TypeScript `camelCase` and persisted JSON `snake_case`;
 - allowed enum values;
 - nullable or optional field policy;
 - versioning policy;

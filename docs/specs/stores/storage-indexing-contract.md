@@ -117,6 +117,31 @@ It does not mean operating system.
 
 This keeps local filesystem storage, S3-compatible storage, and OpenSearch-compatible projection storage behind the same small adapter shape where appropriate.
 
+## Naming Convention
+
+This convention is mandatory.
+
+Persisted data objects and JSON-compatible records use `snake_case`.
+
+TypeScript code, interfaces, function names, method names, variables, and in-memory objects use `camelCase`.
+
+Examples:
+
+| Layer | Example |
+| --- | --- |
+| JSON/index/source record | `byte_size`, `source_id`, `created_at` |
+| TypeScript code | `byteSize`, `sourceId`, `createdAt` |
+
+Adapters and mappers are responsible for translating between code-facing `camelCase` and persisted `snake_case`.
+
+Do not leak `snake_case` into TypeScript APIs except when a type explicitly models raw JSON.
+
+Do not leak `camelCase` into persisted JSON or OpenSearch-compatible documents.
+
+The TypeScript examples in this spec use `camelCase`.
+
+The persisted JSON/index field names in this spec use `snake_case`.
+
 The interface is intentionally small:
 
 ```ts
@@ -226,31 +251,31 @@ It should not be named `StorageObjectMetaInput` because that makes it look like 
 
 ```ts
 export interface StorageSaveOptions {
-  media_type?: string;
-  media_hint?: string;
+  mediaType?: string;
+  mediaHint?: string;
   encoding?: "utf8" | "binary" | "base64";
-  expected_content_hash?: string;
-  expected_byte_size?: number;
-  source_id?: string;
-  source_version_id?: string;
-  artifact_id?: string;
-  schema_version?: string;
-  created_by?: string;
+  expectedContentHash?: string;
+  expectedByteSize?: number;
+  sourceId?: string;
+  sourceVersionId?: string;
+  artifactId?: string;
+  schemaVersion?: string;
+  createdBy?: string;
   tags?: string[];
   attributes?: TypedAttribute[];
-  user_meta?: Record<string, string>;
+  userMeta?: Record<string, string>;
   overwrite?: boolean;
-  if_absent?: boolean;
+  ifAbsent?: boolean;
 }
 ```
 
 Rules:
 
-- `expected_content_hash` and `expected_byte_size` are preconditions or hints, not observed state;
+- `expectedContentHash` and `expectedByteSize` are preconditions or hints, not observed state;
 - adapters may use options to set provider user metadata where supported;
 - adapters may ignore fields that the backing store cannot persist;
 - `describe` must still return storage-observed metadata;
-- immutable source-version paths should use `if_absent = true`;
+- immutable source-version paths should use `ifAbsent = true`;
 - mutable projection writes may use `overwrite = true` only when the higher-level index tool allows it.
 
 ### StorageObjectMeta
@@ -261,52 +286,52 @@ Rules:
 export interface StorageObjectMeta {
   path: StoragePath;
   exists: boolean;
-  byte_size: number;
-  content_hash?: string;
-  hash_algorithm?: "sha256";
-  media_type?: string;
-  media_hint?: string;
+  byteSize: number;
+  contentHash?: string;
+  hashAlgorithm?: "sha256";
+  mediaType?: string;
+  mediaHint?: string;
   encoding?: "utf8" | "binary" | "base64";
-  created_at?: string;
-  updated_at?: string;
-  last_modified?: string;
-  storage_provider: "local" | "s3_compatible" | "os";
-  storage_class?: string;
-  user_meta?: Record<string, string>;
+  createdAt?: string;
+  updatedAt?: string;
+  lastModified?: string;
+  storageProvider: "local" | "s3Compatible" | "os";
+  storageClass?: string;
+  userMeta?: Record<string, string>;
 }
 
 export interface StorageObjectMetaLocal extends StorageObjectMeta {
-  storage_provider: "local";
-  root_path?: string;
-  relative_path?: string;
+  storageProvider: "local";
+  rootPath?: string;
+  relativePath?: string;
   mode?: number;
   uid?: number;
   gid?: number;
   inode?: number;
-  device_id?: number;
-  symlink_policy?: "follow" | "preserve" | "reject";
+  deviceId?: number;
+  symlinkPolicy?: "follow" | "preserve" | "reject";
 }
 
 export interface StorageObjectMetaS3Compatible extends StorageObjectMeta {
-  storage_provider: "s3_compatible";
+  storageProvider: "s3Compatible";
   bucket?: string;
   key?: string;
   region?: string;
   endpoint?: string;
   etag?: string;
-  version_id?: string;
+  versionId?: string;
 }
 
 export interface StorageObjectMetaOS extends StorageObjectMeta {
-  storage_provider: "os";
-  index_name?: string;
-  index_alias?: string;
-  document_id?: string;
-  document_type?: string;
-  seq_no?: number;
-  primary_term?: number;
+  storageProvider: "os";
+  indexName?: string;
+  indexAlias?: string;
+  documentId?: string;
+  documentType?: string;
+  seqNo?: number;
+  primaryTerm?: number;
   routing?: string;
-  index_version?: string;
+  indexVersion?: string;
 }
 
 export type StorageObjectMetaResolved =
@@ -322,8 +347,8 @@ Provider-specific metadata belongs in the provider-specific subtype.
 For local storage:
 
 - `etag` may be omitted;
-- `version_id` may be omitted;
-- `last_modified` should come from filesystem metadata where available.
+- `versionId` may be omitted;
+- `lastModified` should come from filesystem metadata where available.
 - filesystem-specific metadata such as mode, uid, gid, inode, and device id may be exposed;
 - absolute paths must not be stored in durable artifacts unless explicitly allowed by environment policy;
 - repository-scoped logical paths should remain the stable path used by artifacts and manifests.
@@ -331,14 +356,14 @@ For local storage:
 For S3-compatible storage:
 
 - `etag` may not equal SHA-256;
-- `version_id` may be present only when bucket versioning is enabled;
-- caller code must not treat provider `version_id` as `source_version_id`.
+- `versionId` may be present only when bucket versioning is enabled;
+- caller code must not treat provider `versionId` as `sourceVersionId`.
 
 For OS/OpenSearch-compatible storage:
 
 - OS metadata describes index projection state, not original source bytes;
-- `document_id` should match `index_document_id` when available;
-- `seq_no` and `primary_term` are provider concurrency metadata, not Knowledge Pools source version IDs;
+- `documentId` should match persisted `index_document_id` when available;
+- `seqNo` and `primaryTerm` are provider concurrency metadata, not Knowledge Pools source version IDs;
 - OS metadata must not be used as evidence metadata;
 - exact answer evidence still comes from source storage through manifests and access units.
 
@@ -408,7 +433,7 @@ Rules:
 - `data` is the source of truth for stored bytes or text;
 - `Buffer` writes preserve bytes exactly;
 - `string` writes must use explicit UTF-8 encoding unless a higher-level adapter declares otherwise;
-- `expected_content_hash`, when provided in `options`, must be checked by the adapter or higher-level source-version logic;
+- `expectedContentHash`, when provided in `options`, must be checked by the adapter or higher-level source-version logic;
 - storage adapters may return observed hash metadata when they compute it;
 - overwriting an existing path is allowed only for mutable locations such as temporary artifacts or current pointers;
 - immutable source-version paths must be written once by policy above this adapter;

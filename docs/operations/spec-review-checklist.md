@@ -132,6 +132,7 @@ Reason: every Markdown-first artifact, handoff, source unit, trace, and fixture 
 - [ ] Define stable ref string format and parsing rules.
 - [ ] Define hash and version policy for source updates.
 - [ ] Define common timestamp, schema version, and status conventions.
+- [x] Define naming convention boundary: JSON/persisted records use `snake_case`, TypeScript code uses `camelCase`.
 - [ ] Define common `Result` and typed error shapes.
 - [ ] Define provenance object fields and required provenance levels.
 - [ ] Define validation summary shape.
