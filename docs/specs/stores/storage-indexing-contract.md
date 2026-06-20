@@ -111,15 +111,19 @@ The source object store must not:
 
 All object-like storage adapters should implement the same minimal interface.
 
-This keeps local filesystem, OS-backed filesystem access, and S3-compatible storage interchangeable.
+In this spec, `OS` means OpenSearch or an OpenSearch-compatible indexing service.
+
+It does not mean operating system.
+
+This keeps local filesystem storage, S3-compatible storage, and OpenSearch-compatible projection storage behind the same small adapter shape where appropriate.
 
 The interface is intentionally small:
 
 ```ts
 export interface StorageSupportable<T = Buffer> {
   read(path: StoragePath): Promise<T>;
-  save(path: StoragePath, data: T, meta?: StorageObjectMetaInput): Promise<StorageObjectMeta>;
-  describe(path: StoragePath): Promise<StorageObjectMeta>;
+  save(path: StoragePath, data: T, meta?: StorageObjectMetaInput): Promise<StorageObjectMetaResolved>;
+  describe(path: StoragePath): Promise<StorageObjectMetaResolved>;
 }
 ```
 
@@ -148,6 +152,7 @@ Recommended P0 posture:
 
 - use `StorageSupportable<Buffer>` for source objects, derived media, previews, and hash-sensitive writes;
 - allow `StorageSupportable<string>` for Markdown, text, and JSON helper adapters;
+- allow `StorageSupportable<IndexProjectionDocument>` or serialized JSON for OpenSearch-compatible projection adapters after projection contracts are stable;
 - never compute source hashes from a string after implicit encoding conversion unless the encoding is explicitly fixed as UTF-8;
 - keep parser behavior outside the storage adapter.
 
@@ -177,6 +182,7 @@ Possible later extensions:
 
 - `Readable` stream for large local/S3 reads;
 - provider-specific upload body types;
+- OpenSearch-compatible projection document objects;
 - range-read support for media and large documents.
 
 Those extensions should be additive and must not change the P0 method names.
@@ -194,6 +200,7 @@ Allowed examples:
 ```text
 knowledge/sources/src_001/versions/srcv_md_sha256_ab12/original.md
 s3://bucket/repository/sources/src_001/versions/srcv_md_sha256_ab12/original.md
+os://repo_main/projections/kp_repo_main_source_md_sha256_ab12_root
 ```
 
 Rules:
@@ -231,10 +238,10 @@ Adapters may ignore fields that the backing store cannot persist, but `describe`
 
 ### StorageObjectMeta
 
-`describe(path)` returns observed object metadata.
+`describe(path)` returns observed object or projection metadata.
 
 ```ts
-export interface StorageObjectMetaBase {
+export interface StorageObjectMeta {
   path: StoragePath;
   exists: boolean;
   byte_size: number;
@@ -246,30 +253,24 @@ export interface StorageObjectMetaBase {
   created_at?: string;
   updated_at?: string;
   last_modified?: string;
-  storage_provider: "os" | "local" | "s3_compatible";
+  storage_provider: "local" | "s3_compatible" | "os";
   storage_class?: string;
   user_meta?: Record<string, string>;
 }
 
-export interface OSStorageObjectMeta extends StorageObjectMetaBase {
-  storage_provider: "os";
-  absolute_path?: string;
+export interface StorageObjectMetaLocal extends StorageObjectMeta {
+  storage_provider: "local";
+  root_path?: string;
   relative_path?: string;
   mode?: number;
   uid?: number;
   gid?: number;
   inode?: number;
   device_id?: number;
+  symlink_policy?: "follow" | "preserve" | "reject";
 }
 
-export interface LocalStorageObjectMeta extends StorageObjectMetaBase {
-  storage_provider: "local";
-  root_path?: string;
-  relative_path?: string;
-  mode?: number;
-}
-
-export interface S3CompatibleStorageObjectMeta extends StorageObjectMetaBase {
+export interface StorageObjectMetaS3Compatible extends StorageObjectMeta {
   storage_provider: "s3_compatible";
   bucket?: string;
   key?: string;
@@ -279,13 +280,25 @@ export interface S3CompatibleStorageObjectMeta extends StorageObjectMetaBase {
   version_id?: string;
 }
 
-export type StorageObjectMeta =
-  | OSStorageObjectMeta
-  | LocalStorageObjectMeta
-  | S3CompatibleStorageObjectMeta;
+export interface StorageObjectMetaOS extends StorageObjectMeta {
+  storage_provider: "os";
+  index_name?: string;
+  index_alias?: string;
+  document_id?: string;
+  document_type?: string;
+  seq_no?: number;
+  primary_term?: number;
+  routing?: string;
+  index_version?: string;
+}
+
+export type StorageObjectMetaResolved =
+  | StorageObjectMetaLocal
+  | StorageObjectMetaS3Compatible
+  | StorageObjectMetaOS;
 ```
 
-Common metadata lives in `StorageObjectMetaBase`.
+Common metadata lives in `StorageObjectMeta`.
 
 Provider-specific metadata belongs in the provider-specific subtype.
 
@@ -294,10 +307,7 @@ For local storage:
 - `etag` may be omitted;
 - `version_id` may be omitted;
 - `last_modified` should come from filesystem metadata where available.
-
-For OS-backed storage:
-
-- the adapter may expose filesystem-specific metadata such as mode, uid, gid, inode, and device id;
+- filesystem-specific metadata such as mode, uid, gid, inode, and device id may be exposed;
 - absolute paths must not be stored in durable artifacts unless explicitly allowed by environment policy;
 - repository-scoped logical paths should remain the stable path used by artifacts and manifests.
 
@@ -307,17 +317,25 @@ For S3-compatible storage:
 - `version_id` may be present only when bucket versioning is enabled;
 - caller code must not treat provider `version_id` as `source_version_id`.
 
-### OS Storage Adapter
+For OS/OpenSearch-compatible storage:
 
-OS-level filesystem access can implement `StorageSupportable<Buffer>`.
+- OS metadata describes index projection state, not original source bytes;
+- `document_id` should match `index_document_id` when available;
+- `seq_no` and `primary_term` are provider concurrency metadata, not Knowledge Pools source version IDs;
+- OS metadata must not be used as evidence metadata;
+- exact answer evidence still comes from source storage through manifests and access units.
+
+### Local Storage Adapter
+
+Local filesystem access can implement `StorageSupportable<Buffer>`.
 
 Recommended shape:
 
 ```ts
-export type OSStorage = StorageSupportable<Buffer>;
+export type LocalStorage = StorageSupportable<Buffer>;
 ```
 
-The OS adapter is useful for:
+The local adapter is useful for:
 
 - local development;
 - fixture storage;
@@ -327,14 +345,41 @@ The OS adapter is useful for:
 
 Rules:
 
-- OS adapters must map logical repository paths to a configured root;
-- OS adapters must reject path traversal before touching the filesystem;
-- OS adapters should return `OSStorageObjectMeta`;
-- OS adapters should not leak absolute paths into source manifests or index projections by default;
-- OS adapters should preserve bytes exactly;
-- OS adapters should treat symlinks according to explicit configuration.
+- local adapters must map logical repository paths to a configured root;
+- local adapters must reject path traversal before touching the filesystem;
+- local adapters should return `StorageObjectMetaLocal`;
+- local adapters should not leak absolute paths into source manifests or index projections by default;
+- local adapters should preserve bytes exactly;
+- local adapters should treat symlinks according to explicit configuration.
 
 If symlinks are allowed, `describe` must state whether metadata describes the link or the target.
+
+### OS Projection Adapter
+
+OpenSearch-compatible projection storage may implement `StorageSupportable<T>` for index projection documents.
+
+Recommended shape after projection contracts are stable:
+
+```ts
+export type OSProjectionStorage<TProjection> = StorageSupportable<TProjection>;
+```
+
+The OS adapter is useful for:
+
+- writing active index projections;
+- reading projection documents by deterministic projection id;
+- describing projection state;
+- hiding, deactivating, or replacing projections through higher-level index tools.
+
+Rules:
+
+- OS adapters are for index projections, not original source objects;
+- OS adapters must preserve content-minimal indexing rules;
+- OS adapters must reject dynamic fields that violate mapping discipline;
+- OS adapters should return `StorageObjectMetaOS`;
+- OS `describe` should describe projection document state, not source object state;
+- OS `read` must not be treated as evidence fetch;
+- OS `save` must not make a projection current until validation passes at the higher-level index tool.
 
 ### Save Behavior
 
@@ -751,7 +796,7 @@ Minimum validation:
 - `StorageSupportable.read` returns the declared transport type for an existing object;
 - `StorageSupportable.save` returns observed metadata for written data;
 - `StorageSupportable.describe` returns metadata without requiring content parsing;
-- provider-specific metadata is separated into OS, local, and S3-compatible subtypes;
+- provider-specific metadata is separated into local, S3-compatible, and OS/OpenSearch-compatible subtypes;
 - source hash matches stored bytes;
 - source version is immutable;
 - every source version has a manifest;
@@ -770,9 +815,10 @@ Minimum validation:
 | missing source object | block evidence fetch and emit validation failure |
 | storage permission failure | return typed permission error, not `exists = false` |
 | path traversal attempt | reject path before local filesystem access |
-| OS absolute path leaked into durable artifact | fail validation unless explicitly allowed |
+| local absolute path leaked into durable artifact | fail validation unless explicitly allowed |
 | string storage used for binary media | reject or route to byte storage |
 | S3 `etag` treated as source hash | fail validation; source hash must be explicit SHA-256 |
+| OS projection used as answer evidence | fail verification; exact evidence must come from source storage |
 | hash mismatch | quarantine source version or block promotion |
 | missing manifest | block ingest-to-understand handoff |
 | unresolved access unit | block evidence bundle creation |
@@ -787,8 +833,8 @@ Minimum validation:
 This spec is ready when:
 
 - storage layers and ownership are clear;
-- `StorageSupportable<T = Buffer>` is defined for OS, local, and S3-compatible adapters;
-- `StorageObjectMeta` is split into common and provider-specific metadata;
+- `StorageSupportable<T = Buffer>` is defined for local, S3-compatible, and OS/OpenSearch-compatible adapters;
+- `StorageObjectMeta` is common metadata and provider implementations are named with suffixes such as `StorageObjectMetaOS` and `StorageObjectMetaLocal`;
 - buffer/string compatibility for Markdown and JSON is explicit;
 - source object store is confirmed as evidence source of truth;
 - OpenSearch-compatible index is confirmed as retrieval map only;

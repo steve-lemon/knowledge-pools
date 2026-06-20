@@ -103,7 +103,7 @@ Priority: P0.
 Reason: storage and indexing boundaries determine source truth, projection behavior, access-unit refs, content-minimal indexing, and the ID policy that follows.
 
 - [x] Define source object store as evidence source of truth.
-- [x] Define generic OS/local/S3-compatible `StorageSupportable<T = Buffer>` adapter interface.
+- [x] Define generic local/S3/OpenSearch-compatible `StorageSupportable<T = Buffer>` adapter interface.
 - [x] Define OpenSearch-compatible index as retrieval map only.
 - [x] Define source version and manifest ownership.
 - [x] Define access-unit addressing requirements.
