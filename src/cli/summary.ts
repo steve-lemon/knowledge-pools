@@ -4,6 +4,8 @@ import { SummaryAgent, toSummaryProofJson } from "../agents/summary-agent.js";
 import type { SummarizePathInput } from "../agents/summary-agent.js";
 import type { ContextEnvelope, AgentTask } from "../runtime/agent-contracts.js";
 import { InMemoryToolPortRegistry } from "../runtime/in-memory-tool-port-registry.js";
+import type { LogLevel, Logger } from "../runtime/logger.js";
+import { ConsoleLogger, noopLogger } from "../runtime/logger.js";
 import { MockLlmGateway, NoopLlmGateway } from "../tools/llm-gateway.js";
 import {
   DEFAULT_OPENAI_MODEL,
@@ -24,10 +26,12 @@ interface CliOptions {
   maxSummaryChars?: number;
   gateway: "mock" | "noop" | "openai";
   model?: string;
+  logLevel: LogLevel;
+  quiet: boolean;
 }
 
 function parseArgs(argv: string[]): CliOptions {
-  const options: CliOptions = { gateway: "mock" };
+  const options: CliOptions = { gateway: "mock", logLevel: "info", quiet: false };
 
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index];
@@ -46,6 +50,10 @@ function parseArgs(argv: string[]): CliOptions {
       options.gateway = gateway;
     } else if (arg === "--model") {
       options.model = argv[++index];
+    } else if (arg === "--log-level") {
+      options.logLevel = parseLogLevel(argv[++index]);
+    } else if (arg === "--quiet") {
+      options.quiet = true;
     } else if (arg === "--help" || arg === "-h") {
       printHelp();
       process.exit(0);
@@ -68,9 +76,13 @@ Options:
   --root <dir>              Local storage root. Defaults to current directory.
   --gateway mock|noop|openai
                             LLM gateway adapter. Defaults to mock.
-  --model <model>           OpenAI model. Defaults to OPENAI_MODEL or ${DEFAULT_OPENAI_MODEL}.
+  --model <model>           OpenAI-only model. Defaults to OPENAI_MODEL or ${DEFAULT_OPENAI_MODEL}.
   --max-input-chars <n>     Truncate input before summary.
   --max-summary-chars <n>   Limit mock summary length.
+  --log-level <level>       debug|info|warn|error. Defaults to info.
+  --quiet                   Disable execution verification logs.
+
+Logs are written to stderr as inline lines. Result payload stays on stdout.
 `);
 }
 
@@ -85,8 +97,10 @@ async function main(): Promise<void> {
 
   const storage = new LocalStorage({ rootDir: options.rootDir });
   const readTool = new StorageSummaryReadTool(storage);
+  const logger = createLogger(options);
+  warnIfModelIsIgnored(options, logger);
   const llmGateway = createGateway(options);
-  const agent = new SummaryAgent();
+  const agent = new SummaryAgent(logger);
   const input: SummarizePathInput = {
     schemaVersion: "summary-agent-prototype/v1",
     proofId: `summary_${randomUUID()}`,
@@ -97,7 +111,7 @@ async function main(): Promise<void> {
   };
   const task = createTask(input, agent);
   const context = createContext(task);
-  const ports = new InMemoryToolPortRegistry(task.allowedToolPorts);
+  const ports = new InMemoryToolPortRegistry(task.allowedToolPorts, logger);
   const artifactPort = createInMemoryArtifactWritePort();
   const auditPort = createInMemoryAuditTracePort();
 
@@ -211,6 +225,37 @@ function createGateway(
   }
 
   return new MockLlmGateway();
+}
+
+function createLogger(options: CliOptions): Logger {
+  if (options.quiet) {
+    return noopLogger;
+  }
+
+  return new ConsoleLogger(options.logLevel);
+}
+
+function warnIfModelIsIgnored(options: CliOptions, logger: Logger): void {
+  if (options.model && options.gateway !== "openai") {
+    logger.warn("cli.option.ignored", "Model option is ignored by this gateway.", {
+      gateway: options.gateway,
+      ignoredOption: "model",
+      requestedModel: options.model
+    });
+  }
+}
+
+function parseLogLevel(value: string | undefined): LogLevel {
+  if (
+    value === "debug" ||
+    value === "info" ||
+    value === "warn" ||
+    value === "error"
+  ) {
+    return value;
+  }
+
+  throw new Error(`Unsupported log level: ${value}`);
 }
 
 function inferMediaHint(path: string): string {

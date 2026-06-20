@@ -514,20 +514,22 @@ It is a prototype/evaluation artifact only.
 | gateway failure | propagate normalized gateway error |
 | empty summary | return typed validation error |
 
-## Trace Events
+## Execution Verification Logs
 
 The implementation should emit or allow the caller to emit:
 
-- `summary_proof.started`;
-- `summary_read_tool.read.requested`;
-- `summary_read_tool.read.completed`;
-- `llm.summary.requested`;
-- `llm.summary.completed`;
-- `summary_feasibility.case_completed`;
-- `summary_proof.completed`;
-- `summary_proof.failed`.
+- `agent.run.started`;
+- `agent.run.completed`;
+- `agent.run.failed`;
+- `tool.call.started`;
+- `tool.call.completed`;
+- `tool.call.failed`;
+- `summary_agent.input.prepared`;
+- `summary_agent.summary.received`.
 
-Trace payloads must reference the path and refs, not embed full source text.
+Each log entry must include a timestamp with milliseconds, log level, event name, and important execution details such as task ID, run ID, agent ID, port ID, status, duration in milliseconds, and trace reference when available.
+
+Trace and log payloads must reference the path and refs, not embed full source text.
 
 ## Fixture Plan
 

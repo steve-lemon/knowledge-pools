@@ -132,6 +132,22 @@ export class SummaryAgent<
     const contentHash = this.hashContent(decoded.value);
     const inputRefs = input.sourceRef ? [input.sourceRef] : [`path:${input.path}`];
 
+    this.logger.debug(
+      "summary_agent.input.prepared",
+      "SummaryAgent input prepared.",
+      {
+        taskId: task.taskId,
+        runId: task.runId,
+        proofId: input.proofId,
+        path: input.path,
+        mediaHint: input.mediaHint,
+        charSize: decoded.value.length,
+        byteSize: readResult.value.meta.byteSize,
+        truncated: bounded.truncated,
+        contentHash
+      }
+    );
+
     const summaryResult = await ports.call<
       LlmSummaryRequest,
       LlmSummaryResponse
@@ -157,6 +173,20 @@ export class SummaryAgent<
     if (!summaryText) {
       return err("empty_summary", "LLM gateway returned an empty summary.");
     }
+
+    this.logger.debug(
+      "summary_agent.summary.received",
+      "SummaryAgent received summary output.",
+      {
+        taskId: task.taskId,
+        runId: task.runId,
+        proofId: input.proofId,
+        summaryCharSize: summaryText.length,
+        modelId: summaryResult.value.modelInfo.modelId,
+        gatewayId: summaryResult.value.modelInfo.gatewayId,
+        outputRefCount: summaryResult.value.outputRefs.length
+      }
+    );
 
     const payload: SummaryProofResult = {
       schemaVersion: input.schemaVersion,

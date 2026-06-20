@@ -49,6 +49,16 @@ npm run build
 npm run summary -- fixtures/summary-agent/basic.md
 ```
 
+The CLI writes execution verification logs to stderr as inline lines with:
+
+- `timestamp` including milliseconds;
+- `level`;
+- `event`;
+- important `details` such as `taskId`, `runId`, `agentId`, `portId`, `status`, `durationMs`, and `traceRef`.
+
+The summary result payload remains on stdout. Use `--quiet` to disable logs or `--log-level debug|info|warn|error` to adjust verbosity.
+In an interactive shell, `info` logs are yellow and `error` logs are red. Set `NO_COLOR=1` to disable ANSI colors.
+
 For direct TypeScript execution during development:
 
 ```bash

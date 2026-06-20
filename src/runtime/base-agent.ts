@@ -1,3 +1,4 @@
+import { performance } from "node:perf_hooks";
 import type { Result } from "../contracts/common.js";
 import { err, ok } from "../contracts/common.js";
 import type {
@@ -8,6 +9,8 @@ import type {
   ContextEnvelope,
   StageName
 } from "./agent-contracts.js";
+import type { Logger } from "./logger.js";
+import { noopLogger } from "./logger.js";
 import type { ToolPortRegistry } from "./tool-port-registry.js";
 
 export abstract class BaseAgent<TInput, TOutput, THandoff = never> {
@@ -16,24 +19,59 @@ export abstract class BaseAgent<TInput, TOutput, THandoff = never> {
   abstract readonly outputSchemaRef: string;
   abstract readonly tools: AgentToolset;
 
+  constructor(protected readonly logger: Logger = noopLogger) {}
+
   async run(
     task: AgentTask<TInput>,
     context: ContextEnvelope,
     ports: ToolPortRegistry
   ): Promise<AgentResult<TOutput, THandoff>> {
+    const startedAt = performance.now();
+
+    this.logger.info("agent.run.started", "Agent run started.", {
+      taskId: task.taskId,
+      runId: task.runId,
+      sessionId: task.sessionId,
+      stage: this.stage,
+      agentId: this.agentId,
+      allowedToolPortCount: task.allowedToolPorts.length
+    });
+
     const validation = this.validateRun(task, context);
 
     if (!validation.ok) {
-      return this.failedResult(task, validation.error);
+      const result = this.failedResult(task, validation.error);
+      this.logger.error("agent.run.failed", "Agent run validation failed.", {
+        taskId: task.taskId,
+        runId: task.runId,
+        stage: this.stage,
+        agentId: this.agentId,
+        status: result.status,
+        errorCode: validation.error.code,
+        durationMs: elapsedMs(startedAt),
+        traceCount: result.traceRefs.length
+      });
+      return result;
     }
 
     const execution = await this.execute(task, context, ports);
 
     if (!execution.ok) {
-      return this.failedResult(task, execution.error, ports.getTraceRefs());
+      const result = this.failedResult(task, execution.error, ports.getTraceRefs());
+      this.logger.error("agent.run.failed", "Agent run execution failed.", {
+        taskId: task.taskId,
+        runId: task.runId,
+        stage: this.stage,
+        agentId: this.agentId,
+        status: result.status,
+        errorCode: execution.error.code,
+        durationMs: elapsedMs(startedAt),
+        traceCount: result.traceRefs.length
+      });
+      return result;
     }
 
-    return {
+    const result: AgentResult<TOutput, THandoff> = {
       taskId: task.taskId,
       runId: task.runId,
       sessionId: task.sessionId,
@@ -49,6 +87,21 @@ export abstract class BaseAgent<TInput, TOutput, THandoff = never> {
       errors: [],
       warnings: execution.value.warnings
     };
+
+    this.logger.info("agent.run.completed", "Agent run completed.", {
+      taskId: result.taskId,
+      runId: result.runId,
+      sessionId: result.sessionId,
+      stage: result.stage,
+      agentId: result.agentId,
+      status: result.status,
+      artifactId: result.artifact?.meta.id,
+      durationMs: elapsedMs(startedAt),
+      traceCount: result.traceRefs.length,
+      warningCount: result.warnings.length
+    });
+
+    return result;
   }
 
   protected abstract execute(
@@ -123,4 +176,8 @@ export abstract class BaseAgent<TInput, TOutput, THandoff = never> {
       warnings: []
     };
   }
+}
+
+function elapsedMs(startedAt: number): number {
+  return Math.round((performance.now() - startedAt) * 1000) / 1000;
 }

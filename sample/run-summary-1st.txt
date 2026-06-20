@@ -1,0 +1,65 @@
+❯ npm run summary -- fixtures/summary-agent/basic.md --gateway mock --model gpt-5.4-mini
+
+> knowledge-pools@0.1.0 summary
+> node dist/cli/summary.js fixtures/summary-agent/basic.md --gateway mock --model gpt-5.4-mini
+
+2026-06-20T09:43:29.101Z [INFO ] agent.run.started - Agent run started. taskId=task_d2f3c491-8b89-4044-a886-5b2073dc96c8 runId=run_3b3458b8-f0a4-42a5-84d9-8498292288cb stage=prototype agentId=summary_agent allowedToolPortCount=7
+2026-06-20T09:43:29.105Z [INFO ] agent.run.completed - Agent run completed. taskId=task_d2f3c491-8b89-4044-a886-5b2073dc96c8 runId=run_3b3458b8-f0a4-42a5-84d9-8498292288cb stage=prototype agentId=summary_agent status=completed artifactId=artifact_summary_4340577a-a1a1-4fd9-b75f-68343544cabd durationMs=4.335 traceCount=5 warningCount=0
+{
+  "ok": true,
+  "value": {
+    "schema_version": "summary-agent-prototype/v1",
+    "proof_id": "summary_4340577a-a1a1-4fd9-b75f-68343544cabd",
+    "path": "fixtures/summary-agent/basic.md",
+    "media_hint": "md",
+    "input": {
+      "byte_size": 376,
+      "char_size": 376,
+      "content_hash": "sha256:233264c89ea720f0f6bad23072d979f912c0aa679fc29a24f87a6ad237f7ab30",
+      "storage_meta": {
+        "path": "fixtures/summary-agent/basic.md",
+        "provider": "local",
+        "byte_size": 376,
+        "content_hash": "sha256:233264c89ea720f0f6bad23072d979f912c0aa679fc29a24f87a6ad237f7ab30",
+        "created_at": "2026-06-20T09:05:04.748Z",
+        "updated_at": "2026-06-20T09:05:04.748Z"
+      },
+      "truncated": false
+    },
+    "summary": {
+      "text": "# Knowledge Pools Summary Fixture Knowledge Pools is an implementation-near specification project.",
+      "output_refs": [
+        "path:fixtures/summary-agent/basic.md"
+      ],
+      "model_info": {
+        "gateway_id": "llm_gateway_mock",
+        "provider_id": "mock",
+        "model_id": "summary_stub_v1",
+        "adapter_version": "v1"
+      }
+    },
+    "validation": {
+      "status": "passed",
+      "schema_ref": "schema:summary_proof_result:v1",
+      "checked_at": "2026-06-20T09:43:29.105Z",
+      "errors": [],
+      "warnings": []
+    },
+    "created_at": "2026-06-20T09:43:29.105Z"
+  },
+  "agent_result": {
+    "task_id": "task_d2f3c491-8b89-4044-a886-5b2073dc96c8",
+    "run_id": "run_3b3458b8-f0a4-42a5-84d9-8498292288cb",
+    "stage": "prototype",
+    "agent_id": "summary_agent",
+    "status": "completed",
+    "artifact_id": "artifact_summary_4340577a-a1a1-4fd9-b75f-68343544cabd",
+    "trace_refs": [
+      "trace:summary.read:1",
+      "trace:llm.summarize:2",
+      "trace:schema.validate:3",
+      "trace:artifact.write:4",
+      "trace:audit.trace:5"
+    ]
+  }
+}
