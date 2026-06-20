@@ -307,3 +307,29 @@ Artifacts to include:
 
 - Evaluation checklist.
 - Evaluation report example.
+- Curation-to-evaluate handoff.
+- Evaluate readiness review.
+
+## Stage 11: Markdown-First Implementation
+
+Repository state:
+
+- All canonical architecture stages have baseline and readiness coverage.
+- Implementation can start with a Markdown/text vertical slice.
+- Media support remains staged after the Markdown path works end to end.
+
+Core message:
+
+> Architecture is now constrained enough to start building the smallest useful loop.
+
+Post angles:
+
+- "The first implementation should prove the loop, not every media strategy."
+- "Markdown-first keeps the system inspectable."
+- "A vertical slice beats a partial implementation of every stage."
+
+Artifacts to include:
+
+- Markdown-first implementation strategy.
+- CLI command targets.
+- First schema and fixture set.

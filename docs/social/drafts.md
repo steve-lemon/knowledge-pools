@@ -773,3 +773,51 @@ memory hygiene입니다.
 무엇을 왜 저장했고,
 무엇을 왜 거절했는지 남겨야 한다고 봅니다.
 ```
+
+## Stage 10: Evaluate Architecture Baseline
+
+Status: draft
+
+Related commits:
+
+- `8e468bf` Define evaluate stage baseline
+- `6eb417a` Clarify evaluate stage purpose
+- `d2026da` Add evaluate readiness review
+
+Related docs:
+
+- `docs/architecture/evaluate-baseline.md`
+- `docs/architecture/curation-evaluate-handoff.md`
+- `docs/architecture/evaluate-readiness-review.md`
+- `docs/agents/evaluation-agent.md`
+- `docs/social/stage-10-evaluate-baseline.md`
+
+### Korean Evaluate Baseline Post
+
+```text
+Knowledge Pools의 evaluate 단계 설계를 정리했습니다.
+
+이번 결론:
+
+evaluate는 self-modification이 아닙니다.
+
+evaluate는 완료된 run과 curation 결과를 읽고,
+품질 신호를 기록하는 단계입니다.
+
+출력은:
+
+- EvaluationSignal
+- EvaluationReport
+- retrieval miss summary
+- verifier failure summary
+- curation outcome summary
+- regression fixture recommendation
+
+문제가 발견돼도 바로 memory를 고치지 않습니다.
+
+signal과 recommendation을 남기고,
+필요한 수정은 다시 feedback -> update -> curation 흐름으로 들어가야 합니다.
+
+좋은 지식 시스템은 스스로를 몰래 바꾸는 것이 아니라,
+실패와 결정을 추적 가능한 개선 증거로 남겨야 한다고 봅니다.
+```
