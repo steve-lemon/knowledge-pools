@@ -100,3 +100,5 @@ This spec must shape the common ID and ref policy that follows.
 Then continue with [Common Contracts And IDs](contracts/common-contracts.md).
 
 The next P0 store spec is [Local Store Layout](stores/local-store-layout.md).
+
+The first command spec is [CLI Command Contracts](commands/cli-command-contracts.md).

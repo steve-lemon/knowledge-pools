@@ -173,20 +173,21 @@ Priority: P1.
 
 Reason: command contracts should be specified after the shared contracts, local store layout, and minimum tool ports are stable.
 
-- [ ] Define global CLI options and config discovery.
-- [ ] Define common command output format.
-- [ ] Define exit code policy.
-- [ ] Define `kp ingest <path>`.
-- [ ] Define `kp understand <run-id>`.
-- [ ] Define `kp connect <run-id>`.
-- [ ] Define `kp plan "<question>"`.
-- [ ] Define `kp retrieve <plan-id>`.
-- [ ] Define `kp ask "<question>"`.
-- [ ] Define `kp verify <run-id>`.
-- [ ] Define `kp update <run-id>`.
-- [ ] Define `kp curate <candidate-id>`.
-- [ ] Define `kp evaluate <run-id>`.
-- [ ] Define dry-run, verbose, JSON output, and trace output behavior.
+- [x] Define global CLI options and config discovery.
+- [x] Define common command output format.
+- [x] Define exit code policy.
+- [x] Define `kp ingest <path>`.
+- [x] Define `kp understand <run-id>`.
+- [x] Define `kp connect <run-id>`.
+- [x] Define `kp plan "<question>"`.
+- [x] Define `kp retrieve <plan-id>`.
+- [x] Define `kp search "<query>"`.
+- [x] Define `kp ask "<question>"`.
+- [x] Define `kp verify <run-id>`.
+- [x] Define `kp update <run-id>`.
+- [x] Define `kp curate <candidate-id>`.
+- [x] Define `kp evaluate <run-id>`.
+- [x] Define dry-run, verbose, JSON output, and trace output behavior.
 
 Completion artifact target:
 
@@ -526,9 +527,9 @@ Completion artifact targets:
 Start with:
 
 ```text
-4. CLI Command Contracts
+5. Tool Port Contracts
 ```
 
 Reason:
 
-Storage/indexing, common ID/ref contracts, and the local store layout are now defined. The next step is to define the command contracts that exercise the Markdown-first flow against those stores.
+Storage/indexing, common ID/ref contracts, local store layout, and CLI command contracts are now defined. The next step is to define provider-independent tool ports that commands and agents may call.
