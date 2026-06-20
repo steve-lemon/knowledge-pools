@@ -9,27 +9,28 @@ import type {
   ValidationSummary
 } from "../contracts/common.js";
 import { err, ok, passedValidation } from "../contracts/common.js";
+import { BaseAgent } from "../runtime/base-agent.js";
+import type {
+  AgentTask,
+  AgentToolset,
+  Artifact,
+  ContextEnvelope
+} from "../runtime/agent-contracts.js";
+import type { ToolPortRegistry } from "../runtime/tool-port-registry.js";
 import type { StorageObjectMeta } from "../stores/storage-supportable.js";
 import type {
-  LlmGateway,
   LlmModelInfo,
   LlmModelPolicy,
+  LlmSummaryRequest,
+  LlmSummaryResponse,
   LlmTraceContext
 } from "../tools/llm-gateway.js";
 import type {
-  SummaryReadTool,
+  SummaryReadRequest,
   SummaryReadResult
 } from "../tools/summary-read-tool.js";
 
 export type SummaryProofId = string;
-
-export interface SummaryAgentDeps<
-  TStorageData = Buffer,
-  TStorageMeta extends StorageObjectMeta = StorageObjectMeta
-> {
-  readTool: SummaryReadTool<TStorageData, TStorageMeta>;
-  llmGateway: LlmGateway;
-}
 
 export interface SummarizePathInput {
   schemaVersion: SchemaVersion;
@@ -74,15 +75,43 @@ export interface SummaryProofResult {
 export class SummaryAgent<
   TStorageData = Buffer,
   TStorageMeta extends StorageObjectMeta = StorageObjectMeta
-> {
-  constructor(
-    private readonly deps: SummaryAgentDeps<TStorageData, TStorageMeta>
-  ) {}
+> extends BaseAgent<SummarizePathInput, SummaryProofResult> {
+  readonly stage = "prototype" as const;
+  readonly agentId = "summary_agent" as const;
+  readonly outputSchemaRef = "schema:summary_proof_result:v1";
+  readonly tools: AgentToolset = {
+    required: [
+      "summary.read",
+      "llm.summarize",
+      "schema.validate",
+      "artifact.write",
+      "audit.trace"
+    ],
+    optional: ["llm.describe_capabilities", "artifact.read"],
+    forbidden: [
+      "source.write",
+      "source.version",
+      "index.write_projection",
+      "index.deactivate_projection",
+      "candidate.emit",
+      "memory.write",
+      "curation.decide",
+      "source.tombstone",
+      "delete.create_tombstone",
+      "rollback.create_event"
+    ]
+  };
 
-  async summarizePath(
-    input: SummarizePathInput
-  ): Promise<Result<SummaryProofResult>> {
-    const readResult = await this.safeRead(input.path);
+  protected async execute(
+    task: AgentTask<SummarizePathInput>,
+    context: ContextEnvelope,
+    ports: ToolPortRegistry
+  ) {
+    const input = task.input;
+    const readResult = await ports.call<
+      SummaryReadRequest,
+      SummaryReadResult<TStorageData, TStorageMeta>
+    >("summary.read", { path: input.path });
 
     if (!readResult.ok) {
       return readResult;
@@ -103,7 +132,10 @@ export class SummaryAgent<
     const contentHash = this.hashContent(decoded.value);
     const inputRefs = input.sourceRef ? [input.sourceRef] : [`path:${input.path}`];
 
-    const summaryResult = await this.deps.llmGateway.summarize({
+    const summaryResult = await ports.call<
+      LlmSummaryRequest,
+      LlmSummaryResponse
+    >("llm.summarize", {
       schemaVersion: input.schemaVersion,
       requestId: `llmreq_${input.proofId}`,
       purpose: "summaryAgentPrototype",
@@ -117,12 +149,7 @@ export class SummaryAgent<
     });
 
     if (!summaryResult.ok) {
-      return err(
-        "model_failure",
-        summaryResult.error.message,
-        summaryResult.error.retryable,
-        { cause: summaryResult.error }
-      );
+      return summaryResult;
     }
 
     const summaryText = summaryResult.value.summaryText.trim();
@@ -131,7 +158,7 @@ export class SummaryAgent<
       return err("empty_summary", "LLM gateway returned an empty summary.");
     }
 
-    return ok({
+    const payload: SummaryProofResult = {
       schemaVersion: input.schemaVersion,
       proofId: input.proofId,
       path: input.path,
@@ -151,19 +178,51 @@ export class SummaryAgent<
       },
       validation: passedValidation("schema:summary_proof_result:v1"),
       createdAt: new Date().toISOString()
-    });
-  }
+    };
 
-  private async safeRead(
-    path: StoragePath
-  ): Promise<Result<SummaryReadResult<TStorageData, TStorageMeta>>> {
-    try {
-      return ok(await this.deps.readTool.read({ path }));
-    } catch (error) {
-      return err("summary_read_failed", `Failed to read path: ${path}`, false, {
-        cause: error instanceof Error ? error.message : String(error)
-      });
+    const validation = await ports.call("schema.validate", {
+      schemaRef: this.outputSchemaRef,
+      value: payload
+    });
+
+    if (!validation.ok) {
+      return validation;
     }
+
+    const artifact: Artifact<SummaryProofResult> = {
+      meta: {
+        id: `artifact_${input.proofId}`,
+        type: "summary_proof_result",
+        schemaVersion: input.schemaVersion,
+        createdAt: new Date().toISOString(),
+        createdBy: this.agentId,
+        runId: task.runId,
+        sessionId: task.sessionId,
+        taskId: task.taskId,
+        validation: payload.validation
+      },
+      payload
+    };
+
+    const artifactWrite = await ports.call("artifact.write", { artifact });
+
+    if (!artifactWrite.ok) {
+      return artifactWrite;
+    }
+
+    const audit = await ports.call("audit.trace", {
+      eventType: "summary_agent.completed",
+      refs: [artifact.meta.id, ...inputRefs],
+      message: "SummaryAgent completed through ToolPortRegistry."
+    });
+
+    if (!audit.ok) {
+      return audit;
+    }
+
+    void context;
+
+    return ok({ artifact, warnings: [] });
   }
 
   private decodeInput(

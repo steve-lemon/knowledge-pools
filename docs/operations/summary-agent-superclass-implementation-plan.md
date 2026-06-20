@@ -14,6 +14,26 @@ The goal is to make the existing `SummaryAgent` sample validate:
 - trace events;
 - model gateway replacement.
 
+## Implementation Status
+
+Status: implemented for the current prototype.
+
+Implemented files:
+
+- `src/runtime/agent-contracts.ts`;
+- `src/runtime/base-agent.ts`;
+- `src/runtime/tool-port-registry.ts`;
+- `src/runtime/in-memory-tool-port-registry.ts`;
+- `src/tools/ports/summary-read-port.ts`;
+- `src/tools/ports/llm-summarize-port.ts`;
+- `src/tools/ports/schema-validate-port.ts`;
+- `src/tools/ports/artifact-write-port.ts`;
+- `src/tools/ports/audit-trace-port.ts`;
+- `src/agents/summary-agent.ts`;
+- `src/cli/summary.ts`.
+
+The CLI now creates `AgentTask`, `ContextEnvelope`, and `InMemoryToolPortRegistry`, then runs `SummaryAgent` through `BaseAgent.run(...)`.
+
 ## Current Gap
 
 The current TypeScript sample works, but it is closer to unit mode:

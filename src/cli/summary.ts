@@ -1,11 +1,19 @@
 #!/usr/bin/env node
 import { randomUUID } from "node:crypto";
 import { SummaryAgent, toSummaryProofJson } from "../agents/summary-agent.js";
+import type { SummarizePathInput } from "../agents/summary-agent.js";
+import type { ContextEnvelope, AgentTask } from "../runtime/agent-contracts.js";
+import { InMemoryToolPortRegistry } from "../runtime/in-memory-tool-port-registry.js";
 import { MockLlmGateway, NoopLlmGateway } from "../tools/llm-gateway.js";
 import {
   DEFAULT_OPENAI_MODEL,
   OpenAiLlmGateway
 } from "../tools/openai-llm-gateway.js";
+import { createInMemoryArtifactWritePort } from "../tools/ports/artifact-write-port.js";
+import { createInMemoryAuditTracePort } from "../tools/ports/audit-trace-port.js";
+import { createLlmSummarizePort } from "../tools/ports/llm-summarize-port.js";
+import { createSchemaValidatePort } from "../tools/ports/schema-validate-port.js";
+import { createSummaryReadPort } from "../tools/ports/summary-read-port.js";
 import { StorageSummaryReadTool } from "../tools/summary-read-tool.js";
 import { LocalStorage } from "../stores/local-storage.js";
 
@@ -78,26 +86,117 @@ async function main(): Promise<void> {
   const storage = new LocalStorage({ rootDir: options.rootDir });
   const readTool = new StorageSummaryReadTool(storage);
   const llmGateway = createGateway(options);
-
-  const agent = new SummaryAgent({ readTool, llmGateway });
-  const result = await agent.summarizePath({
+  const agent = new SummaryAgent();
+  const input: SummarizePathInput = {
     schemaVersion: "summary-agent-prototype/v1",
     proofId: `summary_${randomUUID()}`,
     path: options.path,
     mediaHint: inferMediaHint(options.path),
     maxInputChars: options.maxInputChars,
     maxSummaryChars: options.maxSummaryChars
-  });
+  };
+  const task = createTask(input, agent);
+  const context = createContext(task);
+  const ports = new InMemoryToolPortRegistry(task.allowedToolPorts);
+  const artifactPort = createInMemoryArtifactWritePort();
+  const auditPort = createInMemoryAuditTracePort();
 
-  if (!result.ok) {
-    console.error(JSON.stringify({ ok: false, error: result.error }, null, 2));
+  ports.register("summary.read", createSummaryReadPort(readTool));
+  ports.register("llm.summarize", createLlmSummarizePort(llmGateway));
+  ports.register("schema.validate", createSchemaValidatePort());
+  ports.register("artifact.write", artifactPort.handler);
+  ports.register("audit.trace", auditPort.handler);
+
+  const result = await agent.run(task, context, ports);
+
+  if (result.status === "failed" || !result.artifact) {
+    console.error(
+      JSON.stringify(
+        {
+          ok: false,
+          errors: result.errors,
+          agent_result: {
+            task_id: result.taskId,
+            run_id: result.runId,
+            stage: result.stage,
+            agent_id: result.agentId,
+            status: result.status,
+            trace_refs: result.traceRefs
+          }
+        },
+        null,
+        2
+      )
+    );
     process.exitCode = 1;
     return;
   }
 
   console.log(
-    JSON.stringify({ ok: true, value: toSummaryProofJson(result.value) }, null, 2)
+    JSON.stringify(
+      {
+        ok: true,
+        value: toSummaryProofJson(result.artifact.payload),
+        agent_result: {
+          task_id: result.taskId,
+          run_id: result.runId,
+          stage: result.stage,
+          agent_id: result.agentId,
+          status: result.status,
+          artifact_id: result.artifact.meta.id,
+          trace_refs: result.traceRefs
+        }
+      },
+      null,
+      2
+    )
   );
+}
+
+function createTask(
+  input: SummarizePathInput,
+  agent: SummaryAgent
+): AgentTask<SummarizePathInput> {
+  const runId = `run_${randomUUID()}`;
+  const taskId = `task_${randomUUID()}`;
+
+  return {
+    taskId,
+    runId,
+    stage: agent.stage,
+    agentId: agent.agentId,
+    intent: "summarize_path",
+    input,
+    contextRefs: [],
+    constraints: {
+      allowModel: true,
+      maxToolCalls: 8
+    },
+    allowedToolPorts: [...agent.tools.required, ...agent.tools.optional],
+    outputSchemaRef: agent.outputSchemaRef,
+    createdAt: new Date().toISOString()
+  };
+}
+
+function createContext(task: AgentTask<SummarizePathInput>): ContextEnvelope {
+  return {
+    contextId: `context_${randomUUID()}`,
+    runId: task.runId,
+    sessionId: task.sessionId,
+    taskId: task.taskId,
+    stage: task.stage,
+    agentId: task.agentId,
+    purpose: "task_context",
+    artifactRefs: [],
+    sourceRefs: [],
+    evidenceRefs: [],
+    memoryRefs: [],
+    taxonomyRefs: [],
+    schemaRefs: [task.outputSchemaRef],
+    constraints: task.constraints,
+    excludedContext: [],
+    createdAt: new Date().toISOString()
+  };
 }
 
 function createGateway(

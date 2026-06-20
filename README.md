@@ -74,9 +74,12 @@ The prototype uses:
 - `LocalStorage`;
 - `StorageSummaryReadTool`;
 - `MockLlmGateway` or `OpenAiLlmGateway`;
+- `InMemoryToolPortRegistry`;
 - `SummaryAgent`.
 
 It does not implement the full Knowledge Pools runtime.
+
+The CLI runs `SummaryAgent` through the prototype superclass path and includes `agent_result.trace_refs` in the output.
 
 ## Working Principle
 
