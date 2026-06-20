@@ -7,7 +7,7 @@ import type {
   LlmSummaryResponse
 } from "./llm-gateway.js";
 
-export const DEFAULT_OPENAI_MODEL = "gpt-5.5-mini";
+export const DEFAULT_OPENAI_MODEL = "gpt-5.4-mini";
 
 export interface OpenAiLlmGatewayOptions {
   apiKey?: string;

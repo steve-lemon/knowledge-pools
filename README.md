@@ -61,7 +61,7 @@ To run through OpenAI instead of the mock gateway:
 OPENAI_API_KEY=... npm run summary -- fixtures/summary-agent/basic.md --gateway openai
 ```
 
-The OpenAI gateway defaults to `gpt-5.5-mini` because this project is testing the user-requested model path.
+The OpenAI gateway defaults to `gpt-5.4-mini` because this project is testing the user-requested model path.
 
 You can override it:
 
