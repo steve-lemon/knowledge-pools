@@ -11,6 +11,8 @@
 
 ## Phase 1: Local Knowledge MVP
 
+- Prepare implementation-near specifications before runtime code.
+- Define command contracts, module boundaries, local store layout, TypeScript-facing schemas, fixtures, and validation gates.
 - Ingest Markdown files.
 - Parse document structure.
 - Store source records.

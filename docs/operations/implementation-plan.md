@@ -4,6 +4,10 @@ This plan turns the target architecture into concrete implementation steps.
 
 Use [Work Context Packs](work-context-packs.md) to choose the smallest relevant document set before working on a step.
 
+The current project mode is implementation-near specification, not broad runtime implementation.
+
+Use [Implementation-Near Specification Preparation](implementation-near-spec.md) before creating code.
+
 The canonical runtime stage flow is:
 
 ```text
@@ -14,15 +18,19 @@ Implementation steps do not have to follow this exact order when infrastructure 
 
 ## Current Target
 
-Build a Markdown-first CLI MVP that proves the architecture with filesystem-compatible source storage and an OpenSearch-compatible indexing boundary.
+Prepare the detailed Markdown-first CLI MVP specification that can later prove the architecture with filesystem-compatible source storage and an OpenSearch-compatible indexing boundary.
 
-Local development may use files or fixtures before a real OpenSearch instance is connected, but the document shapes and query boundary should be designed for OpenSearch from the beginning.
+The immediate deliverable is not runtime code.
+
+It is an implementation-facing specification for command contracts, module boundaries, local records, artifact schemas, handoffs, tool ports, fixtures, validation gates, and failure behavior.
+
+Future local development may use files or fixtures before a real OpenSearch instance is connected, but the document shapes and query boundary should be designed for OpenSearch from the beginning.
 
 The first implementation is a vertical slice for Markdown/text only.
 
 Image, PDF, audio, and video support should be added after the full Markdown/text flow works end to end.
 
-Target commands:
+Target commands to specify:
 
 ```text
 kp ingest docs/
@@ -57,9 +65,11 @@ kp verify <run-id>
 
 Use [Markdown-First Implementation Strategy](markdown-first-implementation.md) as the implementation scope control document.
 
+Use [Implementation-Near Specification Preparation](implementation-near-spec.md) as the current work mode.
+
 The architecture documents describe the target system.
 
-The first implementation should prove the smallest useful vertical slice:
+The first implementation-facing specification should prove the smallest useful vertical slice:
 
 ```text
 Markdown source

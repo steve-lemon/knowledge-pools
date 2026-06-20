@@ -27,6 +27,7 @@ Core entry points:
 - [Ultimate Knowledge Loop](docs/architecture/ultimate-loop.md)
 - [Terminology](docs/architecture/terminology.md)
 - [Implementation Plan](docs/operations/implementation-plan.md)
+- [Implementation-Near Specification Preparation](docs/operations/implementation-near-spec.md)
 
 ## Working Principle
 

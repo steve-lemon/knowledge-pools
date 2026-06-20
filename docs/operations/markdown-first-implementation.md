@@ -6,6 +6,10 @@ The architecture remains multi-media.
 
 The first implementation should not be.
 
+Current work should prepare implementation-near specifications before runtime code.
+
+See [Implementation-Near Specification Preparation](implementation-near-spec.md).
+
 ## Decision
 
 Build the first working vertical slice with Markdown/text files only.

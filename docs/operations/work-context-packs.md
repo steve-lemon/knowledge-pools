@@ -15,6 +15,7 @@ Read these for any architectural change:
 - [Stage Data Flow Contract](../architecture/stage-data-flow-contract.md)
 - [Implementation Plan](implementation-plan.md)
 - [Markdown-First Implementation Strategy](markdown-first-implementation.md)
+- [Implementation-Near Specification Preparation](implementation-near-spec.md)
 
 ## Markdown-First Implementation Pack
 
@@ -22,6 +23,7 @@ Use for actual MVP implementation work before expanding media support:
 
 - [Implementation Plan](implementation-plan.md)
 - [Markdown-First Implementation Strategy](markdown-first-implementation.md)
+- [Implementation-Near Specification Preparation](implementation-near-spec.md)
 - [Terminology](../architecture/terminology.md)
 - [Stage Data Flow Contract](../architecture/stage-data-flow-contract.md)
 - [Agent Tool Pool](../architecture/agent-tool-pool.md)
@@ -29,6 +31,21 @@ Use for actual MVP implementation work before expanding media support:
 - stage baseline for the feature being implemented
 - current agent spec for the feature being implemented
 - relevant handoff document for the feature being implemented
+
+## Implementation-Near Specification Pack
+
+Use before writing runtime code:
+
+- [Implementation Plan](implementation-plan.md)
+- [Implementation-Near Specification Preparation](implementation-near-spec.md)
+- [Markdown-First Implementation Strategy](markdown-first-implementation.md)
+- [Ultimate Knowledge Loop](../architecture/ultimate-loop.md)
+- [Terminology](../architecture/terminology.md)
+- [Stage Data Flow Contract](../architecture/stage-data-flow-contract.md)
+- [Agent Superclass Contract](../architecture/agent-superclass-contract.md)
+- [Agent Tool Pool](../architecture/agent-tool-pool.md)
+- [OpenSearch Index Schema](../architecture/opensearch-index-schema.md)
+- [Index ID Policy](../architecture/index-id-policy.md)
 
 ## Stage Transition Pack
 

@@ -13,6 +13,7 @@ Read these first when joining the project or re-orienting:
 - [Terminology](architecture/terminology.md)
 - [Architecture Overview](architecture/overview.md)
 - [Implementation Plan](operations/implementation-plan.md)
+- [Implementation-Near Specification Preparation](operations/implementation-near-spec.md)
 - [Work Context Packs](operations/work-context-packs.md)
 
 ## Work Context Packs
@@ -62,6 +63,7 @@ Decision files are historical records. Prefer current architecture docs when imp
 ## Operations
 
 - [Implementation Plan](operations/implementation-plan.md)
+- [Implementation-Near Specification Preparation](operations/implementation-near-spec.md)
 - [Roadmap](operations/roadmap.md)
 - [Stage Transition Guidelines](operations/stage-transition-guidelines.md)
 - [Work Context Packs](operations/work-context-packs.md)
