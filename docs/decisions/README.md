@@ -82,6 +82,7 @@ When adding a decision file:
 - [Schema, Artifact, And Audit Tool Ports](2026-06-20-schema-artifact-audit-tool-ports.md)
 - [Runtime And Orchestrator Contract](2026-06-20-runtime-orchestrator-contract.md)
 - [Sample EvaluationAgent For Prototype Runtime Validation](2026-06-20-sample-evaluation-agent.md)
+- [Agent Execution Snapshot](2026-06-20-agent-execution-snapshot.md)
 
 ## Template
 

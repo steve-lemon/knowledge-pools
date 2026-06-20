@@ -23,7 +23,8 @@ import type {
   LlmModelPolicy,
   LlmSummaryRequest,
   LlmSummaryResponse,
-  LlmTraceContext
+  LlmTraceContext,
+  LlmUsage
 } from "../tools/llm-gateway.js";
 import type {
   SummaryReadRequest,
@@ -58,6 +59,7 @@ export interface SummaryProofSummary {
   text: string;
   outputRefs: RefString[];
   modelInfo: LlmModelInfo;
+  usage?: LlmUsage;
 }
 
 export interface SummaryProofResult {
@@ -204,7 +206,8 @@ export class SummaryAgent<
       summary: {
         text: summaryText,
         outputRefs: summaryResult.value.outputRefs,
-        modelInfo: summaryResult.value.modelInfo
+        modelInfo: summaryResult.value.modelInfo,
+        usage: summaryResult.value.usage
       },
       validation: passedValidation("schema:summary_proof_result:v1"),
       createdAt: new Date().toISOString()
@@ -252,7 +255,13 @@ export class SummaryAgent<
 
     void context;
 
-    return ok({ artifact, warnings: [] });
+    const estimatedCost = estimateSummaryCost(summaryResult.value);
+
+    return ok({
+      artifact,
+      usage: estimatedCost ? { estimatedCost } : undefined,
+      warnings: []
+    });
   }
 
   private decodeInput(
@@ -320,7 +329,15 @@ export function toSummaryProofJson(result: SummaryProofResult): unknown {
         provider_id: result.summary.modelInfo.providerId,
         model_id: result.summary.modelInfo.modelId,
         adapter_version: result.summary.modelInfo.adapterVersion
-      }
+      },
+      usage: result.summary.usage
+        ? {
+            input_tokens: result.summary.usage.inputTokens,
+            output_tokens: result.summary.usage.outputTokens,
+            total_tokens: result.summary.usage.totalTokens,
+            estimated: result.summary.usage.estimated
+          }
+        : undefined
     },
     validation: {
       status: result.validation.status,
@@ -330,5 +347,20 @@ export function toSummaryProofJson(result: SummaryProofResult): unknown {
       warnings: result.validation.warnings
     },
     created_at: result.createdAt
+  };
+}
+
+function estimateSummaryCost(
+  response: LlmSummaryResponse
+): { amount: number; currency: string; estimated: true; source: "runtime_policy" } | undefined {
+  if (response.modelInfo.providerId !== "mock") {
+    return undefined;
+  }
+
+  return {
+    amount: 0,
+    currency: "USD",
+    estimated: true,
+    source: "runtime_policy"
   };
 }

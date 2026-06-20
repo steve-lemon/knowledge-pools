@@ -7,6 +7,7 @@ import type {
   AgentTask,
   AgentToolset,
   ContextEnvelope,
+  ExecutionUsage,
   StageName
 } from "./agent-contracts.js";
 import type { Logger } from "./logger.js";
@@ -27,6 +28,7 @@ export abstract class BaseAgent<TInput, TOutput, THandoff = never> {
     ports: ToolPortRegistry
   ): Promise<AgentResult<TOutput, THandoff>> {
     const startedAt = performance.now();
+    const startedAtIso = new Date().toISOString();
 
     this.logger.info("agent.run.started", "Agent run started.", {
       taskId: task.taskId,
@@ -40,7 +42,7 @@ export abstract class BaseAgent<TInput, TOutput, THandoff = never> {
     const validation = this.validateRun(task, context);
 
     if (!validation.ok) {
-      const result = this.failedResult(task, validation.error);
+      const result = this.failedResult(task, validation.error, [], startedAtIso);
       this.logger.error("agent.run.failed", "Agent run validation failed.", {
         taskId: task.taskId,
         runId: task.runId,
@@ -57,7 +59,12 @@ export abstract class BaseAgent<TInput, TOutput, THandoff = never> {
     const execution = await this.execute(task, context, ports);
 
     if (!execution.ok) {
-      const result = this.failedResult(task, execution.error, ports.getTraceRefs());
+      const result = this.failedResult(
+        task,
+        execution.error,
+        ports.getTraceRefs(),
+        startedAtIso
+      );
       this.logger.error("agent.run.failed", "Agent run execution failed.", {
         taskId: task.taskId,
         runId: task.runId,
@@ -71,19 +78,32 @@ export abstract class BaseAgent<TInput, TOutput, THandoff = never> {
       return result;
     }
 
+    const traceRefs = ports.getTraceRefs();
+    const status =
+      execution.value.warnings.length > 0
+        ? "completed_with_warnings"
+        : "completed";
     const result: AgentResult<TOutput, THandoff> = {
       taskId: task.taskId,
       runId: task.runId,
       sessionId: task.sessionId,
       stage: this.stage,
       agentId: this.agentId,
-      status:
-        execution.value.warnings.length > 0
-          ? "completed_with_warnings"
-          : "completed",
+      status,
       artifact: execution.value.artifact,
       handoff: execution.value.handoff,
-      traceRefs: ports.getTraceRefs(),
+      executionSnapshot: this.createExecutionSnapshot(
+        task,
+        status,
+        startedAtIso,
+        traceRefs,
+        execution.value.artifact?.meta.id
+          ? [`artifact:${execution.value.artifact.meta.id}`]
+          : [],
+        execution.value.inspectionRefs ?? [],
+        execution.value.usage
+      ),
+      traceRefs,
       errors: [],
       warnings: execution.value.warnings
     };
@@ -112,6 +132,8 @@ export abstract class BaseAgent<TInput, TOutput, THandoff = never> {
     Result<{
       artifact: AgentResult<TOutput, THandoff>["artifact"];
       handoff?: THandoff;
+      inspectionRefs?: string[];
+      usage?: ExecutionUsage;
       warnings: AgentResult<TOutput, THandoff>["warnings"];
     }>
   >;
@@ -162,7 +184,8 @@ export abstract class BaseAgent<TInput, TOutput, THandoff = never> {
   private failedResult(
     task: AgentTask<TInput>,
     error: AgentResult<TOutput, THandoff>["errors"][number],
-    traceRefs: string[] = []
+    traceRefs: string[] = [],
+    startedAtIso = new Date().toISOString()
   ): AgentResult<TOutput, THandoff> {
     return {
       taskId: task.taskId,
@@ -171,9 +194,47 @@ export abstract class BaseAgent<TInput, TOutput, THandoff = never> {
       stage: this.stage,
       agentId: this.agentId,
       status: "failed",
+      executionSnapshot: this.createExecutionSnapshot(
+        task,
+        "failed",
+        startedAtIso,
+        traceRefs
+      ),
       traceRefs,
       errors: [error],
       warnings: []
+    };
+  }
+
+  private createExecutionSnapshot(
+    task: AgentTask<TInput>,
+    status: AgentResult<TOutput, THandoff>["status"],
+    startedAt: string,
+    traceRefs: string[],
+    artifactRefs: string[] = [],
+    inspectionRefs: string[] = [],
+    usage?: ExecutionUsage
+  ): AgentResult<TOutput, THandoff>["executionSnapshot"] {
+    return {
+      snapshotId: `snapshot_${task.taskId}`,
+      schemaVersion: "execution_snapshot/v1",
+      runId: task.runId,
+      taskId: task.taskId,
+      sessionId: task.sessionId,
+      stage: this.stage,
+      agentId: this.agentId,
+      startedAt,
+      completedAt: new Date().toISOString(),
+      status,
+      inputRefs: task.contextRefs,
+      contextRefs: task.contextRefs,
+      artifactRefs,
+      handoffRefs: [],
+      traceRefs,
+      grantedToolPorts: task.allowedToolPorts,
+      constraints: task.constraints,
+      inspectionRefs,
+      usage
     };
   }
 }

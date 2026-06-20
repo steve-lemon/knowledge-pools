@@ -349,7 +349,7 @@ P3 agent details:
 
 - media-specific extraction, retrieval, reasoning, and verification behavior
 
-- [ ] Define base agent interface.
+- [x] Define base agent interface. See [Base Agent Interface](../specs/agents/base-agent-interface.md).
 - [ ] Define `IngestionAgent` implementation-facing spec.
 - [ ] Define `UnderstandingAgent` implementation-facing spec.
 - [ ] Define `ConnectionAgent` implementation-facing spec.

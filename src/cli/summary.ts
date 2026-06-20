@@ -9,7 +9,10 @@ import type {
   SummarizePathInput,
   SummaryProofResult
 } from "../agents/summary-agent.js";
-import type { AgentResult } from "../runtime/agent-contracts.js";
+import type {
+  AgentResult,
+  ExecutionSnapshot
+} from "../runtime/agent-contracts.js";
 import { InMemoryToolPortRegistry } from "../runtime/in-memory-tool-port-registry.js";
 import type { LogLevel, Logger } from "../runtime/logger.js";
 import { ConsoleLogger, noopLogger } from "../runtime/logger.js";
@@ -183,7 +186,8 @@ async function main(): Promise<void> {
             stage: result.stage,
             agent_id: result.agentId,
             status: result.status,
-            trace_refs: result.traceRefs
+            trace_refs: result.traceRefs,
+            execution_snapshot: toExecutionSnapshotJson(result.executionSnapshot)
           }
         },
         null,
@@ -211,7 +215,8 @@ async function main(): Promise<void> {
             agent_id: result.agentId,
             status: result.status,
             artifact_id: result.artifact.meta.id,
-            trace_refs: result.traceRefs
+            trace_refs: result.traceRefs,
+            execution_snapshot: toExecutionSnapshotJson(result.executionSnapshot)
           }
         },
         null,
@@ -234,7 +239,8 @@ async function main(): Promise<void> {
           agent_id: result.agentId,
           status: result.status,
           artifact_id: result.artifact.meta.id,
-          trace_refs: result.traceRefs
+          trace_refs: result.traceRefs,
+          execution_snapshot: toExecutionSnapshotJson(result.executionSnapshot)
         },
         evaluation: evaluation?.value
       },
@@ -305,9 +311,51 @@ async function runEvaluation(
         agent_id: evaluationResult.agentId,
         status: evaluationResult.status,
         artifact_id: evaluationResult.artifact.meta.id,
-        trace_refs: evaluationResult.traceRefs
+        trace_refs: evaluationResult.traceRefs,
+        execution_snapshot: toExecutionSnapshotJson(
+          evaluationResult.executionSnapshot
+        )
       }
     }
+  };
+}
+
+function toExecutionSnapshotJson(snapshot: ExecutionSnapshot | undefined): unknown {
+  if (!snapshot) {
+    return undefined;
+  }
+
+  return {
+    snapshot_id: snapshot.snapshotId,
+    schema_version: snapshot.schemaVersion,
+    run_id: snapshot.runId,
+    task_id: snapshot.taskId,
+    session_id: snapshot.sessionId,
+    stage: snapshot.stage,
+    agent_id: snapshot.agentId,
+    started_at: snapshot.startedAt,
+    completed_at: snapshot.completedAt,
+    status: snapshot.status,
+    input_refs: snapshot.inputRefs,
+    context_refs: snapshot.contextRefs,
+    artifact_refs: snapshot.artifactRefs,
+    handoff_refs: snapshot.handoffRefs,
+    trace_refs: snapshot.traceRefs,
+    granted_tool_ports: snapshot.grantedToolPorts,
+    constraints: snapshot.constraints,
+    inspection_refs: snapshot.inspectionRefs,
+    usage: snapshot.usage
+      ? {
+          estimated_cost: snapshot.usage.estimatedCost
+            ? {
+                amount: snapshot.usage.estimatedCost.amount,
+                currency: snapshot.usage.estimatedCost.currency,
+                estimated: snapshot.usage.estimatedCost.estimated,
+                source: snapshot.usage.estimatedCost.source
+              }
+            : undefined
+        }
+      : undefined
   };
 }
 

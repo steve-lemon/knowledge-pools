@@ -34,6 +34,7 @@ export interface EvaluationSignal {
   signalType:
     | "clean_run"
     | "missing_summary_artifact"
+    | "missing_execution_snapshot"
     | "missing_trace"
     | "summary_validation_warning"
     | "summary_agent_failed";
@@ -181,6 +182,16 @@ export class EvaluationAgent extends BaseAgent<
         signalType: "missing_summary_artifact",
         severity: "error",
         summary: "SummaryAgent result did not include an artifact.",
+        relatedRefs: [result.taskId, result.runId]
+      });
+    }
+
+    if (!result.executionSnapshot) {
+      signals.push({
+        signalId: `${input.evaluationId}_missing_execution_snapshot`,
+        signalType: "missing_execution_snapshot",
+        severity: "warning",
+        summary: "SummaryAgent result did not include an execution snapshot.",
         relatedRefs: [result.taskId, result.runId]
       });
     }
