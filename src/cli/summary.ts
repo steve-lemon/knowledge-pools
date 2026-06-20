@@ -2,6 +2,10 @@
 import { randomUUID } from "node:crypto";
 import { SummaryAgent, toSummaryProofJson } from "../agents/summary-agent.js";
 import { MockLlmGateway, NoopLlmGateway } from "../tools/llm-gateway.js";
+import {
+  DEFAULT_OPENAI_MODEL,
+  OpenAiLlmGateway
+} from "../tools/openai-llm-gateway.js";
 import { StorageSummaryReadTool } from "../tools/summary-read-tool.js";
 import { LocalStorage } from "../stores/local-storage.js";
 
@@ -10,7 +14,8 @@ interface CliOptions {
   rootDir?: string;
   maxInputChars?: number;
   maxSummaryChars?: number;
-  gateway: "mock" | "noop";
+  gateway: "mock" | "noop" | "openai";
+  model?: string;
 }
 
 function parseArgs(argv: string[]): CliOptions {
@@ -27,10 +32,12 @@ function parseArgs(argv: string[]): CliOptions {
       options.maxSummaryChars = Number(argv[++index]);
     } else if (arg === "--gateway") {
       const gateway = argv[++index];
-      if (gateway !== "mock" && gateway !== "noop") {
+      if (gateway !== "mock" && gateway !== "noop" && gateway !== "openai") {
         throw new Error(`Unsupported gateway: ${gateway}`);
       }
       options.gateway = gateway;
+    } else if (arg === "--model") {
+      options.model = argv[++index];
     } else if (arg === "--help" || arg === "-h") {
       printHelp();
       process.exit(0);
@@ -46,12 +53,14 @@ function parseArgs(argv: string[]): CliOptions {
 
 function printHelp(): void {
   console.log(`Usage:
-  npm run dev:summary -- <path> [--root <dir>] [--gateway mock|noop]
-  npm run summary -- <path> [--root <dir>] [--gateway mock|noop]
+  npm run dev:summary -- <path> [--root <dir>] [--gateway mock|noop|openai]
+  npm run summary -- <path> [--root <dir>] [--gateway mock|noop|openai]
 
 Options:
   --root <dir>              Local storage root. Defaults to current directory.
-  --gateway mock|noop       LLM gateway adapter. Defaults to mock.
+  --gateway mock|noop|openai
+                            LLM gateway adapter. Defaults to mock.
+  --model <model>           OpenAI model. Defaults to OPENAI_MODEL or ${DEFAULT_OPENAI_MODEL}.
   --max-input-chars <n>     Truncate input before summary.
   --max-summary-chars <n>   Limit mock summary length.
 `);
@@ -68,8 +77,7 @@ async function main(): Promise<void> {
 
   const storage = new LocalStorage({ rootDir: options.rootDir });
   const readTool = new StorageSummaryReadTool(storage);
-  const llmGateway =
-    options.gateway === "noop" ? new NoopLlmGateway() : new MockLlmGateway();
+  const llmGateway = createGateway(options);
 
   const agent = new SummaryAgent({ readTool, llmGateway });
   const result = await agent.summarizePath({
@@ -87,7 +95,23 @@ async function main(): Promise<void> {
     return;
   }
 
-  console.log(JSON.stringify({ ok: true, value: toSummaryProofJson(result.value) }, null, 2));
+  console.log(
+    JSON.stringify({ ok: true, value: toSummaryProofJson(result.value) }, null, 2)
+  );
+}
+
+function createGateway(
+  options: CliOptions
+): MockLlmGateway | NoopLlmGateway | OpenAiLlmGateway {
+  if (options.gateway === "noop") {
+    return new NoopLlmGateway();
+  }
+
+  if (options.gateway === "openai") {
+    return new OpenAiLlmGateway({ model: options.model });
+  }
+
+  return new MockLlmGateway();
 }
 
 function inferMediaHint(path: string): string {

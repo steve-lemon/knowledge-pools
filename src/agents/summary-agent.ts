@@ -117,9 +117,12 @@ export class SummaryAgent<
     });
 
     if (!summaryResult.ok) {
-      return err("model_failure", summaryResult.error.message, false, {
-        cause: summaryResult.error
-      });
+      return err(
+        "model_failure",
+        summaryResult.error.message,
+        summaryResult.error.retryable,
+        { cause: summaryResult.error }
+      );
     }
 
     const summaryText = summaryResult.value.summaryText.trim();

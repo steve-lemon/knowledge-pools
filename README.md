@@ -55,11 +55,25 @@ For direct TypeScript execution during development:
 npm run dev:summary -- fixtures/summary-agent/basic.md
 ```
 
+To run through OpenAI instead of the mock gateway:
+
+```bash
+OPENAI_API_KEY=... npm run summary -- fixtures/summary-agent/basic.md --gateway openai
+```
+
+The OpenAI gateway defaults to `gpt-5.5-mini` because this project is testing the user-requested model path.
+
+You can override it:
+
+```bash
+OPENAI_API_KEY=... npm run summary -- fixtures/summary-agent/basic.md --gateway openai --model gpt-5.4-mini
+```
+
 The prototype uses:
 
 - `LocalStorage`;
 - `StorageSummaryReadTool`;
-- `MockLlmGateway`;
+- `MockLlmGateway` or `OpenAiLlmGateway`;
 - `SummaryAgent`.
 
 It does not implement the full Knowledge Pools runtime.
